@@ -1,0 +1,1 @@
+# denkproto-go
