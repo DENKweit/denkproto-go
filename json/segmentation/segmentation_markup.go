@@ -80,6 +80,7 @@ type PenAnnotationPoint struct {
 
 type PixelAnnotation struct {
 	BlobID       string  `json:"blob_id"`
+	BlobURL      string  `json:"blob_url"`
 	BottomRightX float64 `json:"bottom_right_x"`
 	BottomRightY float64 `json:"bottom_right_y"`
 	TopLeftX     float64 `json:"top_left_x"`
@@ -119,6 +120,7 @@ type SausageAnnotationPoint struct {
 
 type SegmentationMap struct {
 	BlobID    string `json:"blob_id"`
+	BlobURL   string `json:"blob_url"`
 	LabelID   string `json:"label_id"`
 	Thumbnail string `json:"thumbnail"`
 }
