@@ -79,9 +79,9 @@ type PenAnnotationPoint struct {
 }
 
 type PixelAnnotation struct {
+	BlobID       string  `json:"blob_id"`
 	BottomRightX float64 `json:"bottom_right_x"`
 	BottomRightY float64 `json:"bottom_right_y"`
-	DataURL      string  `json:"dataURL"`
 	TopLeftX     float64 `json:"top_left_x"`
 	TopLeftY     float64 `json:"top_left_y"`
 }
