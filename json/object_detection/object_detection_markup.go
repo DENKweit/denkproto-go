@@ -25,12 +25,12 @@ type ObjectDetectionMarkup struct {
 }
 
 type Annotation struct {
-	Angle           float64        `json:"angle"`
+	Angle           *float64       `json:"angle,omitempty"`
 	AnnotationType  AnnotationType `json:"annotation_type"`
 	AverageWidth    float64        `json:"average_width"`
 	BottomRightX    float64        `json:"bottom_right_x"`
 	BottomRightY    float64        `json:"bottom_right_y"`
-	FullOrientation bool           `json:"full_orientation"`
+	FullOrientation *bool          `json:"full_orientation,omitempty"`
 	ID              string         `json:"id"`
 	LabelID         string         `json:"label_id"`
 	TopLeftX        float64        `json:"top_left_x"`
