@@ -19,9 +19,10 @@ func (r *OcrMarkup) Marshal() ([]byte, error) {
 }
 
 type OcrMarkup struct {
-	Annotations []Annotation `json:"annotations"`
-	Height      int64        `json:"height"`
-	Width       int64        `json:"width"`
+	Annotations         []Annotation `json:"annotations"`
+	AverageObjectWidths []float64    `json:"average_object_widths"`
+	Height              int64        `json:"height"`
+	Width               int64        `json:"width"`
 }
 
 type Annotation struct {
