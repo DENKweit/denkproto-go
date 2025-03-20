@@ -53,7 +53,7 @@ type MagicwandAnnotation struct {
 	CenterY      float64                    `json:"center_y"`
 	DataURL      string                     `json:"dataURL"`
 	Points       []MagicwandAnnotationPoint `json:"points"`
-	Threshold    float64                    `json:"threshold"`
+	Threshold    int64                      `json:"threshold"`
 	TopLeftX     float64                    `json:"top_left_x"`
 	TopLeftY     float64                    `json:"top_left_y"`
 }
