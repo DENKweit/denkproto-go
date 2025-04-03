@@ -19,11 +19,10 @@ func (r *SegmentationMarkup) Marshal() ([]byte, error) {
 }
 
 type SegmentationMarkup struct {
-	Annotations         []Annotation      `json:"annotations"`
-	AverageObjectWidths []float64         `json:"average_object_widths"`
-	Height              int64             `json:"height"`
-	SegmentationMaps    []SegmentationMap `json:"segmentation_maps"`
-	Width               int64             `json:"width"`
+	Annotations         []Annotation `json:"annotations"`
+	AverageObjectWidths []float64    `json:"average_object_widths"`
+	Height              int64        `json:"height"`
+	Width               int64        `json:"width"`
 }
 
 type Annotation struct {
@@ -127,12 +126,6 @@ type SausageAnnotation struct {
 type SausageAnnotationPoint struct {
 	X float64 `json:"x"`
 	Y float64 `json:"y"`
-}
-
-type SegmentationMap struct {
-	BlobID    string `json:"blob_id"`
-	LabelID   string `json:"label_id"`
-	Thumbnail string `json:"thumbnail"`
 }
 
 type AnnotationType string
