@@ -167,7 +167,7 @@ func (ModelFile_Output_OcrOutputFormat_Character_CharacterType) EnumDescriptor()
 type ModelFile_FileInfo_FileType int32
 
 const (
-	ModelFile_FileInfo_FT_ONNX_MODEL   ModelFile_FileInfo_FileType = 0
+	ModelFile_FileInfo_FT_MODEL        ModelFile_FileInfo_FileType = 0
 	ModelFile_FileInfo_FT_ZXING_KEY    ModelFile_FileInfo_FileType = 1
 	ModelFile_FileInfo_FT_VIZIOTIX_KEY ModelFile_FileInfo_FileType = 2
 )
@@ -175,12 +175,12 @@ const (
 // Enum value maps for ModelFile_FileInfo_FileType.
 var (
 	ModelFile_FileInfo_FileType_name = map[int32]string{
-		0: "FT_ONNX_MODEL",
+		0: "FT_MODEL",
 		1: "FT_ZXING_KEY",
 		2: "FT_VIZIOTIX_KEY",
 	}
 	ModelFile_FileInfo_FileType_value = map[string]int32{
-		"FT_ONNX_MODEL":   0,
+		"FT_MODEL":        0,
 		"FT_ZXING_KEY":    1,
 		"FT_VIZIOTIX_KEY": 2,
 	}
@@ -278,54 +278,75 @@ type ModelFile_FileInfo_Precision int32
 
 const (
 	ModelFile_FileInfo_P_UNDEFINED       ModelFile_FileInfo_Precision = 0
-	ModelFile_FileInfo_P_FP8             ModelFile_FileInfo_Precision = 1
-	ModelFile_FileInfo_P_FP16            ModelFile_FileInfo_Precision = 2
-	ModelFile_FileInfo_P_FP32            ModelFile_FileInfo_Precision = 3
-	ModelFile_FileInfo_P_FP64            ModelFile_FileInfo_Precision = 4
-	ModelFile_FileInfo_P_INT8            ModelFile_FileInfo_Precision = 5
-	ModelFile_FileInfo_P_INT16           ModelFile_FileInfo_Precision = 6
-	ModelFile_FileInfo_P_INT32           ModelFile_FileInfo_Precision = 7
-	ModelFile_FileInfo_P_INT64           ModelFile_FileInfo_Precision = 8
-	ModelFile_FileInfo_P_UINT8           ModelFile_FileInfo_Precision = 9
-	ModelFile_FileInfo_P_UINT16          ModelFile_FileInfo_Precision = 10
-	ModelFile_FileInfo_P_UINT32          ModelFile_FileInfo_Precision = 11
-	ModelFile_FileInfo_P_UINT64          ModelFile_FileInfo_Precision = 12
-	ModelFile_FileInfo_P_MIXED_PRECISION ModelFile_FileInfo_Precision = 13
+	ModelFile_FileInfo_P_MIXED_PRECISION ModelFile_FileInfo_Precision = 1
+	ModelFile_FileInfo_P_FP8             ModelFile_FileInfo_Precision = 2
+	ModelFile_FileInfo_P_FP16            ModelFile_FileInfo_Precision = 3
+	ModelFile_FileInfo_P_FP32            ModelFile_FileInfo_Precision = 4
+	ModelFile_FileInfo_P_FP64            ModelFile_FileInfo_Precision = 5
+	ModelFile_FileInfo_P_BF8             ModelFile_FileInfo_Precision = 6
+	ModelFile_FileInfo_P_BF16            ModelFile_FileInfo_Precision = 7
+	ModelFile_FileInfo_P_BF32            ModelFile_FileInfo_Precision = 8
+	ModelFile_FileInfo_P_BF64            ModelFile_FileInfo_Precision = 9
+	ModelFile_FileInfo_P_INT8            ModelFile_FileInfo_Precision = 10
+	ModelFile_FileInfo_P_INT16           ModelFile_FileInfo_Precision = 11
+	ModelFile_FileInfo_P_INT32           ModelFile_FileInfo_Precision = 12
+	ModelFile_FileInfo_P_INT64           ModelFile_FileInfo_Precision = 13
+	ModelFile_FileInfo_P_UINT8           ModelFile_FileInfo_Precision = 14
+	ModelFile_FileInfo_P_UINT16          ModelFile_FileInfo_Precision = 15
+	ModelFile_FileInfo_P_UINT32          ModelFile_FileInfo_Precision = 16
+	ModelFile_FileInfo_P_UINT64          ModelFile_FileInfo_Precision = 17
+	ModelFile_FileInfo_P_2_STATE         ModelFile_FileInfo_Precision = 18
+	ModelFile_FileInfo_P_3_STATE         ModelFile_FileInfo_Precision = 19
+	ModelFile_FileInfo_P_4_STATE         ModelFile_FileInfo_Precision = 20
 )
 
 // Enum value maps for ModelFile_FileInfo_Precision.
 var (
 	ModelFile_FileInfo_Precision_name = map[int32]string{
 		0:  "P_UNDEFINED",
-		1:  "P_FP8",
-		2:  "P_FP16",
-		3:  "P_FP32",
-		4:  "P_FP64",
-		5:  "P_INT8",
-		6:  "P_INT16",
-		7:  "P_INT32",
-		8:  "P_INT64",
-		9:  "P_UINT8",
-		10: "P_UINT16",
-		11: "P_UINT32",
-		12: "P_UINT64",
-		13: "P_MIXED_PRECISION",
+		1:  "P_MIXED_PRECISION",
+		2:  "P_FP8",
+		3:  "P_FP16",
+		4:  "P_FP32",
+		5:  "P_FP64",
+		6:  "P_BF8",
+		7:  "P_BF16",
+		8:  "P_BF32",
+		9:  "P_BF64",
+		10: "P_INT8",
+		11: "P_INT16",
+		12: "P_INT32",
+		13: "P_INT64",
+		14: "P_UINT8",
+		15: "P_UINT16",
+		16: "P_UINT32",
+		17: "P_UINT64",
+		18: "P_2_STATE",
+		19: "P_3_STATE",
+		20: "P_4_STATE",
 	}
 	ModelFile_FileInfo_Precision_value = map[string]int32{
 		"P_UNDEFINED":       0,
-		"P_FP8":             1,
-		"P_FP16":            2,
-		"P_FP32":            3,
-		"P_FP64":            4,
-		"P_INT8":            5,
-		"P_INT16":           6,
-		"P_INT32":           7,
-		"P_INT64":           8,
-		"P_UINT8":           9,
-		"P_UINT16":          10,
-		"P_UINT32":          11,
-		"P_UINT64":          12,
-		"P_MIXED_PRECISION": 13,
+		"P_MIXED_PRECISION": 1,
+		"P_FP8":             2,
+		"P_FP16":            3,
+		"P_FP32":            4,
+		"P_FP64":            5,
+		"P_BF8":             6,
+		"P_BF16":            7,
+		"P_BF32":            8,
+		"P_BF64":            9,
+		"P_INT8":            10,
+		"P_INT16":           11,
+		"P_INT32":           12,
+		"P_INT64":           13,
+		"P_UINT8":           14,
+		"P_UINT16":          15,
+		"P_UINT32":          16,
+		"P_UINT64":          17,
+		"P_2_STATE":         18,
+		"P_3_STATE":         19,
+		"P_4_STATE":         20,
 	}
 )
 
@@ -354,6 +375,52 @@ func (x ModelFile_FileInfo_Precision) Number() protoreflect.EnumNumber {
 // Deprecated: Use ModelFile_FileInfo_Precision.Descriptor instead.
 func (ModelFile_FileInfo_Precision) EnumDescriptor() ([]byte, []int) {
 	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 7, 2}
+}
+
+type ModelFile_FileInfo_HardwareTarget int32
+
+const (
+	ModelFile_FileInfo_HT_DEFAULT  ModelFile_FileInfo_HardwareTarget = 0
+	ModelFile_FileInfo_HT_TENSORRT ModelFile_FileInfo_HardwareTarget = 1
+)
+
+// Enum value maps for ModelFile_FileInfo_HardwareTarget.
+var (
+	ModelFile_FileInfo_HardwareTarget_name = map[int32]string{
+		0: "HT_DEFAULT",
+		1: "HT_TENSORRT",
+	}
+	ModelFile_FileInfo_HardwareTarget_value = map[string]int32{
+		"HT_DEFAULT":  0,
+		"HT_TENSORRT": 1,
+	}
+)
+
+func (x ModelFile_FileInfo_HardwareTarget) Enum() *ModelFile_FileInfo_HardwareTarget {
+	p := new(ModelFile_FileInfo_HardwareTarget)
+	*p = x
+	return p
+}
+
+func (x ModelFile_FileInfo_HardwareTarget) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ModelFile_FileInfo_HardwareTarget) Descriptor() protoreflect.EnumDescriptor {
+	return file_modelfile_v2_proto_enumTypes[6].Descriptor()
+}
+
+func (ModelFile_FileInfo_HardwareTarget) Type() protoreflect.EnumType {
+	return &file_modelfile_v2_proto_enumTypes[6]
+}
+
+func (x ModelFile_FileInfo_HardwareTarget) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ModelFile_FileInfo_HardwareTarget.Descriptor instead.
+func (ModelFile_FileInfo_HardwareTarget) EnumDescriptor() ([]byte, []int) {
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 7, 3}
 }
 
 type ModelFile struct {
@@ -1001,17 +1068,18 @@ type ModelFile_FileInfo struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	FileType                  ModelFile_FileInfo_FileType    `protobuf:"varint,1,opt,name=file_type,json=fileType,proto3,enum=modelfile.v2.ModelFile_FileInfo_FileType" json:"file_type,omitempty"`
-	NetworkName               string                         `protobuf:"bytes,2,opt,name=network_name,json=networkName,proto3" json:"network_name,omitempty"`
-	NetworkId                 string                         `protobuf:"bytes,3,opt,name=network_id,json=networkId,proto3" json:"network_id,omitempty"`
-	NetworkExperimentId       string                         `protobuf:"bytes,4,opt,name=network_experiment_id,json=networkExperimentId,proto3" json:"network_experiment_id,omitempty"`
-	NetworkSnapshotId         string                         `protobuf:"bytes,5,opt,name=network_snapshot_id,json=networkSnapshotId,proto3" json:"network_snapshot_id,omitempty"`
-	NetworkType               ModelFile_FileInfo_NetworkType `protobuf:"varint,6,opt,name=network_type,json=networkType,proto3,enum=modelfile.v2.ModelFile_FileInfo_NetworkType" json:"network_type,omitempty"`
-	NetworkFlavor             string                         `protobuf:"bytes,7,opt,name=network_flavor,json=networkFlavor,proto3" json:"network_flavor,omitempty"`
-	NetworkVersion            *ModelFile_Version             `protobuf:"bytes,8,opt,name=network_version,json=networkVersion,proto3" json:"network_version,omitempty"`
-	RuntimeVersion            *ModelFile_Version             `protobuf:"bytes,9,opt,name=runtime_version,json=runtimeVersion,proto3" json:"runtime_version,omitempty"`
-	Precision                 ModelFile_FileInfo_Precision   `protobuf:"varint,10,opt,name=precision,proto3,enum=modelfile.v2.ModelFile_FileInfo_Precision" json:"precision,omitempty"`
-	MinimumLibdenkflowVersion *ModelFile_Version             `protobuf:"bytes,11,opt,name=minimum_libdenkflow_version,json=minimumLibdenkflowVersion,proto3" json:"minimum_libdenkflow_version,omitempty"`
+	FileType                  ModelFile_FileInfo_FileType       `protobuf:"varint,1,opt,name=file_type,json=fileType,proto3,enum=modelfile.v2.ModelFile_FileInfo_FileType" json:"file_type,omitempty"`
+	NetworkName               string                            `protobuf:"bytes,2,opt,name=network_name,json=networkName,proto3" json:"network_name,omitempty"`
+	NetworkId                 string                            `protobuf:"bytes,3,opt,name=network_id,json=networkId,proto3" json:"network_id,omitempty"`
+	NetworkExperimentId       string                            `protobuf:"bytes,4,opt,name=network_experiment_id,json=networkExperimentId,proto3" json:"network_experiment_id,omitempty"`
+	NetworkSnapshotId         string                            `protobuf:"bytes,5,opt,name=network_snapshot_id,json=networkSnapshotId,proto3" json:"network_snapshot_id,omitempty"`
+	NetworkType               ModelFile_FileInfo_NetworkType    `protobuf:"varint,6,opt,name=network_type,json=networkType,proto3,enum=modelfile.v2.ModelFile_FileInfo_NetworkType" json:"network_type,omitempty"`
+	NetworkFlavor             string                            `protobuf:"bytes,7,opt,name=network_flavor,json=networkFlavor,proto3" json:"network_flavor,omitempty"`
+	NetworkVersion            *ModelFile_Version                `protobuf:"bytes,8,opt,name=network_version,json=networkVersion,proto3" json:"network_version,omitempty"`
+	RuntimeVersion            *ModelFile_Version                `protobuf:"bytes,9,opt,name=runtime_version,json=runtimeVersion,proto3" json:"runtime_version,omitempty"`
+	Precision                 ModelFile_FileInfo_Precision      `protobuf:"varint,10,opt,name=precision,proto3,enum=modelfile.v2.ModelFile_FileInfo_Precision" json:"precision,omitempty"`
+	MinimumLibdenkflowVersion *ModelFile_Version                `protobuf:"bytes,11,opt,name=minimum_libdenkflow_version,json=minimumLibdenkflowVersion,proto3" json:"minimum_libdenkflow_version,omitempty"`
+	HardwareTarget            ModelFile_FileInfo_HardwareTarget `protobuf:"varint,12,opt,name=hardware_target,json=hardwareTarget,proto3,enum=modelfile.v2.ModelFile_FileInfo_HardwareTarget" json:"hardware_target,omitempty"`
 }
 
 func (x *ModelFile_FileInfo) Reset() {
@@ -1050,7 +1118,7 @@ func (x *ModelFile_FileInfo) GetFileType() ModelFile_FileInfo_FileType {
 	if x != nil {
 		return x.FileType
 	}
-	return ModelFile_FileInfo_FT_ONNX_MODEL
+	return ModelFile_FileInfo_FT_MODEL
 }
 
 func (x *ModelFile_FileInfo) GetNetworkName() string {
@@ -1121,6 +1189,13 @@ func (x *ModelFile_FileInfo) GetMinimumLibdenkflowVersion() *ModelFile_Version {
 		return x.MinimumLibdenkflowVersion
 	}
 	return nil
+}
+
+func (x *ModelFile_FileInfo) GetHardwareTarget() ModelFile_FileInfo_HardwareTarget {
+	if x != nil {
+		return x.HardwareTarget
+	}
+	return ModelFile_FileInfo_HT_DEFAULT
 }
 
 type ModelFile_Content_KeySlot struct {
@@ -1754,7 +1829,7 @@ var File_modelfile_v2_proto protoreflect.FileDescriptor
 var file_modelfile_v2_proto_rawDesc = []byte{
 	0x0a, 0x12, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x66, 0x69, 0x6c, 0x65, 0x2d, 0x76, 0x32, 0x2e, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0c, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x66, 0x69, 0x6c, 0x65, 0x2e,
-	0x76, 0x32, 0x22, 0xbd, 0x2a, 0x0a, 0x09, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x46, 0x69, 0x6c, 0x65,
+	0x76, 0x32, 0x22, 0xa1, 0x2c, 0x0a, 0x09, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x46, 0x69, 0x6c, 0x65,
 	0x12, 0x4a, 0x0a, 0x10, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x5f, 0x76, 0x65, 0x72,
 	0x73, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x6d, 0x6f, 0x64,
 	0x65, 0x6c, 0x66, 0x69, 0x6c, 0x65, 0x2e, 0x76, 0x32, 0x2e, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x46,
@@ -2015,7 +2090,7 @@ var file_modelfile_v2_proto_rawDesc = []byte{
 	0x4e, 0x44, 0x5f, 0x4f, 0x46, 0x5f, 0x54, 0x45, 0x58, 0x54, 0x10, 0x02, 0x12, 0x0e, 0x0a, 0x0a,
 	0x43, 0x54, 0x5f, 0x50, 0x41, 0x44, 0x44, 0x49, 0x4e, 0x47, 0x10, 0x03, 0x42, 0x13, 0x0a, 0x11,
 	0x46, 0x6f, 0x72, 0x6d, 0x61, 0x74, 0x49, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x1a, 0x87, 0x09, 0x0a, 0x08, 0x46, 0x69, 0x6c, 0x65, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x46,
+	0x6e, 0x1a, 0xeb, 0x0a, 0x0a, 0x08, 0x46, 0x69, 0x6c, 0x65, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x46,
 	0x0a, 0x09, 0x66, 0x69, 0x6c, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
 	0x0e, 0x32, 0x29, 0x2e, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x66, 0x69, 0x6c, 0x65, 0x2e, 0x76, 0x32,
 	0x2e, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x46, 0x69, 0x6c, 0x65, 0x2e, 0x46, 0x69, 0x6c, 0x65, 0x49,
@@ -2058,48 +2133,62 @@ var file_modelfile_v2_proto_rawDesc = []byte{
 	0x69, 0x6c, 0x65, 0x2e, 0x76, 0x32, 0x2e, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x46, 0x69, 0x6c, 0x65,
 	0x2e, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x19, 0x6d, 0x69, 0x6e, 0x69, 0x6d, 0x75,
 	0x6d, 0x4c, 0x69, 0x62, 0x64, 0x65, 0x6e, 0x6b, 0x66, 0x6c, 0x6f, 0x77, 0x56, 0x65, 0x72, 0x73,
-	0x69, 0x6f, 0x6e, 0x22, 0x44, 0x0a, 0x08, 0x46, 0x69, 0x6c, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12,
-	0x11, 0x0a, 0x0d, 0x46, 0x54, 0x5f, 0x4f, 0x4e, 0x4e, 0x58, 0x5f, 0x4d, 0x4f, 0x44, 0x45, 0x4c,
-	0x10, 0x00, 0x12, 0x10, 0x0a, 0x0c, 0x46, 0x54, 0x5f, 0x5a, 0x58, 0x49, 0x4e, 0x47, 0x5f, 0x4b,
-	0x45, 0x59, 0x10, 0x01, 0x12, 0x13, 0x0a, 0x0f, 0x46, 0x54, 0x5f, 0x56, 0x49, 0x5a, 0x49, 0x4f,
-	0x54, 0x49, 0x58, 0x5f, 0x4b, 0x45, 0x59, 0x10, 0x02, 0x22, 0xc0, 0x01, 0x0a, 0x0b, 0x4e, 0x65,
-	0x74, 0x77, 0x6f, 0x72, 0x6b, 0x54, 0x79, 0x70, 0x65, 0x12, 0x0e, 0x0a, 0x0a, 0x4e, 0x54, 0x5f,
-	0x55, 0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x10, 0x00, 0x12, 0x15, 0x0a, 0x11, 0x4e, 0x54, 0x5f,
-	0x43, 0x4c, 0x41, 0x53, 0x53, 0x49, 0x46, 0x49, 0x43, 0x41, 0x54, 0x49, 0x4f, 0x4e, 0x10, 0x01,
-	0x12, 0x13, 0x0a, 0x0f, 0x4e, 0x54, 0x5f, 0x53, 0x45, 0x47, 0x4d, 0x45, 0x4e, 0x54, 0x41, 0x54,
-	0x49, 0x4f, 0x4e, 0x10, 0x02, 0x12, 0x1c, 0x0a, 0x18, 0x4e, 0x54, 0x5f, 0x49, 0x4e, 0x53, 0x54,
-	0x41, 0x4e, 0x43, 0x45, 0x5f, 0x53, 0x45, 0x47, 0x4d, 0x45, 0x4e, 0x54, 0x41, 0x54, 0x49, 0x4f,
-	0x4e, 0x10, 0x03, 0x12, 0x17, 0x0a, 0x13, 0x4e, 0x54, 0x5f, 0x4f, 0x42, 0x4a, 0x45, 0x43, 0x54,
-	0x5f, 0x44, 0x45, 0x54, 0x45, 0x43, 0x54, 0x49, 0x4f, 0x4e, 0x10, 0x04, 0x12, 0x18, 0x0a, 0x14,
-	0x4e, 0x54, 0x5f, 0x41, 0x4e, 0x4f, 0x4d, 0x41, 0x4c, 0x59, 0x5f, 0x44, 0x45, 0x54, 0x45, 0x43,
-	0x54, 0x49, 0x4f, 0x4e, 0x10, 0x05, 0x12, 0x24, 0x0a, 0x20, 0x4e, 0x54, 0x5f, 0x4f, 0x50, 0x54,
-	0x49, 0x43, 0x41, 0x4c, 0x5f, 0x43, 0x48, 0x41, 0x52, 0x41, 0x43, 0x54, 0x45, 0x52, 0x5f, 0x52,
-	0x45, 0x43, 0x4f, 0x47, 0x4e, 0x49, 0x54, 0x49, 0x4f, 0x4e, 0x10, 0x06, 0x22, 0xcc, 0x01, 0x0a,
-	0x09, 0x50, 0x72, 0x65, 0x63, 0x69, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x0f, 0x0a, 0x0b, 0x50, 0x5f,
-	0x55, 0x4e, 0x44, 0x45, 0x46, 0x49, 0x4e, 0x45, 0x44, 0x10, 0x00, 0x12, 0x09, 0x0a, 0x05, 0x50,
-	0x5f, 0x46, 0x50, 0x38, 0x10, 0x01, 0x12, 0x0a, 0x0a, 0x06, 0x50, 0x5f, 0x46, 0x50, 0x31, 0x36,
-	0x10, 0x02, 0x12, 0x0a, 0x0a, 0x06, 0x50, 0x5f, 0x46, 0x50, 0x33, 0x32, 0x10, 0x03, 0x12, 0x0a,
-	0x0a, 0x06, 0x50, 0x5f, 0x46, 0x50, 0x36, 0x34, 0x10, 0x04, 0x12, 0x0a, 0x0a, 0x06, 0x50, 0x5f,
-	0x49, 0x4e, 0x54, 0x38, 0x10, 0x05, 0x12, 0x0b, 0x0a, 0x07, 0x50, 0x5f, 0x49, 0x4e, 0x54, 0x31,
-	0x36, 0x10, 0x06, 0x12, 0x0b, 0x0a, 0x07, 0x50, 0x5f, 0x49, 0x4e, 0x54, 0x33, 0x32, 0x10, 0x07,
-	0x12, 0x0b, 0x0a, 0x07, 0x50, 0x5f, 0x49, 0x4e, 0x54, 0x36, 0x34, 0x10, 0x08, 0x12, 0x0b, 0x0a,
-	0x07, 0x50, 0x5f, 0x55, 0x49, 0x4e, 0x54, 0x38, 0x10, 0x09, 0x12, 0x0c, 0x0a, 0x08, 0x50, 0x5f,
-	0x55, 0x49, 0x4e, 0x54, 0x31, 0x36, 0x10, 0x0a, 0x12, 0x0c, 0x0a, 0x08, 0x50, 0x5f, 0x55, 0x49,
-	0x4e, 0x54, 0x33, 0x32, 0x10, 0x0b, 0x12, 0x0c, 0x0a, 0x08, 0x50, 0x5f, 0x55, 0x49, 0x4e, 0x54,
-	0x36, 0x34, 0x10, 0x0c, 0x12, 0x15, 0x0a, 0x11, 0x50, 0x5f, 0x4d, 0x49, 0x58, 0x45, 0x44, 0x5f,
-	0x50, 0x52, 0x45, 0x43, 0x49, 0x53, 0x49, 0x4f, 0x4e, 0x10, 0x0d, 0x1a, 0x65, 0x0a, 0x16, 0x41,
-	0x64, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74,
-	0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x35, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x66, 0x69,
-	0x6c, 0x65, 0x2e, 0x76, 0x32, 0x2e, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x46, 0x69, 0x6c, 0x65, 0x2e,
-	0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02,
-	0x38, 0x01, 0x42, 0x49, 0x5a, 0x2d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
-	0x2f, 0x44, 0x45, 0x4e, 0x4b, 0x77, 0x65, 0x69, 0x74, 0x2f, 0x64, 0x65, 0x6e, 0x6b, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x2d, 0x67, 0x6f, 0x2f, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x66, 0x69, 0x6c, 0x65,
-	0x2f, 0x76, 0x32, 0xaa, 0x02, 0x17, 0x44, 0x45, 0x4e, 0x4b, 0x2e, 0x50, 0x72, 0x6f, 0x74, 0x6f,
-	0x2e, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x66, 0x69, 0x6c, 0x65, 0x2e, 0x56, 0x32, 0x62, 0x06, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x69, 0x6f, 0x6e, 0x12, 0x58, 0x0a, 0x0f, 0x68, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x5f,
+	0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x2f, 0x2e, 0x6d,
+	0x6f, 0x64, 0x65, 0x6c, 0x66, 0x69, 0x6c, 0x65, 0x2e, 0x76, 0x32, 0x2e, 0x4d, 0x6f, 0x64, 0x65,
+	0x6c, 0x46, 0x69, 0x6c, 0x65, 0x2e, 0x46, 0x69, 0x6c, 0x65, 0x49, 0x6e, 0x66, 0x6f, 0x2e, 0x48,
+	0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x54, 0x61, 0x72, 0x67, 0x65, 0x74, 0x52, 0x0e, 0x68,
+	0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x54, 0x61, 0x72, 0x67, 0x65, 0x74, 0x22, 0x3f, 0x0a,
+	0x08, 0x46, 0x69, 0x6c, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x0c, 0x0a, 0x08, 0x46, 0x54, 0x5f,
+	0x4d, 0x4f, 0x44, 0x45, 0x4c, 0x10, 0x00, 0x12, 0x10, 0x0a, 0x0c, 0x46, 0x54, 0x5f, 0x5a, 0x58,
+	0x49, 0x4e, 0x47, 0x5f, 0x4b, 0x45, 0x59, 0x10, 0x01, 0x12, 0x13, 0x0a, 0x0f, 0x46, 0x54, 0x5f,
+	0x56, 0x49, 0x5a, 0x49, 0x4f, 0x54, 0x49, 0x58, 0x5f, 0x4b, 0x45, 0x59, 0x10, 0x02, 0x22, 0xc0,
+	0x01, 0x0a, 0x0b, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x54, 0x79, 0x70, 0x65, 0x12, 0x0e,
+	0x0a, 0x0a, 0x4e, 0x54, 0x5f, 0x55, 0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x10, 0x00, 0x12, 0x15,
+	0x0a, 0x11, 0x4e, 0x54, 0x5f, 0x43, 0x4c, 0x41, 0x53, 0x53, 0x49, 0x46, 0x49, 0x43, 0x41, 0x54,
+	0x49, 0x4f, 0x4e, 0x10, 0x01, 0x12, 0x13, 0x0a, 0x0f, 0x4e, 0x54, 0x5f, 0x53, 0x45, 0x47, 0x4d,
+	0x45, 0x4e, 0x54, 0x41, 0x54, 0x49, 0x4f, 0x4e, 0x10, 0x02, 0x12, 0x1c, 0x0a, 0x18, 0x4e, 0x54,
+	0x5f, 0x49, 0x4e, 0x53, 0x54, 0x41, 0x4e, 0x43, 0x45, 0x5f, 0x53, 0x45, 0x47, 0x4d, 0x45, 0x4e,
+	0x54, 0x41, 0x54, 0x49, 0x4f, 0x4e, 0x10, 0x03, 0x12, 0x17, 0x0a, 0x13, 0x4e, 0x54, 0x5f, 0x4f,
+	0x42, 0x4a, 0x45, 0x43, 0x54, 0x5f, 0x44, 0x45, 0x54, 0x45, 0x43, 0x54, 0x49, 0x4f, 0x4e, 0x10,
+	0x04, 0x12, 0x18, 0x0a, 0x14, 0x4e, 0x54, 0x5f, 0x41, 0x4e, 0x4f, 0x4d, 0x41, 0x4c, 0x59, 0x5f,
+	0x44, 0x45, 0x54, 0x45, 0x43, 0x54, 0x49, 0x4f, 0x4e, 0x10, 0x05, 0x12, 0x24, 0x0a, 0x20, 0x4e,
+	0x54, 0x5f, 0x4f, 0x50, 0x54, 0x49, 0x43, 0x41, 0x4c, 0x5f, 0x43, 0x48, 0x41, 0x52, 0x41, 0x43,
+	0x54, 0x45, 0x52, 0x5f, 0x52, 0x45, 0x43, 0x4f, 0x47, 0x4e, 0x49, 0x54, 0x49, 0x4f, 0x4e, 0x10,
+	0x06, 0x22, 0xa8, 0x02, 0x0a, 0x09, 0x50, 0x72, 0x65, 0x63, 0x69, 0x73, 0x69, 0x6f, 0x6e, 0x12,
+	0x0f, 0x0a, 0x0b, 0x50, 0x5f, 0x55, 0x4e, 0x44, 0x45, 0x46, 0x49, 0x4e, 0x45, 0x44, 0x10, 0x00,
+	0x12, 0x15, 0x0a, 0x11, 0x50, 0x5f, 0x4d, 0x49, 0x58, 0x45, 0x44, 0x5f, 0x50, 0x52, 0x45, 0x43,
+	0x49, 0x53, 0x49, 0x4f, 0x4e, 0x10, 0x01, 0x12, 0x09, 0x0a, 0x05, 0x50, 0x5f, 0x46, 0x50, 0x38,
+	0x10, 0x02, 0x12, 0x0a, 0x0a, 0x06, 0x50, 0x5f, 0x46, 0x50, 0x31, 0x36, 0x10, 0x03, 0x12, 0x0a,
+	0x0a, 0x06, 0x50, 0x5f, 0x46, 0x50, 0x33, 0x32, 0x10, 0x04, 0x12, 0x0a, 0x0a, 0x06, 0x50, 0x5f,
+	0x46, 0x50, 0x36, 0x34, 0x10, 0x05, 0x12, 0x09, 0x0a, 0x05, 0x50, 0x5f, 0x42, 0x46, 0x38, 0x10,
+	0x06, 0x12, 0x0a, 0x0a, 0x06, 0x50, 0x5f, 0x42, 0x46, 0x31, 0x36, 0x10, 0x07, 0x12, 0x0a, 0x0a,
+	0x06, 0x50, 0x5f, 0x42, 0x46, 0x33, 0x32, 0x10, 0x08, 0x12, 0x0a, 0x0a, 0x06, 0x50, 0x5f, 0x42,
+	0x46, 0x36, 0x34, 0x10, 0x09, 0x12, 0x0a, 0x0a, 0x06, 0x50, 0x5f, 0x49, 0x4e, 0x54, 0x38, 0x10,
+	0x0a, 0x12, 0x0b, 0x0a, 0x07, 0x50, 0x5f, 0x49, 0x4e, 0x54, 0x31, 0x36, 0x10, 0x0b, 0x12, 0x0b,
+	0x0a, 0x07, 0x50, 0x5f, 0x49, 0x4e, 0x54, 0x33, 0x32, 0x10, 0x0c, 0x12, 0x0b, 0x0a, 0x07, 0x50,
+	0x5f, 0x49, 0x4e, 0x54, 0x36, 0x34, 0x10, 0x0d, 0x12, 0x0b, 0x0a, 0x07, 0x50, 0x5f, 0x55, 0x49,
+	0x4e, 0x54, 0x38, 0x10, 0x0e, 0x12, 0x0c, 0x0a, 0x08, 0x50, 0x5f, 0x55, 0x49, 0x4e, 0x54, 0x31,
+	0x36, 0x10, 0x0f, 0x12, 0x0c, 0x0a, 0x08, 0x50, 0x5f, 0x55, 0x49, 0x4e, 0x54, 0x33, 0x32, 0x10,
+	0x10, 0x12, 0x0c, 0x0a, 0x08, 0x50, 0x5f, 0x55, 0x49, 0x4e, 0x54, 0x36, 0x34, 0x10, 0x11, 0x12,
+	0x0d, 0x0a, 0x09, 0x50, 0x5f, 0x32, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x45, 0x10, 0x12, 0x12, 0x0d,
+	0x0a, 0x09, 0x50, 0x5f, 0x33, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x45, 0x10, 0x13, 0x12, 0x0d, 0x0a,
+	0x09, 0x50, 0x5f, 0x34, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x45, 0x10, 0x14, 0x22, 0x31, 0x0a, 0x0e,
+	0x48, 0x61, 0x72, 0x64, 0x77, 0x61, 0x72, 0x65, 0x54, 0x61, 0x72, 0x67, 0x65, 0x74, 0x12, 0x0e,
+	0x0a, 0x0a, 0x48, 0x54, 0x5f, 0x44, 0x45, 0x46, 0x41, 0x55, 0x4c, 0x54, 0x10, 0x00, 0x12, 0x0f,
+	0x0a, 0x0b, 0x48, 0x54, 0x5f, 0x54, 0x45, 0x4e, 0x53, 0x4f, 0x52, 0x52, 0x54, 0x10, 0x01, 0x1a,
+	0x65, 0x0a, 0x16, 0x41, 0x64, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x43, 0x6f, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x35, 0x0a, 0x05, 0x76,
+	0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x6d, 0x6f, 0x64,
+	0x65, 0x6c, 0x66, 0x69, 0x6c, 0x65, 0x2e, 0x76, 0x32, 0x2e, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x46,
+	0x69, 0x6c, 0x65, 0x2e, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x52, 0x05, 0x76, 0x61, 0x6c,
+	0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x42, 0x49, 0x5a, 0x2d, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62,
+	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x44, 0x45, 0x4e, 0x4b, 0x77, 0x65, 0x69, 0x74, 0x2f, 0x64, 0x65,
+	0x6e, 0x6b, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2d, 0x67, 0x6f, 0x2f, 0x6d, 0x6f, 0x64, 0x65, 0x6c,
+	0x66, 0x69, 0x6c, 0x65, 0x2f, 0x76, 0x32, 0xaa, 0x02, 0x17, 0x44, 0x45, 0x4e, 0x4b, 0x2e, 0x50,
+	0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x4d, 0x6f, 0x64, 0x65, 0x6c, 0x66, 0x69, 0x6c, 0x65, 0x2e, 0x56,
+	0x32, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2114,7 +2203,7 @@ func file_modelfile_v2_proto_rawDescGZIP() []byte {
 	return file_modelfile_v2_proto_rawDescData
 }
 
-var file_modelfile_v2_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
+var file_modelfile_v2_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
 var file_modelfile_v2_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_modelfile_v2_proto_goTypes = []interface{}{
 	(ModelFile_Content_CompressionMethod)(0),                      // 0: modelfile.v2.ModelFile.Content.CompressionMethod
@@ -2123,70 +2212,72 @@ var file_modelfile_v2_proto_goTypes = []interface{}{
 	(ModelFile_FileInfo_FileType)(0),                              // 3: modelfile.v2.ModelFile.FileInfo.FileType
 	(ModelFile_FileInfo_NetworkType)(0),                           // 4: modelfile.v2.ModelFile.FileInfo.NetworkType
 	(ModelFile_FileInfo_Precision)(0),                             // 5: modelfile.v2.ModelFile.FileInfo.Precision
-	(*ModelFile)(nil),                                             // 6: modelfile.v2.ModelFile
-	(*ModelFile_Version)(nil),                                     // 7: modelfile.v2.ModelFile.Version
-	(*ModelFile_Content)(nil),                                     // 8: modelfile.v2.ModelFile.Content
-	(*ModelFile_ClassLabel)(nil),                                  // 9: modelfile.v2.ModelFile.ClassLabel
-	(*ModelFile_ImageSize)(nil),                                   // 10: modelfile.v2.ModelFile.ImageSize
-	(*ModelFile_RegionFromEdge)(nil),                              // 11: modelfile.v2.ModelFile.RegionFromEdge
-	(*ModelFile_Input)(nil),                                       // 12: modelfile.v2.ModelFile.Input
-	(*ModelFile_Output)(nil),                                      // 13: modelfile.v2.ModelFile.Output
-	(*ModelFile_FileInfo)(nil),                                    // 14: modelfile.v2.ModelFile.FileInfo
-	nil,                                                           // 15: modelfile.v2.ModelFile.AdditionalContentEntry
-	(*ModelFile_Content_KeySlot)(nil),                             // 16: modelfile.v2.ModelFile.Content.KeySlot
-	nil,                                                           // 17: modelfile.v2.ModelFile.Content.KeySlotsEntry
-	(*ModelFile_Input_ImageInputFormat)(nil),                      // 18: modelfile.v2.ModelFile.Input.ImageInputFormat
-	(*ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement)(nil),     // 19: modelfile.v2.ModelFile.Input.ImageInputFormat.ExactImageSizeRequirement
-	(*ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement)(nil), // 20: modelfile.v2.ModelFile.Input.ImageInputFormat.DivisibleImageSizeRequirement
-	(*ModelFile_Output_ImageClassifiersOutputFormat)(nil),                  // 21: modelfile.v2.ModelFile.Output.ImageClassifiersOutputFormat
-	(*ModelFile_Output_SegmentationMapsOutputFormat)(nil),                  // 22: modelfile.v2.ModelFile.Output.SegmentationMapsOutputFormat
-	(*ModelFile_Output_BoundingBoxesOutputFormat)(nil),                     // 23: modelfile.v2.ModelFile.Output.BoundingBoxesOutputFormat
-	(*ModelFile_Output_BoundingBoxSegmentationsOutputFormat)(nil),          // 24: modelfile.v2.ModelFile.Output.BoundingBoxSegmentationsOutputFormat
-	(*ModelFile_Output_OcrOutputFormat)(nil),                               // 25: modelfile.v2.ModelFile.Output.OcrOutputFormat
-	(*ModelFile_Output_OcrOutputFormat_Character)(nil),                     // 26: modelfile.v2.ModelFile.Output.OcrOutputFormat.Character
+	(ModelFile_FileInfo_HardwareTarget)(0),                        // 6: modelfile.v2.ModelFile.FileInfo.HardwareTarget
+	(*ModelFile)(nil),                                             // 7: modelfile.v2.ModelFile
+	(*ModelFile_Version)(nil),                                     // 8: modelfile.v2.ModelFile.Version
+	(*ModelFile_Content)(nil),                                     // 9: modelfile.v2.ModelFile.Content
+	(*ModelFile_ClassLabel)(nil),                                  // 10: modelfile.v2.ModelFile.ClassLabel
+	(*ModelFile_ImageSize)(nil),                                   // 11: modelfile.v2.ModelFile.ImageSize
+	(*ModelFile_RegionFromEdge)(nil),                              // 12: modelfile.v2.ModelFile.RegionFromEdge
+	(*ModelFile_Input)(nil),                                       // 13: modelfile.v2.ModelFile.Input
+	(*ModelFile_Output)(nil),                                      // 14: modelfile.v2.ModelFile.Output
+	(*ModelFile_FileInfo)(nil),                                    // 15: modelfile.v2.ModelFile.FileInfo
+	nil,                                                           // 16: modelfile.v2.ModelFile.AdditionalContentEntry
+	(*ModelFile_Content_KeySlot)(nil),                             // 17: modelfile.v2.ModelFile.Content.KeySlot
+	nil,                                                           // 18: modelfile.v2.ModelFile.Content.KeySlotsEntry
+	(*ModelFile_Input_ImageInputFormat)(nil),                      // 19: modelfile.v2.ModelFile.Input.ImageInputFormat
+	(*ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement)(nil),     // 20: modelfile.v2.ModelFile.Input.ImageInputFormat.ExactImageSizeRequirement
+	(*ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement)(nil), // 21: modelfile.v2.ModelFile.Input.ImageInputFormat.DivisibleImageSizeRequirement
+	(*ModelFile_Output_ImageClassifiersOutputFormat)(nil),                  // 22: modelfile.v2.ModelFile.Output.ImageClassifiersOutputFormat
+	(*ModelFile_Output_SegmentationMapsOutputFormat)(nil),                  // 23: modelfile.v2.ModelFile.Output.SegmentationMapsOutputFormat
+	(*ModelFile_Output_BoundingBoxesOutputFormat)(nil),                     // 24: modelfile.v2.ModelFile.Output.BoundingBoxesOutputFormat
+	(*ModelFile_Output_BoundingBoxSegmentationsOutputFormat)(nil),          // 25: modelfile.v2.ModelFile.Output.BoundingBoxSegmentationsOutputFormat
+	(*ModelFile_Output_OcrOutputFormat)(nil),                               // 26: modelfile.v2.ModelFile.Output.OcrOutputFormat
+	(*ModelFile_Output_OcrOutputFormat_Character)(nil),                     // 27: modelfile.v2.ModelFile.Output.OcrOutputFormat.Character
 }
 var file_modelfile_v2_proto_depIdxs = []int32{
-	7,  // 0: modelfile.v2.ModelFile.protocol_version:type_name -> modelfile.v2.ModelFile.Version
-	14, // 1: modelfile.v2.ModelFile.file_info:type_name -> modelfile.v2.ModelFile.FileInfo
-	8,  // 2: modelfile.v2.ModelFile.content:type_name -> modelfile.v2.ModelFile.Content
-	9,  // 3: modelfile.v2.ModelFile.class_labels:type_name -> modelfile.v2.ModelFile.ClassLabel
-	12, // 4: modelfile.v2.ModelFile.inputs:type_name -> modelfile.v2.ModelFile.Input
-	13, // 5: modelfile.v2.ModelFile.outputs:type_name -> modelfile.v2.ModelFile.Output
-	15, // 6: modelfile.v2.ModelFile.additional_content:type_name -> modelfile.v2.ModelFile.AdditionalContentEntry
+	8,  // 0: modelfile.v2.ModelFile.protocol_version:type_name -> modelfile.v2.ModelFile.Version
+	15, // 1: modelfile.v2.ModelFile.file_info:type_name -> modelfile.v2.ModelFile.FileInfo
+	9,  // 2: modelfile.v2.ModelFile.content:type_name -> modelfile.v2.ModelFile.Content
+	10, // 3: modelfile.v2.ModelFile.class_labels:type_name -> modelfile.v2.ModelFile.ClassLabel
+	13, // 4: modelfile.v2.ModelFile.inputs:type_name -> modelfile.v2.ModelFile.Input
+	14, // 5: modelfile.v2.ModelFile.outputs:type_name -> modelfile.v2.ModelFile.Output
+	16, // 6: modelfile.v2.ModelFile.additional_content:type_name -> modelfile.v2.ModelFile.AdditionalContentEntry
 	0,  // 7: modelfile.v2.ModelFile.Content.compression_method:type_name -> modelfile.v2.ModelFile.Content.CompressionMethod
 	1,  // 8: modelfile.v2.ModelFile.Content.encryption_method:type_name -> modelfile.v2.ModelFile.Content.EncryptionMethod
-	17, // 9: modelfile.v2.ModelFile.Content.key_slots:type_name -> modelfile.v2.ModelFile.Content.KeySlotsEntry
-	18, // 10: modelfile.v2.ModelFile.Input.image_format:type_name -> modelfile.v2.ModelFile.Input.ImageInputFormat
-	21, // 11: modelfile.v2.ModelFile.Output.image_classifiers_format:type_name -> modelfile.v2.ModelFile.Output.ImageClassifiersOutputFormat
-	22, // 12: modelfile.v2.ModelFile.Output.segmentation_maps_format:type_name -> modelfile.v2.ModelFile.Output.SegmentationMapsOutputFormat
-	23, // 13: modelfile.v2.ModelFile.Output.bounding_boxes_format:type_name -> modelfile.v2.ModelFile.Output.BoundingBoxesOutputFormat
-	24, // 14: modelfile.v2.ModelFile.Output.bounding_box_segmentations_format:type_name -> modelfile.v2.ModelFile.Output.BoundingBoxSegmentationsOutputFormat
-	25, // 15: modelfile.v2.ModelFile.Output.ocr_format:type_name -> modelfile.v2.ModelFile.Output.OcrOutputFormat
+	18, // 9: modelfile.v2.ModelFile.Content.key_slots:type_name -> modelfile.v2.ModelFile.Content.KeySlotsEntry
+	19, // 10: modelfile.v2.ModelFile.Input.image_format:type_name -> modelfile.v2.ModelFile.Input.ImageInputFormat
+	22, // 11: modelfile.v2.ModelFile.Output.image_classifiers_format:type_name -> modelfile.v2.ModelFile.Output.ImageClassifiersOutputFormat
+	23, // 12: modelfile.v2.ModelFile.Output.segmentation_maps_format:type_name -> modelfile.v2.ModelFile.Output.SegmentationMapsOutputFormat
+	24, // 13: modelfile.v2.ModelFile.Output.bounding_boxes_format:type_name -> modelfile.v2.ModelFile.Output.BoundingBoxesOutputFormat
+	25, // 14: modelfile.v2.ModelFile.Output.bounding_box_segmentations_format:type_name -> modelfile.v2.ModelFile.Output.BoundingBoxSegmentationsOutputFormat
+	26, // 15: modelfile.v2.ModelFile.Output.ocr_format:type_name -> modelfile.v2.ModelFile.Output.OcrOutputFormat
 	3,  // 16: modelfile.v2.ModelFile.FileInfo.file_type:type_name -> modelfile.v2.ModelFile.FileInfo.FileType
 	4,  // 17: modelfile.v2.ModelFile.FileInfo.network_type:type_name -> modelfile.v2.ModelFile.FileInfo.NetworkType
-	7,  // 18: modelfile.v2.ModelFile.FileInfo.network_version:type_name -> modelfile.v2.ModelFile.Version
-	7,  // 19: modelfile.v2.ModelFile.FileInfo.runtime_version:type_name -> modelfile.v2.ModelFile.Version
+	8,  // 18: modelfile.v2.ModelFile.FileInfo.network_version:type_name -> modelfile.v2.ModelFile.Version
+	8,  // 19: modelfile.v2.ModelFile.FileInfo.runtime_version:type_name -> modelfile.v2.ModelFile.Version
 	5,  // 20: modelfile.v2.ModelFile.FileInfo.precision:type_name -> modelfile.v2.ModelFile.FileInfo.Precision
-	7,  // 21: modelfile.v2.ModelFile.FileInfo.minimum_libdenkflow_version:type_name -> modelfile.v2.ModelFile.Version
-	8,  // 22: modelfile.v2.ModelFile.AdditionalContentEntry.value:type_name -> modelfile.v2.ModelFile.Content
-	1,  // 23: modelfile.v2.ModelFile.Content.KeySlot.wrapping_method:type_name -> modelfile.v2.ModelFile.Content.EncryptionMethod
-	16, // 24: modelfile.v2.ModelFile.Content.KeySlotsEntry.value:type_name -> modelfile.v2.ModelFile.Content.KeySlot
-	19, // 25: modelfile.v2.ModelFile.Input.ImageInputFormat.exact_image_size:type_name -> modelfile.v2.ModelFile.Input.ImageInputFormat.ExactImageSizeRequirement
-	20, // 26: modelfile.v2.ModelFile.Input.ImageInputFormat.divisible_image_size:type_name -> modelfile.v2.ModelFile.Input.ImageInputFormat.DivisibleImageSizeRequirement
-	11, // 27: modelfile.v2.ModelFile.Input.ImageInputFormat.region_of_interest:type_name -> modelfile.v2.ModelFile.RegionFromEdge
-	10, // 28: modelfile.v2.ModelFile.Input.ImageInputFormat.ExactImageSizeRequirement.image_size:type_name -> modelfile.v2.ModelFile.ImageSize
-	10, // 29: modelfile.v2.ModelFile.Input.ImageInputFormat.DivisibleImageSizeRequirement.image_size_divisors:type_name -> modelfile.v2.ModelFile.ImageSize
-	10, // 30: modelfile.v2.ModelFile.Input.ImageInputFormat.DivisibleImageSizeRequirement.minimum_image_size:type_name -> modelfile.v2.ModelFile.ImageSize
-	10, // 31: modelfile.v2.ModelFile.Input.ImageInputFormat.DivisibleImageSizeRequirement.suggested_image_size:type_name -> modelfile.v2.ModelFile.ImageSize
-	10, // 32: modelfile.v2.ModelFile.Output.SegmentationMapsOutputFormat.image_size:type_name -> modelfile.v2.ModelFile.ImageSize
-	10, // 33: modelfile.v2.ModelFile.Output.BoundingBoxSegmentationsOutputFormat.image_size:type_name -> modelfile.v2.ModelFile.ImageSize
-	26, // 34: modelfile.v2.ModelFile.Output.OcrOutputFormat.characters:type_name -> modelfile.v2.ModelFile.Output.OcrOutputFormat.Character
-	2,  // 35: modelfile.v2.ModelFile.Output.OcrOutputFormat.Character.character_type:type_name -> modelfile.v2.ModelFile.Output.OcrOutputFormat.Character.CharacterType
-	36, // [36:36] is the sub-list for method output_type
-	36, // [36:36] is the sub-list for method input_type
-	36, // [36:36] is the sub-list for extension type_name
-	36, // [36:36] is the sub-list for extension extendee
-	0,  // [0:36] is the sub-list for field type_name
+	8,  // 21: modelfile.v2.ModelFile.FileInfo.minimum_libdenkflow_version:type_name -> modelfile.v2.ModelFile.Version
+	6,  // 22: modelfile.v2.ModelFile.FileInfo.hardware_target:type_name -> modelfile.v2.ModelFile.FileInfo.HardwareTarget
+	9,  // 23: modelfile.v2.ModelFile.AdditionalContentEntry.value:type_name -> modelfile.v2.ModelFile.Content
+	1,  // 24: modelfile.v2.ModelFile.Content.KeySlot.wrapping_method:type_name -> modelfile.v2.ModelFile.Content.EncryptionMethod
+	17, // 25: modelfile.v2.ModelFile.Content.KeySlotsEntry.value:type_name -> modelfile.v2.ModelFile.Content.KeySlot
+	20, // 26: modelfile.v2.ModelFile.Input.ImageInputFormat.exact_image_size:type_name -> modelfile.v2.ModelFile.Input.ImageInputFormat.ExactImageSizeRequirement
+	21, // 27: modelfile.v2.ModelFile.Input.ImageInputFormat.divisible_image_size:type_name -> modelfile.v2.ModelFile.Input.ImageInputFormat.DivisibleImageSizeRequirement
+	12, // 28: modelfile.v2.ModelFile.Input.ImageInputFormat.region_of_interest:type_name -> modelfile.v2.ModelFile.RegionFromEdge
+	11, // 29: modelfile.v2.ModelFile.Input.ImageInputFormat.ExactImageSizeRequirement.image_size:type_name -> modelfile.v2.ModelFile.ImageSize
+	11, // 30: modelfile.v2.ModelFile.Input.ImageInputFormat.DivisibleImageSizeRequirement.image_size_divisors:type_name -> modelfile.v2.ModelFile.ImageSize
+	11, // 31: modelfile.v2.ModelFile.Input.ImageInputFormat.DivisibleImageSizeRequirement.minimum_image_size:type_name -> modelfile.v2.ModelFile.ImageSize
+	11, // 32: modelfile.v2.ModelFile.Input.ImageInputFormat.DivisibleImageSizeRequirement.suggested_image_size:type_name -> modelfile.v2.ModelFile.ImageSize
+	11, // 33: modelfile.v2.ModelFile.Output.SegmentationMapsOutputFormat.image_size:type_name -> modelfile.v2.ModelFile.ImageSize
+	11, // 34: modelfile.v2.ModelFile.Output.BoundingBoxSegmentationsOutputFormat.image_size:type_name -> modelfile.v2.ModelFile.ImageSize
+	27, // 35: modelfile.v2.ModelFile.Output.OcrOutputFormat.characters:type_name -> modelfile.v2.ModelFile.Output.OcrOutputFormat.Character
+	2,  // 36: modelfile.v2.ModelFile.Output.OcrOutputFormat.Character.character_type:type_name -> modelfile.v2.ModelFile.Output.OcrOutputFormat.Character.CharacterType
+	37, // [37:37] is the sub-list for method output_type
+	37, // [37:37] is the sub-list for method input_type
+	37, // [37:37] is the sub-list for extension type_name
+	37, // [37:37] is the sub-list for extension extendee
+	0,  // [0:37] is the sub-list for field type_name
 }
 
 func init() { file_modelfile_v2_proto_init() }
@@ -2443,7 +2534,7 @@ func file_modelfile_v2_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_modelfile_v2_proto_rawDesc,
-			NumEnums:      6,
+			NumEnums:      7,
 			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   0,
