@@ -8,78 +8,523 @@ import (
 	"fmt"
 )
 
+// ConstTensorDataBase defines the interface for discriminated union based on data_type.
+type ConstTensorDataBase interface {
+	isConstTensorDataBase() // Marker method for implementing types
+}
+
+// UnmarshalJSONConstTensorDataBase implements the json.Unmarshaler interface for ConstTensorDataBase, handling polymorphism.
+// It delegates the actual unmarshaling to the appropriate concrete type's UnmarshalJSON method
+// based on the discriminator field 'data_type'.
+func UnmarshalJSONConstTensorDataBase(data []byte) (ConstTensorDataBase, error) {
+	// Determine the concrete type based on the discriminator field
+	var finder struct {
+		Type string `json:"data_type"`
+	}
+	if err := json.Unmarshal(data, &finder); err != nil {
+		return nil, fmt.Errorf("error finding discriminator field 'data_type' for ConstTensorDataBase: %w", err)
+	}
+
+	switch finder.Type {
+	case "float64":
+		var concrete ConstTensorFloat64Data
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into ConstTensorFloat64Data: %w", err)
+		}
+		return &concrete, nil
+	case "int64":
+		var concrete ConstTensorInt64Data
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into ConstTensorInt64Data: %w", err)
+		}
+		return &concrete, nil
+	case "uint64":
+		var concrete ConstTensorUint64Data
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into ConstTensorUint64Data: %w", err)
+		}
+		return &concrete, nil
+	default:
+		return nil, fmt.Errorf("unknown type '%s' for interface ConstTensorDataBase", finder.Type)
+	}
+}
+
+// ConstTensorDataBaseUnmarshalHelper is a wrapper to facilitate unmarshaling polymorphic types.
+type ConstTensorDataBaseUnmarshalHelper struct {
+	Target *ConstTensorDataBase
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (u *ConstTensorDataBaseUnmarshalHelper) UnmarshalJSON(data []byte) error {
+	target, err := UnmarshalJSONConstTensorDataBase(data)
+	if err != nil {
+		return err
+	}
+	*(u.Target) = target
+	return nil
+}
+
+// UnmarshalJSONConstTensorDataBaseForField is used by structs containing ConstTensorDataBase fields to handle polymorphism.
+func UnmarshalJSONConstTensorDataBaseForField(data []byte, c *ConstTensorDataBase) error {
+	target, err := UnmarshalJSONConstTensorDataBase(data) // Use the helper that returns the interface
+	if err != nil {
+		return err
+	}
+	*c = target
+	return nil
+}
+
+// isConstTensorDataBase implements the ConstTensorDataBase interface. Add this method to all implementing structs.
+// func (s *YourStruct) isConstTensorDataBase() {}
+
+// MaxIterationsCountSource defines the interface for discriminated union based on source_type.
+type MaxIterationsCountSource interface {
+	isMaxIterationsCountSource() // Marker method for implementing types
+}
+
+// UnmarshalJSONMaxIterationsCountSource implements the json.Unmarshaler interface for MaxIterationsCountSource, handling polymorphism.
+// It delegates the actual unmarshaling to the appropriate concrete type's UnmarshalJSON method
+// based on the discriminator field 'source_type'.
+func UnmarshalJSONMaxIterationsCountSource(data []byte) (MaxIterationsCountSource, error) {
+	// Determine the concrete type based on the discriminator field
+	var finder struct {
+		Type string `json:"source_type"`
+	}
+	if err := json.Unmarshal(data, &finder); err != nil {
+		return nil, fmt.Errorf("error finding discriminator field 'source_type' for MaxIterationsCountSource: %w", err)
+	}
+
+	switch finder.Type {
+	case "topic":
+		var concrete MaxIterationsCountSourceTopicOption
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into MaxIterationsCountSourceTopicOption: %w", err)
+		}
+		return &concrete, nil
+	case "value":
+		var concrete MaxIterationsCountSourceValueOption
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into MaxIterationsCountSourceValueOption: %w", err)
+		}
+		return &concrete, nil
+	default:
+		return nil, fmt.Errorf("unknown type '%s' for interface MaxIterationsCountSource", finder.Type)
+	}
+}
+
+// MaxIterationsCountSourceUnmarshalHelper is a wrapper to facilitate unmarshaling polymorphic types.
+type MaxIterationsCountSourceUnmarshalHelper struct {
+	Target *MaxIterationsCountSource
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (u *MaxIterationsCountSourceUnmarshalHelper) UnmarshalJSON(data []byte) error {
+	target, err := UnmarshalJSONMaxIterationsCountSource(data)
+	if err != nil {
+		return err
+	}
+	*(u.Target) = target
+	return nil
+}
+
+// UnmarshalJSONMaxIterationsCountSourceForField is used by structs containing MaxIterationsCountSource fields to handle polymorphism.
+func UnmarshalJSONMaxIterationsCountSourceForField(data []byte, m *MaxIterationsCountSource) error {
+	target, err := UnmarshalJSONMaxIterationsCountSource(data) // Use the helper that returns the interface
+	if err != nil {
+		return err
+	}
+	*m = target
+	return nil
+}
+
+// isMaxIterationsCountSource implements the MaxIterationsCountSource interface. Add this method to all implementing structs.
+// func (s *YourStruct) isMaxIterationsCountSource() {}
+
+// ModelSourceBase defines the interface for discriminated union based on source_type.
+type ModelSourceBase interface {
+	isModelSourceBase() // Marker method for implementing types
+}
+
+// UnmarshalJSONModelSourceBase implements the json.Unmarshaler interface for ModelSourceBase, handling polymorphism.
+// It delegates the actual unmarshaling to the appropriate concrete type's UnmarshalJSON method
+// based on the discriminator field 'source_type'.
+func UnmarshalJSONModelSourceBase(data []byte) (ModelSourceBase, error) {
+	// Determine the concrete type based on the discriminator field
+	var finder struct {
+		Type string `json:"source_type"`
+	}
+	if err := json.Unmarshal(data, &finder); err != nil {
+		return nil, fmt.Errorf("error finding discriminator field 'source_type' for ModelSourceBase: %w", err)
+	}
+
+	switch finder.Type {
+	case "network_experiment_id":
+		var concrete ModelSourceFromNetworkExperimentId
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into ModelSourceFromNetworkExperimentId: %w", err)
+		}
+		return &concrete, nil
+	case "network_id":
+		var concrete ModelSourceFromNetworkId
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into ModelSourceFromNetworkId: %w", err)
+		}
+		return &concrete, nil
+	default:
+		return nil, fmt.Errorf("unknown type '%s' for interface ModelSourceBase", finder.Type)
+	}
+}
+
+// ModelSourceBaseUnmarshalHelper is a wrapper to facilitate unmarshaling polymorphic types.
+type ModelSourceBaseUnmarshalHelper struct {
+	Target *ModelSourceBase
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (u *ModelSourceBaseUnmarshalHelper) UnmarshalJSON(data []byte) error {
+	target, err := UnmarshalJSONModelSourceBase(data)
+	if err != nil {
+		return err
+	}
+	*(u.Target) = target
+	return nil
+}
+
+// UnmarshalJSONModelSourceBaseForField is used by structs containing ModelSourceBase fields to handle polymorphism.
+func UnmarshalJSONModelSourceBaseForField(data []byte, m *ModelSourceBase) error {
+	target, err := UnmarshalJSONModelSourceBase(data) // Use the helper that returns the interface
+	if err != nil {
+		return err
+	}
+	*m = target
+	return nil
+}
+
+// isModelSourceBase implements the ModelSourceBase interface. Add this method to all implementing structs.
+// func (s *YourStruct) isModelSourceBase() {}
+
+// Node defines the interface for discriminated union based on node_type.
+type Node interface {
+	isNode() // Marker method for implementing types
+}
+
+// UnmarshalJSONNode implements the json.Unmarshaler interface for Node, handling polymorphism.
+// It delegates the actual unmarshaling to the appropriate concrete type's UnmarshalJSON method
+// based on the discriminator field 'node_type'.
+func UnmarshalJSONNode(data []byte) (Node, error) {
+	// Determine the concrete type based on the discriminator field
+	var finder struct {
+		Type string `json:"node_type"`
+	}
+	if err := json.Unmarshal(data, &finder); err != nil {
+		return nil, fmt.Errorf("error finding discriminator field 'node_type' for Node: %w", err)
+	}
+
+	switch finder.Type {
+	case "bounding_box_filter":
+		var concrete BoundingBoxFilterNode
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into BoundingBoxFilterNode: %w", err)
+		}
+		return &concrete, nil
+	case "image_classification":
+		var concrete ClassificationNode
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into ClassificationNode: %w", err)
+		}
+		return &concrete, nil
+	case "const_tensor":
+		var concrete ConstTensorNode
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into ConstTensorNode: %w", err)
+		}
+		return &concrete, nil
+	case "image_patches":
+		var concrete ImagePatchesNode
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into ImagePatchesNode: %w", err)
+		}
+		return &concrete, nil
+	case "image_resize":
+		var concrete ImageResizeNode
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into ImageResizeNode: %w", err)
+		}
+		return &concrete, nil
+	case "image_object_detection":
+		var concrete ObjectDetectionNode
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into ObjectDetectionNode: %w", err)
+		}
+		return &concrete, nil
+	case "image_ocr":
+		var concrete OcrNode
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into OcrNode: %w", err)
+		}
+		return &concrete, nil
+	case "virtual_camera":
+		var concrete VirtualCameraNode
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into VirtualCameraNode: %w", err)
+		}
+		return &concrete, nil
+	default:
+		return nil, fmt.Errorf("unknown type '%s' for interface Node", finder.Type)
+	}
+}
+
+// NodeUnmarshalHelper is a wrapper to facilitate unmarshaling polymorphic types.
+type NodeUnmarshalHelper struct {
+	Target *Node
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (u *NodeUnmarshalHelper) UnmarshalJSON(data []byte) error {
+	target, err := UnmarshalJSONNode(data)
+	if err != nil {
+		return err
+	}
+	*(u.Target) = target
+	return nil
+}
+
+// UnmarshalJSONNodeForField is used by structs containing Node fields to handle polymorphism.
+func UnmarshalJSONNodeForField(data []byte, n *Node) error {
+	target, err := UnmarshalJSONNode(data) // Use the helper that returns the interface
+	if err != nil {
+		return err
+	}
+	*n = target
+	return nil
+}
+
+// isNode implements the Node interface. Add this method to all implementing structs.
+// func (s *YourStruct) isNode() {}
+
+// TargetSizeSource defines the interface for discriminated union based on source_type.
+type TargetSizeSource interface {
+	isTargetSizeSource() // Marker method for implementing types
+}
+
+// UnmarshalJSONTargetSizeSource implements the json.Unmarshaler interface for TargetSizeSource, handling polymorphism.
+// It delegates the actual unmarshaling to the appropriate concrete type's UnmarshalJSON method
+// based on the discriminator field 'source_type'.
+func UnmarshalJSONTargetSizeSource(data []byte) (TargetSizeSource, error) {
+	// Determine the concrete type based on the discriminator field
+	var finder struct {
+		Type string `json:"source_type"`
+	}
+	if err := json.Unmarshal(data, &finder); err != nil {
+		return nil, fmt.Errorf("error finding discriminator field 'source_type' for TargetSizeSource: %w", err)
+	}
+
+	switch finder.Type {
+	case "image_size":
+		var concrete TargetSizeSourceImageSizeOption
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into TargetSizeSourceImageSizeOption: %w", err)
+		}
+		return &concrete, nil
+	case "topic":
+		var concrete TargetSizeSourceTopicOption
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into TargetSizeSourceTopicOption: %w", err)
+		}
+		return &concrete, nil
+	default:
+		return nil, fmt.Errorf("unknown type '%s' for interface TargetSizeSource", finder.Type)
+	}
+}
+
+// TargetSizeSourceUnmarshalHelper is a wrapper to facilitate unmarshaling polymorphic types.
+type TargetSizeSourceUnmarshalHelper struct {
+	Target *TargetSizeSource
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (u *TargetSizeSourceUnmarshalHelper) UnmarshalJSON(data []byte) error {
+	target, err := UnmarshalJSONTargetSizeSource(data)
+	if err != nil {
+		return err
+	}
+	*(u.Target) = target
+	return nil
+}
+
+// UnmarshalJSONTargetSizeSourceForField is used by structs containing TargetSizeSource fields to handle polymorphism.
+func UnmarshalJSONTargetSizeSourceForField(data []byte, t *TargetSizeSource) error {
+	target, err := UnmarshalJSONTargetSizeSource(data) // Use the helper that returns the interface
+	if err != nil {
+		return err
+	}
+	*t = target
+	return nil
+}
+
+// isTargetSizeSource implements the TargetSizeSource interface. Add this method to all implementing structs.
+// func (s *YourStruct) isTargetSizeSource() {}
+
+// ThresholdSource defines the interface for discriminated union based on source_type.
+type ThresholdSource interface {
+	isThresholdSource() // Marker method for implementing types
+}
+
+// UnmarshalJSONThresholdSource implements the json.Unmarshaler interface for ThresholdSource, handling polymorphism.
+// It delegates the actual unmarshaling to the appropriate concrete type's UnmarshalJSON method
+// based on the discriminator field 'source_type'.
+func UnmarshalJSONThresholdSource(data []byte) (ThresholdSource, error) {
+	// Determine the concrete type based on the discriminator field
+	var finder struct {
+		Type string `json:"source_type"`
+	}
+	if err := json.Unmarshal(data, &finder); err != nil {
+		return nil, fmt.Errorf("error finding discriminator field 'source_type' for ThresholdSource: %w", err)
+	}
+
+	switch finder.Type {
+	case "topic":
+		var concrete ThresholdSourceTopicOption
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into ThresholdSourceTopicOption: %w", err)
+		}
+		return &concrete, nil
+	case "value":
+		var concrete ThresholdSourceValueOption
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into ThresholdSourceValueOption: %w", err)
+		}
+		return &concrete, nil
+	default:
+		return nil, fmt.Errorf("unknown type '%s' for interface ThresholdSource", finder.Type)
+	}
+}
+
+// ThresholdSourceUnmarshalHelper is a wrapper to facilitate unmarshaling polymorphic types.
+type ThresholdSourceUnmarshalHelper struct {
+	Target *ThresholdSource
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (u *ThresholdSourceUnmarshalHelper) UnmarshalJSON(data []byte) error {
+	target, err := UnmarshalJSONThresholdSource(data)
+	if err != nil {
+		return err
+	}
+	*(u.Target) = target
+	return nil
+}
+
+// UnmarshalJSONThresholdSourceForField is used by structs containing ThresholdSource fields to handle polymorphism.
+func UnmarshalJSONThresholdSourceForField(data []byte, t *ThresholdSource) error {
+	target, err := UnmarshalJSONThresholdSource(data) // Use the helper that returns the interface
+	if err != nil {
+		return err
+	}
+	*t = target
+	return nil
+}
+
+// isThresholdSource implements the ThresholdSource interface. Add this method to all implementing structs.
+// func (s *YourStruct) isThresholdSource() {}
+
 // BoundingBoxFilterNode corresponds to the JSON schema definition 'BoundingBoxFilterNode'.
 // Node that filters bounding boxes based on confidence and IoU thresholds. Base type for all nodes in the graph.
 type BoundingBoxFilterNode struct {
 	InputBoundingBoxes  string          `json:"input_bounding_boxes"`
-	InputIouThreshold   ThresholdSource `json:"input_iou_threshold"`
-	InputScoreThreshold ThresholdSource `json:"input_score_threshold"`
+	InputIouThreshold   ThresholdSource `json:"input_iou_threshold,omitempty"`   // Optional
+	InputScoreThreshold ThresholdSource `json:"input_score_threshold,omitempty"` // Optional
 	Name                string          `json:"name"`
 	NodeType            string          `json:"node_type"`
-	OutputPortName      string          `json:"output_port_name"`
+	OutputPortName      *string         `json:"output_port_name,omitempty"` // Optional
 }
 
 // isNode implements the Node interface.
-func (s *BoundingBoxFilterNode) isNode() {}
+func (b *BoundingBoxFilterNode) isNode() {}
 
-// UnmarshalJSON implements custom unmarshaling for BoundingBoxFilterNode to handle interface fields
-func (s *BoundingBoxFilterNode) UnmarshalJSON(data []byte) error {
-	// Define an intermediate type with the same structure but using json.RawMessage for interface fields
-	type Alias BoundingBoxFilterNode
+// UnmarshalJSON implements custom unmarshaling for BoundingBoxFilterNode to handle interface fields.
+func (b *BoundingBoxFilterNode) UnmarshalJSON(data []byte) error {
+	// Define an intermediate type using json.RawMessage for interface fields
+	// and pointers for optional fields that might be interfaces
+	type Alias BoundingBoxFilterNode // Use Alias for non-interface fields
 
-	intermediate := struct {
-		Alias
-		InputIouThreshold   json.RawMessage `json:"input_iou_threshold"`
-		InputScoreThreshold json.RawMessage `json:"input_score_threshold"`
+	// Base struct for standard fields
+	var alias Alias
+	if err := json.Unmarshal(data, &alias); err != nil {
+		return fmt.Errorf("error unmarshaling standard fields for BoundingBoxFilterNode: %w", err)
+	}
+	*b = BoundingBoxFilterNode(alias) // Assign standard fields first
+
+	// Struct to capture interface fields as RawMessage
+	rawFields := struct {
+		InputIouThreshold   json.RawMessage `json:"input_iou_threshold,omitempty"`
+		InputScoreThreshold json.RawMessage `json:"input_score_threshold,omitempty"`
 	}{}
 
-	// Unmarshal into the intermediate struct
-	if err := json.Unmarshal(data, &intermediate); err != nil {
-		return fmt.Errorf("error unmarshaling BoundingBoxFilterNode: %w", err)
+	// Unmarshal RawMessages
+	if err := json.Unmarshal(data, &rawFields); err != nil {
+		return fmt.Errorf("error unmarshaling interface fields for BoundingBoxFilterNode: %w", err)
 	}
-
-	// Copy the standard fields
-	*s = BoundingBoxFilterNode(intermediate.Alias)
 
 	// Unmarshal the InputIouThreshold field (ThresholdSource interface)
-	if len(intermediate.InputIouThreshold) > 0 {
-		var item ThresholdSource
-		if err := UnmarshalJSONThresholdSource(intermediate.InputIouThreshold, &item); err != nil {
+	if len(rawFields.InputIouThreshold) > 0 && string(rawFields.InputIouThreshold) != "null" {
+		var item ThresholdSource // This will hold the concrete type implementing the interface
+		// Use the field-specific unmarshaler which sets the interface variable correctly
+		if err := UnmarshalJSONThresholdSourceForField(rawFields.InputIouThreshold, &item); err != nil { // Pass address of interface variable
 			return fmt.Errorf("error unmarshaling InputIouThreshold: %w", err)
 		}
-		s.InputIouThreshold = item
+		b.InputIouThreshold = item // Assign the interface variable to the struct field
 	}
-
 	// Unmarshal the InputScoreThreshold field (ThresholdSource interface)
-	if len(intermediate.InputScoreThreshold) > 0 {
-		var item ThresholdSource
-		if err := UnmarshalJSONThresholdSource(intermediate.InputScoreThreshold, &item); err != nil {
+	if len(rawFields.InputScoreThreshold) > 0 && string(rawFields.InputScoreThreshold) != "null" {
+		var item ThresholdSource // This will hold the concrete type implementing the interface
+		// Use the field-specific unmarshaler which sets the interface variable correctly
+		if err := UnmarshalJSONThresholdSourceForField(rawFields.InputScoreThreshold, &item); err != nil { // Pass address of interface variable
 			return fmt.Errorf("error unmarshaling InputScoreThreshold: %w", err)
 		}
-		s.InputScoreThreshold = item
+		b.InputScoreThreshold = item // Assign the interface variable to the struct field
 	}
 
 	return nil
 }
 
-// NewBoundingBoxFilterNode creates a new instance of BoundingBoxFilterNode
-func NewBoundingBoxFilterNode(name string, inputboundingboxes string, outputportname string) *BoundingBoxFilterNode {
-	return &BoundingBoxFilterNode{
-		Name:               name,
+// NewBoundingBoxFilterNode creates a new instance of BoundingBoxFilterNode with required fields.
+// Optional fields should be set using builder methods.
+func NewBoundingBoxFilterNode(inputboundingboxes string, name string) *BoundingBoxFilterNode {
+	b := &BoundingBoxFilterNode{
 		InputBoundingBoxes: inputboundingboxes,
-		OutputPortName:     outputportname,
+		Name:               name,
 		NodeType:           "bounding_box_filter",
 	}
+	return b
 }
 
-// SetInputIouThreshold sets the InputIouThreshold field for BoundingBoxFilterNode
-func (s *BoundingBoxFilterNode) SetInputIouThreshold(inputiouthreshold ThresholdSource) {
-	s.InputIouThreshold = inputiouthreshold
+// SetInputIouThreshold sets the InputIouThreshold field, which is an interface type (ThresholdSource).
+func (b *BoundingBoxFilterNode) SetInputIouThreshold(inputiouthreshold ThresholdSource) {
+	b.InputIouThreshold = inputiouthreshold
 }
 
-// SetInputScoreThreshold sets the InputScoreThreshold field for BoundingBoxFilterNode
-func (s *BoundingBoxFilterNode) SetInputScoreThreshold(inputscorethreshold ThresholdSource) {
-	s.InputScoreThreshold = inputscorethreshold
+// SetInputScoreThreshold sets the InputScoreThreshold field, which is an interface type (ThresholdSource).
+func (b *BoundingBoxFilterNode) SetInputScoreThreshold(inputscorethreshold ThresholdSource) {
+	b.InputScoreThreshold = inputscorethreshold
+}
+
+// WithInputIouThreshold sets the optional input_iou_threshold field and returns the struct pointer for chaining.
+func (b *BoundingBoxFilterNode) WithInputIouThreshold(value ThresholdSource) *BoundingBoxFilterNode {
+	b.InputIouThreshold = value
+	return b
+}
+
+// WithInputScoreThreshold sets the optional input_score_threshold field and returns the struct pointer for chaining.
+func (b *BoundingBoxFilterNode) WithInputScoreThreshold(value ThresholdSource) *BoundingBoxFilterNode {
+	b.InputScoreThreshold = value
+	return b
+}
+
+// WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
+func (b *BoundingBoxFilterNode) WithOutputPortName(value string) *BoundingBoxFilterNode {
+	b.OutputPortName = &value
+	return b
 }
 
 // ClassificationNode corresponds to the JSON schema definition 'ClassificationNode'.
@@ -89,55 +534,68 @@ type ClassificationNode struct {
 	ModelSource    ModelSourceBase `json:"model_source"`
 	Name           string          `json:"name"`
 	NodeType       string          `json:"node_type"`
-	OutputPortName string          `json:"output_port_name"`
+	OutputPortName *string         `json:"output_port_name,omitempty"` // Optional
 }
 
 // isNode implements the Node interface.
-func (s *ClassificationNode) isNode() {}
+func (c *ClassificationNode) isNode() {}
 
-// UnmarshalJSON implements custom unmarshaling for ClassificationNode to handle interface fields
-func (s *ClassificationNode) UnmarshalJSON(data []byte) error {
-	// Define an intermediate type with the same structure but using json.RawMessage for interface fields
-	type Alias ClassificationNode
+// UnmarshalJSON implements custom unmarshaling for ClassificationNode to handle interface fields.
+func (c *ClassificationNode) UnmarshalJSON(data []byte) error {
+	// Define an intermediate type using json.RawMessage for interface fields
+	// and pointers for optional fields that might be interfaces
+	type Alias ClassificationNode // Use Alias for non-interface fields
 
-	intermediate := struct {
-		Alias
+	// Base struct for standard fields
+	var alias Alias
+	if err := json.Unmarshal(data, &alias); err != nil {
+		return fmt.Errorf("error unmarshaling standard fields for ClassificationNode: %w", err)
+	}
+	*c = ClassificationNode(alias) // Assign standard fields first
+
+	// Struct to capture interface fields as RawMessage
+	rawFields := struct {
 		ModelSource json.RawMessage `json:"model_source"`
 	}{}
 
-	// Unmarshal into the intermediate struct
-	if err := json.Unmarshal(data, &intermediate); err != nil {
-		return fmt.Errorf("error unmarshaling ClassificationNode: %w", err)
+	// Unmarshal RawMessages
+	if err := json.Unmarshal(data, &rawFields); err != nil {
+		return fmt.Errorf("error unmarshaling interface fields for ClassificationNode: %w", err)
 	}
 
-	// Copy the standard fields
-	*s = ClassificationNode(intermediate.Alias)
-
 	// Unmarshal the ModelSource field (ModelSourceBase interface)
-	if len(intermediate.ModelSource) > 0 {
-		var item ModelSourceBase
-		if err := UnmarshalJSONModelSourceBase(intermediate.ModelSource, &item); err != nil {
+	if len(rawFields.ModelSource) > 0 && string(rawFields.ModelSource) != "null" {
+		var item ModelSourceBase // This will hold the concrete type implementing the interface
+		// Use the field-specific unmarshaler which sets the interface variable correctly
+		if err := UnmarshalJSONModelSourceBaseForField(rawFields.ModelSource, &item); err != nil { // Pass address of interface variable
 			return fmt.Errorf("error unmarshaling ModelSource: %w", err)
 		}
-		s.ModelSource = item
+		c.ModelSource = item // Assign the interface variable to the struct field
 	}
 
 	return nil
 }
 
-// NewClassificationNode creates a new instance of ClassificationNode
-func NewClassificationNode(name string, inputimage string, outputportname string) *ClassificationNode {
-	return &ClassificationNode{
-		Name:           name,
-		InputImage:     inputimage,
-		OutputPortName: outputportname,
-		NodeType:       "image_classification",
+// NewClassificationNode creates a new instance of ClassificationNode with required fields.
+// Optional fields should be set using builder methods.
+func NewClassificationNode(inputimage string, name string) *ClassificationNode {
+	c := &ClassificationNode{
+		InputImage: inputimage,
+		Name:       name,
+		NodeType:   "image_classification",
 	}
+	return c
 }
 
-// SetModelSource sets the ModelSource field for ClassificationNode
-func (s *ClassificationNode) SetModelSource(modelsource ModelSourceBase) {
-	s.ModelSource = modelsource
+// SetModelSource sets the ModelSource field, which is an interface type (ModelSourceBase).
+func (c *ClassificationNode) SetModelSource(modelsource ModelSourceBase) {
+	c.ModelSource = modelsource
+}
+
+// WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
+func (c *ClassificationNode) WithOutputPortName(value string) *ClassificationNode {
+	c.OutputPortName = &value
+	return c
 }
 
 // ConstTensorFloat64Data corresponds to the JSON schema definition 'ConstTensorFloat64Data'.
@@ -148,14 +606,16 @@ type ConstTensorFloat64Data struct {
 }
 
 // isConstTensorDataBase implements the ConstTensorDataBase interface.
-func (s *ConstTensorFloat64Data) isConstTensorDataBase() {}
+func (c *ConstTensorFloat64Data) isConstTensorDataBase() {}
 
-// NewConstTensorFloat64Data creates a new instance of ConstTensorFloat64Data
+// NewConstTensorFloat64Data creates a new instance of ConstTensorFloat64Data with required fields.
+// Optional fields should be set using builder methods.
 func NewConstTensorFloat64Data(data []float64) *ConstTensorFloat64Data {
-	return &ConstTensorFloat64Data{
+	c := &ConstTensorFloat64Data{
 		Data:     data,
 		DataType: "float64",
 	}
+	return c
 }
 
 // ConstTensorInt64Data corresponds to the JSON schema definition 'ConstTensorInt64Data'.
@@ -166,14 +626,16 @@ type ConstTensorInt64Data struct {
 }
 
 // isConstTensorDataBase implements the ConstTensorDataBase interface.
-func (s *ConstTensorInt64Data) isConstTensorDataBase() {}
+func (c *ConstTensorInt64Data) isConstTensorDataBase() {}
 
-// NewConstTensorInt64Data creates a new instance of ConstTensorInt64Data
+// NewConstTensorInt64Data creates a new instance of ConstTensorInt64Data with required fields.
+// Optional fields should be set using builder methods.
 func NewConstTensorInt64Data(data []int64) *ConstTensorInt64Data {
-	return &ConstTensorInt64Data{
+	c := &ConstTensorInt64Data{
 		Data:     data,
 		DataType: "int64",
 	}
+	return c
 }
 
 // ConstTensorNode corresponds to the JSON schema definition 'ConstTensorNode'.
@@ -182,56 +644,69 @@ type ConstTensorNode struct {
 	Data           ConstTensorDataBase `json:"data"`
 	Name           string              `json:"name"`
 	NodeType       string              `json:"node_type"`
-	OutputPortName string              `json:"output_port_name"`
+	OutputPortName *string             `json:"output_port_name,omitempty"` // Optional
 	Shape          []int64             `json:"shape"`
 }
 
 // isNode implements the Node interface.
-func (s *ConstTensorNode) isNode() {}
+func (c *ConstTensorNode) isNode() {}
 
-// UnmarshalJSON implements custom unmarshaling for ConstTensorNode to handle interface fields
-func (s *ConstTensorNode) UnmarshalJSON(data []byte) error {
-	// Define an intermediate type with the same structure but using json.RawMessage for interface fields
-	type Alias ConstTensorNode
+// UnmarshalJSON implements custom unmarshaling for ConstTensorNode to handle interface fields.
+func (c *ConstTensorNode) UnmarshalJSON(data []byte) error {
+	// Define an intermediate type using json.RawMessage for interface fields
+	// and pointers for optional fields that might be interfaces
+	type Alias ConstTensorNode // Use Alias for non-interface fields
 
-	intermediate := struct {
-		Alias
+	// Base struct for standard fields
+	var alias Alias
+	if err := json.Unmarshal(data, &alias); err != nil {
+		return fmt.Errorf("error unmarshaling standard fields for ConstTensorNode: %w", err)
+	}
+	*c = ConstTensorNode(alias) // Assign standard fields first
+
+	// Struct to capture interface fields as RawMessage
+	rawFields := struct {
 		Data json.RawMessage `json:"data"`
 	}{}
 
-	// Unmarshal into the intermediate struct
-	if err := json.Unmarshal(data, &intermediate); err != nil {
-		return fmt.Errorf("error unmarshaling ConstTensorNode: %w", err)
+	// Unmarshal RawMessages
+	if err := json.Unmarshal(data, &rawFields); err != nil {
+		return fmt.Errorf("error unmarshaling interface fields for ConstTensorNode: %w", err)
 	}
 
-	// Copy the standard fields
-	*s = ConstTensorNode(intermediate.Alias)
-
 	// Unmarshal the Data field (ConstTensorDataBase interface)
-	if len(intermediate.Data) > 0 {
-		var item ConstTensorDataBase
-		if err := UnmarshalJSONConstTensorDataBase(intermediate.Data, &item); err != nil {
+	if len(rawFields.Data) > 0 && string(rawFields.Data) != "null" {
+		var item ConstTensorDataBase // This will hold the concrete type implementing the interface
+		// Use the field-specific unmarshaler which sets the interface variable correctly
+		if err := UnmarshalJSONConstTensorDataBaseForField(rawFields.Data, &item); err != nil { // Pass address of interface variable
 			return fmt.Errorf("error unmarshaling Data: %w", err)
 		}
-		s.Data = item
+		c.Data = item // Assign the interface variable to the struct field
 	}
 
 	return nil
 }
 
-// NewConstTensorNode creates a new instance of ConstTensorNode
-func NewConstTensorNode(name string, shape []int64, outputportname string) *ConstTensorNode {
-	return &ConstTensorNode{
-		Name:           name,
-		Shape:          shape,
-		OutputPortName: outputportname,
-		NodeType:       "const_tensor",
+// NewConstTensorNode creates a new instance of ConstTensorNode with required fields.
+// Optional fields should be set using builder methods.
+func NewConstTensorNode(name string, shape []int64) *ConstTensorNode {
+	c := &ConstTensorNode{
+		Name:     name,
+		Shape:    shape,
+		NodeType: "const_tensor",
 	}
+	return c
 }
 
-// SetData sets the Data field for ConstTensorNode
-func (s *ConstTensorNode) SetData(data ConstTensorDataBase) {
-	s.Data = data
+// SetData sets the Data field, which is an interface type (ConstTensorDataBase).
+func (c *ConstTensorNode) SetData(data ConstTensorDataBase) {
+	c.Data = data
+}
+
+// WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
+func (c *ConstTensorNode) WithOutputPortName(value string) *ConstTensorNode {
+	c.OutputPortName = &value
+	return c
 }
 
 // ConstTensorUint64Data corresponds to the JSON schema definition 'ConstTensorUint64Data'.
@@ -242,14 +717,16 @@ type ConstTensorUint64Data struct {
 }
 
 // isConstTensorDataBase implements the ConstTensorDataBase interface.
-func (s *ConstTensorUint64Data) isConstTensorDataBase() {}
+func (c *ConstTensorUint64Data) isConstTensorDataBase() {}
 
-// NewConstTensorUint64Data creates a new instance of ConstTensorUint64Data
+// NewConstTensorUint64Data creates a new instance of ConstTensorUint64Data with required fields.
+// Optional fields should be set using builder methods.
 func NewConstTensorUint64Data(data []int64) *ConstTensorUint64Data {
-	return &ConstTensorUint64Data{
+	c := &ConstTensorUint64Data{
 		Data:     data,
 		DataType: "uint64",
 	}
+	return c
 }
 
 // ImagePatchesNode corresponds to the JSON schema definition 'ImagePatchesNode'.
@@ -257,99 +734,125 @@ func NewConstTensorUint64Data(data []int64) *ConstTensorUint64Data {
 type ImagePatchesNode struct {
 	InputBoundingBoxes     string                   `json:"input_bounding_boxes"`
 	InputImage             string                   `json:"input_image"`
-	InputMaximumIterations MaxIterationsCountSource `json:"input_maximum_iterations"`
+	InputMaximumIterations MaxIterationsCountSource `json:"input_maximum_iterations,omitempty"` // Optional
 	InputTargetSize        TargetSizeSource         `json:"input_target_size"`
 	Name                   string                   `json:"name"`
 	NodeType               string                   `json:"node_type"`
-	OutputPortName         string                   `json:"output_port_name"`
+	OutputPortName         *string                  `json:"output_port_name,omitempty"` // Optional
 }
 
 // isNode implements the Node interface.
-func (s *ImagePatchesNode) isNode() {}
+func (i *ImagePatchesNode) isNode() {}
 
-// UnmarshalJSON implements custom unmarshaling for ImagePatchesNode to handle interface fields
-func (s *ImagePatchesNode) UnmarshalJSON(data []byte) error {
-	// Define an intermediate type with the same structure but using json.RawMessage for interface fields
-	type Alias ImagePatchesNode
+// UnmarshalJSON implements custom unmarshaling for ImagePatchesNode to handle interface fields.
+func (i *ImagePatchesNode) UnmarshalJSON(data []byte) error {
+	// Define an intermediate type using json.RawMessage for interface fields
+	// and pointers for optional fields that might be interfaces
+	type Alias ImagePatchesNode // Use Alias for non-interface fields
 
-	intermediate := struct {
-		Alias
-		InputMaximumIterations json.RawMessage `json:"input_maximum_iterations"`
+	// Base struct for standard fields
+	var alias Alias
+	if err := json.Unmarshal(data, &alias); err != nil {
+		return fmt.Errorf("error unmarshaling standard fields for ImagePatchesNode: %w", err)
+	}
+	*i = ImagePatchesNode(alias) // Assign standard fields first
+
+	// Struct to capture interface fields as RawMessage
+	rawFields := struct {
+		InputMaximumIterations json.RawMessage `json:"input_maximum_iterations,omitempty"`
 		InputTargetSize        json.RawMessage `json:"input_target_size"`
 	}{}
 
-	// Unmarshal into the intermediate struct
-	if err := json.Unmarshal(data, &intermediate); err != nil {
-		return fmt.Errorf("error unmarshaling ImagePatchesNode: %w", err)
+	// Unmarshal RawMessages
+	if err := json.Unmarshal(data, &rawFields); err != nil {
+		return fmt.Errorf("error unmarshaling interface fields for ImagePatchesNode: %w", err)
 	}
-
-	// Copy the standard fields
-	*s = ImagePatchesNode(intermediate.Alias)
 
 	// Unmarshal the InputMaximumIterations field (MaxIterationsCountSource interface)
-	if len(intermediate.InputMaximumIterations) > 0 {
-		var item MaxIterationsCountSource
-		if err := UnmarshalJSONMaxIterationsCountSource(intermediate.InputMaximumIterations, &item); err != nil {
+	if len(rawFields.InputMaximumIterations) > 0 && string(rawFields.InputMaximumIterations) != "null" {
+		var item MaxIterationsCountSource // This will hold the concrete type implementing the interface
+		// Use the field-specific unmarshaler which sets the interface variable correctly
+		if err := UnmarshalJSONMaxIterationsCountSourceForField(rawFields.InputMaximumIterations, &item); err != nil { // Pass address of interface variable
 			return fmt.Errorf("error unmarshaling InputMaximumIterations: %w", err)
 		}
-		s.InputMaximumIterations = item
+		i.InputMaximumIterations = item // Assign the interface variable to the struct field
 	}
-
 	// Unmarshal the InputTargetSize field (TargetSizeSource interface)
-	if len(intermediate.InputTargetSize) > 0 {
-		var item TargetSizeSource
-		if err := UnmarshalJSONTargetSizeSource(intermediate.InputTargetSize, &item); err != nil {
+	if len(rawFields.InputTargetSize) > 0 && string(rawFields.InputTargetSize) != "null" {
+		var item TargetSizeSource // This will hold the concrete type implementing the interface
+		// Use the field-specific unmarshaler which sets the interface variable correctly
+		if err := UnmarshalJSONTargetSizeSourceForField(rawFields.InputTargetSize, &item); err != nil { // Pass address of interface variable
 			return fmt.Errorf("error unmarshaling InputTargetSize: %w", err)
 		}
-		s.InputTargetSize = item
+		i.InputTargetSize = item // Assign the interface variable to the struct field
 	}
 
 	return nil
 }
 
-// NewImagePatchesNode creates a new instance of ImagePatchesNode
-func NewImagePatchesNode(name string, inputimage string, inputboundingboxes string, outputportname string) *ImagePatchesNode {
-	return &ImagePatchesNode{
-		Name:               name,
-		InputImage:         inputimage,
+// NewImagePatchesNode creates a new instance of ImagePatchesNode with required fields.
+// Optional fields should be set using builder methods.
+func NewImagePatchesNode(inputboundingboxes string, inputimage string, name string) *ImagePatchesNode {
+	i := &ImagePatchesNode{
 		InputBoundingBoxes: inputboundingboxes,
-		OutputPortName:     outputportname,
+		InputImage:         inputimage,
+		Name:               name,
 		NodeType:           "image_patches",
 	}
+	return i
 }
 
-// SetInputMaximumIterations sets the InputMaximumIterations field for ImagePatchesNode
-func (s *ImagePatchesNode) SetInputMaximumIterations(inputmaximumiterations MaxIterationsCountSource) {
-	s.InputMaximumIterations = inputmaximumiterations
+// SetInputMaximumIterations sets the InputMaximumIterations field, which is an interface type (MaxIterationsCountSource).
+func (i *ImagePatchesNode) SetInputMaximumIterations(inputmaximumiterations MaxIterationsCountSource) {
+	i.InputMaximumIterations = inputmaximumiterations
 }
 
-// SetInputTargetSize sets the InputTargetSize field for ImagePatchesNode
-func (s *ImagePatchesNode) SetInputTargetSize(inputtargetsize TargetSizeSource) {
-	s.InputTargetSize = inputtargetsize
+// SetInputTargetSize sets the InputTargetSize field, which is an interface type (TargetSizeSource).
+func (i *ImagePatchesNode) SetInputTargetSize(inputtargetsize TargetSizeSource) {
+	i.InputTargetSize = inputtargetsize
+}
+
+// WithInputMaximumIterations sets the optional input_maximum_iterations field and returns the struct pointer for chaining.
+func (i *ImagePatchesNode) WithInputMaximumIterations(value MaxIterationsCountSource) *ImagePatchesNode {
+	i.InputMaximumIterations = value
+	return i
+}
+
+// WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
+func (i *ImagePatchesNode) WithOutputPortName(value string) *ImagePatchesNode {
+	i.OutputPortName = &value
+	return i
 }
 
 // ImageResizeNode corresponds to the JSON schema definition 'ImageResizeNode'.
 // Node that resizes an image. Base type for all nodes in the graph.
 type ImageResizeNode struct {
-	InputImage     string `json:"input_image"`
-	InputSize      string `json:"input_size"`
-	Name           string `json:"name"`
-	NodeType       string `json:"node_type"`
-	OutputPortName string `json:"output_port_name"`
+	InputImage     string  `json:"input_image"`
+	InputSize      string  `json:"input_size"`
+	Name           string  `json:"name"`
+	NodeType       string  `json:"node_type"`
+	OutputPortName *string `json:"output_port_name,omitempty"` // Optional
 }
 
 // isNode implements the Node interface.
-func (s *ImageResizeNode) isNode() {}
+func (i *ImageResizeNode) isNode() {}
 
-// NewImageResizeNode creates a new instance of ImageResizeNode
-func NewImageResizeNode(name string, inputsize string, inputimage string, outputportname string) *ImageResizeNode {
-	return &ImageResizeNode{
-		Name:           name,
-		InputSize:      inputsize,
-		InputImage:     inputimage,
-		OutputPortName: outputportname,
-		NodeType:       "image_resize",
+// NewImageResizeNode creates a new instance of ImageResizeNode with required fields.
+// Optional fields should be set using builder methods.
+func NewImageResizeNode(inputimage string, inputsize string, name string) *ImageResizeNode {
+	i := &ImageResizeNode{
+		InputImage: inputimage,
+		InputSize:  inputsize,
+		Name:       name,
+		NodeType:   "image_resize",
 	}
+	return i
+}
+
+// WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
+func (i *ImageResizeNode) WithOutputPortName(value string) *ImageResizeNode {
+	i.OutputPortName = &value
+	return i
 }
 
 // ImageSize corresponds to the JSON schema definition 'ImageSize'.
@@ -359,12 +862,14 @@ type ImageSize struct {
 	Width  int64 `json:"width"`
 }
 
-// NewImageSize creates a new instance of ImageSize
+// NewImageSize creates a new instance of ImageSize with required fields.
+// Optional fields should be set using builder methods.
 func NewImageSize(height int64, width int64) *ImageSize {
-	return &ImageSize{
+	i := &ImageSize{
 		Height: height,
 		Width:  width,
 	}
+	return i
 }
 
 // MaxIterationsCountSourceTopicOption corresponds to the JSON schema definition 'inline-MaxIterationsCountSourceTopicOption'.
@@ -374,14 +879,16 @@ type MaxIterationsCountSourceTopicOption struct {
 }
 
 // isMaxIterationsCountSource implements the MaxIterationsCountSource interface.
-func (s *MaxIterationsCountSourceTopicOption) isMaxIterationsCountSource() {}
+func (m *MaxIterationsCountSourceTopicOption) isMaxIterationsCountSource() {}
 
-// NewMaxIterationsCountSourceTopicOption creates a new instance of MaxIterationsCountSourceTopicOption
+// NewMaxIterationsCountSourceTopicOption creates a new instance of MaxIterationsCountSourceTopicOption with required fields.
+// Optional fields should be set using builder methods.
 func NewMaxIterationsCountSourceTopicOption(topic string) *MaxIterationsCountSourceTopicOption {
-	return &MaxIterationsCountSourceTopicOption{
+	m := &MaxIterationsCountSourceTopicOption{
 		Topic:      topic,
 		SourceType: "topic",
 	}
+	return m
 }
 
 // MaxIterationsCountSourceValueOption corresponds to the JSON schema definition 'inline-MaxIterationsCountSourceValueOption'.
@@ -391,14 +898,16 @@ type MaxIterationsCountSourceValueOption struct {
 }
 
 // isMaxIterationsCountSource implements the MaxIterationsCountSource interface.
-func (s *MaxIterationsCountSourceValueOption) isMaxIterationsCountSource() {}
+func (m *MaxIterationsCountSourceValueOption) isMaxIterationsCountSource() {}
 
-// NewMaxIterationsCountSourceValueOption creates a new instance of MaxIterationsCountSourceValueOption
+// NewMaxIterationsCountSourceValueOption creates a new instance of MaxIterationsCountSourceValueOption with required fields.
+// Optional fields should be set using builder methods.
 func NewMaxIterationsCountSourceValueOption(value int64) *MaxIterationsCountSourceValueOption {
-	return &MaxIterationsCountSourceValueOption{
+	m := &MaxIterationsCountSourceValueOption{
 		Value:      value,
 		SourceType: "value",
 	}
+	return m
 }
 
 // ModelSourceFromNetworkExperimentId corresponds to the JSON schema definition 'ModelSourceFromNetworkExperimentId'.
@@ -409,14 +918,16 @@ type ModelSourceFromNetworkExperimentId struct {
 }
 
 // isModelSourceBase implements the ModelSourceBase interface.
-func (s *ModelSourceFromNetworkExperimentId) isModelSourceBase() {}
+func (m *ModelSourceFromNetworkExperimentId) isModelSourceBase() {}
 
-// NewModelSourceFromNetworkExperimentId creates a new instance of ModelSourceFromNetworkExperimentId
+// NewModelSourceFromNetworkExperimentId creates a new instance of ModelSourceFromNetworkExperimentId with required fields.
+// Optional fields should be set using builder methods.
 func NewModelSourceFromNetworkExperimentId(networkexperimentid string) *ModelSourceFromNetworkExperimentId {
-	return &ModelSourceFromNetworkExperimentId{
+	m := &ModelSourceFromNetworkExperimentId{
 		NetworkExperimentId: networkexperimentid,
 		SourceType:          "network_experiment_id",
 	}
+	return m
 }
 
 // ModelSourceFromNetworkId corresponds to the JSON schema definition 'ModelSourceFromNetworkId'.
@@ -427,14 +938,16 @@ type ModelSourceFromNetworkId struct {
 }
 
 // isModelSourceBase implements the ModelSourceBase interface.
-func (s *ModelSourceFromNetworkId) isModelSourceBase() {}
+func (m *ModelSourceFromNetworkId) isModelSourceBase() {}
 
-// NewModelSourceFromNetworkId creates a new instance of ModelSourceFromNetworkId
+// NewModelSourceFromNetworkId creates a new instance of ModelSourceFromNetworkId with required fields.
+// Optional fields should be set using builder methods.
 func NewModelSourceFromNetworkId(networkid string) *ModelSourceFromNetworkId {
-	return &ModelSourceFromNetworkId{
+	m := &ModelSourceFromNetworkId{
 		NetworkId:  networkid,
 		SourceType: "network_id",
 	}
+	return m
 }
 
 // ObjectDetectionNode corresponds to the JSON schema definition 'ObjectDetectionNode'.
@@ -444,57 +957,75 @@ type ObjectDetectionNode struct {
 	ModelSource        ModelSourceBase `json:"model_source"`
 	Name               string          `json:"name"`
 	NodeType           string          `json:"node_type"`
-	OutputPortName     string          `json:"output_port_name"`
-	ScaleBoundingBoxes bool            `json:"scale_bounding_boxes"`
+	OutputPortName     *string         `json:"output_port_name,omitempty"`     // Optional
+	ScaleBoundingBoxes *bool           `json:"scale_bounding_boxes,omitempty"` // Optional
 }
 
 // isNode implements the Node interface.
-func (s *ObjectDetectionNode) isNode() {}
+func (o *ObjectDetectionNode) isNode() {}
 
-// UnmarshalJSON implements custom unmarshaling for ObjectDetectionNode to handle interface fields
-func (s *ObjectDetectionNode) UnmarshalJSON(data []byte) error {
-	// Define an intermediate type with the same structure but using json.RawMessage for interface fields
-	type Alias ObjectDetectionNode
+// UnmarshalJSON implements custom unmarshaling for ObjectDetectionNode to handle interface fields.
+func (o *ObjectDetectionNode) UnmarshalJSON(data []byte) error {
+	// Define an intermediate type using json.RawMessage for interface fields
+	// and pointers for optional fields that might be interfaces
+	type Alias ObjectDetectionNode // Use Alias for non-interface fields
 
-	intermediate := struct {
-		Alias
+	// Base struct for standard fields
+	var alias Alias
+	if err := json.Unmarshal(data, &alias); err != nil {
+		return fmt.Errorf("error unmarshaling standard fields for ObjectDetectionNode: %w", err)
+	}
+	*o = ObjectDetectionNode(alias) // Assign standard fields first
+
+	// Struct to capture interface fields as RawMessage
+	rawFields := struct {
 		ModelSource json.RawMessage `json:"model_source"`
 	}{}
 
-	// Unmarshal into the intermediate struct
-	if err := json.Unmarshal(data, &intermediate); err != nil {
-		return fmt.Errorf("error unmarshaling ObjectDetectionNode: %w", err)
+	// Unmarshal RawMessages
+	if err := json.Unmarshal(data, &rawFields); err != nil {
+		return fmt.Errorf("error unmarshaling interface fields for ObjectDetectionNode: %w", err)
 	}
 
-	// Copy the standard fields
-	*s = ObjectDetectionNode(intermediate.Alias)
-
 	// Unmarshal the ModelSource field (ModelSourceBase interface)
-	if len(intermediate.ModelSource) > 0 {
-		var item ModelSourceBase
-		if err := UnmarshalJSONModelSourceBase(intermediate.ModelSource, &item); err != nil {
+	if len(rawFields.ModelSource) > 0 && string(rawFields.ModelSource) != "null" {
+		var item ModelSourceBase // This will hold the concrete type implementing the interface
+		// Use the field-specific unmarshaler which sets the interface variable correctly
+		if err := UnmarshalJSONModelSourceBaseForField(rawFields.ModelSource, &item); err != nil { // Pass address of interface variable
 			return fmt.Errorf("error unmarshaling ModelSource: %w", err)
 		}
-		s.ModelSource = item
+		o.ModelSource = item // Assign the interface variable to the struct field
 	}
 
 	return nil
 }
 
-// NewObjectDetectionNode creates a new instance of ObjectDetectionNode
-func NewObjectDetectionNode(name string, inputimage string, outputportname string, scaleboundingboxes bool) *ObjectDetectionNode {
-	return &ObjectDetectionNode{
-		Name:               name,
-		InputImage:         inputimage,
-		OutputPortName:     outputportname,
-		ScaleBoundingBoxes: scaleboundingboxes,
-		NodeType:           "image_object_detection",
+// NewObjectDetectionNode creates a new instance of ObjectDetectionNode with required fields.
+// Optional fields should be set using builder methods.
+func NewObjectDetectionNode(inputimage string, name string) *ObjectDetectionNode {
+	o := &ObjectDetectionNode{
+		InputImage: inputimage,
+		Name:       name,
+		NodeType:   "image_object_detection",
 	}
+	return o
 }
 
-// SetModelSource sets the ModelSource field for ObjectDetectionNode
-func (s *ObjectDetectionNode) SetModelSource(modelsource ModelSourceBase) {
-	s.ModelSource = modelsource
+// SetModelSource sets the ModelSource field, which is an interface type (ModelSourceBase).
+func (o *ObjectDetectionNode) SetModelSource(modelsource ModelSourceBase) {
+	o.ModelSource = modelsource
+}
+
+// WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
+func (o *ObjectDetectionNode) WithOutputPortName(value string) *ObjectDetectionNode {
+	o.OutputPortName = &value
+	return o
+}
+
+// WithScaleBoundingBoxes sets the optional scale_bounding_boxes field and returns the struct pointer for chaining.
+func (o *ObjectDetectionNode) WithScaleBoundingBoxes(value bool) *ObjectDetectionNode {
+	o.ScaleBoundingBoxes = &value
+	return o
 }
 
 // OcrNode corresponds to the JSON schema definition 'OcrNode'.
@@ -504,72 +1035,87 @@ type OcrNode struct {
 	ModelSource    ModelSourceBase `json:"model_source"`
 	Name           string          `json:"name"`
 	NodeType       string          `json:"node_type"`
-	OutputPortName string          `json:"output_port_name"`
+	OutputPortName *string         `json:"output_port_name,omitempty"` // Optional
 }
 
 // isNode implements the Node interface.
-func (s *OcrNode) isNode() {}
+func (o *OcrNode) isNode() {}
 
-// UnmarshalJSON implements custom unmarshaling for OcrNode to handle interface fields
-func (s *OcrNode) UnmarshalJSON(data []byte) error {
-	// Define an intermediate type with the same structure but using json.RawMessage for interface fields
-	type Alias OcrNode
+// UnmarshalJSON implements custom unmarshaling for OcrNode to handle interface fields.
+func (o *OcrNode) UnmarshalJSON(data []byte) error {
+	// Define an intermediate type using json.RawMessage for interface fields
+	// and pointers for optional fields that might be interfaces
+	type Alias OcrNode // Use Alias for non-interface fields
 
-	intermediate := struct {
-		Alias
+	// Base struct for standard fields
+	var alias Alias
+	if err := json.Unmarshal(data, &alias); err != nil {
+		return fmt.Errorf("error unmarshaling standard fields for OcrNode: %w", err)
+	}
+	*o = OcrNode(alias) // Assign standard fields first
+
+	// Struct to capture interface fields as RawMessage
+	rawFields := struct {
 		ModelSource json.RawMessage `json:"model_source"`
 	}{}
 
-	// Unmarshal into the intermediate struct
-	if err := json.Unmarshal(data, &intermediate); err != nil {
-		return fmt.Errorf("error unmarshaling OcrNode: %w", err)
+	// Unmarshal RawMessages
+	if err := json.Unmarshal(data, &rawFields); err != nil {
+		return fmt.Errorf("error unmarshaling interface fields for OcrNode: %w", err)
 	}
 
-	// Copy the standard fields
-	*s = OcrNode(intermediate.Alias)
-
 	// Unmarshal the ModelSource field (ModelSourceBase interface)
-	if len(intermediate.ModelSource) > 0 {
-		var item ModelSourceBase
-		if err := UnmarshalJSONModelSourceBase(intermediate.ModelSource, &item); err != nil {
+	if len(rawFields.ModelSource) > 0 && string(rawFields.ModelSource) != "null" {
+		var item ModelSourceBase // This will hold the concrete type implementing the interface
+		// Use the field-specific unmarshaler which sets the interface variable correctly
+		if err := UnmarshalJSONModelSourceBaseForField(rawFields.ModelSource, &item); err != nil { // Pass address of interface variable
 			return fmt.Errorf("error unmarshaling ModelSource: %w", err)
 		}
-		s.ModelSource = item
+		o.ModelSource = item // Assign the interface variable to the struct field
 	}
 
 	return nil
 }
 
-// NewOcrNode creates a new instance of OcrNode
-func NewOcrNode(name string, inputimage string, outputportname string) *OcrNode {
-	return &OcrNode{
-		Name:           name,
-		InputImage:     inputimage,
-		OutputPortName: outputportname,
-		NodeType:       "image_ocr",
+// NewOcrNode creates a new instance of OcrNode with required fields.
+// Optional fields should be set using builder methods.
+func NewOcrNode(inputimage string, name string) *OcrNode {
+	o := &OcrNode{
+		InputImage: inputimage,
+		Name:       name,
+		NodeType:   "image_ocr",
 	}
+	return o
 }
 
-// SetModelSource sets the ModelSource field for OcrNode
-func (s *OcrNode) SetModelSource(modelsource ModelSourceBase) {
-	s.ModelSource = modelsource
+// SetModelSource sets the ModelSource field, which is an interface type (ModelSourceBase).
+func (o *OcrNode) SetModelSource(modelsource ModelSourceBase) {
+	o.ModelSource = modelsource
+}
+
+// WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
+func (o *OcrNode) WithOutputPortName(value string) *OcrNode {
+	o.OutputPortName = &value
+	return o
 }
 
 // TargetSizeSourceImageSizeOption corresponds to the JSON schema definition 'inline-TargetSizeSourceImageSizeOption'.
 type TargetSizeSourceImageSizeOption struct {
-	Size       *ImageSize `json:"size"`
-	SourceType string     `json:"source_type"`
+	Size       ImageSize `json:"size"`
+	SourceType string    `json:"source_type"`
 }
 
 // isTargetSizeSource implements the TargetSizeSource interface.
-func (s *TargetSizeSourceImageSizeOption) isTargetSizeSource() {}
+func (t *TargetSizeSourceImageSizeOption) isTargetSizeSource() {}
 
-// NewTargetSizeSourceImageSizeOption creates a new instance of TargetSizeSourceImageSizeOption
-func NewTargetSizeSourceImageSizeOption(size *ImageSize) *TargetSizeSourceImageSizeOption {
-	return &TargetSizeSourceImageSizeOption{
+// NewTargetSizeSourceImageSizeOption creates a new instance of TargetSizeSourceImageSizeOption with required fields.
+// Optional fields should be set using builder methods.
+func NewTargetSizeSourceImageSizeOption(size ImageSize) *TargetSizeSourceImageSizeOption {
+	t := &TargetSizeSourceImageSizeOption{
 		Size:       size,
 		SourceType: "image_size",
 	}
+	return t
 }
 
 // TargetSizeSourceTopicOption corresponds to the JSON schema definition 'inline-TargetSizeSourceTopicOption'.
@@ -579,14 +1125,16 @@ type TargetSizeSourceTopicOption struct {
 }
 
 // isTargetSizeSource implements the TargetSizeSource interface.
-func (s *TargetSizeSourceTopicOption) isTargetSizeSource() {}
+func (t *TargetSizeSourceTopicOption) isTargetSizeSource() {}
 
-// NewTargetSizeSourceTopicOption creates a new instance of TargetSizeSourceTopicOption
+// NewTargetSizeSourceTopicOption creates a new instance of TargetSizeSourceTopicOption with required fields.
+// Optional fields should be set using builder methods.
 func NewTargetSizeSourceTopicOption(topic string) *TargetSizeSourceTopicOption {
-	return &TargetSizeSourceTopicOption{
+	t := &TargetSizeSourceTopicOption{
 		Topic:      topic,
 		SourceType: "topic",
 	}
+	return t
 }
 
 // ThresholdSourceTopicOption corresponds to the JSON schema definition 'inline-ThresholdSourceTopicOption'.
@@ -596,14 +1144,16 @@ type ThresholdSourceTopicOption struct {
 }
 
 // isThresholdSource implements the ThresholdSource interface.
-func (s *ThresholdSourceTopicOption) isThresholdSource() {}
+func (t *ThresholdSourceTopicOption) isThresholdSource() {}
 
-// NewThresholdSourceTopicOption creates a new instance of ThresholdSourceTopicOption
+// NewThresholdSourceTopicOption creates a new instance of ThresholdSourceTopicOption with required fields.
+// Optional fields should be set using builder methods.
 func NewThresholdSourceTopicOption(topic string) *ThresholdSourceTopicOption {
-	return &ThresholdSourceTopicOption{
+	t := &ThresholdSourceTopicOption{
 		Topic:      topic,
 		SourceType: "topic",
 	}
+	return t
 }
 
 // ThresholdSourceValueOption corresponds to the JSON schema definition 'inline-ThresholdSourceValueOption'.
@@ -613,393 +1163,110 @@ type ThresholdSourceValueOption struct {
 }
 
 // isThresholdSource implements the ThresholdSource interface.
-func (s *ThresholdSourceValueOption) isThresholdSource() {}
+func (t *ThresholdSourceValueOption) isThresholdSource() {}
 
-// NewThresholdSourceValueOption creates a new instance of ThresholdSourceValueOption
+// NewThresholdSourceValueOption creates a new instance of ThresholdSourceValueOption with required fields.
+// Optional fields should be set using builder methods.
 func NewThresholdSourceValueOption(value float64) *ThresholdSourceValueOption {
-	return &ThresholdSourceValueOption{
+	t := &ThresholdSourceValueOption{
 		Value:      value,
 		SourceType: "value",
 	}
+	return t
 }
 
 // VirtualCameraNode corresponds to the JSON schema definition 'VirtualCameraNode'.
 // Node representing a virtual camera source. Base type for all nodes in the graph.
 type VirtualCameraNode struct {
-	Name           string `json:"name"`
-	NodeType       string `json:"node_type"`
-	OutputPortName string `json:"output_port_name"`
-	Path           string `json:"path"`
+	Name           string  `json:"name"`
+	NodeType       string  `json:"node_type"`
+	OutputPortName *string `json:"output_port_name,omitempty"` // Optional
+	Path           string  `json:"path"`
 }
 
 // isNode implements the Node interface.
-func (s *VirtualCameraNode) isNode() {}
+func (v *VirtualCameraNode) isNode() {}
 
-// NewVirtualCameraNode creates a new instance of VirtualCameraNode
-func NewVirtualCameraNode(name string, path string, outputportname string) *VirtualCameraNode {
-	return &VirtualCameraNode{
-		Name:           name,
-		Path:           path,
-		OutputPortName: outputportname,
-		NodeType:       "virtual_camera",
+// NewVirtualCameraNode creates a new instance of VirtualCameraNode with required fields.
+// Optional fields should be set using builder methods.
+func NewVirtualCameraNode(name string, path string) *VirtualCameraNode {
+	v := &VirtualCameraNode{
+		Name:     name,
+		Path:     path,
+		NodeType: "virtual_camera",
 	}
+	return v
 }
 
-// ConstTensorDataBase defines the interface for discriminated union based on data_type.
-type ConstTensorDataBase interface {
-	isConstTensorDataBase() // Dummy method for type assertion
+// WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
+func (v *VirtualCameraNode) WithOutputPortName(value string) *VirtualCameraNode {
+	v.OutputPortName = &value
+	return v
 }
 
-// UnmarshalJSON implements the json.Unmarshaler interface for ConstTensorDataBase, handling polymorphism.
-func UnmarshalJSONConstTensorDataBase(data []byte, c *ConstTensorDataBase) error {
-	// Determine the concrete type based on the discriminator field
-	var typeFinderConstTensorDataBase struct {
-		Type string `json:"data_type"`
-	}
-	if err := json.Unmarshal(data, &typeFinderConstTensorDataBase); err != nil {
-		return fmt.Errorf("error finding discriminator field 'data_type' for ConstTensorDataBase: %w", err)
-	}
-
-	switch typeFinderConstTensorDataBase.Type {
-	case "float64":
-		var concrete ConstTensorFloat64Data
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into ConstTensorFloat64Data: %w", err)
-		}
-		*c = &concrete
-		return nil
-	case "int64":
-		var concrete ConstTensorInt64Data
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into ConstTensorInt64Data: %w", err)
-		}
-		*c = &concrete
-		return nil
-	case "uint64":
-		var concrete ConstTensorUint64Data
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into ConstTensorUint64Data: %w", err)
-		}
-		*c = &concrete
-		return nil
-	default:
-		return fmt.Errorf("unknown type '%s' for interface ConstTensorDataBase", typeFinderConstTensorDataBase.Type)
-	}
-}
-
-// ConstTensorDataBaseUnmarshaler is an implementation of json.Unmarshaler for ConstTensorDataBase interface
-type ConstTensorDataBaseUnmarshaler struct {
-	Target *ConstTensorDataBase
-}
-
-// UnmarshalJSON for json.Unmarshaler implementation
-func (u ConstTensorDataBaseUnmarshaler) UnmarshalJSON(data []byte) error {
-	return UnmarshalJSONConstTensorDataBase(data, u.Target)
-}
-
-// MaxIterationsCountSource defines the interface for discriminated union based on source_type.
-type MaxIterationsCountSource interface {
-	isMaxIterationsCountSource() // Dummy method for type assertion
-}
-
-// UnmarshalJSON implements the json.Unmarshaler interface for MaxIterationsCountSource, handling polymorphism.
-func UnmarshalJSONMaxIterationsCountSource(data []byte, m *MaxIterationsCountSource) error {
-	// Determine the concrete type based on the discriminator field
-	var typeFinderMaxIterationsCountSource struct {
-		Type string `json:"source_type"`
-	}
-	if err := json.Unmarshal(data, &typeFinderMaxIterationsCountSource); err != nil {
-		return fmt.Errorf("error finding discriminator field 'source_type' for MaxIterationsCountSource: %w", err)
-	}
-
-	switch typeFinderMaxIterationsCountSource.Type {
-	case "topic":
-		var concrete MaxIterationsCountSourceTopicOption
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into MaxIterationsCountSourceTopicOption: %w", err)
-		}
-		*m = &concrete
-		return nil
-	case "value":
-		var concrete MaxIterationsCountSourceValueOption
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into MaxIterationsCountSourceValueOption: %w", err)
-		}
-		*m = &concrete
-		return nil
-	default:
-		return fmt.Errorf("unknown type '%s' for interface MaxIterationsCountSource", typeFinderMaxIterationsCountSource.Type)
-	}
-}
-
-// MaxIterationsCountSourceUnmarshaler is an implementation of json.Unmarshaler for MaxIterationsCountSource interface
-type MaxIterationsCountSourceUnmarshaler struct {
-	Target *MaxIterationsCountSource
-}
-
-// UnmarshalJSON for json.Unmarshaler implementation
-func (u MaxIterationsCountSourceUnmarshaler) UnmarshalJSON(data []byte) error {
-	return UnmarshalJSONMaxIterationsCountSource(data, u.Target)
-}
-
-// ModelSourceBase defines the interface for discriminated union based on source_type.
-type ModelSourceBase interface {
-	isModelSourceBase() // Dummy method for type assertion
-}
-
-// UnmarshalJSON implements the json.Unmarshaler interface for ModelSourceBase, handling polymorphism.
-func UnmarshalJSONModelSourceBase(data []byte, m *ModelSourceBase) error {
-	// Determine the concrete type based on the discriminator field
-	var typeFinderModelSourceBase struct {
-		Type string `json:"source_type"`
-	}
-	if err := json.Unmarshal(data, &typeFinderModelSourceBase); err != nil {
-		return fmt.Errorf("error finding discriminator field 'source_type' for ModelSourceBase: %w", err)
-	}
-
-	switch typeFinderModelSourceBase.Type {
-	case "network_experiment_id":
-		var concrete ModelSourceFromNetworkExperimentId
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into ModelSourceFromNetworkExperimentId: %w", err)
-		}
-		*m = &concrete
-		return nil
-	case "network_id":
-		var concrete ModelSourceFromNetworkId
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into ModelSourceFromNetworkId: %w", err)
-		}
-		*m = &concrete
-		return nil
-	default:
-		return fmt.Errorf("unknown type '%s' for interface ModelSourceBase", typeFinderModelSourceBase.Type)
-	}
-}
-
-// ModelSourceBaseUnmarshaler is an implementation of json.Unmarshaler for ModelSourceBase interface
-type ModelSourceBaseUnmarshaler struct {
-	Target *ModelSourceBase
-}
-
-// UnmarshalJSON for json.Unmarshaler implementation
-func (u ModelSourceBaseUnmarshaler) UnmarshalJSON(data []byte) error {
-	return UnmarshalJSONModelSourceBase(data, u.Target)
-}
-
-// Node defines the interface for discriminated union based on node_type.
-type Node interface {
-	isNode() // Dummy method for type assertion
-}
-
-// UnmarshalJSON implements the json.Unmarshaler interface for Node, handling polymorphism.
-func UnmarshalJSONNode(data []byte, n *Node) error {
-	// Determine the concrete type based on the discriminator field
-	var typeFinderNode struct {
-		Type string `json:"node_type"`
-	}
-	if err := json.Unmarshal(data, &typeFinderNode); err != nil {
-		return fmt.Errorf("error finding discriminator field 'node_type' for Node: %w", err)
-	}
-
-	switch typeFinderNode.Type {
-	case "bounding_box_filter":
-		var concrete BoundingBoxFilterNode
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into BoundingBoxFilterNode: %w", err)
-		}
-		*n = &concrete
-		return nil
-	case "image_classification":
-		var concrete ClassificationNode
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into ClassificationNode: %w", err)
-		}
-		*n = &concrete
-		return nil
-	case "const_tensor":
-		var concrete ConstTensorNode
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into ConstTensorNode: %w", err)
-		}
-		*n = &concrete
-		return nil
-	case "image_patches":
-		var concrete ImagePatchesNode
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into ImagePatchesNode: %w", err)
-		}
-		*n = &concrete
-		return nil
-	case "image_resize":
-		var concrete ImageResizeNode
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into ImageResizeNode: %w", err)
-		}
-		*n = &concrete
-		return nil
-	case "image_object_detection":
-		var concrete ObjectDetectionNode
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into ObjectDetectionNode: %w", err)
-		}
-		*n = &concrete
-		return nil
-	case "image_ocr":
-		var concrete OcrNode
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into OcrNode: %w", err)
-		}
-		*n = &concrete
-		return nil
-	case "virtual_camera":
-		var concrete VirtualCameraNode
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into VirtualCameraNode: %w", err)
-		}
-		*n = &concrete
-		return nil
-	default:
-		return fmt.Errorf("unknown type '%s' for interface Node", typeFinderNode.Type)
-	}
-}
-
-// NodeUnmarshaler is an implementation of json.Unmarshaler for Node interface
-type NodeUnmarshaler struct {
-	Target *Node
-}
-
-// UnmarshalJSON for json.Unmarshaler implementation
-func (u NodeUnmarshaler) UnmarshalJSON(data []byte) error {
-	return UnmarshalJSONNode(data, u.Target)
-}
-
-// TargetSizeSource defines the interface for discriminated union based on source_type.
-type TargetSizeSource interface {
-	isTargetSizeSource() // Dummy method for type assertion
-}
-
-// UnmarshalJSON implements the json.Unmarshaler interface for TargetSizeSource, handling polymorphism.
-func UnmarshalJSONTargetSizeSource(data []byte, t *TargetSizeSource) error {
-	// Determine the concrete type based on the discriminator field
-	var typeFinderTargetSizeSource struct {
-		Type string `json:"source_type"`
-	}
-	if err := json.Unmarshal(data, &typeFinderTargetSizeSource); err != nil {
-		return fmt.Errorf("error finding discriminator field 'source_type' for TargetSizeSource: %w", err)
-	}
-
-	switch typeFinderTargetSizeSource.Type {
-	case "image_size":
-		var concrete TargetSizeSourceImageSizeOption
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into TargetSizeSourceImageSizeOption: %w", err)
-		}
-		*t = &concrete
-		return nil
-	case "topic":
-		var concrete TargetSizeSourceTopicOption
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into TargetSizeSourceTopicOption: %w", err)
-		}
-		*t = &concrete
-		return nil
-	default:
-		return fmt.Errorf("unknown type '%s' for interface TargetSizeSource", typeFinderTargetSizeSource.Type)
-	}
-}
-
-// TargetSizeSourceUnmarshaler is an implementation of json.Unmarshaler for TargetSizeSource interface
-type TargetSizeSourceUnmarshaler struct {
-	Target *TargetSizeSource
-}
-
-// UnmarshalJSON for json.Unmarshaler implementation
-func (u TargetSizeSourceUnmarshaler) UnmarshalJSON(data []byte) error {
-	return UnmarshalJSONTargetSizeSource(data, u.Target)
-}
-
-// ThresholdSource defines the interface for discriminated union based on source_type.
-type ThresholdSource interface {
-	isThresholdSource() // Dummy method for type assertion
-}
-
-// UnmarshalJSON implements the json.Unmarshaler interface for ThresholdSource, handling polymorphism.
-func UnmarshalJSONThresholdSource(data []byte, t *ThresholdSource) error {
-	// Determine the concrete type based on the discriminator field
-	var typeFinderThresholdSource struct {
-		Type string `json:"source_type"`
-	}
-	if err := json.Unmarshal(data, &typeFinderThresholdSource); err != nil {
-		return fmt.Errorf("error finding discriminator field 'source_type' for ThresholdSource: %w", err)
-	}
-
-	switch typeFinderThresholdSource.Type {
-	case "topic":
-		var concrete ThresholdSourceTopicOption
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into ThresholdSourceTopicOption: %w", err)
-		}
-		*t = &concrete
-		return nil
-	case "value":
-		var concrete ThresholdSourceValueOption
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return fmt.Errorf("error unmarshaling into ThresholdSourceValueOption: %w", err)
-		}
-		*t = &concrete
-		return nil
-	default:
-		return fmt.Errorf("unknown type '%s' for interface ThresholdSource", typeFinderThresholdSource.Type)
-	}
-}
-
-// ThresholdSourceUnmarshaler is an implementation of json.Unmarshaler for ThresholdSource interface
-type ThresholdSourceUnmarshaler struct {
-	Target *ThresholdSource
-}
-
-// UnmarshalJSON for json.Unmarshaler implementation
-func (u ThresholdSourceUnmarshaler) UnmarshalJSON(data []byte) error {
-	return UnmarshalJSONThresholdSource(data, u.Target)
-}
-
-// InferenceGraphRecipe corresponds to the top-level JSON schema object.
+// InferenceGraphRecipe corresponds to the JSON schema definition 'root'.
 type InferenceGraphRecipe struct {
 	CreatedAt int64  `json:"created_at"`
 	LicenseId string `json:"license_id"`
 	Nodes     []Node `json:"nodes"`
 }
 
-// UnmarshalJSON implements custom unmarshaling for InferenceGraphRecipe to handle interface fields
-func (s *InferenceGraphRecipe) UnmarshalJSON(data []byte) error {
-	// Define an intermediate type with the same structure but using json.RawMessage for interface fields
-	type Alias InferenceGraphRecipe
+// UnmarshalJSON implements custom unmarshaling for InferenceGraphRecipe to handle interface fields.
+func (i *InferenceGraphRecipe) UnmarshalJSON(data []byte) error {
+	// Define an intermediate type using json.RawMessage for interface fields
+	// and pointers for optional fields that might be interfaces
+	type Alias InferenceGraphRecipe // Use Alias for non-interface fields
 
-	intermediate := struct {
-		Alias
+	// Base struct for standard fields
+	var alias Alias
+	if err := json.Unmarshal(data, &alias); err != nil {
+		return fmt.Errorf("error unmarshaling standard fields for InferenceGraphRecipe: %w", err)
+	}
+	*i = InferenceGraphRecipe(alias) // Assign standard fields first
+
+	// Struct to capture interface fields as RawMessage
+	rawFields := struct {
 		Nodes []json.RawMessage `json:"nodes"`
 	}{}
 
-	// Unmarshal into the intermediate struct
-	if err := json.Unmarshal(data, &intermediate); err != nil {
-		return fmt.Errorf("error unmarshaling InferenceGraphRecipe: %w", err)
+	// Unmarshal RawMessages
+	if err := json.Unmarshal(data, &rawFields); err != nil {
+		return fmt.Errorf("error unmarshaling interface fields for InferenceGraphRecipe: %w", err)
 	}
 
-	// Copy the standard fields
-	*s = InferenceGraphRecipe(intermediate.Alias)
-
 	// Unmarshal the Nodes field (slice of Node interfaces)
-	if intermediate.Nodes != nil {
-		s.Nodes = make([]Node, len(intermediate.Nodes))
-		for i, raw := range intermediate.Nodes {
-			var item Node
-			if err := UnmarshalJSONNode(raw, &item); err != nil {
-				return fmt.Errorf("error unmarshaling Nodes[%d]: %w", i, err)
+	if len(rawFields.Nodes) > 0 { // Check if the slice has elements
+		// Allocate the slice only if raw data exists
+		slice := make([]Node, len(rawFields.Nodes))
+		for i, raw := range rawFields.Nodes {
+			if len(raw) == 0 || string(raw) == "null" { // Handle potential nulls in the array
+				continue // Skip null elements
 			}
-			s.Nodes[i] = item
+			var item Node // This will hold the concrete type implementing the interface
+			// Use the field-specific unmarshaler which sets the interface variable correctly
+			if err := UnmarshalJSONNodeForField(raw, &item); err != nil { // Pass address of interface variable
+				return fmt.Errorf("error unmarshaling Nodes[%d]: %w", i, err) // Note: %d and %w are correct escapes for the generated code
+			}
+			slice[i] = item // Assign the interface variable to the slice
 		}
+		// Assign the fully unmarshaled slice to the struct field
+		i.Nodes = slice // Placeholder for the correct assignment line
 	}
 
 	return nil
+}
+
+// NewInferenceGraphRecipe creates a new instance of InferenceGraphRecipe with required fields.
+// Optional fields should be set using builder methods.
+func NewInferenceGraphRecipe(createdat int64, licenseid string) *InferenceGraphRecipe {
+	i := &InferenceGraphRecipe{
+		CreatedAt: createdat,
+		LicenseId: licenseid,
+	}
+	return i
+}
+
+// SetNodes sets the Nodes field, which is an interface type (Node).
+func (i *InferenceGraphRecipe) SetNodes(nodes []Node) {
+	i.Nodes = nodes
 }
