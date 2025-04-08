@@ -578,11 +578,12 @@ func (c *ClassificationNode) UnmarshalJSON(data []byte) error {
 
 // NewClassificationNode creates a new instance of ClassificationNode with required fields.
 // Optional fields should be set using builder methods.
-func NewClassificationNode(name string, inputimage string) *ClassificationNode {
+func NewClassificationNode(name string, inputimage string, modelsource ModelSourceBase) *ClassificationNode {
 	c := &ClassificationNode{
-		Name:       name,
-		InputImage: inputimage,
-		NodeType:   "image_classification",
+		Name:        name,
+		InputImage:  inputimage,
+		ModelSource: modelsource,
+		NodeType:    "image_classification",
 	}
 	return c
 }
@@ -689,10 +690,11 @@ func (c *ConstTensorNode) UnmarshalJSON(data []byte) error {
 
 // NewConstTensorNode creates a new instance of ConstTensorNode with required fields.
 // Optional fields should be set using builder methods.
-func NewConstTensorNode(name string, shape []int64) *ConstTensorNode {
+func NewConstTensorNode(name string, shape []int64, data ConstTensorDataBase) *ConstTensorNode {
 	c := &ConstTensorNode{
 		Name:     name,
 		Shape:    shape,
+		Data:     data,
 		NodeType: "const_tensor",
 	}
 	return c
@@ -792,11 +794,12 @@ func (i *ImagePatchesNode) UnmarshalJSON(data []byte) error {
 
 // NewImagePatchesNode creates a new instance of ImagePatchesNode with required fields.
 // Optional fields should be set using builder methods.
-func NewImagePatchesNode(name string, inputimage string, inputboundingboxes string) *ImagePatchesNode {
+func NewImagePatchesNode(name string, inputimage string, inputboundingboxes string, inputtargetsize TargetSizeSource) *ImagePatchesNode {
 	i := &ImagePatchesNode{
 		Name:               name,
 		InputImage:         inputimage,
 		InputBoundingBoxes: inputboundingboxes,
+		InputTargetSize:    inputtargetsize,
 		NodeType:           "image_patches",
 	}
 	return i
@@ -957,8 +960,8 @@ type ObjectDetectionNode struct {
 	ModelSource        ModelSourceBase `json:"model_source"`
 	Name               string          `json:"name"`
 	NodeType           string          `json:"node_type"`
-	OutputPortName     *string         `json:"output_port_name,omitempty"`     // Optional
-	ScaleBoundingBoxes *bool           `json:"scale_bounding_boxes,omitempty"` // Optional
+	OutputPortName     *string         `json:"output_port_name,omitempty"` // Optional
+	ScaleBoundingBoxes bool            `json:"scale_bounding_boxes"`
 }
 
 // isNode implements the Node interface.
@@ -1002,11 +1005,13 @@ func (o *ObjectDetectionNode) UnmarshalJSON(data []byte) error {
 
 // NewObjectDetectionNode creates a new instance of ObjectDetectionNode with required fields.
 // Optional fields should be set using builder methods.
-func NewObjectDetectionNode(name string, inputimage string) *ObjectDetectionNode {
+func NewObjectDetectionNode(name string, inputimage string, modelsource ModelSourceBase, scaleboundingboxes bool) *ObjectDetectionNode {
 	o := &ObjectDetectionNode{
-		Name:       name,
-		InputImage: inputimage,
-		NodeType:   "image_object_detection",
+		Name:               name,
+		InputImage:         inputimage,
+		ModelSource:        modelsource,
+		ScaleBoundingBoxes: scaleboundingboxes,
+		NodeType:           "image_object_detection",
 	}
 	return o
 }
@@ -1019,12 +1024,6 @@ func (o *ObjectDetectionNode) SetModelSource(modelsource ModelSourceBase) {
 // WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
 func (o *ObjectDetectionNode) WithOutputPortName(value string) *ObjectDetectionNode {
 	o.OutputPortName = &value
-	return o
-}
-
-// WithScaleBoundingBoxes sets the optional scale_bounding_boxes field and returns the struct pointer for chaining.
-func (o *ObjectDetectionNode) WithScaleBoundingBoxes(value bool) *ObjectDetectionNode {
-	o.ScaleBoundingBoxes = &value
 	return o
 }
 
@@ -1079,11 +1078,12 @@ func (o *OcrNode) UnmarshalJSON(data []byte) error {
 
 // NewOcrNode creates a new instance of OcrNode with required fields.
 // Optional fields should be set using builder methods.
-func NewOcrNode(name string, inputimage string) *OcrNode {
+func NewOcrNode(name string, inputimage string, modelsource ModelSourceBase) *OcrNode {
 	o := &OcrNode{
-		Name:       name,
-		InputImage: inputimage,
-		NodeType:   "image_ocr",
+		Name:        name,
+		InputImage:  inputimage,
+		ModelSource: modelsource,
+		NodeType:    "image_ocr",
 	}
 	return o
 }
@@ -1258,8 +1258,9 @@ func (i *InferenceGraphRecipe) UnmarshalJSON(data []byte) error {
 
 // NewInferenceGraphRecipe creates a new instance of InferenceGraphRecipe with required fields.
 // Optional fields should be set using builder methods.
-func NewInferenceGraphRecipe(licenseid string, createdat int64) *InferenceGraphRecipe {
+func NewInferenceGraphRecipe(nodes []Node, licenseid string, createdat int64) *InferenceGraphRecipe {
 	i := &InferenceGraphRecipe{
+		Nodes:     nodes,
 		LicenseId: licenseid,
 		CreatedAt: createdat,
 	}

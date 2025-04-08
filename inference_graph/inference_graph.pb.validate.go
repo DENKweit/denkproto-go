@@ -1325,6 +1325,8 @@ func (m *ImageObjectDetectionNode) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for ScaleBoundingBoxes
+
 	if !_ImageObjectDetectionNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
 		err := ImageObjectDetectionNodeValidationError{
 			field:  "OutputPortName",
@@ -1335,8 +1337,6 @@ func (m *ImageObjectDetectionNode) validate(all bool) error {
 		}
 		errors = append(errors, err)
 	}
-
-	// no validation rules for ScaleBoundingBoxes
 
 	if len(errors) > 0 {
 		return ImageObjectDetectionNodeMultiError(errors)
