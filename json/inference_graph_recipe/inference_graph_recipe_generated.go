@@ -490,10 +490,10 @@ func (b *BoundingBoxFilterNode) UnmarshalJSON(data []byte) error {
 
 // NewBoundingBoxFilterNode creates a new instance of BoundingBoxFilterNode with required fields.
 // Optional fields should be set using builder methods.
-func NewBoundingBoxFilterNode(inputboundingboxes string, name string) *BoundingBoxFilterNode {
+func NewBoundingBoxFilterNode(name string, inputboundingboxes string) *BoundingBoxFilterNode {
 	b := &BoundingBoxFilterNode{
-		InputBoundingBoxes: inputboundingboxes,
 		Name:               name,
+		InputBoundingBoxes: inputboundingboxes,
 		NodeType:           "bounding_box_filter",
 	}
 	return b
@@ -578,10 +578,10 @@ func (c *ClassificationNode) UnmarshalJSON(data []byte) error {
 
 // NewClassificationNode creates a new instance of ClassificationNode with required fields.
 // Optional fields should be set using builder methods.
-func NewClassificationNode(inputimage string, name string) *ClassificationNode {
+func NewClassificationNode(name string, inputimage string) *ClassificationNode {
 	c := &ClassificationNode{
-		InputImage: inputimage,
 		Name:       name,
+		InputImage: inputimage,
 		NodeType:   "image_classification",
 	}
 	return c
@@ -792,11 +792,11 @@ func (i *ImagePatchesNode) UnmarshalJSON(data []byte) error {
 
 // NewImagePatchesNode creates a new instance of ImagePatchesNode with required fields.
 // Optional fields should be set using builder methods.
-func NewImagePatchesNode(inputboundingboxes string, inputimage string, name string) *ImagePatchesNode {
+func NewImagePatchesNode(name string, inputimage string, inputboundingboxes string) *ImagePatchesNode {
 	i := &ImagePatchesNode{
-		InputBoundingBoxes: inputboundingboxes,
-		InputImage:         inputimage,
 		Name:               name,
+		InputImage:         inputimage,
+		InputBoundingBoxes: inputboundingboxes,
 		NodeType:           "image_patches",
 	}
 	return i
@@ -839,11 +839,11 @@ func (i *ImageResizeNode) isNode() {}
 
 // NewImageResizeNode creates a new instance of ImageResizeNode with required fields.
 // Optional fields should be set using builder methods.
-func NewImageResizeNode(inputimage string, inputsize string, name string) *ImageResizeNode {
+func NewImageResizeNode(name string, inputsize string, inputimage string) *ImageResizeNode {
 	i := &ImageResizeNode{
-		InputImage: inputimage,
-		InputSize:  inputsize,
 		Name:       name,
+		InputSize:  inputsize,
+		InputImage: inputimage,
 		NodeType:   "image_resize",
 	}
 	return i
@@ -1002,10 +1002,10 @@ func (o *ObjectDetectionNode) UnmarshalJSON(data []byte) error {
 
 // NewObjectDetectionNode creates a new instance of ObjectDetectionNode with required fields.
 // Optional fields should be set using builder methods.
-func NewObjectDetectionNode(inputimage string, name string) *ObjectDetectionNode {
+func NewObjectDetectionNode(name string, inputimage string) *ObjectDetectionNode {
 	o := &ObjectDetectionNode{
-		InputImage: inputimage,
 		Name:       name,
+		InputImage: inputimage,
 		NodeType:   "image_object_detection",
 	}
 	return o
@@ -1079,10 +1079,10 @@ func (o *OcrNode) UnmarshalJSON(data []byte) error {
 
 // NewOcrNode creates a new instance of OcrNode with required fields.
 // Optional fields should be set using builder methods.
-func NewOcrNode(inputimage string, name string) *OcrNode {
+func NewOcrNode(name string, inputimage string) *OcrNode {
 	o := &OcrNode{
-		InputImage: inputimage,
 		Name:       name,
+		InputImage: inputimage,
 		NodeType:   "image_ocr",
 	}
 	return o
@@ -1258,10 +1258,10 @@ func (i *InferenceGraphRecipe) UnmarshalJSON(data []byte) error {
 
 // NewInferenceGraphRecipe creates a new instance of InferenceGraphRecipe with required fields.
 // Optional fields should be set using builder methods.
-func NewInferenceGraphRecipe(createdat int64, licenseid string) *InferenceGraphRecipe {
+func NewInferenceGraphRecipe(licenseid string, createdat int64) *InferenceGraphRecipe {
 	i := &InferenceGraphRecipe{
-		CreatedAt: createdat,
 		LicenseId: licenseid,
+		CreatedAt: createdat,
 	}
 	return i
 }
