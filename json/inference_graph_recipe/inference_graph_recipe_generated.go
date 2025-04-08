@@ -524,6 +524,7 @@ func (b *BoundingBoxFilterNode) WithInputScoreThreshold(value ThresholdSource) *
 // WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
 func (b *BoundingBoxFilterNode) WithOutputPortName(value string) *BoundingBoxFilterNode {
 	b.OutputPortName = &value
+
 	return b
 }
 
@@ -960,8 +961,8 @@ type ObjectDetectionNode struct {
 	ModelSource        ModelSourceBase `json:"model_source"`
 	Name               string          `json:"name"`
 	NodeType           string          `json:"node_type"`
-	OutputPortName     *string         `json:"output_port_name,omitempty"` // Optional
-	ScaleBoundingBoxes bool            `json:"scale_bounding_boxes"`
+	OutputPortName     *string         `json:"output_port_name,omitempty"`     // Optional
+	ScaleBoundingBoxes *bool           `json:"scale_bounding_boxes,omitempty"` // Optional
 }
 
 // isNode implements the Node interface.
@@ -1005,14 +1006,14 @@ func (o *ObjectDetectionNode) UnmarshalJSON(data []byte) error {
 
 // NewObjectDetectionNode creates a new instance of ObjectDetectionNode with required fields.
 // Optional fields should be set using builder methods.
-func NewObjectDetectionNode(name string, inputimage string, modelsource ModelSourceBase, scaleboundingboxes bool) *ObjectDetectionNode {
+func NewObjectDetectionNode(name string, inputimage string, modelsource ModelSourceBase) *ObjectDetectionNode {
 	o := &ObjectDetectionNode{
-		Name:               name,
-		InputImage:         inputimage,
-		ModelSource:        modelsource,
-		ScaleBoundingBoxes: scaleboundingboxes,
-		NodeType:           "image_object_detection",
+		Name:        name,
+		InputImage:  inputimage,
+		ModelSource: modelsource,
+		NodeType:    "image_object_detection",
 	}
+	o.ScaleBoundingBoxes = func() *bool { v := true; return &v }()
 	return o
 }
 
@@ -1024,6 +1025,12 @@ func (o *ObjectDetectionNode) SetModelSource(modelsource ModelSourceBase) {
 // WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
 func (o *ObjectDetectionNode) WithOutputPortName(value string) *ObjectDetectionNode {
 	o.OutputPortName = &value
+	return o
+}
+
+// WithScaleBoundingBoxes sets the optional scale_bounding_boxes field and returns the struct pointer for chaining.
+func (o *ObjectDetectionNode) WithScaleBoundingBoxes(value bool) *ObjectDetectionNode {
+	o.ScaleBoundingBoxes = &value
 	return o
 }
 
