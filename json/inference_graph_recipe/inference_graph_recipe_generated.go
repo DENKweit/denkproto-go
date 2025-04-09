@@ -436,7 +436,7 @@ type BoundingBoxFilterNode struct {
 	InputScoreThreshold ThresholdSource `json:"input_score_threshold,omitempty"` // Optional
 	Name                string          `json:"name"`
 	NodeType            string          `json:"node_type"`
-	OutputPortName      *string         `json:"output_port_name,omitempty"` // Optional
+	OutputPortName      string          `json:"output_port_name"`
 }
 
 // isNode implements the Node interface.
@@ -490,10 +490,11 @@ func (b *BoundingBoxFilterNode) UnmarshalJSON(data []byte) error {
 
 // NewBoundingBoxFilterNode creates a new instance of BoundingBoxFilterNode with required fields.
 // Optional fields should be set using builder methods.
-func NewBoundingBoxFilterNode(name string, inputboundingboxes string) *BoundingBoxFilterNode {
+func NewBoundingBoxFilterNode(name string, inputboundingboxes string, outputportname string) *BoundingBoxFilterNode {
 	b := &BoundingBoxFilterNode{
 		Name:               name,
 		InputBoundingBoxes: inputboundingboxes,
+		OutputPortName:     outputportname,
 		NodeType:           "bounding_box_filter",
 	}
 	return b
@@ -521,13 +522,6 @@ func (b *BoundingBoxFilterNode) WithInputScoreThreshold(value ThresholdSource) *
 	return b
 }
 
-// WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
-func (b *BoundingBoxFilterNode) WithOutputPortName(value string) *BoundingBoxFilterNode {
-	b.OutputPortName = &value
-
-	return b
-}
-
 // ClassificationNode corresponds to the JSON schema definition 'ClassificationNode'.
 // Node for image classification. Base type for all nodes in the graph.
 type ClassificationNode struct {
@@ -535,7 +529,7 @@ type ClassificationNode struct {
 	ModelSource    ModelSourceBase `json:"model_source"`
 	Name           string          `json:"name"`
 	NodeType       string          `json:"node_type"`
-	OutputPortName *string         `json:"output_port_name,omitempty"` // Optional
+	OutputPortName string          `json:"output_port_name"`
 }
 
 // isNode implements the Node interface.
@@ -579,12 +573,13 @@ func (c *ClassificationNode) UnmarshalJSON(data []byte) error {
 
 // NewClassificationNode creates a new instance of ClassificationNode with required fields.
 // Optional fields should be set using builder methods.
-func NewClassificationNode(name string, inputimage string, modelsource ModelSourceBase) *ClassificationNode {
+func NewClassificationNode(name string, inputimage string, modelsource ModelSourceBase, outputportname string) *ClassificationNode {
 	c := &ClassificationNode{
-		Name:        name,
-		InputImage:  inputimage,
-		ModelSource: modelsource,
-		NodeType:    "image_classification",
+		Name:           name,
+		InputImage:     inputimage,
+		ModelSource:    modelsource,
+		OutputPortName: outputportname,
+		NodeType:       "image_classification",
 	}
 	return c
 }
@@ -592,12 +587,6 @@ func NewClassificationNode(name string, inputimage string, modelsource ModelSour
 // SetModelSource sets the ModelSource field, which is an interface type (ModelSourceBase).
 func (c *ClassificationNode) SetModelSource(modelsource ModelSourceBase) {
 	c.ModelSource = modelsource
-}
-
-// WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
-func (c *ClassificationNode) WithOutputPortName(value string) *ClassificationNode {
-	c.OutputPortName = &value
-	return c
 }
 
 // ConstTensorFloat64Data corresponds to the JSON schema definition 'ConstTensorFloat64Data'.
@@ -646,7 +635,7 @@ type ConstTensorNode struct {
 	Data           ConstTensorDataBase `json:"data"`
 	Name           string              `json:"name"`
 	NodeType       string              `json:"node_type"`
-	OutputPortName *string             `json:"output_port_name,omitempty"` // Optional
+	OutputPortName string              `json:"output_port_name"`
 	Shape          []int64             `json:"shape"`
 }
 
@@ -691,12 +680,13 @@ func (c *ConstTensorNode) UnmarshalJSON(data []byte) error {
 
 // NewConstTensorNode creates a new instance of ConstTensorNode with required fields.
 // Optional fields should be set using builder methods.
-func NewConstTensorNode(name string, shape []int64, data ConstTensorDataBase) *ConstTensorNode {
+func NewConstTensorNode(name string, shape []int64, data ConstTensorDataBase, outputportname string) *ConstTensorNode {
 	c := &ConstTensorNode{
-		Name:     name,
-		Shape:    shape,
-		Data:     data,
-		NodeType: "const_tensor",
+		Name:           name,
+		Shape:          shape,
+		Data:           data,
+		OutputPortName: outputportname,
+		NodeType:       "const_tensor",
 	}
 	return c
 }
@@ -704,12 +694,6 @@ func NewConstTensorNode(name string, shape []int64, data ConstTensorDataBase) *C
 // SetData sets the Data field, which is an interface type (ConstTensorDataBase).
 func (c *ConstTensorNode) SetData(data ConstTensorDataBase) {
 	c.Data = data
-}
-
-// WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
-func (c *ConstTensorNode) WithOutputPortName(value string) *ConstTensorNode {
-	c.OutputPortName = &value
-	return c
 }
 
 // ConstTensorUint64Data corresponds to the JSON schema definition 'ConstTensorUint64Data'.
@@ -741,7 +725,7 @@ type ImagePatchesNode struct {
 	InputTargetSize        TargetSizeSource         `json:"input_target_size"`
 	Name                   string                   `json:"name"`
 	NodeType               string                   `json:"node_type"`
-	OutputPortName         *string                  `json:"output_port_name,omitempty"` // Optional
+	OutputPortName         string                   `json:"output_port_name"`
 }
 
 // isNode implements the Node interface.
@@ -795,12 +779,13 @@ func (i *ImagePatchesNode) UnmarshalJSON(data []byte) error {
 
 // NewImagePatchesNode creates a new instance of ImagePatchesNode with required fields.
 // Optional fields should be set using builder methods.
-func NewImagePatchesNode(name string, inputimage string, inputboundingboxes string, inputtargetsize TargetSizeSource) *ImagePatchesNode {
+func NewImagePatchesNode(name string, inputimage string, inputboundingboxes string, inputtargetsize TargetSizeSource, outputportname string) *ImagePatchesNode {
 	i := &ImagePatchesNode{
 		Name:               name,
 		InputImage:         inputimage,
 		InputBoundingBoxes: inputboundingboxes,
 		InputTargetSize:    inputtargetsize,
+		OutputPortName:     outputportname,
 		NodeType:           "image_patches",
 	}
 	return i
@@ -822,20 +807,14 @@ func (i *ImagePatchesNode) WithInputMaximumIterations(value MaxIterationsCountSo
 	return i
 }
 
-// WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
-func (i *ImagePatchesNode) WithOutputPortName(value string) *ImagePatchesNode {
-	i.OutputPortName = &value
-	return i
-}
-
 // ImageResizeNode corresponds to the JSON schema definition 'ImageResizeNode'.
 // Node that resizes an image. Base type for all nodes in the graph.
 type ImageResizeNode struct {
-	InputImage     string  `json:"input_image"`
-	InputSize      string  `json:"input_size"`
-	Name           string  `json:"name"`
-	NodeType       string  `json:"node_type"`
-	OutputPortName *string `json:"output_port_name,omitempty"` // Optional
+	InputImage     string `json:"input_image"`
+	InputSize      string `json:"input_size"`
+	Name           string `json:"name"`
+	NodeType       string `json:"node_type"`
+	OutputPortName string `json:"output_port_name"`
 }
 
 // isNode implements the Node interface.
@@ -843,19 +822,14 @@ func (i *ImageResizeNode) isNode() {}
 
 // NewImageResizeNode creates a new instance of ImageResizeNode with required fields.
 // Optional fields should be set using builder methods.
-func NewImageResizeNode(name string, inputsize string, inputimage string) *ImageResizeNode {
+func NewImageResizeNode(name string, inputsize string, inputimage string, outputportname string) *ImageResizeNode {
 	i := &ImageResizeNode{
-		Name:       name,
-		InputSize:  inputsize,
-		InputImage: inputimage,
-		NodeType:   "image_resize",
+		Name:           name,
+		InputSize:      inputsize,
+		InputImage:     inputimage,
+		OutputPortName: outputportname,
+		NodeType:       "image_resize",
 	}
-	return i
-}
-
-// WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
-func (i *ImageResizeNode) WithOutputPortName(value string) *ImageResizeNode {
-	i.OutputPortName = &value
 	return i
 }
 
@@ -961,7 +935,7 @@ type ObjectDetectionNode struct {
 	ModelSource        ModelSourceBase `json:"model_source"`
 	Name               string          `json:"name"`
 	NodeType           string          `json:"node_type"`
-	OutputPortName     *string         `json:"output_port_name,omitempty"`     // Optional
+	OutputPortName     string          `json:"output_port_name"`
 	ScaleBoundingBoxes *bool           `json:"scale_bounding_boxes,omitempty"` // Optional
 }
 
@@ -1006,12 +980,13 @@ func (o *ObjectDetectionNode) UnmarshalJSON(data []byte) error {
 
 // NewObjectDetectionNode creates a new instance of ObjectDetectionNode with required fields.
 // Optional fields should be set using builder methods.
-func NewObjectDetectionNode(name string, inputimage string, modelsource ModelSourceBase) *ObjectDetectionNode {
+func NewObjectDetectionNode(name string, inputimage string, modelsource ModelSourceBase, outputportname string) *ObjectDetectionNode {
 	o := &ObjectDetectionNode{
-		Name:        name,
-		InputImage:  inputimage,
-		ModelSource: modelsource,
-		NodeType:    "image_object_detection",
+		Name:           name,
+		InputImage:     inputimage,
+		ModelSource:    modelsource,
+		OutputPortName: outputportname,
+		NodeType:       "image_object_detection",
 	}
 	o.ScaleBoundingBoxes = func() *bool { v := true; return &v }()
 	return o
@@ -1020,12 +995,6 @@ func NewObjectDetectionNode(name string, inputimage string, modelsource ModelSou
 // SetModelSource sets the ModelSource field, which is an interface type (ModelSourceBase).
 func (o *ObjectDetectionNode) SetModelSource(modelsource ModelSourceBase) {
 	o.ModelSource = modelsource
-}
-
-// WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
-func (o *ObjectDetectionNode) WithOutputPortName(value string) *ObjectDetectionNode {
-	o.OutputPortName = &value
-	return o
 }
 
 // WithScaleBoundingBoxes sets the optional scale_bounding_boxes field and returns the struct pointer for chaining.
@@ -1041,7 +1010,7 @@ type OcrNode struct {
 	ModelSource    ModelSourceBase `json:"model_source"`
 	Name           string          `json:"name"`
 	NodeType       string          `json:"node_type"`
-	OutputPortName *string         `json:"output_port_name,omitempty"` // Optional
+	OutputPortName string          `json:"output_port_name"`
 }
 
 // isNode implements the Node interface.
@@ -1085,12 +1054,13 @@ func (o *OcrNode) UnmarshalJSON(data []byte) error {
 
 // NewOcrNode creates a new instance of OcrNode with required fields.
 // Optional fields should be set using builder methods.
-func NewOcrNode(name string, inputimage string, modelsource ModelSourceBase) *OcrNode {
+func NewOcrNode(name string, inputimage string, modelsource ModelSourceBase, outputportname string) *OcrNode {
 	o := &OcrNode{
-		Name:        name,
-		InputImage:  inputimage,
-		ModelSource: modelsource,
-		NodeType:    "image_ocr",
+		Name:           name,
+		InputImage:     inputimage,
+		ModelSource:    modelsource,
+		OutputPortName: outputportname,
+		NodeType:       "image_ocr",
 	}
 	return o
 }
@@ -1098,12 +1068,6 @@ func NewOcrNode(name string, inputimage string, modelsource ModelSourceBase) *Oc
 // SetModelSource sets the ModelSource field, which is an interface type (ModelSourceBase).
 func (o *OcrNode) SetModelSource(modelsource ModelSourceBase) {
 	o.ModelSource = modelsource
-}
-
-// WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
-func (o *OcrNode) WithOutputPortName(value string) *OcrNode {
-	o.OutputPortName = &value
-	return o
 }
 
 // TargetSizeSourceImageSizeOption corresponds to the JSON schema definition 'inline-TargetSizeSourceImageSizeOption'.
@@ -1185,10 +1149,10 @@ func NewThresholdSourceValueOption(value float64) *ThresholdSourceValueOption {
 // VirtualCameraNode corresponds to the JSON schema definition 'VirtualCameraNode'.
 // Node representing a virtual camera source. Base type for all nodes in the graph.
 type VirtualCameraNode struct {
-	Name           string  `json:"name"`
-	NodeType       string  `json:"node_type"`
-	OutputPortName *string `json:"output_port_name,omitempty"` // Optional
-	Path           string  `json:"path"`
+	Name           string `json:"name"`
+	NodeType       string `json:"node_type"`
+	OutputPortName string `json:"output_port_name"`
+	Path           string `json:"path"`
 }
 
 // isNode implements the Node interface.
@@ -1196,18 +1160,13 @@ func (v *VirtualCameraNode) isNode() {}
 
 // NewVirtualCameraNode creates a new instance of VirtualCameraNode with required fields.
 // Optional fields should be set using builder methods.
-func NewVirtualCameraNode(name string, path string) *VirtualCameraNode {
+func NewVirtualCameraNode(name string, path string, outputportname string) *VirtualCameraNode {
 	v := &VirtualCameraNode{
-		Name:     name,
-		Path:     path,
-		NodeType: "virtual_camera",
+		Name:           name,
+		Path:           path,
+		OutputPortName: outputportname,
+		NodeType:       "virtual_camera",
 	}
-	return v
-}
-
-// WithOutputPortName sets the optional output_port_name field and returns the struct pointer for chaining.
-func (v *VirtualCameraNode) WithOutputPortName(value string) *VirtualCameraNode {
-	v.OutputPortName = &value
 	return v
 }
 

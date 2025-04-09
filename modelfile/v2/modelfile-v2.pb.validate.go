@@ -88,6 +88,17 @@ func (m *ModelFile) validate(all bool) error {
 
 	// no validation rules for CreatedAt
 
+	if m.GetFileInfo() == nil {
+		err := ModelFileValidationError{
+			field:  "FileInfo",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if all {
 		switch v := interface{}(m.GetFileInfo()).(type) {
 		case interface{ ValidateAll() error }:

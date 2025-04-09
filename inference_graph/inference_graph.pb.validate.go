@@ -253,6 +253,127 @@ var _ interface {
 	ErrorName() string
 } = ModelSourceValidationError{}
 
+// Validate checks the field values on SessionInfo with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *SessionInfo) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on SessionInfo with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in SessionInfoMultiError, or
+// nil if none found.
+func (m *SessionInfo) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *SessionInfo) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if _, ok := ExecutionProvider_name[int32(m.GetExecutionProvider())]; !ok {
+		err := SessionInfoValidationError{
+			field:  "ExecutionProvider",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetDeviceId() < 0 {
+		err := SessionInfoValidationError{
+			field:  "DeviceId",
+			reason: "value must be greater than or equal to 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return SessionInfoMultiError(errors)
+	}
+
+	return nil
+}
+
+// SessionInfoMultiError is an error wrapping multiple validation errors
+// returned by SessionInfo.ValidateAll() if the designated constraints aren't met.
+type SessionInfoMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m SessionInfoMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m SessionInfoMultiError) AllErrors() []error { return m }
+
+// SessionInfoValidationError is the validation error returned by
+// SessionInfo.Validate if the designated constraints aren't met.
+type SessionInfoValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e SessionInfoValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e SessionInfoValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e SessionInfoValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e SessionInfoValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e SessionInfoValidationError) ErrorName() string { return "SessionInfoValidationError" }
+
+// Error satisfies the builtin error interface
+func (e SessionInfoValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSessionInfo.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = SessionInfoValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = SessionInfoValidationError{}
+
 // Validate checks the field values on ConstTensorNode with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.
@@ -278,6 +399,17 @@ func (m *ConstTensorNode) validate(all bool) error {
 	if utf8.RuneCountInString(m.GetName()) < 1 {
 		err := ConstTensorNodeValidationError{
 			field:  "Name",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetOutputPortName()) < 1 {
+		err := ConstTensorNodeValidationError{
+			field:  "OutputPortName",
 			reason: "value length must be at least 1 runes",
 		}
 		if !all {
@@ -596,6 +728,17 @@ func (m *ImageResizeNode) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	if utf8.RuneCountInString(m.GetOutputPortName()) < 1 {
+		err := ImageResizeNodeValidationError{
+			field:  "OutputPortName",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if !_ImageResizeNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
 		err := ImageResizeNodeValidationError{
 			field:  "OutputPortName",
@@ -605,6 +748,39 @@ func (m *ImageResizeNode) validate(all bool) error {
 			return err
 		}
 		errors = append(errors, err)
+	}
+
+	if m.SessionInfo != nil {
+
+		if all {
+			switch v := interface{}(m.GetSessionInfo()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ImageResizeNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ImageResizeNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetSessionInfo()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ImageResizeNodeValidationError{
+					field:  "SessionInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	if len(errors) > 0 {
@@ -808,44 +984,15 @@ func (m *ImagePatchesNode) validate(all bool) error {
 		}
 	}
 
-	if m.GetInputMaximumIterations() == nil {
+	if utf8.RuneCountInString(m.GetOutputPortName()) < 1 {
 		err := ImagePatchesNodeValidationError{
-			field:  "InputMaximumIterations",
-			reason: "value is required",
+			field:  "OutputPortName",
+			reason: "value length must be at least 1 runes",
 		}
 		if !all {
 			return err
 		}
 		errors = append(errors, err)
-	}
-
-	if all {
-		switch v := interface{}(m.GetInputMaximumIterations()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ImagePatchesNodeValidationError{
-					field:  "InputMaximumIterations",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, ImagePatchesNodeValidationError{
-					field:  "InputMaximumIterations",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetInputMaximumIterations()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return ImagePatchesNodeValidationError{
-				field:  "InputMaximumIterations",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
 	}
 
 	if !_ImagePatchesNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
@@ -857,6 +1004,83 @@ func (m *ImagePatchesNode) validate(all bool) error {
 			return err
 		}
 		errors = append(errors, err)
+	}
+
+	if m.InputMaximumIterations != nil {
+
+		if m.GetInputMaximumIterations() == nil {
+			err := ImagePatchesNodeValidationError{
+				field:  "InputMaximumIterations",
+				reason: "value is required",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetInputMaximumIterations()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ImagePatchesNodeValidationError{
+						field:  "InputMaximumIterations",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ImagePatchesNodeValidationError{
+						field:  "InputMaximumIterations",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetInputMaximumIterations()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ImagePatchesNodeValidationError{
+					field:  "InputMaximumIterations",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.SessionInfo != nil {
+
+		if all {
+			switch v := interface{}(m.GetSessionInfo()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ImagePatchesNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ImagePatchesNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetSessionInfo()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ImagePatchesNodeValidationError{
+					field:  "SessionInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	if len(errors) > 0 {
@@ -979,6 +1203,17 @@ func (m *VirtualCameraNode) validate(all bool) error {
 	if utf8.RuneCountInString(m.GetPath()) < 1 {
 		err := VirtualCameraNodeValidationError{
 			field:  "Path",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetOutputPortName()) < 1 {
+		err := VirtualCameraNodeValidationError{
+			field:  "OutputPortName",
 			reason: "value length must be at least 1 runes",
 		}
 		if !all {
@@ -1126,6 +1361,17 @@ func (m *ImageClassificationNode) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	if m.GetModelSource() == nil {
+		err := ImageClassificationNodeValidationError{
+			field:  "ModelSource",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if all {
 		switch v := interface{}(m.GetModelSource()).(type) {
 		case interface{ ValidateAll() error }:
@@ -1155,6 +1401,17 @@ func (m *ImageClassificationNode) validate(all bool) error {
 		}
 	}
 
+	if utf8.RuneCountInString(m.GetOutputPortName()) < 1 {
+		err := ImageClassificationNodeValidationError{
+			field:  "OutputPortName",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if !_ImageClassificationNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
 		err := ImageClassificationNodeValidationError{
 			field:  "OutputPortName",
@@ -1164,6 +1421,39 @@ func (m *ImageClassificationNode) validate(all bool) error {
 			return err
 		}
 		errors = append(errors, err)
+	}
+
+	if m.SessionInfo != nil {
+
+		if all {
+			switch v := interface{}(m.GetSessionInfo()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ImageClassificationNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ImageClassificationNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetSessionInfo()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ImageClassificationNodeValidationError{
+					field:  "SessionInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	if len(errors) > 0 {
@@ -1296,6 +1586,17 @@ func (m *ImageObjectDetectionNode) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	if m.GetModelSource() == nil {
+		err := ImageObjectDetectionNodeValidationError{
+			field:  "ModelSource",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if all {
 		switch v := interface{}(m.GetModelSource()).(type) {
 		case interface{ ValidateAll() error }:
@@ -1327,6 +1628,17 @@ func (m *ImageObjectDetectionNode) validate(all bool) error {
 
 	// no validation rules for ScaleBoundingBoxes
 
+	if utf8.RuneCountInString(m.GetOutputPortName()) < 1 {
+		err := ImageObjectDetectionNodeValidationError{
+			field:  "OutputPortName",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if !_ImageObjectDetectionNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
 		err := ImageObjectDetectionNodeValidationError{
 			field:  "OutputPortName",
@@ -1336,6 +1648,39 @@ func (m *ImageObjectDetectionNode) validate(all bool) error {
 			return err
 		}
 		errors = append(errors, err)
+	}
+
+	if m.SessionInfo != nil {
+
+		if all {
+			switch v := interface{}(m.GetSessionInfo()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ImageObjectDetectionNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ImageObjectDetectionNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetSessionInfo()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ImageObjectDetectionNodeValidationError{
+					field:  "SessionInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	if len(errors) > 0 {
@@ -1468,6 +1813,17 @@ func (m *ImageOcrNode) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	if m.GetModelSource() == nil {
+		err := ImageOcrNodeValidationError{
+			field:  "ModelSource",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if all {
 		switch v := interface{}(m.GetModelSource()).(type) {
 		case interface{ ValidateAll() error }:
@@ -1497,6 +1853,17 @@ func (m *ImageOcrNode) validate(all bool) error {
 		}
 	}
 
+	if utf8.RuneCountInString(m.GetOutputPortName()) < 1 {
+		err := ImageOcrNodeValidationError{
+			field:  "OutputPortName",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if !_ImageOcrNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
 		err := ImageOcrNodeValidationError{
 			field:  "OutputPortName",
@@ -1506,6 +1873,39 @@ func (m *ImageOcrNode) validate(all bool) error {
 			return err
 		}
 		errors = append(errors, err)
+	}
+
+	if m.SessionInfo != nil {
+
+		if all {
+			switch v := interface{}(m.GetSessionInfo()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ImageOcrNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ImageOcrNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetSessionInfo()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ImageOcrNodeValidationError{
+					field:  "SessionInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	if len(errors) > 0 {
@@ -1644,62 +2044,15 @@ func (m *BoundingBoxFilterNode) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if all {
-		switch v := interface{}(m.GetInputScoreThreshold()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, BoundingBoxFilterNodeValidationError{
-					field:  "InputScoreThreshold",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, BoundingBoxFilterNodeValidationError{
-					field:  "InputScoreThreshold",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
+	if utf8.RuneCountInString(m.GetOutputPortName()) < 1 {
+		err := BoundingBoxFilterNodeValidationError{
+			field:  "OutputPortName",
+			reason: "value length must be at least 1 runes",
 		}
-	} else if v, ok := interface{}(m.GetInputScoreThreshold()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return BoundingBoxFilterNodeValidationError{
-				field:  "InputScoreThreshold",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
+		if !all {
+			return err
 		}
-	}
-
-	if all {
-		switch v := interface{}(m.GetInputIouThreshold()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, BoundingBoxFilterNodeValidationError{
-					field:  "InputIouThreshold",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, BoundingBoxFilterNodeValidationError{
-					field:  "InputIouThreshold",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetInputIouThreshold()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return BoundingBoxFilterNodeValidationError{
-				field:  "InputIouThreshold",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
+		errors = append(errors, err)
 	}
 
 	if !_BoundingBoxFilterNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
@@ -1711,6 +2064,105 @@ func (m *BoundingBoxFilterNode) validate(all bool) error {
 			return err
 		}
 		errors = append(errors, err)
+	}
+
+	if m.InputScoreThreshold != nil {
+
+		if all {
+			switch v := interface{}(m.GetInputScoreThreshold()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, BoundingBoxFilterNodeValidationError{
+						field:  "InputScoreThreshold",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, BoundingBoxFilterNodeValidationError{
+						field:  "InputScoreThreshold",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetInputScoreThreshold()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return BoundingBoxFilterNodeValidationError{
+					field:  "InputScoreThreshold",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.InputIouThreshold != nil {
+
+		if all {
+			switch v := interface{}(m.GetInputIouThreshold()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, BoundingBoxFilterNodeValidationError{
+						field:  "InputIouThreshold",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, BoundingBoxFilterNodeValidationError{
+						field:  "InputIouThreshold",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetInputIouThreshold()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return BoundingBoxFilterNodeValidationError{
+					field:  "InputIouThreshold",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.SessionInfo != nil {
+
+		if all {
+			switch v := interface{}(m.GetSessionInfo()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, BoundingBoxFilterNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, BoundingBoxFilterNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetSessionInfo()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return BoundingBoxFilterNodeValidationError{
+					field:  "SessionInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	if len(errors) > 0 {
