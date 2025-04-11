@@ -421,7 +421,7 @@ func (m *ConstTensorNode) validate(all bool) error {
 	if !_ConstTensorNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
 		err := ConstTensorNodeValidationError{
 			field:  "OutputPortName",
-			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$\"",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+$\"",
 		}
 		if !all {
 			return err
@@ -649,7 +649,7 @@ var _ interface {
 	ErrorName() string
 } = ConstTensorNodeValidationError{}
 
-var _ConstTensorNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$")
+var _ConstTensorNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
 
 // Validate checks the field values on ImageResizeNode with the rules defined
 // in the proto definition for this message. If any rules are violated, the
@@ -742,7 +742,7 @@ func (m *ImageResizeNode) validate(all bool) error {
 	if !_ImageResizeNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
 		err := ImageResizeNodeValidationError{
 			field:  "OutputPortName",
-			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$\"",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+$\"",
 		}
 		if !all {
 			return err
@@ -865,7 +865,7 @@ var _ImageResizeNode_InputSize_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a
 
 var _ImageResizeNode_InputImage_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
 
-var _ImageResizeNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$")
+var _ImageResizeNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
 
 // Validate checks the field values on ImagePatchesNode with the rules defined
 // in the proto definition for this message. If any rules are violated, the
@@ -998,7 +998,7 @@ func (m *ImagePatchesNode) validate(all bool) error {
 	if !_ImagePatchesNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
 		err := ImagePatchesNodeValidationError{
 			field:  "OutputPortName",
-			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$\"",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+$\"",
 		}
 		if !all {
 			return err
@@ -1165,7 +1165,7 @@ var _ImagePatchesNode_InputImage_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/
 
 var _ImagePatchesNode_InputBoundingBoxes_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
 
-var _ImagePatchesNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$")
+var _ImagePatchesNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
 
 // Validate checks the field values on VirtualCameraNode with the rules defined
 // in the proto definition for this message. If any rules are violated, the
@@ -1225,7 +1225,7 @@ func (m *VirtualCameraNode) validate(all bool) error {
 	if !_VirtualCameraNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
 		err := VirtualCameraNodeValidationError{
 			field:  "OutputPortName",
-			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$\"",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+$\"",
 		}
 		if !all {
 			return err
@@ -1313,7 +1313,7 @@ var _ interface {
 	ErrorName() string
 } = VirtualCameraNodeValidationError{}
 
-var _VirtualCameraNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$")
+var _VirtualCameraNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
 
 // Validate checks the field values on ImageClassificationNode with the rules
 // defined in the proto definition for this message. If any rules are
@@ -1415,7 +1415,7 @@ func (m *ImageClassificationNode) validate(all bool) error {
 	if !_ImageClassificationNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
 		err := ImageClassificationNodeValidationError{
 			field:  "OutputPortName",
-			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$\"",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+$\"",
 		}
 		if !all {
 			return err
@@ -1538,7 +1538,7 @@ var _ interface {
 
 var _ImageClassificationNode_InputImage_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
 
-var _ImageClassificationNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$")
+var _ImageClassificationNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
 
 // Validate checks the field values on ImageObjectDetectionNode with the rules
 // defined in the proto definition for this message. If any rules are
@@ -1642,7 +1642,7 @@ func (m *ImageObjectDetectionNode) validate(all bool) error {
 	if !_ImageObjectDetectionNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
 		err := ImageObjectDetectionNodeValidationError{
 			field:  "OutputPortName",
-			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$\"",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+$\"",
 		}
 		if !all {
 			return err
@@ -1765,7 +1765,7 @@ var _ interface {
 
 var _ImageObjectDetectionNode_InputImage_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
 
-var _ImageObjectDetectionNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$")
+var _ImageObjectDetectionNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
 
 // Validate checks the field values on ImageOcrNode with the rules defined in
 // the proto definition for this message. If any rules are violated, the first
@@ -1867,7 +1867,7 @@ func (m *ImageOcrNode) validate(all bool) error {
 	if !_ImageOcrNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
 		err := ImageOcrNodeValidationError{
 			field:  "OutputPortName",
-			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$\"",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+$\"",
 		}
 		if !all {
 			return err
@@ -1987,7 +1987,7 @@ var _ interface {
 
 var _ImageOcrNode_InputImage_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
 
-var _ImageOcrNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$")
+var _ImageOcrNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
 
 // Validate checks the field values on BoundingBoxFilterNode with the rules
 // defined in the proto definition for this message. If any rules are
@@ -2058,7 +2058,7 @@ func (m *BoundingBoxFilterNode) validate(all bool) error {
 	if !_BoundingBoxFilterNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
 		err := BoundingBoxFilterNodeValidationError{
 			field:  "OutputPortName",
-			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$\"",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+$\"",
 		}
 		if !all {
 			return err
@@ -2247,7 +2247,7 @@ var _ interface {
 
 var _BoundingBoxFilterNode_InputBoundingBoxes_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
 
-var _BoundingBoxFilterNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$")
+var _BoundingBoxFilterNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
 
 // Validate checks the field values on Node with the rules defined in the proto
 // definition for this message. If any rules are violated, the first error
