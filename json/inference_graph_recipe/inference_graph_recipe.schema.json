@@ -1,0 +1,551 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/inference_graph_recipe.schema.json",
+  "title": "InferenceGraphRecipe",
+  "type": "object",
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Node"
+      }
+    },
+    "license_id": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "integer",
+      "description": "Unix timestamp when the recipe was created"
+    }
+  },
+  "required": ["nodes", "license_id", "created_at"],
+  "additionalProperties": false,
+  "definitions": {
+    "BoundingBoxFilterNode": {
+      "description": "Node that filters bounding boxes based on confidence and IoU thresholds. Base type for all nodes in the graph.",
+      "type": "object",
+      "properties": {
+        "node_type": {
+          "const": "bounding_box_filter"
+        },
+        "name": {
+          "type": "string"
+        },
+        "input_bounding_boxes": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+        },
+        "input_score_threshold": {
+          "$ref": "#/definitions/ThresholdSource"
+        },
+        "input_iou_threshold": {
+          "$ref": "#/definitions/ThresholdSource"
+        },
+        "output_port_name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        }
+      },
+      "required": [
+        "node_type",
+        "name",
+        "input_bounding_boxes",
+        "output_port_name"
+      ],
+      "additionalProperties": false
+    },
+    "ConstTensorDataBase": {
+      "description": "Base type for constant tensor data.",
+      "type": "object",
+      "discriminator": {
+        "propertyName": "data_type"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/definitions/ConstTensorUint64Data"
+        },
+        {
+          "$ref": "#/definitions/ConstTensorInt64Data"
+        },
+        {
+          "$ref": "#/definitions/ConstTensorFloat64Data"
+        }
+      ],
+      "required": ["data_type"]
+    },
+    "ConstTensorFloat64Data": {
+      "description": "Constant tensor data of type float64. Base type for constant tensor data.",
+      "type": "object",
+      "properties": {
+        "data_type": {
+          "const": "float64"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "required": ["data_type", "data"],
+      "additionalProperties": false
+    },
+    "ConstTensorInt64Data": {
+      "description": "Constant tensor data of type int64. Base type for constant tensor data.",
+      "type": "object",
+      "properties": {
+        "data_type": {
+          "const": "int64"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "required": ["data_type", "data"],
+      "additionalProperties": false
+    },
+    "ConstTensorNode": {
+      "description": "Node representing a constant tensor. Base type for all nodes in the graph.",
+      "type": "object",
+      "properties": {
+        "node_type": {
+          "const": "const_tensor"
+        },
+        "name": {
+          "type": "string"
+        },
+        "shape": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "data": {
+          "$ref": "#/definitions/ConstTensorDataBase"
+        },
+        "output_port_name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        }
+      },
+      "required": ["node_type", "name", "shape", "data", "output_port_name"],
+      "additionalProperties": false
+    },
+    "ConstTensorUint64Data": {
+      "description": "Constant tensor data of type uint64. Base type for constant tensor data.",
+      "type": "object",
+      "properties": {
+        "data_type": {
+          "const": "uint64"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "required": ["data_type", "data"],
+      "additionalProperties": false
+    },
+    "ImageSize": {
+      "description": "Represents image dimensions.",
+      "type": "object",
+      "properties": {
+        "height": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": ["height", "width"],
+      "additionalProperties": false
+    },
+    "MaxIterationsCountSource": {
+      "description": "Source for the maximum iterations count, either from a topic or a constant value.",
+      "discriminator": {
+        "propertyName": "source_type"
+      },
+      "required": ["source_type"],
+      "type": "object",
+      "oneOf": [
+        {
+          "properties": {
+            "source_type": {
+              "const": "topic"
+            },
+            "topic": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+            }
+          },
+          "required": ["source_type", "topic"]
+        },
+        {
+          "properties": {
+            "source_type": {
+              "const": "value"
+            },
+            "value": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": ["source_type", "value"]
+        }
+      ],
+      "additionalProperties": false
+    },
+    "TargetSizeSource": {
+      "description": "Source for the target size, either from a topic or a constant ImageSize.",
+      "type": "object",
+      "discriminator": {
+        "propertyName": "source_type"
+      },
+      "required": ["source_type"],
+      "oneOf": [
+        {
+          "properties": {
+            "source_type": {
+              "const": "topic"
+            },
+            "topic": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+            }
+          },
+          "required": ["source_type", "topic"]
+        },
+        {
+          "properties": {
+            "source_type": {
+              "const": "image_size"
+            },
+            "size": {
+              "$ref": "#/definitions/ImageSize"
+            }
+          },
+          "required": ["source_type", "size"]
+        }
+      ],
+      "additionalProperties": false
+    },
+    "ThresholdSource": {
+      "description": "Source for a threshold value (0.0-1.0), either from a topic or a constant value.",
+      "type": "object",
+      "discriminator": {
+        "propertyName": "source_type"
+      },
+      "required": ["source_type"],
+      "oneOf": [
+        {
+          "properties": {
+            "source_type": {
+              "const": "topic"
+            },
+            "topic": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+            }
+          },
+          "required": ["source_type", "topic"]
+        },
+        {
+          "properties": {
+            "source_type": {
+              "const": "value"
+            },
+            "value": {
+              "type": "number",
+              "format": "float",
+              "minimum": 0.0,
+              "maximum": 1.0
+            }
+          },
+          "required": ["source_type", "value"]
+        }
+      ],
+      "additionalProperties": false
+    },
+    "ClassificationNode": {
+      "description": "Node for image classification. Base type for all nodes in the graph.",
+      "type": "object",
+      "properties": {
+        "node_type": {
+          "const": "image_classification"
+        },
+        "name": {
+          "type": "string"
+        },
+        "inputImage": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+        },
+
+        "model_source": {
+          "$ref": "#/definitions/ModelSourceBase"
+        },
+        "output_port_name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        }
+      },
+      "required": [
+        "node_type",
+        "name",
+        "inputImage",
+        "model_source",
+        "output_port_name"
+      ],
+      "additionalProperties": false
+    },
+    "ObjectDetectionNode": {
+      "description": "Node for image object detection. Base type for all nodes in the graph.",
+      "type": "object",
+      "properties": {
+        "node_type": {
+          "const": "image_object_detection"
+        },
+        "name": {
+          "type": "string"
+        },
+        "input_image": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+        },
+        "model_source": {
+          "$ref": "#/definitions/ModelSourceBase"
+        },
+        "scale_bounding_boxes": {
+          "type": "boolean",
+          "default": true
+        },
+        "output_port_name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        }
+      },
+      "required": [
+        "node_type",
+        "name",
+        "input_image",
+        "model_source",
+        "output_port_name"
+      ],
+      "additionalProperties": false
+    },
+    "OcrNode": {
+      "description": "Node for image OCR. Base type for all nodes in the graph.",
+      "type": "object",
+      "properties": {
+        "node_type": {
+          "const": "image_ocr"
+        },
+        "name": {
+          "type": "string"
+        },
+        "input_image": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+        },
+        "model_source": {
+          "$ref": "#/definitions/ModelSourceBase"
+        },
+        "output_port_name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        }
+      },
+      "required": [
+        "node_type",
+        "name",
+        "input_image",
+        "model_source",
+        "output_port_name"
+      ],
+      "additionalProperties": false
+    },
+    "ImagePatchesNode": {
+      "description": "Node that extracts patches from an image based on bounding boxes. Base type for all nodes in the graph.",
+      "type": "object",
+      "properties": {
+        "node_type": {
+          "const": "image_patches"
+        },
+        "name": {
+          "type": "string"
+        },
+        "input_image": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+        },
+        "input_bounding_boxes": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+        },
+        "input_target_size": {
+          "$ref": "#/definitions/TargetSizeSource"
+        },
+        "input_maximum_iterations": {
+          "$ref": "#/definitions/MaxIterationsCountSource"
+        },
+        "output_port_name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        }
+      },
+      "required": [
+        "node_type",
+        "name",
+        "input_image",
+        "input_bounding_boxes",
+        "input_target_size",
+        "output_port_name"
+      ],
+      "additionalProperties": false
+    },
+    "ImageResizeNode": {
+      "description": "Node that resizes an image. Base type for all nodes in the graph.",
+      "type": "object",
+      "properties": {
+        "node_type": {
+          "const": "image_resize"
+        },
+        "name": {
+          "type": "string"
+        },
+        "input_size": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+        },
+        "input_image": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+        },
+        "output_port_name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        }
+      },
+      "required": [
+        "node_type",
+        "name",
+        "input_size",
+        "input_image",
+        "output_port_name"
+      ],
+      "additionalProperties": false
+    },
+    "ModelSourceBase": {
+      "description": "Base type for the source of the model.",
+      "type": "object",
+      "discriminator": {
+        "propertyName": "source_type"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/definitions/ModelSourceFromNetworkId"
+        },
+        {
+          "$ref": "#/definitions/ModelSourceFromNetworkExperimentId"
+        }
+      ],
+      "required": ["source_type"]
+    },
+    "ModelSourceFromNetworkExperimentId": {
+      "description": "Model source specified by a network experiment ID. Base type for the source of the model.",
+      "type": "object",
+      "properties": {
+        "source_type": {
+          "const": "network_experiment_id"
+        },
+        "network_experiment_id": {
+          "description": "Model from a network experiment ID.",
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        }
+      },
+      "required": ["source_type", "network_experiment_id"],
+      "additionalProperties": false
+    },
+    "ModelSourceFromNetworkId": {
+      "description": "Model source specified by a network ID. Base type for the source of the model.",
+      "type": "object",
+      "properties": {
+        "source_type": {
+          "const": "network_id"
+        },
+        "network_id": {
+          "description": "Model from a network ID.",
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        }
+      },
+      "required": ["source_type", "network_id"],
+      "additionalProperties": false
+    },
+    "Node": {
+      "description": "Represents a node in the graph.",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/ConstTensorNode"
+        },
+        {
+          "$ref": "#/definitions/ImageResizeNode"
+        },
+        {
+          "$ref": "#/definitions/ImagePatchesNode"
+        },
+        {
+          "$ref": "#/definitions/VirtualCameraNode"
+        },
+        {
+          "$ref": "#/definitions/ClassificationNode"
+        },
+        {
+          "$ref": "#/definitions/ObjectDetectionNode"
+        },
+        {
+          "$ref": "#/definitions/OcrNode"
+        },
+        {
+          "$ref": "#/definitions/BoundingBoxFilterNode"
+        }
+      ],
+      "discriminator": {
+        "propertyName": "node_type"
+      },
+      "required": ["node_type"]
+    },
+    "VirtualCameraNode": {
+      "description": "Node representing a virtual camera source. Base type for all nodes in the graph.",
+      "type": "object",
+      "properties": {
+        "node_type": {
+          "const": "virtual_camera"
+        },
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "output_port_name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        }
+      },
+      "required": ["node_type", "name", "path", "output_port_name"],
+      "additionalProperties": false
+    }
+  }
+}
