@@ -170,42 +170,6 @@
       "required": ["height", "width"],
       "additionalProperties": false
     },
-    "MaxIterationsCountSource": {
-      "description": "Source for the maximum iterations count, either from a topic or a constant value.",
-      "discriminator": {
-        "propertyName": "source_type"
-      },
-      "required": ["source_type"],
-      "type": "object",
-      "oneOf": [
-        {
-          "properties": {
-            "source_type": {
-              "const": "topic"
-            },
-            "topic": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
-            }
-          },
-          "required": ["source_type", "topic"],
-          "additionalProperties": false
-        },
-        {
-          "properties": {
-            "source_type": {
-              "const": "value"
-            },
-            "value": {
-              "type": "integer",
-              "minimum": 0
-            }
-          },
-          "required": ["source_type", "value"],
-          "additionalProperties": false
-        }
-      ]
-    },
     "TargetSizeSource": {
       "description": "Source for the target size, either from a topic or a constant ImageSize.",
       "type": "object",
@@ -397,9 +361,6 @@
         },
         "input_target_size": {
           "$ref": "#/definitions/TargetSizeSource"
-        },
-        "input_maximum_iterations": {
-          "$ref": "#/definitions/MaxIterationsCountSource"
         },
         "output_port_name": {
           "type": "string",

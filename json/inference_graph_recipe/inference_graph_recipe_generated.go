@@ -77,69 +77,6 @@ func UnmarshalJSONConstTensorDataBaseForField(data []byte, c *ConstTensorDataBas
 // isConstTensorDataBase implements the ConstTensorDataBase interface. Add this method to all implementing structs.
 // func (s *YourStruct) isConstTensorDataBase() {}
 
-// MaxIterationsCountSource defines the interface for discriminated union based on source_type.
-type MaxIterationsCountSource interface {
-	isMaxIterationsCountSource() // Marker method for implementing types
-}
-
-// UnmarshalJSONMaxIterationsCountSource implements the json.Unmarshaler interface for MaxIterationsCountSource, handling polymorphism.
-// It delegates the actual unmarshaling to the appropriate concrete type's UnmarshalJSON method
-// based on the discriminator field 'source_type'.
-func UnmarshalJSONMaxIterationsCountSource(data []byte) (MaxIterationsCountSource, error) {
-	// Determine the concrete type based on the discriminator field
-	var finder struct {
-		Type string `json:"source_type"`
-	}
-	if err := json.Unmarshal(data, &finder); err != nil {
-		return nil, fmt.Errorf("error finding discriminator field 'source_type' for MaxIterationsCountSource: %w", err)
-	}
-
-	switch finder.Type {
-	case "topic":
-		var concrete MaxIterationsCountSourceTopicOption
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return nil, fmt.Errorf("error unmarshaling into MaxIterationsCountSourceTopicOption: %w", err)
-		}
-		return &concrete, nil
-	case "value":
-		var concrete MaxIterationsCountSourceValueOption
-		if err := json.Unmarshal(data, &concrete); err != nil {
-			return nil, fmt.Errorf("error unmarshaling into MaxIterationsCountSourceValueOption: %w", err)
-		}
-		return &concrete, nil
-	default:
-		return nil, fmt.Errorf("unknown type '%s' for interface MaxIterationsCountSource", finder.Type)
-	}
-}
-
-// MaxIterationsCountSourceUnmarshalHelper is a wrapper to facilitate unmarshaling polymorphic types.
-type MaxIterationsCountSourceUnmarshalHelper struct {
-	Target *MaxIterationsCountSource
-}
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (u *MaxIterationsCountSourceUnmarshalHelper) UnmarshalJSON(data []byte) error {
-	target, err := UnmarshalJSONMaxIterationsCountSource(data)
-	if err != nil {
-		return err
-	}
-	*(u.Target) = target
-	return nil
-}
-
-// UnmarshalJSONMaxIterationsCountSourceForField is used by structs containing MaxIterationsCountSource fields to handle polymorphism.
-func UnmarshalJSONMaxIterationsCountSourceForField(data []byte, m *MaxIterationsCountSource) error {
-	target, err := UnmarshalJSONMaxIterationsCountSource(data) // Use the helper that returns the interface
-	if err != nil {
-		return err
-	}
-	*m = target
-	return nil
-}
-
-// isMaxIterationsCountSource implements the MaxIterationsCountSource interface. Add this method to all implementing structs.
-// func (s *YourStruct) isMaxIterationsCountSource() {}
-
 // ModelSourceBase defines the interface for discriminated union based on source_type.
 type ModelSourceBase interface {
 	isModelSourceBase() // Marker method for implementing types
@@ -719,13 +656,12 @@ func NewConstTensorUint64Data(data []int64) *ConstTensorUint64Data {
 // ImagePatchesNode corresponds to the JSON schema definition 'ImagePatchesNode'.
 // Node that extracts patches from an image based on bounding boxes. Base type for all nodes in the graph.
 type ImagePatchesNode struct {
-	InputBoundingBoxes     string                   `json:"input_bounding_boxes"`
-	InputImage             string                   `json:"input_image"`
-	InputMaximumIterations MaxIterationsCountSource `json:"input_maximum_iterations,omitempty"` // Optional
-	InputTargetSize        TargetSizeSource         `json:"input_target_size"`
-	Name                   string                   `json:"name"`
-	NodeType               string                   `json:"node_type"`
-	OutputPortName         string                   `json:"output_port_name"`
+	InputBoundingBoxes string           `json:"input_bounding_boxes"`
+	InputImage         string           `json:"input_image"`
+	InputTargetSize    TargetSizeSource `json:"input_target_size"`
+	Name               string           `json:"name"`
+	NodeType           string           `json:"node_type"`
+	OutputPortName     string           `json:"output_port_name"`
 }
 
 // isNode implements the Node interface.
@@ -746,8 +682,7 @@ func (i *ImagePatchesNode) UnmarshalJSON(data []byte) error {
 
 	// Struct to capture interface fields as RawMessage
 	rawFields := struct {
-		InputMaximumIterations json.RawMessage `json:"input_maximum_iterations,omitempty"`
-		InputTargetSize        json.RawMessage `json:"input_target_size"`
+		InputTargetSize json.RawMessage `json:"input_target_size"`
 	}{}
 
 	// Unmarshal RawMessages
@@ -755,15 +690,6 @@ func (i *ImagePatchesNode) UnmarshalJSON(data []byte) error {
 		return fmt.Errorf("error unmarshaling interface fields for ImagePatchesNode: %w", err)
 	}
 
-	// Unmarshal the InputMaximumIterations field (MaxIterationsCountSource interface)
-	if len(rawFields.InputMaximumIterations) > 0 && string(rawFields.InputMaximumIterations) != "null" {
-		var item MaxIterationsCountSource // This will hold the concrete type implementing the interface
-		// Use the field-specific unmarshaler which sets the interface variable correctly
-		if err := UnmarshalJSONMaxIterationsCountSourceForField(rawFields.InputMaximumIterations, &item); err != nil { // Pass address of interface variable
-			return fmt.Errorf("error unmarshaling InputMaximumIterations: %w", err)
-		}
-		i.InputMaximumIterations = item // Assign the interface variable to the struct field
-	}
 	// Unmarshal the InputTargetSize field (TargetSizeSource interface)
 	if len(rawFields.InputTargetSize) > 0 && string(rawFields.InputTargetSize) != "null" {
 		var item TargetSizeSource // This will hold the concrete type implementing the interface
@@ -791,20 +717,9 @@ func NewImagePatchesNode(name string, inputimage string, inputboundingboxes stri
 	return i
 }
 
-// SetInputMaximumIterations sets the InputMaximumIterations field, which is an interface type (MaxIterationsCountSource).
-func (i *ImagePatchesNode) SetInputMaximumIterations(inputmaximumiterations MaxIterationsCountSource) {
-	i.InputMaximumIterations = inputmaximumiterations
-}
-
 // SetInputTargetSize sets the InputTargetSize field, which is an interface type (TargetSizeSource).
 func (i *ImagePatchesNode) SetInputTargetSize(inputtargetsize TargetSizeSource) {
 	i.InputTargetSize = inputtargetsize
-}
-
-// WithInputMaximumIterations sets the optional input_maximum_iterations field and returns the struct pointer for chaining.
-func (i *ImagePatchesNode) WithInputMaximumIterations(value MaxIterationsCountSource) *ImagePatchesNode {
-	i.InputMaximumIterations = value
-	return i
 }
 
 // ImageResizeNode corresponds to the JSON schema definition 'ImageResizeNode'.
@@ -848,44 +763,6 @@ func NewImageSize(height int64, width int64) *ImageSize {
 		Width:  width,
 	}
 	return i
-}
-
-// MaxIterationsCountSourceTopicOption corresponds to the JSON schema definition 'inline-MaxIterationsCountSourceTopicOption'.
-type MaxIterationsCountSourceTopicOption struct {
-	SourceType string `json:"source_type"`
-	Topic      string `json:"topic"`
-}
-
-// isMaxIterationsCountSource implements the MaxIterationsCountSource interface.
-func (m *MaxIterationsCountSourceTopicOption) isMaxIterationsCountSource() {}
-
-// NewMaxIterationsCountSourceTopicOption creates a new instance of MaxIterationsCountSourceTopicOption with required fields.
-// Optional fields should be set using builder methods.
-func NewMaxIterationsCountSourceTopicOption(topic string) *MaxIterationsCountSourceTopicOption {
-	m := &MaxIterationsCountSourceTopicOption{
-		Topic:      topic,
-		SourceType: "topic",
-	}
-	return m
-}
-
-// MaxIterationsCountSourceValueOption corresponds to the JSON schema definition 'inline-MaxIterationsCountSourceValueOption'.
-type MaxIterationsCountSourceValueOption struct {
-	SourceType string `json:"source_type"`
-	Value      int64  `json:"value"`
-}
-
-// isMaxIterationsCountSource implements the MaxIterationsCountSource interface.
-func (m *MaxIterationsCountSourceValueOption) isMaxIterationsCountSource() {}
-
-// NewMaxIterationsCountSourceValueOption creates a new instance of MaxIterationsCountSourceValueOption with required fields.
-// Optional fields should be set using builder methods.
-func NewMaxIterationsCountSourceValueOption(value int64) *MaxIterationsCountSourceValueOption {
-	m := &MaxIterationsCountSourceValueOption{
-		Value:      value,
-		SourceType: "value",
-	}
-	return m
 }
 
 // ModelSourceFromNetworkExperimentId corresponds to the JSON schema definition 'ModelSourceFromNetworkExperimentId'.
