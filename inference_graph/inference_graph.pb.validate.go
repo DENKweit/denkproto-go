@@ -3341,10 +3341,10 @@ func (m *ImagePatchesNode_TargetSizeSource_ImageSize) validate(all bool) error {
 
 	var errors []error
 
-	if m.GetHeight() < 0 {
+	if m.GetHeight() < 1 {
 		err := ImagePatchesNode_TargetSizeSource_ImageSizeValidationError{
 			field:  "Height",
-			reason: "value must be greater than or equal to 0",
+			reason: "value must be greater than or equal to 1",
 		}
 		if !all {
 			return err
@@ -3352,10 +3352,10 @@ func (m *ImagePatchesNode_TargetSizeSource_ImageSize) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if m.GetWidth() < 0 {
+	if m.GetWidth() < 1 {
 		err := ImagePatchesNode_TargetSizeSource_ImageSizeValidationError{
 			field:  "Width",
-			reason: "value must be greater than or equal to 0",
+			reason: "value must be greater than or equal to 1",
 		}
 		if !all {
 			return err
