@@ -160,11 +160,11 @@
       "properties": {
         "height": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 1
         },
         "width": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 1
         }
       },
       "required": ["height", "width"],
