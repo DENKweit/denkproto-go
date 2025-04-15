@@ -1417,24 +1417,24 @@ func (m *ModelFile_FileInfo) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for ModelName
+	// no validation rules for NetworkName
 
-	// no validation rules for ModelId
+	// no validation rules for NetworkId
 
-	// no validation rules for ModelExperimentId
+	// no validation rules for NetworkExperimentId
 
-	// no validation rules for ModelSnapshotId
+	// no validation rules for NetworkSnapshotId
 
-	// no validation rules for ModelType
+	// no validation rules for NetworkType
 
-	// no validation rules for ModelFlavor
+	// no validation rules for NetworkFlavor
 
 	if all {
-		switch v := interface{}(m.GetModelVersion()).(type) {
+		switch v := interface{}(m.GetNetworkVersion()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, ModelFile_FileInfoValidationError{
-					field:  "ModelVersion",
+					field:  "NetworkVersion",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1442,16 +1442,16 @@ func (m *ModelFile_FileInfo) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, ModelFile_FileInfoValidationError{
-					field:  "ModelVersion",
+					field:  "NetworkVersion",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetModelVersion()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetNetworkVersion()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return ModelFile_FileInfoValidationError{
-				field:  "ModelVersion",
+				field:  "NetworkVersion",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
