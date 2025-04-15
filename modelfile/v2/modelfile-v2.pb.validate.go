@@ -128,12 +128,23 @@ func (m *ModelFile) validate(all bool) error {
 		}
 	}
 
+	if m.GetFileContent() == nil {
+		err := ModelFileValidationError{
+			field:  "FileContent",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if all {
-		switch v := interface{}(m.GetContent()).(type) {
+		switch v := interface{}(m.GetFileContent()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, ModelFileValidationError{
-					field:  "Content",
+					field:  "FileContent",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -141,16 +152,16 @@ func (m *ModelFile) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, ModelFileValidationError{
-					field:  "Content",
+					field:  "FileContent",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetContent()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetFileContent()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return ModelFileValidationError{
-				field:  "Content",
+				field:  "FileContent",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -257,52 +268,6 @@ func (m *ModelFile) validate(all bool) error {
 			}
 		}
 
-	}
-
-	{
-		sorted_keys := make([]string, len(m.GetAdditionalContent()))
-		i := 0
-		for key := range m.GetAdditionalContent() {
-			sorted_keys[i] = key
-			i++
-		}
-		sort.Slice(sorted_keys, func(i, j int) bool { return sorted_keys[i] < sorted_keys[j] })
-		for _, key := range sorted_keys {
-			val := m.GetAdditionalContent()[key]
-			_ = val
-
-			// no validation rules for AdditionalContent[key]
-
-			if all {
-				switch v := interface{}(val).(type) {
-				case interface{ ValidateAll() error }:
-					if err := v.ValidateAll(); err != nil {
-						errors = append(errors, ModelFileValidationError{
-							field:  fmt.Sprintf("AdditionalContent[%v]", key),
-							reason: "embedded message failed validation",
-							cause:  err,
-						})
-					}
-				case interface{ Validate() error }:
-					if err := v.Validate(); err != nil {
-						errors = append(errors, ModelFileValidationError{
-							field:  fmt.Sprintf("AdditionalContent[%v]", key),
-							reason: "embedded message failed validation",
-							cause:  err,
-						})
-					}
-				}
-			} else if v, ok := interface{}(val).(interface{ Validate() error }); ok {
-				if err := v.Validate(); err != nil {
-					return ModelFileValidationError{
-						field:  fmt.Sprintf("AdditionalContent[%v]", key),
-						reason: "embedded message failed validation",
-						cause:  err,
-					}
-				}
-			}
-
-		}
 	}
 
 	if len(errors) > 0 {
@@ -1452,26 +1417,24 @@ func (m *ModelFile_FileInfo) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for FileType
+	// no validation rules for ModelName
 
-	// no validation rules for NetworkName
+	// no validation rules for ModelId
 
-	// no validation rules for NetworkId
+	// no validation rules for ModelExperimentId
 
-	// no validation rules for NetworkExperimentId
+	// no validation rules for ModelSnapshotId
 
-	// no validation rules for NetworkSnapshotId
+	// no validation rules for ModelType
 
-	// no validation rules for NetworkType
-
-	// no validation rules for NetworkFlavor
+	// no validation rules for ModelFlavor
 
 	if all {
-		switch v := interface{}(m.GetNetworkVersion()).(type) {
+		switch v := interface{}(m.GetModelVersion()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, ModelFile_FileInfoValidationError{
-					field:  "NetworkVersion",
+					field:  "ModelVersion",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1479,16 +1442,16 @@ func (m *ModelFile_FileInfo) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, ModelFile_FileInfoValidationError{
-					field:  "NetworkVersion",
+					field:  "ModelVersion",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetNetworkVersion()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetModelVersion()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return ModelFile_FileInfoValidationError{
-				field:  "NetworkVersion",
+				field:  "ModelVersion",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -1554,8 +1517,6 @@ func (m *ModelFile_FileInfo) validate(all bool) error {
 			}
 		}
 	}
-
-	// no validation rules for HardwareTarget
 
 	if len(errors) > 0 {
 		return ModelFile_FileInfoMultiError(errors)
@@ -1636,6 +1597,195 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ModelFile_FileInfoValidationError{}
+
+// Validate checks the field values on ModelFile_FileContent with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ModelFile_FileContent) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ModelFile_FileContent with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ModelFile_FileContentMultiError, or nil if none found.
+func (m *ModelFile_FileContent) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ModelFile_FileContent) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	switch v := m.FileType.(type) {
+	case *ModelFile_FileContent_DefaultModel_:
+		if v == nil {
+			err := ModelFile_FileContentValidationError{
+				field:  "FileType",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetDefaultModel()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ModelFile_FileContentValidationError{
+						field:  "DefaultModel",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ModelFile_FileContentValidationError{
+						field:  "DefaultModel",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetDefaultModel()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ModelFile_FileContentValidationError{
+					field:  "DefaultModel",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *ModelFile_FileContent_TensorrtModel:
+		if v == nil {
+			err := ModelFile_FileContentValidationError{
+				field:  "FileType",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetTensorrtModel()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ModelFile_FileContentValidationError{
+						field:  "TensorrtModel",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ModelFile_FileContentValidationError{
+						field:  "TensorrtModel",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetTensorrtModel()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ModelFile_FileContentValidationError{
+					field:  "TensorrtModel",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	default:
+		_ = v // ensures v is used
+	}
+
+	if len(errors) > 0 {
+		return ModelFile_FileContentMultiError(errors)
+	}
+
+	return nil
+}
+
+// ModelFile_FileContentMultiError is an error wrapping multiple validation
+// errors returned by ModelFile_FileContent.ValidateAll() if the designated
+// constraints aren't met.
+type ModelFile_FileContentMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ModelFile_FileContentMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ModelFile_FileContentMultiError) AllErrors() []error { return m }
+
+// ModelFile_FileContentValidationError is the validation error returned by
+// ModelFile_FileContent.Validate if the designated constraints aren't met.
+type ModelFile_FileContentValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ModelFile_FileContentValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ModelFile_FileContentValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ModelFile_FileContentValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ModelFile_FileContentValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ModelFile_FileContentValidationError) ErrorName() string {
+	return "ModelFile_FileContentValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ModelFile_FileContentValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sModelFile_FileContent.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ModelFile_FileContentValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ModelFile_FileContentValidationError{}
 
 // Validate checks the field values on ModelFile_Content_KeySlot with the rules
 // defined in the proto definition for this message. If any rules are
@@ -3088,3 +3238,329 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ModelFile_Output_OcrOutputFormat_CharacterValidationError{}
+
+// Validate checks the field values on ModelFile_FileContent_DefaultModel with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *ModelFile_FileContent_DefaultModel) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ModelFile_FileContent_DefaultModel
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// ModelFile_FileContent_DefaultModelMultiError, or nil if none found.
+func (m *ModelFile_FileContent_DefaultModel) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ModelFile_FileContent_DefaultModel) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetModelData()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ModelFile_FileContent_DefaultModelValidationError{
+					field:  "ModelData",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ModelFile_FileContent_DefaultModelValidationError{
+					field:  "ModelData",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetModelData()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ModelFile_FileContent_DefaultModelValidationError{
+				field:  "ModelData",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return ModelFile_FileContent_DefaultModelMultiError(errors)
+	}
+
+	return nil
+}
+
+// ModelFile_FileContent_DefaultModelMultiError is an error wrapping multiple
+// validation errors returned by
+// ModelFile_FileContent_DefaultModel.ValidateAll() if the designated
+// constraints aren't met.
+type ModelFile_FileContent_DefaultModelMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ModelFile_FileContent_DefaultModelMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ModelFile_FileContent_DefaultModelMultiError) AllErrors() []error { return m }
+
+// ModelFile_FileContent_DefaultModelValidationError is the validation error
+// returned by ModelFile_FileContent_DefaultModel.Validate if the designated
+// constraints aren't met.
+type ModelFile_FileContent_DefaultModelValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ModelFile_FileContent_DefaultModelValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ModelFile_FileContent_DefaultModelValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ModelFile_FileContent_DefaultModelValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ModelFile_FileContent_DefaultModelValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ModelFile_FileContent_DefaultModelValidationError) ErrorName() string {
+	return "ModelFile_FileContent_DefaultModelValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ModelFile_FileContent_DefaultModelValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sModelFile_FileContent_DefaultModel.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ModelFile_FileContent_DefaultModelValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ModelFile_FileContent_DefaultModelValidationError{}
+
+// Validate checks the field values on ModelFile_FileContent_TensorRTModel with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *ModelFile_FileContent_TensorRTModel) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ModelFile_FileContent_TensorRTModel
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// ModelFile_FileContent_TensorRTModelMultiError, or nil if none found.
+func (m *ModelFile_FileContent_TensorRTModel) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ModelFile_FileContent_TensorRTModel) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if all {
+		switch v := interface{}(m.GetModelData()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ModelFile_FileContent_TensorRTModelValidationError{
+					field:  "ModelData",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ModelFile_FileContent_TensorRTModelValidationError{
+					field:  "ModelData",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetModelData()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ModelFile_FileContent_TensorRTModelValidationError{
+				field:  "ModelData",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetCalibrationCache()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ModelFile_FileContent_TensorRTModelValidationError{
+					field:  "CalibrationCache",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ModelFile_FileContent_TensorRTModelValidationError{
+					field:  "CalibrationCache",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCalibrationCache()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ModelFile_FileContent_TensorRTModelValidationError{
+				field:  "CalibrationCache",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if all {
+		switch v := interface{}(m.GetCalibrationFlatbuffers()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ModelFile_FileContent_TensorRTModelValidationError{
+					field:  "CalibrationFlatbuffers",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ModelFile_FileContent_TensorRTModelValidationError{
+					field:  "CalibrationFlatbuffers",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetCalibrationFlatbuffers()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ModelFile_FileContent_TensorRTModelValidationError{
+				field:  "CalibrationFlatbuffers",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return ModelFile_FileContent_TensorRTModelMultiError(errors)
+	}
+
+	return nil
+}
+
+// ModelFile_FileContent_TensorRTModelMultiError is an error wrapping multiple
+// validation errors returned by
+// ModelFile_FileContent_TensorRTModel.ValidateAll() if the designated
+// constraints aren't met.
+type ModelFile_FileContent_TensorRTModelMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ModelFile_FileContent_TensorRTModelMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ModelFile_FileContent_TensorRTModelMultiError) AllErrors() []error { return m }
+
+// ModelFile_FileContent_TensorRTModelValidationError is the validation error
+// returned by ModelFile_FileContent_TensorRTModel.Validate if the designated
+// constraints aren't met.
+type ModelFile_FileContent_TensorRTModelValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ModelFile_FileContent_TensorRTModelValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ModelFile_FileContent_TensorRTModelValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ModelFile_FileContent_TensorRTModelValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ModelFile_FileContent_TensorRTModelValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ModelFile_FileContent_TensorRTModelValidationError) ErrorName() string {
+	return "ModelFile_FileContent_TensorRTModelValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ModelFile_FileContent_TensorRTModelValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sModelFile_FileContent_TensorRTModel.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ModelFile_FileContent_TensorRTModelValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ModelFile_FileContent_TensorRTModelValidationError{}
