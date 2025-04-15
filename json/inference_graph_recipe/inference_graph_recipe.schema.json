@@ -253,7 +253,7 @@
         "name": {
           "type": "string"
         },
-        "inputImage": {
+        "input_image": {
           "type": "string",
           "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
         },
@@ -269,7 +269,7 @@
       "required": [
         "node_type",
         "name",
-        "inputImage",
+        "input_image",
         "model_source",
         "output_port_name"
       ],

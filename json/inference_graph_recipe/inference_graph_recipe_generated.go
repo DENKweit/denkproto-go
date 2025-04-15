@@ -462,7 +462,7 @@ func (b *BoundingBoxFilterNode) WithInputScoreThreshold(value ThresholdSource) *
 // ClassificationNode corresponds to the JSON schema definition 'ClassificationNode'.
 // Node for image classification. Base type for all nodes in the graph.
 type ClassificationNode struct {
-	InputImage     string          `json:"inputImage"`
+	InputImage     string          `json:"input_image"`
 	ModelSource    ModelSourceBase `json:"model_source"`
 	Name           string          `json:"name"`
 	NodeType       string          `json:"node_type"`
