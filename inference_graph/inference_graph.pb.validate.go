@@ -1945,6 +1945,682 @@ var _ImageOcrNode_InputImage_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-z
 
 var _ImageOcrNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
 
+// Validate checks the field values on ImageSegmentationNode with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ImageSegmentationNode) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ImageSegmentationNode with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ImageSegmentationNodeMultiError, or nil if none found.
+func (m *ImageSegmentationNode) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ImageSegmentationNode) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	if utf8.RuneCountInString(m.GetInputImage()) < 1 {
+		err := ImageSegmentationNodeValidationError{
+			field:  "InputImage",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_ImageSegmentationNode_InputImage_Pattern.MatchString(m.GetInputImage()) {
+		err := ImageSegmentationNodeValidationError{
+			field:  "InputImage",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_]+\\\\/[a-zA-Z0-9_]+([?]timeout=\\\\d+)?$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetModelSource() == nil {
+		err := ImageSegmentationNodeValidationError{
+			field:  "ModelSource",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetModelSource()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ImageSegmentationNodeValidationError{
+					field:  "ModelSource",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ImageSegmentationNodeValidationError{
+					field:  "ModelSource",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetModelSource()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ImageSegmentationNodeValidationError{
+				field:  "ModelSource",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if utf8.RuneCountInString(m.GetOutputPortName()) < 1 {
+		err := ImageSegmentationNodeValidationError{
+			field:  "OutputPortName",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_ImageSegmentationNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
+		err := ImageSegmentationNodeValidationError{
+			field:  "OutputPortName",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.SessionInfo != nil {
+
+		if all {
+			switch v := interface{}(m.GetSessionInfo()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ImageSegmentationNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ImageSegmentationNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetSessionInfo()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ImageSegmentationNodeValidationError{
+					field:  "SessionInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return ImageSegmentationNodeMultiError(errors)
+	}
+
+	return nil
+}
+
+// ImageSegmentationNodeMultiError is an error wrapping multiple validation
+// errors returned by ImageSegmentationNode.ValidateAll() if the designated
+// constraints aren't met.
+type ImageSegmentationNodeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ImageSegmentationNodeMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ImageSegmentationNodeMultiError) AllErrors() []error { return m }
+
+// ImageSegmentationNodeValidationError is the validation error returned by
+// ImageSegmentationNode.Validate if the designated constraints aren't met.
+type ImageSegmentationNodeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ImageSegmentationNodeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ImageSegmentationNodeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ImageSegmentationNodeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ImageSegmentationNodeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ImageSegmentationNodeValidationError) ErrorName() string {
+	return "ImageSegmentationNodeValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ImageSegmentationNodeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sImageSegmentationNode.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ImageSegmentationNodeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ImageSegmentationNodeValidationError{}
+
+var _ImageSegmentationNode_InputImage_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
+
+var _ImageSegmentationNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
+
+// Validate checks the field values on ImageInstanceSegmentationNode with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ImageInstanceSegmentationNode) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ImageInstanceSegmentationNode with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// ImageInstanceSegmentationNodeMultiError, or nil if none found.
+func (m *ImageInstanceSegmentationNode) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ImageInstanceSegmentationNode) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	if utf8.RuneCountInString(m.GetInputImage()) < 1 {
+		err := ImageInstanceSegmentationNodeValidationError{
+			field:  "InputImage",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_ImageInstanceSegmentationNode_InputImage_Pattern.MatchString(m.GetInputImage()) {
+		err := ImageInstanceSegmentationNodeValidationError{
+			field:  "InputImage",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_]+\\\\/[a-zA-Z0-9_]+([?]timeout=\\\\d+)?$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetModelSource() == nil {
+		err := ImageInstanceSegmentationNodeValidationError{
+			field:  "ModelSource",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetModelSource()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ImageInstanceSegmentationNodeValidationError{
+					field:  "ModelSource",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ImageInstanceSegmentationNodeValidationError{
+					field:  "ModelSource",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetModelSource()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ImageInstanceSegmentationNodeValidationError{
+				field:  "ModelSource",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if utf8.RuneCountInString(m.GetOutputPortName()) < 1 {
+		err := ImageInstanceSegmentationNodeValidationError{
+			field:  "OutputPortName",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_ImageInstanceSegmentationNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
+		err := ImageInstanceSegmentationNodeValidationError{
+			field:  "OutputPortName",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.SessionInfo != nil {
+
+		if all {
+			switch v := interface{}(m.GetSessionInfo()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ImageInstanceSegmentationNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ImageInstanceSegmentationNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetSessionInfo()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ImageInstanceSegmentationNodeValidationError{
+					field:  "SessionInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return ImageInstanceSegmentationNodeMultiError(errors)
+	}
+
+	return nil
+}
+
+// ImageInstanceSegmentationNodeMultiError is an error wrapping multiple
+// validation errors returned by ImageInstanceSegmentationNode.ValidateAll()
+// if the designated constraints aren't met.
+type ImageInstanceSegmentationNodeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ImageInstanceSegmentationNodeMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ImageInstanceSegmentationNodeMultiError) AllErrors() []error { return m }
+
+// ImageInstanceSegmentationNodeValidationError is the validation error
+// returned by ImageInstanceSegmentationNode.Validate if the designated
+// constraints aren't met.
+type ImageInstanceSegmentationNodeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ImageInstanceSegmentationNodeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ImageInstanceSegmentationNodeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ImageInstanceSegmentationNodeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ImageInstanceSegmentationNodeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ImageInstanceSegmentationNodeValidationError) ErrorName() string {
+	return "ImageInstanceSegmentationNodeValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ImageInstanceSegmentationNodeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sImageInstanceSegmentationNode.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ImageInstanceSegmentationNodeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ImageInstanceSegmentationNodeValidationError{}
+
+var _ImageInstanceSegmentationNode_InputImage_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
+
+var _ImageInstanceSegmentationNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
+
+// Validate checks the field values on ImageAnomalyDetectionNode with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ImageAnomalyDetectionNode) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ImageAnomalyDetectionNode with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ImageAnomalyDetectionNodeMultiError, or nil if none found.
+func (m *ImageAnomalyDetectionNode) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ImageAnomalyDetectionNode) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Name
+
+	if utf8.RuneCountInString(m.GetInputImage()) < 1 {
+		err := ImageAnomalyDetectionNodeValidationError{
+			field:  "InputImage",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_ImageAnomalyDetectionNode_InputImage_Pattern.MatchString(m.GetInputImage()) {
+		err := ImageAnomalyDetectionNodeValidationError{
+			field:  "InputImage",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_]+\\\\/[a-zA-Z0-9_]+([?]timeout=\\\\d+)?$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.GetModelSource() == nil {
+		err := ImageAnomalyDetectionNodeValidationError{
+			field:  "ModelSource",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetModelSource()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ImageAnomalyDetectionNodeValidationError{
+					field:  "ModelSource",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ImageAnomalyDetectionNodeValidationError{
+					field:  "ModelSource",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetModelSource()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ImageAnomalyDetectionNodeValidationError{
+				field:  "ModelSource",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if utf8.RuneCountInString(m.GetOutputPortName()) < 1 {
+		err := ImageAnomalyDetectionNodeValidationError{
+			field:  "OutputPortName",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_ImageAnomalyDetectionNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
+		err := ImageAnomalyDetectionNodeValidationError{
+			field:  "OutputPortName",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.SessionInfo != nil {
+
+		if all {
+			switch v := interface{}(m.GetSessionInfo()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ImageAnomalyDetectionNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ImageAnomalyDetectionNodeValidationError{
+						field:  "SessionInfo",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetSessionInfo()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ImageAnomalyDetectionNodeValidationError{
+					field:  "SessionInfo",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return ImageAnomalyDetectionNodeMultiError(errors)
+	}
+
+	return nil
+}
+
+// ImageAnomalyDetectionNodeMultiError is an error wrapping multiple validation
+// errors returned by ImageAnomalyDetectionNode.ValidateAll() if the
+// designated constraints aren't met.
+type ImageAnomalyDetectionNodeMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ImageAnomalyDetectionNodeMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ImageAnomalyDetectionNodeMultiError) AllErrors() []error { return m }
+
+// ImageAnomalyDetectionNodeValidationError is the validation error returned by
+// ImageAnomalyDetectionNode.Validate if the designated constraints aren't met.
+type ImageAnomalyDetectionNodeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ImageAnomalyDetectionNodeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ImageAnomalyDetectionNodeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ImageAnomalyDetectionNodeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ImageAnomalyDetectionNodeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ImageAnomalyDetectionNodeValidationError) ErrorName() string {
+	return "ImageAnomalyDetectionNodeValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ImageAnomalyDetectionNodeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sImageAnomalyDetectionNode.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ImageAnomalyDetectionNodeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ImageAnomalyDetectionNodeValidationError{}
+
+var _ImageAnomalyDetectionNode_InputImage_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
+
+var _ImageAnomalyDetectionNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
+
 // Validate checks the field values on BoundingBoxFilterNode with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -2558,6 +3234,132 @@ func (m *Node) validate(all bool) error {
 			if err := v.Validate(); err != nil {
 				return NodeValidationError{
 					field:  "BoundingBoxFilterNode",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *Node_ImageSegmentationNode:
+		if v == nil {
+			err := NodeValidationError{
+				field:  "NodeType",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		oneofNodeTypePresent = true
+
+		if all {
+			switch v := interface{}(m.GetImageSegmentationNode()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, NodeValidationError{
+						field:  "ImageSegmentationNode",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, NodeValidationError{
+						field:  "ImageSegmentationNode",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetImageSegmentationNode()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return NodeValidationError{
+					field:  "ImageSegmentationNode",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *Node_ImageInstanceSegmentationNode:
+		if v == nil {
+			err := NodeValidationError{
+				field:  "NodeType",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		oneofNodeTypePresent = true
+
+		if all {
+			switch v := interface{}(m.GetImageInstanceSegmentationNode()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, NodeValidationError{
+						field:  "ImageInstanceSegmentationNode",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, NodeValidationError{
+						field:  "ImageInstanceSegmentationNode",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetImageInstanceSegmentationNode()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return NodeValidationError{
+					field:  "ImageInstanceSegmentationNode",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	case *Node_ImageAnomalyDetectionNode:
+		if v == nil {
+			err := NodeValidationError{
+				field:  "NodeType",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		oneofNodeTypePresent = true
+
+		if all {
+			switch v := interface{}(m.GetImageAnomalyDetectionNode()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, NodeValidationError{
+						field:  "ImageAnomalyDetectionNode",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, NodeValidationError{
+						field:  "ImageAnomalyDetectionNode",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetImageAnomalyDetectionNode()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return NodeValidationError{
+					field:  "ImageAnomalyDetectionNode",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}

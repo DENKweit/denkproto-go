@@ -341,6 +341,99 @@
       ],
       "additionalProperties": false
     },
+    "ImageSegmentationNode": {
+      "description": "Node for image segmentation. Base type for all nodes in the graph.",
+      "type": "object",
+      "properties": {
+        "node_type": {
+          "const": "image_segmentation"
+        },
+        "name": {
+          "type": "string"
+        },
+        "input_image": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+        },
+        "model_source": {
+          "$ref": "#/definitions/ModelSourceBase"
+        },
+        "output_port_name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        }
+      },
+      "required": [
+        "node_type",
+        "name",
+        "input_image",
+        "model_source",
+        "output_port_name"
+      ],
+      "additionalProperties": false
+    },
+    "ImageInstanceSegmentationNode": {
+      "description": "Node for image instance segmentation. Base type for all nodes in the graph.",
+      "type": "object",
+      "properties": {
+        "node_type": {
+          "const": "image_instance_segmentation"
+        },
+        "name": {
+          "type": "string"
+        },
+        "input_image": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+        },
+        "model_source": {
+          "$ref": "#/definitions/ModelSourceBase"
+        },
+        "output_port_name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        }
+      },
+      "required": [
+        "node_type",
+        "name",
+        "input_image",
+        "model_source",
+        "output_port_name"
+      ],
+      "additionalProperties": false
+    },
+    "ImageAnomalyDetectionNode": {
+      "description": "Node for image anomaly detection. Base type for all nodes in the graph.",
+      "type": "object",
+      "properties": {
+        "node_type": {
+          "const": "image_anomaly_detection"
+        },
+        "name": {
+          "type": "string"
+        },
+        "input_image": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+        },
+        "model_source": {
+          "$ref": "#/definitions/ModelSourceBase"
+        },
+        "output_port_name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        }
+      },
+      "required": [
+        "node_type",
+        "name",
+        "input_image",
+        "model_source",
+        "output_port_name"
+      ],
+      "additionalProperties": false
+    },
     "ImagePatchesNode": {
       "description": "Node that extracts patches from an image based on bounding boxes. Base type for all nodes in the graph.",
       "type": "object",
@@ -483,6 +576,15 @@
         },
         {
           "$ref": "#/definitions/BoundingBoxFilterNode"
+        },
+        {
+          "$ref": "#/definitions/ImageSegmentationNode"
+        },
+        {
+          "$ref": "#/definitions/ImageInstanceSegmentationNode"
+        },
+        {
+          "$ref": "#/definitions/ImageAnomalyDetectionNode"
         }
       ],
       "discriminator": {

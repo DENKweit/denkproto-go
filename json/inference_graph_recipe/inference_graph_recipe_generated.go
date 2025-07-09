@@ -176,6 +176,18 @@ func UnmarshalJSONNode(data []byte) (Node, error) {
 			return nil, fmt.Errorf("error unmarshaling into ConstTensorNode: %w", err)
 		}
 		return &concrete, nil
+	case "image_anomaly_detection":
+		var concrete ImageAnomalyDetectionNode
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into ImageAnomalyDetectionNode: %w", err)
+		}
+		return &concrete, nil
+	case "image_instance_segmentation":
+		var concrete ImageInstanceSegmentationNode
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into ImageInstanceSegmentationNode: %w", err)
+		}
+		return &concrete, nil
 	case "image_patches":
 		var concrete ImagePatchesNode
 		if err := json.Unmarshal(data, &concrete); err != nil {
@@ -186,6 +198,12 @@ func UnmarshalJSONNode(data []byte) (Node, error) {
 		var concrete ImageResizeNode
 		if err := json.Unmarshal(data, &concrete); err != nil {
 			return nil, fmt.Errorf("error unmarshaling into ImageResizeNode: %w", err)
+		}
+		return &concrete, nil
+	case "image_segmentation":
+		var concrete ImageSegmentationNode
+		if err := json.Unmarshal(data, &concrete); err != nil {
+			return nil, fmt.Errorf("error unmarshaling into ImageSegmentationNode: %w", err)
 		}
 		return &concrete, nil
 	case "image_object_detection":
@@ -653,6 +671,140 @@ func NewConstTensorUint64Data(data []int64) *ConstTensorUint64Data {
 	return c
 }
 
+// ImageAnomalyDetectionNode corresponds to the JSON schema definition 'ImageAnomalyDetectionNode'.
+// Node for image anomaly detection. Base type for all nodes in the graph.
+type ImageAnomalyDetectionNode struct {
+	InputImage     string          `json:"input_image"`
+	ModelSource    ModelSourceBase `json:"model_source"`
+	Name           string          `json:"name"`
+	NodeType       string          `json:"node_type"`
+	OutputPortName string          `json:"output_port_name"`
+}
+
+// isNode implements the Node interface.
+func (i *ImageAnomalyDetectionNode) isNode() {}
+
+// UnmarshalJSON implements custom unmarshaling for ImageAnomalyDetectionNode to handle interface fields.
+func (i *ImageAnomalyDetectionNode) UnmarshalJSON(data []byte) error {
+	// Define an intermediate type using json.RawMessage for interface fields
+	// and pointers for optional fields that might be interfaces
+	type Alias ImageAnomalyDetectionNode // Use Alias for non-interface fields
+
+	// Base struct for standard fields
+	var alias Alias
+	if err := json.Unmarshal(data, &alias); err != nil {
+		return fmt.Errorf("error unmarshaling standard fields for ImageAnomalyDetectionNode: %w", err)
+	}
+	*i = ImageAnomalyDetectionNode(alias) // Assign standard fields first
+
+	// Struct to capture interface fields as RawMessage
+	rawFields := struct {
+		ModelSource json.RawMessage `json:"model_source"`
+	}{}
+
+	// Unmarshal RawMessages
+	if err := json.Unmarshal(data, &rawFields); err != nil {
+		return fmt.Errorf("error unmarshaling interface fields for ImageAnomalyDetectionNode: %w", err)
+	}
+
+	// Unmarshal the ModelSource field (ModelSourceBase interface)
+	if len(rawFields.ModelSource) > 0 && string(rawFields.ModelSource) != "null" {
+		var item ModelSourceBase // This will hold the concrete type implementing the interface
+		// Use the field-specific unmarshaler which sets the interface variable correctly
+		if err := UnmarshalJSONModelSourceBaseForField(rawFields.ModelSource, &item); err != nil { // Pass address of interface variable
+			return fmt.Errorf("error unmarshaling ModelSource: %w", err)
+		}
+		i.ModelSource = item // Assign the interface variable to the struct field
+	}
+
+	return nil
+}
+
+// NewImageAnomalyDetectionNode creates a new instance of ImageAnomalyDetectionNode with required fields.
+// Optional fields should be set using builder methods.
+func NewImageAnomalyDetectionNode(name string, inputimage string, modelsource ModelSourceBase, outputportname string) *ImageAnomalyDetectionNode {
+	i := &ImageAnomalyDetectionNode{
+		Name:           name,
+		InputImage:     inputimage,
+		ModelSource:    modelsource,
+		OutputPortName: outputportname,
+		NodeType:       "image_anomaly_detection",
+	}
+	return i
+}
+
+// SetModelSource sets the ModelSource field, which is an interface type (ModelSourceBase).
+func (i *ImageAnomalyDetectionNode) SetModelSource(modelsource ModelSourceBase) {
+	i.ModelSource = modelsource
+}
+
+// ImageInstanceSegmentationNode corresponds to the JSON schema definition 'ImageInstanceSegmentationNode'.
+// Node for image instance segmentation. Base type for all nodes in the graph.
+type ImageInstanceSegmentationNode struct {
+	InputImage     string          `json:"input_image"`
+	ModelSource    ModelSourceBase `json:"model_source"`
+	Name           string          `json:"name"`
+	NodeType       string          `json:"node_type"`
+	OutputPortName string          `json:"output_port_name"`
+}
+
+// isNode implements the Node interface.
+func (i *ImageInstanceSegmentationNode) isNode() {}
+
+// UnmarshalJSON implements custom unmarshaling for ImageInstanceSegmentationNode to handle interface fields.
+func (i *ImageInstanceSegmentationNode) UnmarshalJSON(data []byte) error {
+	// Define an intermediate type using json.RawMessage for interface fields
+	// and pointers for optional fields that might be interfaces
+	type Alias ImageInstanceSegmentationNode // Use Alias for non-interface fields
+
+	// Base struct for standard fields
+	var alias Alias
+	if err := json.Unmarshal(data, &alias); err != nil {
+		return fmt.Errorf("error unmarshaling standard fields for ImageInstanceSegmentationNode: %w", err)
+	}
+	*i = ImageInstanceSegmentationNode(alias) // Assign standard fields first
+
+	// Struct to capture interface fields as RawMessage
+	rawFields := struct {
+		ModelSource json.RawMessage `json:"model_source"`
+	}{}
+
+	// Unmarshal RawMessages
+	if err := json.Unmarshal(data, &rawFields); err != nil {
+		return fmt.Errorf("error unmarshaling interface fields for ImageInstanceSegmentationNode: %w", err)
+	}
+
+	// Unmarshal the ModelSource field (ModelSourceBase interface)
+	if len(rawFields.ModelSource) > 0 && string(rawFields.ModelSource) != "null" {
+		var item ModelSourceBase // This will hold the concrete type implementing the interface
+		// Use the field-specific unmarshaler which sets the interface variable correctly
+		if err := UnmarshalJSONModelSourceBaseForField(rawFields.ModelSource, &item); err != nil { // Pass address of interface variable
+			return fmt.Errorf("error unmarshaling ModelSource: %w", err)
+		}
+		i.ModelSource = item // Assign the interface variable to the struct field
+	}
+
+	return nil
+}
+
+// NewImageInstanceSegmentationNode creates a new instance of ImageInstanceSegmentationNode with required fields.
+// Optional fields should be set using builder methods.
+func NewImageInstanceSegmentationNode(name string, inputimage string, modelsource ModelSourceBase, outputportname string) *ImageInstanceSegmentationNode {
+	i := &ImageInstanceSegmentationNode{
+		Name:           name,
+		InputImage:     inputimage,
+		ModelSource:    modelsource,
+		OutputPortName: outputportname,
+		NodeType:       "image_instance_segmentation",
+	}
+	return i
+}
+
+// SetModelSource sets the ModelSource field, which is an interface type (ModelSourceBase).
+func (i *ImageInstanceSegmentationNode) SetModelSource(modelsource ModelSourceBase) {
+	i.ModelSource = modelsource
+}
+
 // ImagePatchesNode corresponds to the JSON schema definition 'ImagePatchesNode'.
 // Node that extracts patches from an image based on bounding boxes. Base type for all nodes in the graph.
 type ImagePatchesNode struct {
@@ -746,6 +898,73 @@ func NewImageResizeNode(name string, inputsize string, inputimage string, output
 		NodeType:       "image_resize",
 	}
 	return i
+}
+
+// ImageSegmentationNode corresponds to the JSON schema definition 'ImageSegmentationNode'.
+// Node for image segmentation. Base type for all nodes in the graph.
+type ImageSegmentationNode struct {
+	InputImage     string          `json:"input_image"`
+	ModelSource    ModelSourceBase `json:"model_source"`
+	Name           string          `json:"name"`
+	NodeType       string          `json:"node_type"`
+	OutputPortName string          `json:"output_port_name"`
+}
+
+// isNode implements the Node interface.
+func (i *ImageSegmentationNode) isNode() {}
+
+// UnmarshalJSON implements custom unmarshaling for ImageSegmentationNode to handle interface fields.
+func (i *ImageSegmentationNode) UnmarshalJSON(data []byte) error {
+	// Define an intermediate type using json.RawMessage for interface fields
+	// and pointers for optional fields that might be interfaces
+	type Alias ImageSegmentationNode // Use Alias for non-interface fields
+
+	// Base struct for standard fields
+	var alias Alias
+	if err := json.Unmarshal(data, &alias); err != nil {
+		return fmt.Errorf("error unmarshaling standard fields for ImageSegmentationNode: %w", err)
+	}
+	*i = ImageSegmentationNode(alias) // Assign standard fields first
+
+	// Struct to capture interface fields as RawMessage
+	rawFields := struct {
+		ModelSource json.RawMessage `json:"model_source"`
+	}{}
+
+	// Unmarshal RawMessages
+	if err := json.Unmarshal(data, &rawFields); err != nil {
+		return fmt.Errorf("error unmarshaling interface fields for ImageSegmentationNode: %w", err)
+	}
+
+	// Unmarshal the ModelSource field (ModelSourceBase interface)
+	if len(rawFields.ModelSource) > 0 && string(rawFields.ModelSource) != "null" {
+		var item ModelSourceBase // This will hold the concrete type implementing the interface
+		// Use the field-specific unmarshaler which sets the interface variable correctly
+		if err := UnmarshalJSONModelSourceBaseForField(rawFields.ModelSource, &item); err != nil { // Pass address of interface variable
+			return fmt.Errorf("error unmarshaling ModelSource: %w", err)
+		}
+		i.ModelSource = item // Assign the interface variable to the struct field
+	}
+
+	return nil
+}
+
+// NewImageSegmentationNode creates a new instance of ImageSegmentationNode with required fields.
+// Optional fields should be set using builder methods.
+func NewImageSegmentationNode(name string, inputimage string, modelsource ModelSourceBase, outputportname string) *ImageSegmentationNode {
+	i := &ImageSegmentationNode{
+		Name:           name,
+		InputImage:     inputimage,
+		ModelSource:    modelsource,
+		OutputPortName: outputportname,
+		NodeType:       "image_segmentation",
+	}
+	return i
+}
+
+// SetModelSource sets the ModelSource field, which is an interface type (ModelSourceBase).
+func (i *ImageSegmentationNode) SetModelSource(modelsource ModelSourceBase) {
+	i.ModelSource = modelsource
 }
 
 // ImageSize corresponds to the JSON schema definition 'ImageSize'.

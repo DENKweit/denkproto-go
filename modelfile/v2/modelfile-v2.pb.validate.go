@@ -35,6 +35,9 @@ var (
 	_ = sort.Sort
 )
 
+// define the regex for a UUID once up-front
+var _modelfile_v_2_uuidPattern = regexp.MustCompile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+
 // Validate checks the field values on ModelFile with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -86,7 +89,16 @@ func (m *ModelFile) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for CreatedAt
+	if m.GetCreatedAt() < 0 {
+		err := ModelFileValidationError{
+			field:  "CreatedAt",
+			reason: "value must be greater than or equal to 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	if m.GetFileInfo() == nil {
 		err := ModelFileValidationError{
@@ -168,8 +180,30 @@ func (m *ModelFile) validate(all bool) error {
 		}
 	}
 
+	if len(m.GetClassLabels()) < 1 {
+		err := ModelFileValidationError{
+			field:  "ClassLabels",
+			reason: "value must contain at least 1 item(s)",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	for idx, item := range m.GetClassLabels() {
 		_, _ = idx, item
+
+		if item == nil {
+			err := ModelFileValidationError{
+				field:  fmt.Sprintf("ClassLabels[%v]", idx),
+				reason: "value is required",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
 
 		if all {
 			switch v := interface{}(item).(type) {
@@ -202,8 +236,30 @@ func (m *ModelFile) validate(all bool) error {
 
 	}
 
+	if len(m.GetInputs()) < 1 {
+		err := ModelFileValidationError{
+			field:  "Inputs",
+			reason: "value must contain at least 1 item(s)",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	for idx, item := range m.GetInputs() {
 		_, _ = idx, item
+
+		if item == nil {
+			err := ModelFileValidationError{
+				field:  fmt.Sprintf("Inputs[%v]", idx),
+				reason: "value is required",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
 
 		if all {
 			switch v := interface{}(item).(type) {
@@ -236,8 +292,30 @@ func (m *ModelFile) validate(all bool) error {
 
 	}
 
+	if len(m.GetOutputs()) < 1 {
+		err := ModelFileValidationError{
+			field:  "Outputs",
+			reason: "value must contain at least 1 item(s)",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	for idx, item := range m.GetOutputs() {
 		_, _ = idx, item
+
+		if item == nil {
+			err := ModelFileValidationError{
+				field:  fmt.Sprintf("Outputs[%v]", idx),
+				reason: "value is required",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
 
 		if all {
 			switch v := interface{}(item).(type) {
@@ -477,13 +555,49 @@ func (m *ModelFile_Content) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for ByteContent
+	if len(m.GetByteContent()) < 1 {
+		err := ModelFile_ContentValidationError{
+			field:  "ByteContent",
+			reason: "value length must be at least 1 bytes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for HashSha256
+	if len(m.GetHashSha256()) < 1 {
+		err := ModelFile_ContentValidationError{
+			field:  "HashSha256",
+			reason: "value length must be at least 1 bytes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for CompressionMethod
+	if _, ok := ModelFile_Content_CompressionMethod_name[int32(m.GetCompressionMethod())]; !ok {
+		err := ModelFile_ContentValidationError{
+			field:  "CompressionMethod",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for EncryptionMethod
+	if _, ok := ModelFile_Content_EncryptionMethod_name[int32(m.GetEncryptionMethod())]; !ok {
+		err := ModelFile_ContentValidationError{
+			field:  "EncryptionMethod",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	{
 		sorted_keys := make([]string, len(m.GetKeySlots()))
@@ -633,16 +747,43 @@ func (m *ModelFile_ClassLabel) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for ClassLabelId
+	if err := m._validateUuid(m.GetClassLabelId()); err != nil {
+		err = ModelFile_ClassLabelValidationError{
+			field:  "ClassLabelId",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	// no validation rules for Name
 
 	// no validation rules for ShortName
 
-	// no validation rules for Color
+	if !_ModelFile_ClassLabel_Color_Pattern.MatchString(m.GetColor()) {
+		err := ModelFile_ClassLabelValidationError{
+			field:  "Color",
+			reason: "value does not match regex pattern \"^#(?:[0-9a-fA-F]{2}){3}$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	if len(errors) > 0 {
 		return ModelFile_ClassLabelMultiError(errors)
+	}
+
+	return nil
+}
+
+func (m *ModelFile_ClassLabel) _validateUuid(uuid string) error {
+	if matched := _modelfile_v_2_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
 	}
 
 	return nil
@@ -721,6 +862,8 @@ var _ interface {
 	ErrorName() string
 } = ModelFile_ClassLabelValidationError{}
 
+var _ModelFile_ClassLabel_Color_Pattern = regexp.MustCompile("^#(?:[0-9a-fA-F]{2}){3}$")
+
 // Validate checks the field values on ModelFile_ImageSize with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
@@ -743,11 +886,38 @@ func (m *ModelFile_ImageSize) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Width
+	if m.GetWidth() <= 0 {
+		err := ModelFile_ImageSizeValidationError{
+			field:  "Width",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for Height
+	if m.GetHeight() <= 0 {
+		err := ModelFile_ImageSizeValidationError{
+			field:  "Height",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for Channels
+	if m.GetChannels() <= 0 {
+		err := ModelFile_ImageSizeValidationError{
+			field:  "Channels",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	if len(errors) > 0 {
 		return ModelFile_ImageSizeMultiError(errors)
@@ -851,13 +1021,49 @@ func (m *ModelFile_RegionFromEdge) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Left
+	if val := m.GetLeft(); val < 0 || val >= 1 {
+		err := ModelFile_RegionFromEdgeValidationError{
+			field:  "Left",
+			reason: "value must be inside range [0, 1)",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for Right
+	if val := m.GetRight(); val < 0 || val >= 1 {
+		err := ModelFile_RegionFromEdgeValidationError{
+			field:  "Right",
+			reason: "value must be inside range [0, 1)",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for Top
+	if val := m.GetTop(); val < 0 || val >= 1 {
+		err := ModelFile_RegionFromEdgeValidationError{
+			field:  "Top",
+			reason: "value must be inside range [0, 1)",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for Bottom
+	if val := m.GetBottom(); val < 0 || val >= 1 {
+		err := ModelFile_RegionFromEdgeValidationError{
+			field:  "Bottom",
+			reason: "value must be inside range [0, 1)",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	if len(errors) > 0 {
 		return ModelFile_RegionFromEdgeMultiError(errors)
@@ -1107,6 +1313,7 @@ func (m *ModelFile_Output) validate(all bool) error {
 
 	var errors []error
 
+	oneofFormatInformationPresent := false
 	switch v := m.FormatInformation.(type) {
 	case *ModelFile_Output_ImageClassifiersFormat:
 		if v == nil {
@@ -1119,6 +1326,7 @@ func (m *ModelFile_Output) validate(all bool) error {
 			}
 			errors = append(errors, err)
 		}
+		oneofFormatInformationPresent = true
 
 		if all {
 			switch v := interface{}(m.GetImageClassifiersFormat()).(type) {
@@ -1160,6 +1368,7 @@ func (m *ModelFile_Output) validate(all bool) error {
 			}
 			errors = append(errors, err)
 		}
+		oneofFormatInformationPresent = true
 
 		if all {
 			switch v := interface{}(m.GetSegmentationMapsFormat()).(type) {
@@ -1201,6 +1410,7 @@ func (m *ModelFile_Output) validate(all bool) error {
 			}
 			errors = append(errors, err)
 		}
+		oneofFormatInformationPresent = true
 
 		if all {
 			switch v := interface{}(m.GetBoundingBoxesFormat()).(type) {
@@ -1242,6 +1452,7 @@ func (m *ModelFile_Output) validate(all bool) error {
 			}
 			errors = append(errors, err)
 		}
+		oneofFormatInformationPresent = true
 
 		if all {
 			switch v := interface{}(m.GetBoundingBoxSegmentationsFormat()).(type) {
@@ -1283,6 +1494,7 @@ func (m *ModelFile_Output) validate(all bool) error {
 			}
 			errors = append(errors, err)
 		}
+		oneofFormatInformationPresent = true
 
 		if all {
 			switch v := interface{}(m.GetOcrFormat()).(type) {
@@ -1315,6 +1527,16 @@ func (m *ModelFile_Output) validate(all bool) error {
 
 	default:
 		_ = v // ensures v is used
+	}
+	if !oneofFormatInformationPresent {
+		err := ModelFile_OutputValidationError{
+			field:  "FormatInformation",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
 	if len(errors) > 0 {
@@ -1419,11 +1641,41 @@ func (m *ModelFile_FileInfo) validate(all bool) error {
 
 	// no validation rules for NetworkName
 
-	// no validation rules for NetworkId
+	if err := m._validateUuid(m.GetNetworkId()); err != nil {
+		err = ModelFile_FileInfoValidationError{
+			field:  "NetworkId",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for NetworkExperimentId
+	if err := m._validateUuid(m.GetNetworkExperimentId()); err != nil {
+		err = ModelFile_FileInfoValidationError{
+			field:  "NetworkExperimentId",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for NetworkSnapshotId
+	if err := m._validateUuid(m.GetNetworkSnapshotId()); err != nil {
+		err = ModelFile_FileInfoValidationError{
+			field:  "NetworkSnapshotId",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	// no validation rules for NetworkType
 
@@ -1525,6 +1777,14 @@ func (m *ModelFile_FileInfo) validate(all bool) error {
 	return nil
 }
 
+func (m *ModelFile_FileInfo) _validateUuid(uuid string) error {
+	if matched := _modelfile_v_2_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
+	}
+
+	return nil
+}
+
 // ModelFile_FileInfoMultiError is an error wrapping multiple validation errors
 // returned by ModelFile_FileInfo.ValidateAll() if the designated constraints
 // aren't met.
@@ -1620,6 +1880,7 @@ func (m *ModelFile_FileContent) validate(all bool) error {
 
 	var errors []error
 
+	oneofFileTypePresent := false
 	switch v := m.FileType.(type) {
 	case *ModelFile_FileContent_DefaultModel_:
 		if v == nil {
@@ -1632,6 +1893,7 @@ func (m *ModelFile_FileContent) validate(all bool) error {
 			}
 			errors = append(errors, err)
 		}
+		oneofFileTypePresent = true
 
 		if all {
 			switch v := interface{}(m.GetDefaultModel()).(type) {
@@ -1673,6 +1935,7 @@ func (m *ModelFile_FileContent) validate(all bool) error {
 			}
 			errors = append(errors, err)
 		}
+		oneofFileTypePresent = true
 
 		if all {
 			switch v := interface{}(m.GetTensorrtModel()).(type) {
@@ -1705,6 +1968,16 @@ func (m *ModelFile_FileContent) validate(all bool) error {
 
 	default:
 		_ = v // ensures v is used
+	}
+	if !oneofFileTypePresent {
+		err := ModelFile_FileContentValidationError{
+			field:  "FileType",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
 	if len(errors) > 0 {
@@ -3151,9 +3424,27 @@ func (m *ModelFile_Output_OcrOutputFormat_Character) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Utf8Representation
+	if len(m.GetUtf8Representation()) < 1 {
+		err := ModelFile_Output_OcrOutputFormat_CharacterValidationError{
+			field:  "Utf8Representation",
+			reason: "value length must be at least 1 bytes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
-	// no validation rules for CharacterType
+	if _, ok := ModelFile_Output_OcrOutputFormat_Character_CharacterType_name[int32(m.GetCharacterType())]; !ok {
+		err := ModelFile_Output_OcrOutputFormat_CharacterValidationError{
+			field:  "CharacterType",
+			reason: "value must be one of the defined enum values",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	// no validation rules for Ignore
 
@@ -3261,6 +3552,17 @@ func (m *ModelFile_FileContent_DefaultModel) validate(all bool) error {
 	}
 
 	var errors []error
+
+	if m.GetModelData() == nil {
+		err := ModelFile_FileContent_DefaultModelValidationError{
+			field:  "ModelData",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	if all {
 		switch v := interface{}(m.GetModelData()).(type) {
@@ -3396,6 +3698,17 @@ func (m *ModelFile_FileContent_TensorRTModel) validate(all bool) error {
 
 	var errors []error
 
+	if m.GetModelData() == nil {
+		err := ModelFile_FileContent_TensorRTModelValidationError{
+			field:  "ModelData",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if all {
 		switch v := interface{}(m.GetModelData()).(type) {
 		case interface{ ValidateAll() error }:
@@ -3425,6 +3738,17 @@ func (m *ModelFile_FileContent_TensorRTModel) validate(all bool) error {
 		}
 	}
 
+	if m.GetCalibrationCache() == nil {
+		err := ModelFile_FileContent_TensorRTModelValidationError{
+			field:  "CalibrationCache",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if all {
 		switch v := interface{}(m.GetCalibrationCache()).(type) {
 		case interface{ ValidateAll() error }:
@@ -3452,6 +3776,17 @@ func (m *ModelFile_FileContent_TensorRTModel) validate(all bool) error {
 				cause:  err,
 			}
 		}
+	}
+
+	if m.GetCalibrationFlatbuffers() == nil {
+		err := ModelFile_FileContent_TensorRTModelValidationError{
+			field:  "CalibrationFlatbuffers",
+			reason: "value is required",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
 	if all {
