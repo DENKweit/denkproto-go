@@ -403,7 +403,8 @@
         "name",
         "input_image",
         "model_source",
-        "output_port_name"
+        "output_bounding_boxes",
+        "output_segmentations"
       ],
       "additionalProperties": false
     },

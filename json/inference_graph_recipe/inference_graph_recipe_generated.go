@@ -745,8 +745,8 @@ type ImageInstanceSegmentationNode struct {
 	ModelSource         ModelSourceBase `json:"model_source"`
 	Name                string          `json:"name"`
 	NodeType            string          `json:"node_type"`
-	OutputBoundingBoxes *string         `json:"output_bounding_boxes,omitempty"` // Optional
-	OutputSegmentations *string         `json:"output_segmentations,omitempty"`  // Optional
+	OutputBoundingBoxes string          `json:"output_bounding_boxes"`
+	OutputSegmentations string          `json:"output_segmentations"`
 }
 
 // isNode implements the Node interface.
@@ -790,12 +790,14 @@ func (i *ImageInstanceSegmentationNode) UnmarshalJSON(data []byte) error {
 
 // NewImageInstanceSegmentationNode creates a new instance of ImageInstanceSegmentationNode with required fields.
 // Optional fields should be set using builder methods.
-func NewImageInstanceSegmentationNode(name string, inputimage string, modelsource ModelSourceBase) *ImageInstanceSegmentationNode {
+func NewImageInstanceSegmentationNode(name string, inputimage string, modelsource ModelSourceBase, outputboundingboxes string, outputsegmentations string) *ImageInstanceSegmentationNode {
 	i := &ImageInstanceSegmentationNode{
-		Name:        name,
-		InputImage:  inputimage,
-		ModelSource: modelsource,
-		NodeType:    "image_instance_segmentation",
+		Name:                name,
+		InputImage:          inputimage,
+		ModelSource:         modelsource,
+		OutputBoundingBoxes: outputboundingboxes,
+		OutputSegmentations: outputsegmentations,
+		NodeType:            "image_instance_segmentation",
 	}
 	return i
 }
@@ -803,18 +805,6 @@ func NewImageInstanceSegmentationNode(name string, inputimage string, modelsourc
 // SetModelSource sets the ModelSource field, which is an interface type (ModelSourceBase).
 func (i *ImageInstanceSegmentationNode) SetModelSource(modelsource ModelSourceBase) {
 	i.ModelSource = modelsource
-}
-
-// WithOutputBoundingBoxes sets the optional output_bounding_boxes field and returns the struct pointer for chaining.
-func (i *ImageInstanceSegmentationNode) WithOutputBoundingBoxes(value string) *ImageInstanceSegmentationNode {
-	i.OutputBoundingBoxes = &value
-	return i
-}
-
-// WithOutputSegmentations sets the optional output_segmentations field and returns the struct pointer for chaining.
-func (i *ImageInstanceSegmentationNode) WithOutputSegmentations(value string) *ImageInstanceSegmentationNode {
-	i.OutputSegmentations = &value
-	return i
 }
 
 // ImagePatchesNode corresponds to the JSON schema definition 'ImagePatchesNode'.
