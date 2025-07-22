@@ -2256,9 +2256,9 @@ func (m *ImageInstanceSegmentationNode) validate(all bool) error {
 		}
 	}
 
-	if utf8.RuneCountInString(m.GetOutputPortName()) < 1 {
+	if utf8.RuneCountInString(m.GetOutputBoundingBoxes()) < 1 {
 		err := ImageInstanceSegmentationNodeValidationError{
-			field:  "OutputPortName",
+			field:  "OutputBoundingBoxes",
 			reason: "value length must be at least 1 runes",
 		}
 		if !all {
@@ -2267,9 +2267,31 @@ func (m *ImageInstanceSegmentationNode) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if !_ImageInstanceSegmentationNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
+	if !_ImageInstanceSegmentationNode_OutputBoundingBoxes_Pattern.MatchString(m.GetOutputBoundingBoxes()) {
 		err := ImageInstanceSegmentationNodeValidationError{
-			field:  "OutputPortName",
+			field:  "OutputBoundingBoxes",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetOutputSegmentations()) < 1 {
+		err := ImageInstanceSegmentationNodeValidationError{
+			field:  "OutputSegmentations",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_ImageInstanceSegmentationNode_OutputSegmentations_Pattern.MatchString(m.GetOutputSegmentations()) {
+		err := ImageInstanceSegmentationNodeValidationError{
+			field:  "OutputSegmentations",
 			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+$\"",
 		}
 		if !all {
@@ -2394,7 +2416,9 @@ var _ interface {
 
 var _ImageInstanceSegmentationNode_InputImage_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
 
-var _ImageInstanceSegmentationNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
+var _ImageInstanceSegmentationNode_OutputBoundingBoxes_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
+
+var _ImageInstanceSegmentationNode_OutputSegmentations_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
 
 // Validate checks the field values on ImageAnomalyDetectionNode with the rules
 // defined in the proto definition for this message. If any rules are

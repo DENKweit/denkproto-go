@@ -389,7 +389,11 @@
         "model_source": {
           "$ref": "#/definitions/ModelSourceBase"
         },
-        "output_port_name": {
+        "output_bounding_boxes": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "output_segmentations": {
           "type": "string",
           "pattern": "^[a-zA-Z0-9_-]+$"
         }
