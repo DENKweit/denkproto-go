@@ -674,11 +674,12 @@ func NewConstTensorUint64Data(data []int64) *ConstTensorUint64Data {
 // ImageAnomalyDetectionNode corresponds to the JSON schema definition 'ImageAnomalyDetectionNode'.
 // Node for image anomaly detection. Base type for all nodes in the graph.
 type ImageAnomalyDetectionNode struct {
-	InputImage     string          `json:"input_image"`
-	ModelSource    ModelSourceBase `json:"model_source"`
-	Name           string          `json:"name"`
-	NodeType       string          `json:"node_type"`
-	OutputPortName string          `json:"output_port_name"`
+	InputImage          string          `json:"input_image"`
+	ModelSource         ModelSourceBase `json:"model_source"`
+	Name                string          `json:"name"`
+	NodeType            string          `json:"node_type"`
+	OutputAnomalyScores string          `json:"output_anomaly_scores"`
+	OutputSegmentations string          `json:"output_segmentations"`
 }
 
 // isNode implements the Node interface.
@@ -722,13 +723,14 @@ func (i *ImageAnomalyDetectionNode) UnmarshalJSON(data []byte) error {
 
 // NewImageAnomalyDetectionNode creates a new instance of ImageAnomalyDetectionNode with required fields.
 // Optional fields should be set using builder methods.
-func NewImageAnomalyDetectionNode(name string, inputimage string, modelsource ModelSourceBase, outputportname string) *ImageAnomalyDetectionNode {
+func NewImageAnomalyDetectionNode(name string, inputimage string, modelsource ModelSourceBase, outputanomalyscores string, outputsegmentations string) *ImageAnomalyDetectionNode {
 	i := &ImageAnomalyDetectionNode{
-		Name:           name,
-		InputImage:     inputimage,
-		ModelSource:    modelsource,
-		OutputPortName: outputportname,
-		NodeType:       "image_anomaly_detection",
+		Name:                name,
+		InputImage:          inputimage,
+		ModelSource:         modelsource,
+		OutputAnomalyScores: outputanomalyscores,
+		OutputSegmentations: outputsegmentations,
+		NodeType:            "image_anomaly_detection",
 	}
 	return i
 }

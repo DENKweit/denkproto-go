@@ -2506,9 +2506,9 @@ func (m *ImageAnomalyDetectionNode) validate(all bool) error {
 		}
 	}
 
-	if utf8.RuneCountInString(m.GetOutputPortName()) < 1 {
+	if utf8.RuneCountInString(m.GetOutputAnomalyScores()) < 1 {
 		err := ImageAnomalyDetectionNodeValidationError{
-			field:  "OutputPortName",
+			field:  "OutputAnomalyScores",
 			reason: "value length must be at least 1 runes",
 		}
 		if !all {
@@ -2517,9 +2517,31 @@ func (m *ImageAnomalyDetectionNode) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if !_ImageAnomalyDetectionNode_OutputPortName_Pattern.MatchString(m.GetOutputPortName()) {
+	if !_ImageAnomalyDetectionNode_OutputAnomalyScores_Pattern.MatchString(m.GetOutputAnomalyScores()) {
 		err := ImageAnomalyDetectionNodeValidationError{
-			field:  "OutputPortName",
+			field:  "OutputAnomalyScores",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetOutputSegmentations()) < 1 {
+		err := ImageAnomalyDetectionNodeValidationError{
+			field:  "OutputSegmentations",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_ImageAnomalyDetectionNode_OutputSegmentations_Pattern.MatchString(m.GetOutputSegmentations()) {
+		err := ImageAnomalyDetectionNodeValidationError{
+			field:  "OutputSegmentations",
 			reason: "value does not match regex pattern \"^[a-zA-Z0-9_-]+$\"",
 		}
 		if !all {
@@ -2643,7 +2665,9 @@ var _ interface {
 
 var _ImageAnomalyDetectionNode_InputImage_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
 
-var _ImageAnomalyDetectionNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
+var _ImageAnomalyDetectionNode_OutputAnomalyScores_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
+
+var _ImageAnomalyDetectionNode_OutputSegmentations_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
 
 // Validate checks the field values on BoundingBoxFilterNode with the rules
 // defined in the proto definition for this message. If any rules are

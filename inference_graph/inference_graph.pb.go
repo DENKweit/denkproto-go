@@ -964,14 +964,15 @@ func (x *ImageInstanceSegmentationNode) GetSessionInfo() *SessionInfo {
 }
 
 type ImageAnomalyDetectionNode struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	InputImage     string                 `protobuf:"bytes,2,opt,name=input_image,json=inputImage,proto3" json:"input_image,omitempty"`
-	ModelSource    *ModelSource           `protobuf:"bytes,3,opt,name=model_source,json=modelSource,proto3" json:"model_source,omitempty"`
-	OutputPortName string                 `protobuf:"bytes,4,opt,name=output_port_name,json=outputPortName,proto3" json:"output_port_name,omitempty"`
-	SessionInfo    *SessionInfo           `protobuf:"bytes,5,opt,name=session_info,json=sessionInfo,proto3,oneof" json:"session_info,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	Name                string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	InputImage          string                 `protobuf:"bytes,2,opt,name=input_image,json=inputImage,proto3" json:"input_image,omitempty"`
+	ModelSource         *ModelSource           `protobuf:"bytes,3,opt,name=model_source,json=modelSource,proto3" json:"model_source,omitempty"`
+	OutputAnomalyScores string                 `protobuf:"bytes,4,opt,name=output_anomaly_scores,json=outputAnomalyScores,proto3" json:"output_anomaly_scores,omitempty"`
+	OutputSegmentations string                 `protobuf:"bytes,5,opt,name=output_segmentations,json=outputSegmentations,proto3" json:"output_segmentations,omitempty"`
+	SessionInfo         *SessionInfo           `protobuf:"bytes,6,opt,name=session_info,json=sessionInfo,proto3,oneof" json:"session_info,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *ImageAnomalyDetectionNode) Reset() {
@@ -1025,9 +1026,16 @@ func (x *ImageAnomalyDetectionNode) GetModelSource() *ModelSource {
 	return nil
 }
 
-func (x *ImageAnomalyDetectionNode) GetOutputPortName() string {
+func (x *ImageAnomalyDetectionNode) GetOutputAnomalyScores() string {
 	if x != nil {
-		return x.OutputPortName
+		return x.OutputAnomalyScores
+	}
+	return ""
+}
+
+func (x *ImageAnomalyDetectionNode) GetOutputSegmentations() string {
+	if x != nil {
+		return x.OutputSegmentations
 	}
 	return ""
 }
@@ -1860,14 +1868,15 @@ const file_inference_graph_proto_rawDesc = "" +
 	"\x15output_bounding_boxes\x18\x04 \x01(\tB\x19\xfaB\x16r\x14\x10\x012\x10^[a-zA-Z0-9_-]+$R\x13outputBoundingBoxes\x12L\n" +
 	"\x14output_segmentations\x18\x05 \x01(\tB\x19\xfaB\x16r\x14\x10\x012\x10^[a-zA-Z0-9_-]+$R\x13outputSegmentations\x12D\n" +
 	"\fsession_info\x18\x06 \x01(\v2\x1c.inference_graph.SessionInfoH\x00R\vsessionInfo\x88\x01\x01B\x0f\n" +
-	"\r_session_info\"\xf1\x02\n" +
+	"\r_session_info\"\xc9\x03\n" +
 	"\x19ImageAnomalyDetectionNode\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12Y\n" +
 	"\vinput_image\x18\x02 \x01(\tB8\xfaB5r3\x10\x012/^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$R\n" +
 	"inputImage\x12I\n" +
-	"\fmodel_source\x18\x03 \x01(\v2\x1c.inference_graph.ModelSourceB\b\xfaB\x05\x8a\x01\x02\x10\x01R\vmodelSource\x12C\n" +
-	"\x10output_port_name\x18\x04 \x01(\tB\x19\xfaB\x16r\x14\x10\x012\x10^[a-zA-Z0-9_-]+$R\x0eoutputPortName\x12D\n" +
-	"\fsession_info\x18\x05 \x01(\v2\x1c.inference_graph.SessionInfoH\x00R\vsessionInfo\x88\x01\x01B\x0f\n" +
+	"\fmodel_source\x18\x03 \x01(\v2\x1c.inference_graph.ModelSourceB\b\xfaB\x05\x8a\x01\x02\x10\x01R\vmodelSource\x12M\n" +
+	"\x15output_anomaly_scores\x18\x04 \x01(\tB\x19\xfaB\x16r\x14\x10\x012\x10^[a-zA-Z0-9_-]+$R\x13outputAnomalyScores\x12L\n" +
+	"\x14output_segmentations\x18\x05 \x01(\tB\x19\xfaB\x16r\x14\x10\x012\x10^[a-zA-Z0-9_-]+$R\x13outputSegmentations\x12D\n" +
+	"\fsession_info\x18\x06 \x01(\v2\x1c.inference_graph.SessionInfoH\x00R\vsessionInfo\x88\x01\x01B\x0f\n" +
 	"\r_session_info\"\xea\x05\n" +
 	"\x15BoundingBoxFilterNode\x12\x1b\n" +
 	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x12j\n" +

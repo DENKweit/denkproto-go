@@ -425,7 +425,11 @@
         "model_source": {
           "$ref": "#/definitions/ModelSourceBase"
         },
-        "output_port_name": {
+        "output_anomaly_scores": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "output_segmentations": {
           "type": "string",
           "pattern": "^[a-zA-Z0-9_-]+$"
         }
@@ -435,7 +439,8 @@
         "name",
         "input_image",
         "model_source",
-        "output_port_name"
+        "output_anomaly_scores",
+        "output_segmentations"
       ],
       "additionalProperties": false
     },
