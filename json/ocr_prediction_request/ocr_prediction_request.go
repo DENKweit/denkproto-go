@@ -20,6 +20,7 @@ func (r *OcrPredictionRequest) Marshal() ([]byte, error) {
 
 type OcrPredictionRequest struct {
 	CreatedByUserID    string            `json:"created_by_user_id"`
+	HasuraURL          string            `json:"hasura_url"`
 	ID                 string            `json:"id"`
 	Image              Image             `json:"image"`
 	NetworkExperiment  NetworkExperiment `json:"network_experiment"`
