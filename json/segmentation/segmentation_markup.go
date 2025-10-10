@@ -87,18 +87,18 @@ type PixelAnnotation struct {
 
 // A polygon defined by one or more rings, allowing for holes and nested structures.
 type PolygonAnnotation struct {
-	// Array of polygon rings. The hierarchy field within each ring determines nesting and
-	// fill/hole status.
-	Rings []GeometrySchema `json:"rings"`
+	// Array of polygon rings. The hierarchy field within each ring determines nesting and                 
+	// fill/hole status.                                                                                   
+	Rings                                                                                 []GeometrySchema `json:"rings"`
 }
 
 // A single closed loop (ring) of a polygon, defining either an outer boundary or a hole.
 type GeometrySchema struct {
-	// Nesting level: 0=outer, 1=hole in level 0, 2=poly in level 1 hole, etc. Even levels are
-	// filled areas, odd levels are holes.
-	Hierarchy int64 `json:"hierarchy"`
-	// Vertices of the ring.
-	Points []RingPoint `json:"points"`
+	// Nesting level: 0=outer, 1=hole in level 0, 2=poly in level 1 hole, etc. Even levels are            
+	// filled areas, odd levels are holes.                                                                
+	Hierarchy                                                                                 int64       `json:"hierarchy"`
+	// Vertices of the ring.                                                                              
+	Points                                                                                    []RingPoint `json:"points"`
 }
 
 type RingPoint struct {

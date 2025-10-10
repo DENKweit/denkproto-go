@@ -45,6 +45,7 @@ type NetworkExperiment struct {
 	ClassLabels                                []ClassLabelElement              `json:"class_labels"`
 	Config                                     Config                           `json:"config"`
 	Flavor                                     string                           `json:"flavor"`
+	ID                                         string                           `json:"id"`
 	NetworkTypename                            string                           `json:"network_typename"`
 	// Only present for OCR prediction requests                                 
 	OcrCharacterRestrictions                   []OcrCharacterRestrictionElement `json:"ocr_character_restrictions,omitempty"`
