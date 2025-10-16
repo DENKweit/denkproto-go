@@ -36,6 +36,7 @@ type PredictionRequest struct {
 
 type Image struct {
 	BlobID         string `json:"blob_id"`
+	FileID         string `json:"file_id"`
 	Height         int64  `json:"height"`
 	OwnedByGroupID string `json:"owned_by_group_id"`
 	Width          int64  `json:"width"`
