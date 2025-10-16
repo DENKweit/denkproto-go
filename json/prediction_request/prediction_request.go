@@ -75,8 +75,9 @@ type OcrCharacterRestrictionPreset struct {
 }
 
 type Snapshot struct {
-	Onnx    Onnx `json:"onnx"`
-	Pytorch Onnx `json:"pytorch"`
+	ID      string `json:"id"`
+	Onnx    Onnx   `json:"onnx"`
+	Pytorch Onnx   `json:"pytorch"`
 }
 
 type Onnx struct {
