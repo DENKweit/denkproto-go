@@ -170,76 +170,92 @@
       "required": ["height", "width"],
       "additionalProperties": false
     },
+    "TargetSizeSourceTopic": {
+      "description": "Target size from a topic source.",
+      "type": "object",
+      "properties": {
+        "source_type": {
+          "const": "topic"
+        },
+        "topic": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+        }
+      },
+      "required": ["source_type", "topic"],
+      "additionalProperties": false
+    },
+    "TargetSizeSourceImageSize": {
+      "description": "Target size from an ImageSize constant.",
+      "type": "object",
+      "properties": {
+        "source_type": {
+          "const": "image_size"
+        },
+        "size": {
+          "$ref": "#/definitions/ImageSize"
+        }
+      },
+      "required": ["source_type", "size"],
+      "additionalProperties": false
+    },
     "TargetSizeSource": {
       "description": "Source for the target size, either from a topic or a constant ImageSize.",
-      "type": "object",
       "discriminator": {
         "propertyName": "source_type"
       },
-      "required": ["source_type"],
       "oneOf": [
         {
-          "properties": {
-            "source_type": {
-              "const": "topic"
-            },
-            "topic": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
-            }
-          },
-          "required": ["source_type", "topic"],
-          "additionalProperties": false
+          "$ref": "#/definitions/TargetSizeSourceTopic"
         },
         {
-          "properties": {
-            "source_type": {
-              "const": "image_size"
-            },
-            "size": {
-              "$ref": "#/definitions/ImageSize"
-            }
-          },
-          "required": ["source_type", "size"],
-          "additionalProperties": false
+          "$ref": "#/definitions/TargetSizeSourceImageSize"
         }
       ]
     },
+    "ThresholdSourceTopic": {
+      "description": "Threshold from a topic source.",
+      "type": "object",
+      "properties": {
+        "source_type": {
+          "const": "topic"
+        },
+        "topic": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+        }
+      },
+      "required": ["source_type", "topic"],
+      "additionalProperties": false
+    },
+    "ThresholdSourceValue": {
+      "description": "Threshold from a constant value.",
+      "type": "object",
+      "properties": {
+        "source_type": {
+          "const": "value"
+        },
+        "value": {
+          "type": "number",
+          "format": "float",
+          "minimum": 0.0,
+          "maximum": 1.0
+        }
+      },
+      "required": ["source_type", "value"],
+      "additionalProperties": false
+    },
     "ThresholdSource": {
       "description": "Source for a threshold value (0.0-1.0), either from a topic or a constant value.",
-      "type": "object",
       "discriminator": {
         "propertyName": "source_type"
       },
-      "required": ["source_type"],
       "oneOf": [
         {
-          "properties": {
-            "source_type": {
-              "const": "topic"
-            },
-            "topic": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
-            }
-          },
-          "required": ["source_type", "topic"],
-          "additionalProperties": false
+          "$ref": "#/definitions/ThresholdSourceTopic"
         },
         {
-          "properties": {
-            "source_type": {
-              "const": "value"
-            },
-            "value": {
-              "type": "number",
-              "format": "float",
-              "minimum": 0.0,
-              "maximum": 1.0
-            }
-          },
-          "required": ["source_type", "value"],
-          "additionalProperties": false
+          "$ref": "#/definitions/ThresholdSourceValue"
         }
       ]
     },

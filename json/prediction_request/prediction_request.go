@@ -59,7 +59,7 @@ type ClassLabelElement struct {
 }
 
 type Config struct {
-	Metadata             map[string]interface{} `json:"metadata"`
+	Metadata             map[string]interface{} `json:"metadata,omitempty"`
 	UsesValidationTiling bool                   `json:"uses_validation_tiling"`
 }
 
