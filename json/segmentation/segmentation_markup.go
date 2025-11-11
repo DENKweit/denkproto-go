@@ -46,64 +46,54 @@ type CircleAnnotation struct {
 }
 
 type MagicwandAnnotation struct {
-	BottomRightX float64                    `json:"bottom_right_x"`
-	BottomRightY float64                    `json:"bottom_right_y"`
-	CenterX      float64                    `json:"center_x"`
-	CenterY      float64                    `json:"center_y"`
-	DataURL      string                     `json:"dataURL"`
-	Points       []MagicwandAnnotationPoint `json:"points"`
-	Threshold    int64                      `json:"threshold"`
-	TopLeftX     float64                    `json:"top_left_x"`
-	TopLeftY     float64                    `json:"top_left_y"`
+	BottomRightX float64        `json:"bottom_right_x"`
+	BottomRightY float64        `json:"bottom_right_y"`
+	CenterX      float64        `json:"center_x"`
+	CenterY      float64        `json:"center_y"`
+	Data         string         `json:"data"`
+	Points       []PointElement `json:"points"`
+	Threshold    int64          `json:"threshold"`
+	TopLeftX     float64        `json:"top_left_x"`
+	TopLeftY     float64        `json:"top_left_y"`
 }
 
-type MagicwandAnnotationPoint struct {
+// An array of points
+type PointElement struct {
 	X float64 `json:"x"`
 	Y float64 `json:"y"`
 }
 
 type PenAnnotation struct {
-	BottomRightX float64              `json:"bottom_right_x"`
-	BottomRightY float64              `json:"bottom_right_y"`
-	DataURL      string               `json:"dataURL"`
-	Points       []PenAnnotationPoint `json:"points"`
-	Thickness    float64              `json:"thickness"`
-	TopLeftX     float64              `json:"top_left_x"`
-	TopLeftY     float64              `json:"top_left_y"`
-}
-
-type PenAnnotationPoint struct {
-	X float64 `json:"x"`
-	Y float64 `json:"y"`
+	BottomRightX float64        `json:"bottom_right_x"`
+	BottomRightY float64        `json:"bottom_right_y"`
+	Data         string         `json:"data"`
+	Points       []PointElement `json:"points"`
+	Thickness    float64        `json:"thickness"`
+	TopLeftX     float64        `json:"top_left_x"`
+	TopLeftY     float64        `json:"top_left_y"`
 }
 
 type PixelAnnotation struct {
-	BlobID       string  `json:"blob_id"`
 	BottomRightX float64 `json:"bottom_right_x"`
 	BottomRightY float64 `json:"bottom_right_y"`
+	Data         string  `json:"data"`
 	TopLeftX     float64 `json:"top_left_x"`
 	TopLeftY     float64 `json:"top_left_y"`
 }
 
 // A polygon defined by one or more rings, allowing for holes and nested structures.
 type PolygonAnnotation struct {
-	// Array of polygon rings. The hierarchy field within each ring determines nesting and                 
-	// fill/hole status.                                                                                   
-	Rings                                                                                 []GeometrySchema `json:"rings"`
+	// Array of polygon rings. The hierarchy field within each ring determines nesting and              
+	// fill/hole status.                                                                                
+	Rings                                                                                 []RingElement `json:"rings"`
 }
 
 // A single closed loop (ring) of a polygon, defining either an outer boundary or a hole.
-type GeometrySchema struct {
-	// Nesting level: 0=outer, 1=hole in level 0, 2=poly in level 1 hole, etc. Even levels are            
-	// filled areas, odd levels are holes.                                                                
-	Hierarchy                                                                                 int64       `json:"hierarchy"`
-	// Vertices of the ring.                                                                              
-	Points                                                                                    []RingPoint `json:"points"`
-}
-
-type RingPoint struct {
-	X float64 `json:"x"`
-	Y float64 `json:"y"`
+type RingElement struct {
+	// Nesting level: 0=outer, 1=hole in level 0, 2=poly in level 1 hole, etc. Even levels are               
+	// filled areas, odd levels are holes.                                                                   
+	Hierarchy                                                                                 int64          `json:"hierarchy"`
+	Points                                                                                    []PointElement `json:"points"`
 }
 
 type RectangleAnnotation struct {
@@ -114,18 +104,13 @@ type RectangleAnnotation struct {
 }
 
 type SausageAnnotation struct {
-	BottomRightX float64                  `json:"bottom_right_x"`
-	BottomRightY float64                  `json:"bottom_right_y"`
-	DataURL      string                   `json:"dataURL"`
-	Points       []SausageAnnotationPoint `json:"points"`
-	Radius       float64                  `json:"radius"`
-	TopLeftX     float64                  `json:"top_left_x"`
-	TopLeftY     float64                  `json:"top_left_y"`
-}
-
-type SausageAnnotationPoint struct {
-	X float64 `json:"x"`
-	Y float64 `json:"y"`
+	BottomRightX float64        `json:"bottom_right_x"`
+	BottomRightY float64        `json:"bottom_right_y"`
+	Data         string         `json:"data"`
+	Points       []PointElement `json:"points"`
+	Radius       float64        `json:"radius"`
+	TopLeftX     float64        `json:"top_left_x"`
+	TopLeftY     float64        `json:"top_left_y"`
 }
 
 type AnnotationType string
