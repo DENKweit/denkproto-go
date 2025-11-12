@@ -22,6 +22,7 @@ type SegmentationMarkup struct {
 	Annotations         []Annotation `json:"annotations"`
 	AverageObjectWidths []float64    `json:"average_object_widths"`
 	Height              int64        `json:"height"`
+	Thumbnail           *Thumbnail   `json:"thumbnail,omitempty"`
 	Width               int64        `json:"width"`
 }
 
@@ -111,6 +112,13 @@ type SausageAnnotation struct {
 	Radius       float64        `json:"radius"`
 	TopLeftX     float64        `json:"top_left_x"`
 	TopLeftY     float64        `json:"top_left_y"`
+}
+
+// A binary mask with REE (Run-End Encoding) compressed data
+type Thumbnail struct {
+	Data   string `json:"data"`
+	Height int64  `json:"height"`
+	Width  int64  `json:"width"`
 }
 
 type AnnotationType string

@@ -139,6 +139,7 @@ type SegmentationMarkup struct {
 	Annotations         []SegmentationMarkupAnnotation `json:"annotations,omitempty"`
 	AverageObjectWidths []float64                      `json:"average_object_widths,omitempty"`
 	Height              *int64                         `json:"height,omitempty"`
+	Thumbnail           *Thumbnail                     `json:"thumbnail,omitempty"`
 	Width               *int64                         `json:"width,omitempty"`
 	SegmentationMaps    []SegmentationMap              `json:"segmentation_maps,omitempty"`
 }
@@ -223,6 +224,13 @@ type Blob struct {
 type SegmentationMapClassLabel struct {
 	ID  string `json:"id"`
 	Idx int64  `json:"idx"`
+}
+
+// A binary mask with REE (Run-End Encoding) compressed data
+type Thumbnail struct {
+	Data   string `json:"data"`
+	Height int64  `json:"height"`
+	Width  int64  `json:"width"`
 }
 
 type AnnotationType string
