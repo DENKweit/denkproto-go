@@ -51,7 +51,8 @@ type MagicwandAnnotation struct {
 	BottomRightY float64        `json:"bottom_right_y"`
 	CenterX      float64        `json:"center_x"`
 	CenterY      float64        `json:"center_y"`
-	Data         string         `json:"data"`
+	Data         *string        `json:"data,omitempty"`
+	DataURL      *string        `json:"dataURL,omitempty"`
 	Points       []PointElement `json:"points"`
 	Threshold    int64          `json:"threshold"`
 	TopLeftX     float64        `json:"top_left_x"`
@@ -67,7 +68,8 @@ type PointElement struct {
 type PenAnnotation struct {
 	BottomRightX float64        `json:"bottom_right_x"`
 	BottomRightY float64        `json:"bottom_right_y"`
-	Data         string         `json:"data"`
+	Data         *string        `json:"data,omitempty"`
+	DataURL      *string        `json:"dataURL,omitempty"`
 	Points       []PointElement `json:"points"`
 	Thickness    float64        `json:"thickness"`
 	TopLeftX     float64        `json:"top_left_x"`
@@ -75,9 +77,10 @@ type PenAnnotation struct {
 }
 
 type PixelAnnotation struct {
+	BlobID       *string `json:"blob_id,omitempty"`
 	BottomRightX float64 `json:"bottom_right_x"`
 	BottomRightY float64 `json:"bottom_right_y"`
-	Data         string  `json:"data"`
+	Data         *string `json:"data,omitempty"`
 	TopLeftX     float64 `json:"top_left_x"`
 	TopLeftY     float64 `json:"top_left_y"`
 }
@@ -107,7 +110,8 @@ type RectangleAnnotation struct {
 type SausageAnnotation struct {
 	BottomRightX float64        `json:"bottom_right_x"`
 	BottomRightY float64        `json:"bottom_right_y"`
-	Data         string         `json:"data"`
+	Data         *string        `json:"data,omitempty"`
+	DataURL      *string        `json:"dataURL,omitempty"`
 	Points       []PointElement `json:"points"`
 	Radius       float64        `json:"radius"`
 	TopLeftX     float64        `json:"top_left_x"`
