@@ -120,9 +120,7 @@ type SausageAnnotation struct {
 
 // A binary mask with REE (Run-End Encoding) compressed data
 type Thumbnail struct {
-	Data   string `json:"data"`
-	Height int64  `json:"height"`
-	Width  int64  `json:"width"`
+	Data string `json:"data"`
 }
 
 type AnnotationType string

@@ -27,10 +27,8 @@ type InstanceSegmentationPrediction struct {
 
 type Object struct {
 	Data        string  `json:"data"`
-	Height      int64   `json:"height"`
 	LabelID     string  `json:"label_id"`
 	Probability float64 `json:"probability"`
-	Width       int64   `json:"width"`
 	X           int64   `json:"x"`
 	Y           int64   `json:"y"`
 }

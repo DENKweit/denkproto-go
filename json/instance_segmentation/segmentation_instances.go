@@ -32,11 +32,7 @@ type Object struct {
 	// binary mask                                                                               
 	AnnotationID                                                                          string `json:"annotation_id"`
 	Data                                                                                  string `json:"data"`
-	// height of the object                                                                      
-	Height                                                                                int64  `json:"height"`
 	LabelID                                                                               string `json:"label_id"`
-	// width of the object                                                                       
-	Width                                                                                 int64  `json:"width"`
 	// x offset of the object                                                                    
 	X                                                                                     int64  `json:"x"`
 	// y offset of the object                                                                    
