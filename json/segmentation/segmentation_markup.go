@@ -52,7 +52,6 @@ type MagicwandAnnotation struct {
 	CenterX      float64        `json:"center_x"`
 	CenterY      float64        `json:"center_y"`
 	Data         *string        `json:"data,omitempty"`
-	DataURL      *string        `json:"dataURL,omitempty"`
 	Points       []PointElement `json:"points"`
 	Threshold    int64          `json:"threshold"`
 	TopLeftX     float64        `json:"top_left_x"`
@@ -69,7 +68,6 @@ type PenAnnotation struct {
 	BottomRightX float64        `json:"bottom_right_x"`
 	BottomRightY float64        `json:"bottom_right_y"`
 	Data         *string        `json:"data,omitempty"`
-	DataURL      *string        `json:"dataURL,omitempty"`
 	Points       []PointElement `json:"points"`
 	Thickness    float64        `json:"thickness"`
 	TopLeftX     float64        `json:"top_left_x"`
@@ -111,7 +109,6 @@ type SausageAnnotation struct {
 	BottomRightX float64        `json:"bottom_right_x"`
 	BottomRightY float64        `json:"bottom_right_y"`
 	Data         *string        `json:"data,omitempty"`
-	DataURL      *string        `json:"dataURL,omitempty"`
 	Points       []PointElement `json:"points"`
 	Radius       float64        `json:"radius"`
 	TopLeftX     float64        `json:"top_left_x"`
