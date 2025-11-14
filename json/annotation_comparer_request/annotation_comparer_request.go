@@ -50,107 +50,39 @@ type ClassLabel struct {
 }
 
 type Source struct {
-	ClassificationMarkup           *ClassificationMarkup           `json:"classification_markup,omitempty"`
-	ObjectDetectionMarkup          *ObjectDetectionMarkup          `json:"object_detection_markup,omitempty"`
-	OcrMarkup                      *OCRMarkup                      `json:"ocr_markup,omitempty"`
-	SegmentationInstances          *SegmentationInstances          `json:"segmentation_instances,omitempty"`
-	ClassificationPrediction       *ClassificationPrediction       `json:"classification_prediction,omitempty"`
-	InstanceSegmentationPrediction *InstanceSegmentationPrediction `json:"instance_segmentation_prediction,omitempty"`
-	ObjectDetectionPrediction      *ObjectDetectionPrediction      `json:"object_detection_prediction,omitempty"`
-	OcrPrediction                  *OCRPrediction                  `json:"ocr_prediction,omitempty"`
+	Data ClassificationMarkup `json:"data"`
+	Type Type                 `json:"type"`
 }
 
 type ClassificationMarkup struct {
-	Annotations []ClassificationMarkupAnnotation `json:"annotations"`
-	Height      int64                            `json:"height"`
-	Width       int64                            `json:"width"`
+	Annotations                                                    []Annotation `json:"annotations,omitempty"`
+	// height of the image for which the segmentation was generated             
+	Height                                                         *int64       `json:"height,omitempty"`
+	// width of the image for which the segmentation was generated              
+	Width                                                          *int64       `json:"width,omitempty"`
+	// Instance segmentation objects                                            
+	//                                                                          
+	// Thresholded segmentation maps for each class                             
+	Objects                                                        []Object     `json:"objects,omitempty"`
+	AverageObjectWidths                                            []float64    `json:"average_object_widths,omitempty"`
+	Predictions                                                    []Prediction `json:"predictions,omitempty"`
 }
 
-type ClassificationMarkupAnnotation struct {
-	ID      string  `json:"id"`
-	LabelID string  `json:"label_id"`
-	Value   float64 `json:"value"`
-}
-
-type ClassificationPrediction struct {
-	Predictions []ClassificationPredictionPrediction `json:"predictions"`
-}
-
-type ClassificationPredictionPrediction struct {
-	InterpretationMap *InterpretationMap `json:"interpretation_map,omitempty"`
-	LabelID           string             `json:"label_id"`
-	Probability       float64            `json:"probability"`
-}
-
-type InterpretationMap struct {
-	BlobID  string `json:"blob_id"`
-	GroupID string `json:"group_id"`
-}
-
-type InstanceSegmentationPrediction struct {
-	Height                                         int64                                  `json:"height"`
-	// Thresholded segmentation maps for each class                                       
-	Objects                                        []InstanceSegmentationPredictionObject `json:"objects"`
-	Width                                          int64                                  `json:"width"`
-}
-
-type InstanceSegmentationPredictionObject struct {
-	Data        string  `json:"data"`
-	LabelID     string  `json:"label_id"`
-	Probability float64 `json:"probability"`
-	X           int64   `json:"x"`
-	Y           int64   `json:"y"`
-}
-
-type ObjectDetectionMarkup struct {
-	Annotations []ObjectDetectionMarkupAnnotation `json:"annotations"`
-	Height      int64                             `json:"height"`
-	Width       int64                             `json:"width"`
-}
-
-type ObjectDetectionMarkupAnnotation struct {
-	Angle           *float64       `json:"angle,omitempty"`
-	AnnotationType  AnnotationType `json:"annotation_type"`
-	AverageWidth    float64        `json:"average_width"`
-	BottomRightX    float64        `json:"bottom_right_x"`
-	BottomRightY    float64        `json:"bottom_right_y"`
-	FullOrientation *bool          `json:"full_orientation,omitempty"`
-	ID              string         `json:"id"`
-	LabelID         string         `json:"label_id"`
-	TopLeftX        float64        `json:"top_left_x"`
-	TopLeftY        float64        `json:"top_left_y"`
-}
-
-type ObjectDetectionPrediction struct {
-	Height      int64                                 `json:"height"`
-	Predictions []ObjectDetectionPredictionPrediction `json:"predictions"`
-	Width       int64                                 `json:"width"`
-}
-
-type ObjectDetectionPredictionPrediction struct {
-	Angle           *float64 `json:"angle,omitempty"`
-	BottomRightX    float64  `json:"bottom_right_x"`
-	BottomRightY    float64  `json:"bottom_right_y"`
-	FullOrientation *bool    `json:"full_orientation,omitempty"`
-	LabelID         string   `json:"label_id"`
-	Probability     float64  `json:"probability"`
-	TopLeftX        float64  `json:"top_left_x"`
-	TopLeftY        float64  `json:"top_left_y"`
-}
-
-type OCRMarkup struct {
-	Annotations         []OcrMarkupAnnotation `json:"annotations"`
-	AverageObjectWidths []float64             `json:"average_object_widths"`
-	Height              int64                 `json:"height"`
-	Width               int64                 `json:"width"`
-}
-
-type OcrMarkupAnnotation struct {
-	BoundingBox *BoundingBox `json:"bounding_box,omitempty"`
-	ID          string       `json:"id"`
-	LabelID     string       `json:"label_id"`
-	Polygon     *Polygon     `json:"polygon,omitempty"`
-	Text        string       `json:"text"`
+type Annotation struct {
+	ID              string          `json:"id"`
+	LabelID         string          `json:"label_id"`
+	Value           *float64        `json:"value,omitempty"`
+	Angle           *float64        `json:"angle,omitempty"`
+	AnnotationType  *AnnotationType `json:"annotation_type,omitempty"`
+	AverageWidth    *float64        `json:"average_width,omitempty"`
+	BottomRightX    *float64        `json:"bottom_right_x,omitempty"`
+	BottomRightY    *float64        `json:"bottom_right_y,omitempty"`
+	FullOrientation *bool           `json:"full_orientation,omitempty"`
+	TopLeftX        *float64        `json:"top_left_x,omitempty"`
+	TopLeftY        *float64        `json:"top_left_y,omitempty"`
+	BoundingBox     *BoundingBox    `json:"bounding_box,omitempty"`
+	Polygon         *Polygon        `json:"polygon,omitempty"`
+	Text            *string         `json:"text,omitempty"`
 }
 
 // A bounding box with optional rotation information
@@ -186,18 +118,33 @@ type PointElement struct {
 	Y float64 `json:"y"`
 }
 
-type OCRPrediction struct {
-	Height      int64                     `json:"height"`
-	Predictions []OcrPredictionPrediction `json:"predictions"`
-	Width       int64                     `json:"width"`
+type Object struct {
+	// references the annotation in the segmentation markup that was used to generate this         
+	// binary mask                                                                                 
+	AnnotationID                                                                          *string  `json:"annotation_id,omitempty"`
+	Data                                                                                  string   `json:"data"`
+	LabelID                                                                               string   `json:"label_id"`
+	// x offset of the object                                                                      
+	X                                                                                     int64    `json:"x"`
+	// y offset of the object                                                                      
+	Y                                                                                     int64    `json:"y"`
+	Probability                                                                           *float64 `json:"probability,omitempty"`
 }
 
-type OcrPredictionPrediction struct {
-	BoundingBox          *BoundingBox          `json:"bounding_box,omitempty"`
-	CharacterPredictions []CharacterPrediction `json:"character_predictions"`
+type Prediction struct {
+	InterpretationMap    *InterpretationMap    `json:"interpretation_map,omitempty"`
 	LabelID              string                `json:"label_id"`
+	Probability          *float64              `json:"probability,omitempty"`
+	Angle                *float64              `json:"angle,omitempty"`
+	BottomRightX         *float64              `json:"bottom_right_x,omitempty"`
+	BottomRightY         *float64              `json:"bottom_right_y,omitempty"`
+	FullOrientation      *bool                 `json:"full_orientation,omitempty"`
+	TopLeftX             *float64              `json:"top_left_x,omitempty"`
+	TopLeftY             *float64              `json:"top_left_y,omitempty"`
+	BoundingBox          *BoundingBox          `json:"bounding_box,omitempty"`
+	CharacterPredictions []CharacterPrediction `json:"character_predictions,omitempty"`
 	Polygon              *Polygon              `json:"polygon,omitempty"`
-	Text                 string                `json:"text"`
+	Text                 *string               `json:"text,omitempty"`
 }
 
 type CharacterPrediction struct {
@@ -205,25 +152,9 @@ type CharacterPrediction struct {
 	Probability float64 `json:"probability"`
 }
 
-type SegmentationInstances struct {
-	// height of the image for which the segmentation was generated                              
-	Height                                                         int64                         `json:"height"`
-	// Instance segmentation objects                                                             
-	Objects                                                        []SegmentationInstancesObject `json:"objects"`
-	// width of the image for which the segmentation was generated                               
-	Width                                                          int64                         `json:"width"`
-}
-
-type SegmentationInstancesObject struct {
-	// references the annotation in the segmentation markup that was used to generate this       
-	// binary mask                                                                               
-	AnnotationID                                                                          string `json:"annotation_id"`
-	Data                                                                                  string `json:"data"`
-	LabelID                                                                               string `json:"label_id"`
-	// x offset of the object                                                                    
-	X                                                                                     int64  `json:"x"`
-	// y offset of the object                                                                    
-	Y                                                                                     int64  `json:"y"`
+type InterpretationMap struct {
+	BlobID  string `json:"blob_id"`
+	GroupID string `json:"group_id"`
 }
 
 type AnnotationType string
@@ -233,4 +164,14 @@ const (
 	Negative AnnotationType = "NEGATIVE"
 	Positive AnnotationType = "POSITIVE"
 	Roi      AnnotationType = "ROI"
+)
+
+type Type string
+
+const (
+	Classification       Type = "classification"
+	InstanceSegmentation Type = "instance_segmentation"
+	ObjectDetection      Type = "object_detection"
+	Ocr                  Type = "ocr"
+	Segmentation         Type = "segmentation"
 )
