@@ -39,21 +39,25 @@ type Image struct {
 }
 
 type NetworkExperiment struct {
-	ClassLabels     []ClassLabelElement `json:"class_labels"`
-	Flavor          string              `json:"flavor"`
-	NetworkTypename string              `json:"network_typename"`
+	ClassLabels     []ClassLabel `json:"class_labels"`
+	Flavor          string       `json:"flavor"`
+	NetworkTypename string       `json:"network_typename"`
 }
 
-type ClassLabelElement struct {
+type ClassLabel struct {
 	ID  string `json:"id"`
 	Idx int64  `json:"idx"`
 }
 
 type Source struct {
-	ClassificationMarkup  *ClassificationMarkup  `json:"classification_markup,omitempty"`
-	ObjectDetectionMarkup *ObjectDetectionMarkup `json:"object_detection_markup,omitempty"`
-	OcrMarkup             *OCRMarkup             `json:"ocr_markup,omitempty"`
-	SegmentationMarkup    *SegmentationMarkup    `json:"segmentation_markup,omitempty"`
+	ClassificationMarkup           *ClassificationMarkup         `json:"classification_markup,omitempty"`
+	ObjectDetectionMarkup          *ObjectDetectionMarkup        `json:"object_detection_markup,omitempty"`
+	OcrMarkup                      *OCRMarkup                    `json:"ocr_markup,omitempty"`
+	SegmentationInstances          *SegmentationInstances        `json:"segmentation_instances,omitempty"`
+	ClassificationPrediction       *ClassificationPrediction     `json:"classification_prediction,omitempty"`
+	InstanceSegmentationPrediction *SegmentationMarkupPrediction `json:"instance_segmentation_prediction,omitempty"`
+	ObjectDetectionPrediction      *ObjectDetectionPrediction    `json:"object_detection_prediction,omitempty"`
+	OcrPrediction                  *OCRPrediction                `json:"ocr_prediction,omitempty"`
 }
 
 type ClassificationMarkup struct {
@@ -66,6 +70,36 @@ type ClassificationMarkupAnnotation struct {
 	ID      string  `json:"id"`
 	LabelID string  `json:"label_id"`
 	Value   float64 `json:"value"`
+}
+
+type ClassificationPrediction struct {
+	Predictions []ClassificationPredictionPrediction `json:"predictions"`
+}
+
+type ClassificationPredictionPrediction struct {
+	InterpretationMap *InterpretationMap `json:"interpretation_map,omitempty"`
+	LabelID           string             `json:"label_id"`
+	Probability       float64            `json:"probability"`
+}
+
+type InterpretationMap struct {
+	Data    string `json:"data"`
+	GroupID string `json:"group_id"`
+}
+
+type SegmentationMarkupPrediction struct {
+	Height                                         int64                                  `json:"height"`
+	// Thresholded segmentation maps for each class                                       
+	Objects                                        []InstanceSegmentationPredictionObject `json:"objects"`
+	Width                                          int64                                  `json:"width"`
+}
+
+type InstanceSegmentationPredictionObject struct {
+	Data        string  `json:"data"`
+	LabelID     string  `json:"label_id"`
+	Probability float64 `json:"probability"`
+	X           int64   `json:"x"`
+	Y           int64   `json:"y"`
 }
 
 type ObjectDetectionMarkup struct {
@@ -85,6 +119,23 @@ type ObjectDetectionMarkupAnnotation struct {
 	LabelID         string         `json:"label_id"`
 	TopLeftX        float64        `json:"top_left_x"`
 	TopLeftY        float64        `json:"top_left_y"`
+}
+
+type ObjectDetectionPrediction struct {
+	Height      int64                                 `json:"height"`
+	Predictions []ObjectDetectionPredictionPrediction `json:"predictions"`
+	Width       int64                                 `json:"width"`
+}
+
+type ObjectDetectionPredictionPrediction struct {
+	Angle           *float64 `json:"angle,omitempty"`
+	BottomRightX    float64  `json:"bottom_right_x"`
+	BottomRightY    float64  `json:"bottom_right_y"`
+	FullOrientation *bool    `json:"full_orientation,omitempty"`
+	LabelID         string   `json:"label_id"`
+	Probability     float64  `json:"probability"`
+	TopLeftX        float64  `json:"top_left_x"`
+	TopLeftY        float64  `json:"top_left_y"`
 }
 
 type OCRMarkup struct {
@@ -135,101 +186,44 @@ type PointElement struct {
 	Y float64 `json:"y"`
 }
 
-type SegmentationMarkup struct {
-	Annotations         []SegmentationMarkupAnnotation `json:"annotations,omitempty"`
-	AverageObjectWidths []float64                      `json:"average_object_widths,omitempty"`
-	Height              *int64                         `json:"height,omitempty"`
-	Thumbnail           *Thumbnail                     `json:"thumbnail,omitempty"`
-	Width               *int64                         `json:"width,omitempty"`
-	SegmentationMaps    []SegmentationMap              `json:"segmentation_maps,omitempty"`
+type OCRPrediction struct {
+	Height      int64                     `json:"height"`
+	Predictions []OcrPredictionPrediction `json:"predictions"`
+	Width       int64                     `json:"width"`
 }
 
-type SegmentationMarkupAnnotation struct {
-	AnnotationType      AnnotationType       `json:"annotation_type"`
-	AverageWidth        float64              `json:"average_width"`
-	CircleAnnotation    *CircleAnnotation    `json:"circle_annotation,omitempty"`
-	ID                  string               `json:"id"`
-	LabelID             string               `json:"label_id"`
-	MagicwandAnnotation *MagicwandAnnotation `json:"magicwand_annotation,omitempty"`
-	PenAnnotation       *PenAnnotation       `json:"pen_annotation,omitempty"`
-	PixelAnnotation     *PixelAnnotation     `json:"pixel_annotation,omitempty"`
-	PolygonAnnotation   *Polygon             `json:"polygon_annotation,omitempty"`
-	RectangleAnnotation *RectangleAnnotation `json:"rectangle_annotation,omitempty"`
-	SausageAnnotation   *SausageAnnotation   `json:"sausage_annotation,omitempty"`
+type OcrPredictionPrediction struct {
+	BoundingBox          *BoundingBox          `json:"bounding_box,omitempty"`
+	CharacterPredictions []CharacterPrediction `json:"character_predictions"`
+	LabelID              string                `json:"label_id"`
+	Polygon              *Polygon              `json:"polygon,omitempty"`
+	Text                 string                `json:"text"`
 }
 
-type CircleAnnotation struct {
-	CenterX float64 `json:"center_x"`
-	CenterY float64 `json:"center_y"`
-	Radius  float64 `json:"radius"`
+type CharacterPrediction struct {
+	Character   string  `json:"character"`
+	Probability float64 `json:"probability"`
 }
 
-type MagicwandAnnotation struct {
-	BottomRightX float64        `json:"bottom_right_x"`
-	BottomRightY float64        `json:"bottom_right_y"`
-	CenterX      float64        `json:"center_x"`
-	CenterY      float64        `json:"center_y"`
-	Data         *string        `json:"data,omitempty"`
-	Points       []PointElement `json:"points"`
-	Threshold    int64          `json:"threshold"`
-	TopLeftX     float64        `json:"top_left_x"`
-	TopLeftY     float64        `json:"top_left_y"`
+type SegmentationInstances struct {
+	// height of the image for which the segmentation was generated                              
+	Height                                                         int64                         `json:"height"`
+	// Instance segmentation objects                                                             
+	Objects                                                        []SegmentationInstancesObject `json:"objects"`
+	// width of the image for which the segmentation was generated                               
+	Width                                                          int64                         `json:"width"`
 }
 
-type PenAnnotation struct {
-	BottomRightX float64        `json:"bottom_right_x"`
-	BottomRightY float64        `json:"bottom_right_y"`
-	Data         *string        `json:"data,omitempty"`
-	Points       []PointElement `json:"points"`
-	Thickness    float64        `json:"thickness"`
-	TopLeftX     float64        `json:"top_left_x"`
-	TopLeftY     float64        `json:"top_left_y"`
-}
-
-type PixelAnnotation struct {
-	BlobID       *string `json:"blob_id,omitempty"`
-	BottomRightX float64 `json:"bottom_right_x"`
-	BottomRightY float64 `json:"bottom_right_y"`
-	Data         *string `json:"data,omitempty"`
-	TopLeftX     float64 `json:"top_left_x"`
-	TopLeftY     float64 `json:"top_left_y"`
-}
-
-type RectangleAnnotation struct {
-	BottomRightX float64 `json:"bottom_right_x"`
-	BottomRightY float64 `json:"bottom_right_y"`
-	TopLeftX     float64 `json:"top_left_x"`
-	TopLeftY     float64 `json:"top_left_y"`
-}
-
-type SausageAnnotation struct {
-	BottomRightX float64        `json:"bottom_right_x"`
-	BottomRightY float64        `json:"bottom_right_y"`
-	Data         *string        `json:"data,omitempty"`
-	Points       []PointElement `json:"points"`
-	Radius       float64        `json:"radius"`
-	TopLeftX     float64        `json:"top_left_x"`
-	TopLeftY     float64        `json:"top_left_y"`
-}
-
-type SegmentationMap struct {
-	Blob       Blob                      `json:"blob"`
-	ClassLabel SegmentationMapClassLabel `json:"class_label"`
-}
-
-type Blob struct {
-	ID             string `json:"id"`
-	OwnedByGroupID string `json:"owned_by_group_id"`
-}
-
-type SegmentationMapClassLabel struct {
-	ID  string `json:"id"`
-	Idx int64  `json:"idx"`
-}
-
-// A binary mask with REE (Run-End Encoding) compressed data
-type Thumbnail struct {
-	Data string `json:"data"`
+type SegmentationInstancesObject struct {
+	// references the annotation in the segmentation markup that was used to generate this       
+	// binary mask                                                                               
+	AnnotationID                                                                          string `json:"annotation_id"`
+	Data                                                                                  string `json:"data"`
+	LabelID                                                                               string `json:"label_id"`
+	// x offset of the object                                                                    
+	X                                                                                     int64  `json:"x"`
+	// y offset of the object                                                                    
+	Y                                                                                     int64  `json:"y"`
 }
 
 type AnnotationType string

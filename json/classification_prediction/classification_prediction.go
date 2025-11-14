@@ -23,6 +23,12 @@ type ClassificationPrediction struct {
 }
 
 type Prediction struct {
-	LabelID     string  `json:"label_id"`
-	Probability float64 `json:"probability"`
+	InterpretationMap *InterpretationMap `json:"interpretation_map,omitempty"`
+	LabelID           string             `json:"label_id"`
+	Probability       float64            `json:"probability"`
+}
+
+type InterpretationMap struct {
+	Data    string `json:"data"`
+	GroupID string `json:"group_id"`
 }
