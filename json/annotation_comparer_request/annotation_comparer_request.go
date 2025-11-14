@@ -83,7 +83,7 @@ type ClassificationPredictionPrediction struct {
 }
 
 type InterpretationMap struct {
-	Data    string `json:"data"`
+	BlobID  string `json:"blob_id"`
 	GroupID string `json:"group_id"`
 }
 
