@@ -50,14 +50,14 @@ type ClassLabel struct {
 }
 
 type Source struct {
-	ClassificationMarkup           *ClassificationMarkup         `json:"classification_markup,omitempty"`
-	ObjectDetectionMarkup          *ObjectDetectionMarkup        `json:"object_detection_markup,omitempty"`
-	OcrMarkup                      *OCRMarkup                    `json:"ocr_markup,omitempty"`
-	SegmentationInstances          *SegmentationInstances        `json:"segmentation_instances,omitempty"`
-	ClassificationPrediction       *ClassificationPrediction     `json:"classification_prediction,omitempty"`
-	InstanceSegmentationPrediction *SegmentationMarkupPrediction `json:"instance_segmentation_prediction,omitempty"`
-	ObjectDetectionPrediction      *ObjectDetectionPrediction    `json:"object_detection_prediction,omitempty"`
-	OcrPrediction                  *OCRPrediction                `json:"ocr_prediction,omitempty"`
+	ClassificationMarkup           *ClassificationMarkup           `json:"classification_markup,omitempty"`
+	ObjectDetectionMarkup          *ObjectDetectionMarkup          `json:"object_detection_markup,omitempty"`
+	OcrMarkup                      *OCRMarkup                      `json:"ocr_markup,omitempty"`
+	SegmentationInstances          *SegmentationInstances          `json:"segmentation_instances,omitempty"`
+	ClassificationPrediction       *ClassificationPrediction       `json:"classification_prediction,omitempty"`
+	InstanceSegmentationPrediction *InstanceSegmentationPrediction `json:"instance_segmentation_prediction,omitempty"`
+	ObjectDetectionPrediction      *ObjectDetectionPrediction      `json:"object_detection_prediction,omitempty"`
+	OcrPrediction                  *OCRPrediction                  `json:"ocr_prediction,omitempty"`
 }
 
 type ClassificationMarkup struct {
@@ -87,7 +87,7 @@ type InterpretationMap struct {
 	GroupID string `json:"group_id"`
 }
 
-type SegmentationMarkupPrediction struct {
+type InstanceSegmentationPrediction struct {
 	Height                                         int64                                  `json:"height"`
 	// Thresholded segmentation maps for each class                                       
 	Objects                                        []InstanceSegmentationPredictionObject `json:"objects"`
