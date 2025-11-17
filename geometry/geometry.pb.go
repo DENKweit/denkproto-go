@@ -82,8 +82,8 @@ type BoundingBox struct {
 	Y               uint32                 `protobuf:"varint,2,opt,name=y,proto3" json:"y,omitempty"`
 	Width           uint32                 `protobuf:"varint,3,opt,name=width,proto3" json:"width,omitempty"`
 	Height          uint32                 `protobuf:"varint,4,opt,name=height,proto3" json:"height,omitempty"`
-	Angle           float64                `protobuf:"fixed64,5,opt,name=angle,proto3" json:"angle,omitempty"`
-	FullOrientation bool                   `protobuf:"varint,6,opt,name=full_orientation,json=fullOrientation,proto3" json:"full_orientation,omitempty"`
+	Angle           *float64               `protobuf:"fixed64,5,opt,name=angle,proto3,oneof" json:"angle,omitempty"`
+	FullOrientation *bool                  `protobuf:"varint,6,opt,name=full_orientation,json=fullOrientation,proto3,oneof" json:"full_orientation,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -147,15 +147,15 @@ func (x *BoundingBox) GetHeight() uint32 {
 }
 
 func (x *BoundingBox) GetAngle() float64 {
-	if x != nil {
-		return x.Angle
+	if x != nil && x.Angle != nil {
+		return *x.Angle
 	}
 	return 0
 }
 
 func (x *BoundingBox) GetFullOrientation() bool {
-	if x != nil {
-		return x.FullOrientation
+	if x != nil && x.FullOrientation != nil {
+		return *x.FullOrientation
 	}
 	return false
 }
@@ -323,14 +323,16 @@ const file_geometry_proto_rawDesc = "" +
 	"\x0egeometry.proto\x12\bgeometry\"%\n" +
 	"\aPoint2D\x12\f\n" +
 	"\x01x\x18\x01 \x01(\rR\x01x\x12\f\n" +
-	"\x01y\x18\x02 \x01(\rR\x01y\"\x98\x01\n" +
+	"\x01y\x18\x02 \x01(\rR\x01y\"\xc1\x01\n" +
 	"\vBoundingBox\x12\f\n" +
 	"\x01x\x18\x01 \x01(\rR\x01x\x12\f\n" +
 	"\x01y\x18\x02 \x01(\rR\x01y\x12\x14\n" +
 	"\x05width\x18\x03 \x01(\rR\x05width\x12\x16\n" +
-	"\x06height\x18\x04 \x01(\rR\x06height\x12\x14\n" +
-	"\x05angle\x18\x05 \x01(\x01R\x05angle\x12)\n" +
-	"\x10full_orientation\x18\x06 \x01(\bR\x0ffullOrientation\"V\n" +
+	"\x06height\x18\x04 \x01(\rR\x06height\x12\x19\n" +
+	"\x05angle\x18\x05 \x01(\x01H\x00R\x05angle\x88\x01\x01\x12.\n" +
+	"\x10full_orientation\x18\x06 \x01(\bH\x01R\x0ffullOrientation\x88\x01\x01B\b\n" +
+	"\x06_angleB\x13\n" +
+	"\x11_full_orientation\"V\n" +
 	"\vPolygonRing\x12\x1c\n" +
 	"\thierarchy\x18\x01 \x01(\x05R\thierarchy\x12)\n" +
 	"\x06points\x18\x02 \x03(\v2\x11.geometry.Point2DR\x06points\"6\n" +
@@ -378,6 +380,7 @@ func file_geometry_proto_init() {
 	if File_geometry_proto != nil {
 		return
 	}
+	file_geometry_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

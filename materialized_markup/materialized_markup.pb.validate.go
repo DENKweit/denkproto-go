@@ -308,20 +308,33 @@ func (m *ObjectDetectionAnnotation) validate(all bool) error {
 
 	// no validation rules for LabelId
 
-	// no validation rules for X
-
-	// no validation rules for Y
-
-	// no validation rules for Width
-
-	// no validation rules for Height
-
-	if m.Angle != nil {
-		// no validation rules for Angle
-	}
-
-	if m.FullOrientation != nil {
-		// no validation rules for FullOrientation
+	if all {
+		switch v := interface{}(m.GetBoundingBox()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ObjectDetectionAnnotationValidationError{
+					field:  "BoundingBox",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ObjectDetectionAnnotationValidationError{
+					field:  "BoundingBox",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetBoundingBox()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ObjectDetectionAnnotationValidationError{
+				field:  "BoundingBox",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
 	}
 
 	if len(errors) > 0 {

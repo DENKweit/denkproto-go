@@ -676,17 +676,12 @@ func (*SegmentationAnnotation_RectangleAnnotation) isSegmentationAnnotation_Anno
 func (*SegmentationAnnotation_SausageAnnotation) isSegmentationAnnotation_AnnotationData() {}
 
 type ObjectDetectionAnnotation struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	Id              string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	LabelId         string                 `protobuf:"bytes,2,opt,name=label_id,json=labelId,proto3" json:"label_id,omitempty"`
-	X               uint32                 `protobuf:"varint,3,opt,name=x,proto3" json:"x,omitempty"`
-	Y               uint32                 `protobuf:"varint,4,opt,name=y,proto3" json:"y,omitempty"`
-	Width           uint32                 `protobuf:"varint,5,opt,name=width,proto3" json:"width,omitempty"`
-	Height          uint32                 `protobuf:"varint,6,opt,name=height,proto3" json:"height,omitempty"`
-	Angle           *float64               `protobuf:"fixed64,7,opt,name=angle,proto3,oneof" json:"angle,omitempty"`
-	FullOrientation *bool                  `protobuf:"varint,8,opt,name=full_orientation,json=fullOrientation,proto3,oneof" json:"full_orientation,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	LabelId       string                 `protobuf:"bytes,2,opt,name=label_id,json=labelId,proto3" json:"label_id,omitempty"`
+	BoundingBox   *geometry.BoundingBox  `protobuf:"bytes,3,opt,name=bounding_box,json=boundingBox,proto3" json:"bounding_box,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ObjectDetectionAnnotation) Reset() {
@@ -733,46 +728,11 @@ func (x *ObjectDetectionAnnotation) GetLabelId() string {
 	return ""
 }
 
-func (x *ObjectDetectionAnnotation) GetX() uint32 {
+func (x *ObjectDetectionAnnotation) GetBoundingBox() *geometry.BoundingBox {
 	if x != nil {
-		return x.X
+		return x.BoundingBox
 	}
-	return 0
-}
-
-func (x *ObjectDetectionAnnotation) GetY() uint32 {
-	if x != nil {
-		return x.Y
-	}
-	return 0
-}
-
-func (x *ObjectDetectionAnnotation) GetWidth() uint32 {
-	if x != nil {
-		return x.Width
-	}
-	return 0
-}
-
-func (x *ObjectDetectionAnnotation) GetHeight() uint32 {
-	if x != nil {
-		return x.Height
-	}
-	return 0
-}
-
-func (x *ObjectDetectionAnnotation) GetAngle() float64 {
-	if x != nil && x.Angle != nil {
-		return *x.Angle
-	}
-	return 0
-}
-
-func (x *ObjectDetectionAnnotation) GetFullOrientation() bool {
-	if x != nil && x.FullOrientation != nil {
-		return *x.FullOrientation
-	}
-	return false
+	return nil
 }
 
 type OcrAnnotation struct {
@@ -1019,18 +979,11 @@ const file_markup_proto_rawDesc = "" +
 	"\x14rectangle_annotation\x18\t \x01(\v2\x15.geometry.BoundingBoxH\x00R\x13rectangleAnnotation\x12J\n" +
 	"\x12sausage_annotation\x18\n" +
 	" \x01(\v2\x19.markup.SausageAnnotationH\x00R\x11sausageAnnotationB\x11\n" +
-	"\x0fannotation_data\"\xfa\x01\n" +
+	"\x0fannotation_data\"\x80\x01\n" +
 	"\x19ObjectDetectionAnnotation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
-	"\blabel_id\x18\x02 \x01(\tR\alabelId\x12\f\n" +
-	"\x01x\x18\x03 \x01(\rR\x01x\x12\f\n" +
-	"\x01y\x18\x04 \x01(\rR\x01y\x12\x14\n" +
-	"\x05width\x18\x05 \x01(\rR\x05width\x12\x16\n" +
-	"\x06height\x18\x06 \x01(\rR\x06height\x12\x19\n" +
-	"\x05angle\x18\a \x01(\x01H\x00R\x05angle\x88\x01\x01\x12.\n" +
-	"\x10full_orientation\x18\b \x01(\bH\x01R\x0ffullOrientation\x88\x01\x01B\b\n" +
-	"\x06_angleB\x13\n" +
-	"\x11_full_orientation\"\xca\x01\n" +
+	"\blabel_id\x18\x02 \x01(\tR\alabelId\x128\n" +
+	"\fbounding_box\x18\x03 \x01(\v2\x15.geometry.BoundingBoxR\vboundingBox\"\xca\x01\n" +
 	"\rOcrAnnotation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
 	"\blabel_id\x18\x02 \x01(\tR\alabelId\x12\x12\n" +
@@ -1087,17 +1040,18 @@ var file_markup_proto_depIdxs = []int32{
 	12, // 8: markup.SegmentationAnnotation.polygon_annotation:type_name -> geometry.Polygon
 	13, // 9: markup.SegmentationAnnotation.rectangle_annotation:type_name -> geometry.BoundingBox
 	4,  // 10: markup.SegmentationAnnotation.sausage_annotation:type_name -> markup.SausageAnnotation
-	13, // 11: markup.OcrAnnotation.bounding_box:type_name -> geometry.BoundingBox
-	12, // 12: markup.OcrAnnotation.polygon:type_name -> geometry.Polygon
-	5,  // 13: markup.Markup.classification_annotations:type_name -> markup.ClassificationAnnotation
-	6,  // 14: markup.Markup.segmentation_annotations:type_name -> markup.SegmentationAnnotation
-	7,  // 15: markup.Markup.object_detection_annotations:type_name -> markup.ObjectDetectionAnnotation
-	8,  // 16: markup.Markup.ocr_annotations:type_name -> markup.OcrAnnotation
-	17, // [17:17] is the sub-list for method output_type
-	17, // [17:17] is the sub-list for method input_type
-	17, // [17:17] is the sub-list for extension type_name
-	17, // [17:17] is the sub-list for extension extendee
-	0,  // [0:17] is the sub-list for field type_name
+	13, // 11: markup.ObjectDetectionAnnotation.bounding_box:type_name -> geometry.BoundingBox
+	13, // 12: markup.OcrAnnotation.bounding_box:type_name -> geometry.BoundingBox
+	12, // 13: markup.OcrAnnotation.polygon:type_name -> geometry.Polygon
+	5,  // 14: markup.Markup.classification_annotations:type_name -> markup.ClassificationAnnotation
+	6,  // 15: markup.Markup.segmentation_annotations:type_name -> markup.SegmentationAnnotation
+	7,  // 16: markup.Markup.object_detection_annotations:type_name -> markup.ObjectDetectionAnnotation
+	8,  // 17: markup.Markup.ocr_annotations:type_name -> markup.OcrAnnotation
+	18, // [18:18] is the sub-list for method output_type
+	18, // [18:18] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_markup_proto_init() }
@@ -1114,7 +1068,6 @@ func file_markup_proto_init() {
 		(*SegmentationAnnotation_RectangleAnnotation)(nil),
 		(*SegmentationAnnotation_SausageAnnotation)(nil),
 	}
-	file_markup_proto_msgTypes[7].OneofWrappers = []any{}
 	file_markup_proto_msgTypes[8].OneofWrappers = []any{
 		(*OcrAnnotation_BoundingBox)(nil),
 		(*OcrAnnotation_Polygon)(nil),

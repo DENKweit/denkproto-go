@@ -167,9 +167,13 @@ func (m *BoundingBox) validate(all bool) error {
 
 	// no validation rules for Height
 
-	// no validation rules for Angle
+	if m.Angle != nil {
+		// no validation rules for Angle
+	}
 
-	// no validation rules for FullOrientation
+	if m.FullOrientation != nil {
+		// no validation rules for FullOrientation
+	}
 
 	if len(errors) > 0 {
 		return BoundingBoxMultiError(errors)

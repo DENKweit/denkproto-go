@@ -162,17 +162,12 @@ func (x *SegmentationAnnotation) GetData() *geometry.BinaryMaskData {
 }
 
 type ObjectDetectionAnnotation struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	Id              string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	LabelId         string                 `protobuf:"bytes,2,opt,name=label_id,json=labelId,proto3" json:"label_id,omitempty"`
-	X               uint32                 `protobuf:"varint,3,opt,name=x,proto3" json:"x,omitempty"`
-	Y               uint32                 `protobuf:"varint,4,opt,name=y,proto3" json:"y,omitempty"`
-	Width           uint32                 `protobuf:"varint,5,opt,name=width,proto3" json:"width,omitempty"`
-	Height          uint32                 `protobuf:"varint,6,opt,name=height,proto3" json:"height,omitempty"`
-	Angle           *float64               `protobuf:"fixed64,7,opt,name=angle,proto3,oneof" json:"angle,omitempty"`
-	FullOrientation *bool                  `protobuf:"varint,8,opt,name=full_orientation,json=fullOrientation,proto3,oneof" json:"full_orientation,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	LabelId       string                 `protobuf:"bytes,2,opt,name=label_id,json=labelId,proto3" json:"label_id,omitempty"`
+	BoundingBox   *geometry.BoundingBox  `protobuf:"bytes,3,opt,name=bounding_box,json=boundingBox,proto3" json:"bounding_box,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ObjectDetectionAnnotation) Reset() {
@@ -219,46 +214,11 @@ func (x *ObjectDetectionAnnotation) GetLabelId() string {
 	return ""
 }
 
-func (x *ObjectDetectionAnnotation) GetX() uint32 {
+func (x *ObjectDetectionAnnotation) GetBoundingBox() *geometry.BoundingBox {
 	if x != nil {
-		return x.X
+		return x.BoundingBox
 	}
-	return 0
-}
-
-func (x *ObjectDetectionAnnotation) GetY() uint32 {
-	if x != nil {
-		return x.Y
-	}
-	return 0
-}
-
-func (x *ObjectDetectionAnnotation) GetWidth() uint32 {
-	if x != nil {
-		return x.Width
-	}
-	return 0
-}
-
-func (x *ObjectDetectionAnnotation) GetHeight() uint32 {
-	if x != nil {
-		return x.Height
-	}
-	return 0
-}
-
-func (x *ObjectDetectionAnnotation) GetAngle() float64 {
-	if x != nil && x.Angle != nil {
-		return *x.Angle
-	}
-	return 0
-}
-
-func (x *ObjectDetectionAnnotation) GetFullOrientation() bool {
-	if x != nil && x.FullOrientation != nil {
-		return *x.FullOrientation
-	}
-	return false
+	return nil
 }
 
 type OcrAnnotation struct {
@@ -465,18 +425,11 @@ const file_materialized_markup_proto_rawDesc = "" +
 	"\blabel_id\x18\x02 \x01(\tR\alabelId\x12\f\n" +
 	"\x01x\x18\x03 \x01(\rR\x01x\x12\f\n" +
 	"\x01y\x18\x04 \x01(\rR\x01y\x12,\n" +
-	"\x04data\x18\x05 \x01(\v2\x18.geometry.BinaryMaskDataR\x04data\"\xfa\x01\n" +
+	"\x04data\x18\x05 \x01(\v2\x18.geometry.BinaryMaskDataR\x04data\"\x80\x01\n" +
 	"\x19ObjectDetectionAnnotation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
-	"\blabel_id\x18\x02 \x01(\tR\alabelId\x12\f\n" +
-	"\x01x\x18\x03 \x01(\rR\x01x\x12\f\n" +
-	"\x01y\x18\x04 \x01(\rR\x01y\x12\x14\n" +
-	"\x05width\x18\x05 \x01(\rR\x05width\x12\x16\n" +
-	"\x06height\x18\x06 \x01(\rR\x06height\x12\x19\n" +
-	"\x05angle\x18\a \x01(\x01H\x00R\x05angle\x88\x01\x01\x12.\n" +
-	"\x10full_orientation\x18\b \x01(\bH\x01R\x0ffullOrientation\x88\x01\x01B\b\n" +
-	"\x06_angleB\x13\n" +
-	"\x11_full_orientation\"\xca\x01\n" +
+	"\blabel_id\x18\x02 \x01(\tR\alabelId\x128\n" +
+	"\fbounding_box\x18\x03 \x01(\v2\x15.geometry.BoundingBoxR\vboundingBox\"\xca\x01\n" +
 	"\rOcrAnnotation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
 	"\blabel_id\x18\x02 \x01(\tR\alabelId\x12\x12\n" +
@@ -517,17 +470,18 @@ var file_materialized_markup_proto_goTypes = []any{
 }
 var file_materialized_markup_proto_depIdxs = []int32{
 	5, // 0: materialized_markup.SegmentationAnnotation.data:type_name -> geometry.BinaryMaskData
-	6, // 1: materialized_markup.OcrAnnotation.bounding_box:type_name -> geometry.BoundingBox
-	7, // 2: materialized_markup.OcrAnnotation.polygon:type_name -> geometry.Polygon
-	0, // 3: materialized_markup.MaterializedMarkup.classification_annotations:type_name -> materialized_markup.ClassificationAnnotation
-	1, // 4: materialized_markup.MaterializedMarkup.segmentation_annotations:type_name -> materialized_markup.SegmentationAnnotation
-	2, // 5: materialized_markup.MaterializedMarkup.object_detection_annotations:type_name -> materialized_markup.ObjectDetectionAnnotation
-	3, // 6: materialized_markup.MaterializedMarkup.ocr_annotations:type_name -> materialized_markup.OcrAnnotation
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	6, // 1: materialized_markup.ObjectDetectionAnnotation.bounding_box:type_name -> geometry.BoundingBox
+	6, // 2: materialized_markup.OcrAnnotation.bounding_box:type_name -> geometry.BoundingBox
+	7, // 3: materialized_markup.OcrAnnotation.polygon:type_name -> geometry.Polygon
+	0, // 4: materialized_markup.MaterializedMarkup.classification_annotations:type_name -> materialized_markup.ClassificationAnnotation
+	1, // 5: materialized_markup.MaterializedMarkup.segmentation_annotations:type_name -> materialized_markup.SegmentationAnnotation
+	2, // 6: materialized_markup.MaterializedMarkup.object_detection_annotations:type_name -> materialized_markup.ObjectDetectionAnnotation
+	3, // 7: materialized_markup.MaterializedMarkup.ocr_annotations:type_name -> materialized_markup.OcrAnnotation
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_materialized_markup_proto_init() }
@@ -535,7 +489,6 @@ func file_materialized_markup_proto_init() {
 	if File_materialized_markup_proto != nil {
 		return
 	}
-	file_materialized_markup_proto_msgTypes[2].OneofWrappers = []any{}
 	file_materialized_markup_proto_msgTypes[3].OneofWrappers = []any{
 		(*OcrAnnotation_BoundingBox)(nil),
 		(*OcrAnnotation_Polygon)(nil),
