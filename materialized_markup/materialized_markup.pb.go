@@ -169,9 +169,8 @@ type ObjectDetectionAnnotation struct {
 	Y               uint32                 `protobuf:"varint,4,opt,name=y,proto3" json:"y,omitempty"`
 	Width           uint32                 `protobuf:"varint,5,opt,name=width,proto3" json:"width,omitempty"`
 	Height          uint32                 `protobuf:"varint,6,opt,name=height,proto3" json:"height,omitempty"`
-	Angle           float64                `protobuf:"fixed64,7,opt,name=angle,proto3" json:"angle,omitempty"`
-	FullOrientation bool                   `protobuf:"varint,8,opt,name=full_orientation,json=fullOrientation,proto3" json:"full_orientation,omitempty"`
-	AverageWidth    float64                `protobuf:"fixed64,9,opt,name=average_width,json=averageWidth,proto3" json:"average_width,omitempty"`
+	Angle           *float64               `protobuf:"fixed64,7,opt,name=angle,proto3,oneof" json:"angle,omitempty"`
+	FullOrientation *bool                  `protobuf:"varint,8,opt,name=full_orientation,json=fullOrientation,proto3,oneof" json:"full_orientation,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -249,24 +248,17 @@ func (x *ObjectDetectionAnnotation) GetHeight() uint32 {
 }
 
 func (x *ObjectDetectionAnnotation) GetAngle() float64 {
-	if x != nil {
-		return x.Angle
+	if x != nil && x.Angle != nil {
+		return *x.Angle
 	}
 	return 0
 }
 
 func (x *ObjectDetectionAnnotation) GetFullOrientation() bool {
-	if x != nil {
-		return x.FullOrientation
+	if x != nil && x.FullOrientation != nil {
+		return *x.FullOrientation
 	}
 	return false
-}
-
-func (x *ObjectDetectionAnnotation) GetAverageWidth() float64 {
-	if x != nil {
-		return x.AverageWidth
-	}
-	return 0
 }
 
 type OcrAnnotation struct {
@@ -473,17 +465,18 @@ const file_materialized_markup_proto_rawDesc = "" +
 	"\blabel_id\x18\x02 \x01(\tR\alabelId\x12\f\n" +
 	"\x01x\x18\x03 \x01(\rR\x01x\x12\f\n" +
 	"\x01y\x18\x04 \x01(\rR\x01y\x12,\n" +
-	"\x04data\x18\x05 \x01(\v2\x18.geometry.BinaryMaskDataR\x04data\"\xf6\x01\n" +
+	"\x04data\x18\x05 \x01(\v2\x18.geometry.BinaryMaskDataR\x04data\"\xfa\x01\n" +
 	"\x19ObjectDetectionAnnotation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
 	"\blabel_id\x18\x02 \x01(\tR\alabelId\x12\f\n" +
 	"\x01x\x18\x03 \x01(\rR\x01x\x12\f\n" +
 	"\x01y\x18\x04 \x01(\rR\x01y\x12\x14\n" +
 	"\x05width\x18\x05 \x01(\rR\x05width\x12\x16\n" +
-	"\x06height\x18\x06 \x01(\rR\x06height\x12\x14\n" +
-	"\x05angle\x18\a \x01(\x01R\x05angle\x12)\n" +
-	"\x10full_orientation\x18\b \x01(\bR\x0ffullOrientation\x12#\n" +
-	"\raverage_width\x18\t \x01(\x01R\faverageWidth\"\xca\x01\n" +
+	"\x06height\x18\x06 \x01(\rR\x06height\x12\x19\n" +
+	"\x05angle\x18\a \x01(\x01H\x00R\x05angle\x88\x01\x01\x12.\n" +
+	"\x10full_orientation\x18\b \x01(\bH\x01R\x0ffullOrientation\x88\x01\x01B\b\n" +
+	"\x06_angleB\x13\n" +
+	"\x11_full_orientation\"\xca\x01\n" +
 	"\rOcrAnnotation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
 	"\blabel_id\x18\x02 \x01(\tR\alabelId\x12\x12\n" +
@@ -542,6 +535,7 @@ func file_materialized_markup_proto_init() {
 	if File_materialized_markup_proto != nil {
 		return
 	}
+	file_materialized_markup_proto_msgTypes[2].OneofWrappers = []any{}
 	file_materialized_markup_proto_msgTypes[3].OneofWrappers = []any{
 		(*OcrAnnotation_BoundingBox)(nil),
 		(*OcrAnnotation_Polygon)(nil),
