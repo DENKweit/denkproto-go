@@ -490,10 +490,9 @@ func (x *ClassificationAnnotation) GetValue() float64 {
 }
 
 type SegmentationAnnotation struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
-	Id           string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	LabelId      string                 `protobuf:"bytes,2,opt,name=label_id,json=labelId,proto3" json:"label_id,omitempty"`
-	AverageWidth float64                `protobuf:"fixed64,3,opt,name=average_width,json=averageWidth,proto3" json:"average_width,omitempty"`
+	state   protoimpl.MessageState `protogen:"open.v1"`
+	Id      string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	LabelId string                 `protobuf:"bytes,2,opt,name=label_id,json=labelId,proto3" json:"label_id,omitempty"`
 	// Types that are valid to be assigned to AnnotationData:
 	//
 	//	*SegmentationAnnotation_CircleAnnotation
@@ -550,13 +549,6 @@ func (x *SegmentationAnnotation) GetLabelId() string {
 		return x.LabelId
 	}
 	return ""
-}
-
-func (x *SegmentationAnnotation) GetAverageWidth() float64 {
-	if x != nil {
-		return x.AverageWidth
-	}
-	return 0
 }
 
 func (x *SegmentationAnnotation) GetAnnotationData() isSegmentationAnnotation_AnnotationData {
@@ -634,31 +626,31 @@ type isSegmentationAnnotation_AnnotationData interface {
 }
 
 type SegmentationAnnotation_CircleAnnotation struct {
-	CircleAnnotation *CircleAnnotation `protobuf:"bytes,4,opt,name=circle_annotation,json=circleAnnotation,proto3,oneof"`
+	CircleAnnotation *CircleAnnotation `protobuf:"bytes,3,opt,name=circle_annotation,json=circleAnnotation,proto3,oneof"`
 }
 
 type SegmentationAnnotation_MagicwandAnnotation struct {
-	MagicwandAnnotation *MagicwandAnnotation `protobuf:"bytes,5,opt,name=magicwand_annotation,json=magicwandAnnotation,proto3,oneof"`
+	MagicwandAnnotation *MagicwandAnnotation `protobuf:"bytes,4,opt,name=magicwand_annotation,json=magicwandAnnotation,proto3,oneof"`
 }
 
 type SegmentationAnnotation_PenAnnotation struct {
-	PenAnnotation *PenAnnotation `protobuf:"bytes,6,opt,name=pen_annotation,json=penAnnotation,proto3,oneof"`
+	PenAnnotation *PenAnnotation `protobuf:"bytes,5,opt,name=pen_annotation,json=penAnnotation,proto3,oneof"`
 }
 
 type SegmentationAnnotation_PixelAnnotation struct {
-	PixelAnnotation *PixelAnnotation `protobuf:"bytes,7,opt,name=pixel_annotation,json=pixelAnnotation,proto3,oneof"`
+	PixelAnnotation *PixelAnnotation `protobuf:"bytes,6,opt,name=pixel_annotation,json=pixelAnnotation,proto3,oneof"`
 }
 
 type SegmentationAnnotation_PolygonAnnotation struct {
-	PolygonAnnotation *geometry.Polygon `protobuf:"bytes,8,opt,name=polygon_annotation,json=polygonAnnotation,proto3,oneof"`
+	PolygonAnnotation *geometry.Polygon `protobuf:"bytes,7,opt,name=polygon_annotation,json=polygonAnnotation,proto3,oneof"`
 }
 
 type SegmentationAnnotation_RectangleAnnotation struct {
-	RectangleAnnotation *geometry.BoundingBox `protobuf:"bytes,9,opt,name=rectangle_annotation,json=rectangleAnnotation,proto3,oneof"`
+	RectangleAnnotation *geometry.BoundingBox `protobuf:"bytes,8,opt,name=rectangle_annotation,json=rectangleAnnotation,proto3,oneof"`
 }
 
 type SegmentationAnnotation_SausageAnnotation struct {
-	SausageAnnotation *SausageAnnotation `protobuf:"bytes,10,opt,name=sausage_annotation,json=sausageAnnotation,proto3,oneof"`
+	SausageAnnotation *SausageAnnotation `protobuf:"bytes,9,opt,name=sausage_annotation,json=sausageAnnotation,proto3,oneof"`
 }
 
 func (*SegmentationAnnotation_CircleAnnotation) isSegmentationAnnotation_AnnotationData() {}
@@ -966,19 +958,17 @@ const file_markup_proto_rawDesc = "" +
 	"\x18ClassificationAnnotation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
 	"\blabel_id\x18\x02 \x01(\tR\alabelId\x12\x14\n" +
-	"\x05value\x18\x03 \x01(\x01R\x05value\"\xf8\x04\n" +
+	"\x05value\x18\x03 \x01(\x01R\x05value\"\xd3\x04\n" +
 	"\x16SegmentationAnnotation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
-	"\blabel_id\x18\x02 \x01(\tR\alabelId\x12#\n" +
-	"\raverage_width\x18\x03 \x01(\x01R\faverageWidth\x12G\n" +
-	"\x11circle_annotation\x18\x04 \x01(\v2\x18.markup.CircleAnnotationH\x00R\x10circleAnnotation\x12P\n" +
-	"\x14magicwand_annotation\x18\x05 \x01(\v2\x1b.markup.MagicwandAnnotationH\x00R\x13magicwandAnnotation\x12>\n" +
-	"\x0epen_annotation\x18\x06 \x01(\v2\x15.markup.PenAnnotationH\x00R\rpenAnnotation\x12D\n" +
-	"\x10pixel_annotation\x18\a \x01(\v2\x17.markup.PixelAnnotationH\x00R\x0fpixelAnnotation\x12B\n" +
-	"\x12polygon_annotation\x18\b \x01(\v2\x11.geometry.PolygonH\x00R\x11polygonAnnotation\x12J\n" +
-	"\x14rectangle_annotation\x18\t \x01(\v2\x15.geometry.BoundingBoxH\x00R\x13rectangleAnnotation\x12J\n" +
-	"\x12sausage_annotation\x18\n" +
-	" \x01(\v2\x19.markup.SausageAnnotationH\x00R\x11sausageAnnotationB\x11\n" +
+	"\blabel_id\x18\x02 \x01(\tR\alabelId\x12G\n" +
+	"\x11circle_annotation\x18\x03 \x01(\v2\x18.markup.CircleAnnotationH\x00R\x10circleAnnotation\x12P\n" +
+	"\x14magicwand_annotation\x18\x04 \x01(\v2\x1b.markup.MagicwandAnnotationH\x00R\x13magicwandAnnotation\x12>\n" +
+	"\x0epen_annotation\x18\x05 \x01(\v2\x15.markup.PenAnnotationH\x00R\rpenAnnotation\x12D\n" +
+	"\x10pixel_annotation\x18\x06 \x01(\v2\x17.markup.PixelAnnotationH\x00R\x0fpixelAnnotation\x12B\n" +
+	"\x12polygon_annotation\x18\a \x01(\v2\x11.geometry.PolygonH\x00R\x11polygonAnnotation\x12J\n" +
+	"\x14rectangle_annotation\x18\b \x01(\v2\x15.geometry.BoundingBoxH\x00R\x13rectangleAnnotation\x12J\n" +
+	"\x12sausage_annotation\x18\t \x01(\v2\x19.markup.SausageAnnotationH\x00R\x11sausageAnnotationB\x11\n" +
 	"\x0fannotation_data\"\x80\x01\n" +
 	"\x19ObjectDetectionAnnotation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +

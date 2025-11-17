@@ -852,8 +852,6 @@ func (m *SegmentationAnnotation) validate(all bool) error {
 
 	// no validation rules for LabelId
 
-	// no validation rules for AverageWidth
-
 	switch v := m.AnnotationData.(type) {
 	case *SegmentationAnnotation_CircleAnnotation:
 		if v == nil {
