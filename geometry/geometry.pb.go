@@ -259,8 +259,8 @@ func (x *Polygon) GetRings() []*PolygonRing {
 type BinaryMaskData struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	DeltaValues   []uint32               `protobuf:"varint,1,rep,packed,name=delta_values,json=deltaValues,proto3" json:"delta_values,omitempty"`
-	MaskWidth     int32                  `protobuf:"varint,2,opt,name=mask_width,json=maskWidth,proto3" json:"mask_width,omitempty"`
-	MaskHeight    int32                  `protobuf:"varint,3,opt,name=mask_height,json=maskHeight,proto3" json:"mask_height,omitempty"`
+	MaskWidth     uint32                 `protobuf:"varint,2,opt,name=mask_width,json=maskWidth,proto3" json:"mask_width,omitempty"`
+	MaskHeight    uint32                 `protobuf:"varint,3,opt,name=mask_height,json=maskHeight,proto3" json:"mask_height,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -302,14 +302,14 @@ func (x *BinaryMaskData) GetDeltaValues() []uint32 {
 	return nil
 }
 
-func (x *BinaryMaskData) GetMaskWidth() int32 {
+func (x *BinaryMaskData) GetMaskWidth() uint32 {
 	if x != nil {
 		return x.MaskWidth
 	}
 	return 0
 }
 
-func (x *BinaryMaskData) GetMaskHeight() int32 {
+func (x *BinaryMaskData) GetMaskHeight() uint32 {
 	if x != nil {
 		return x.MaskHeight
 	}
@@ -341,8 +341,8 @@ const file_geometry_proto_rawDesc = "" +
 	"\x0eBinaryMaskData\x12!\n" +
 	"\fdelta_values\x18\x01 \x03(\rR\vdeltaValues\x12\x1d\n" +
 	"\n" +
-	"mask_width\x18\x02 \x01(\x05R\tmaskWidth\x12\x1f\n" +
-	"\vmask_height\x18\x03 \x01(\x05R\n" +
+	"mask_width\x18\x02 \x01(\rR\tmaskWidth\x12\x1f\n" +
+	"\vmask_height\x18\x03 \x01(\rR\n" +
 	"maskHeightBAZ)github.com/DENKweit/denkproto-go/geometry\xaa\x02\x13DENK.Proto.Geometryb\x06proto3"
 
 var (
