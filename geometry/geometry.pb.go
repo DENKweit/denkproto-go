@@ -258,7 +258,7 @@ func (x *Polygon) GetRings() []*PolygonRing {
 
 type BinaryMaskData struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RleData       []uint32               `protobuf:"varint,1,rep,packed,name=rle_data,json=rleData,proto3" json:"rle_data,omitempty"`
+	DeltaValues   []uint32               `protobuf:"varint,1,rep,packed,name=delta_values,json=deltaValues,proto3" json:"delta_values,omitempty"`
 	MaskWidth     int32                  `protobuf:"varint,2,opt,name=mask_width,json=maskWidth,proto3" json:"mask_width,omitempty"`
 	MaskHeight    int32                  `protobuf:"varint,3,opt,name=mask_height,json=maskHeight,proto3" json:"mask_height,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -295,9 +295,9 @@ func (*BinaryMaskData) Descriptor() ([]byte, []int) {
 	return file_geometry_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *BinaryMaskData) GetRleData() []uint32 {
+func (x *BinaryMaskData) GetDeltaValues() []uint32 {
 	if x != nil {
-		return x.RleData
+		return x.DeltaValues
 	}
 	return nil
 }
@@ -337,9 +337,9 @@ const file_geometry_proto_rawDesc = "" +
 	"\thierarchy\x18\x01 \x01(\x05R\thierarchy\x12)\n" +
 	"\x06points\x18\x02 \x03(\v2\x11.geometry.Point2DR\x06points\"6\n" +
 	"\aPolygon\x12+\n" +
-	"\x05rings\x18\x01 \x03(\v2\x15.geometry.PolygonRingR\x05rings\"k\n" +
-	"\x0eBinaryMaskData\x12\x19\n" +
-	"\brle_data\x18\x01 \x03(\rR\arleData\x12\x1d\n" +
+	"\x05rings\x18\x01 \x03(\v2\x15.geometry.PolygonRingR\x05rings\"s\n" +
+	"\x0eBinaryMaskData\x12!\n" +
+	"\fdelta_values\x18\x01 \x03(\rR\vdeltaValues\x12\x1d\n" +
 	"\n" +
 	"mask_width\x18\x02 \x01(\x05R\tmaskWidth\x12\x1f\n" +
 	"\vmask_height\x18\x03 \x01(\x05R\n" +
