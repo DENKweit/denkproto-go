@@ -28,6 +28,7 @@ type ModelBlob struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	OwnedByGroupId string                 `protobuf:"bytes,1,opt,name=owned_by_group_id,json=ownedByGroupId,proto3" json:"owned_by_group_id,omitempty"`
 	BlobId         string                 `protobuf:"bytes,2,opt,name=blob_id,json=blobId,proto3" json:"blob_id,omitempty"`
+	Url            string                 `protobuf:"bytes,3,opt,name=url,proto3" json:"url,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -72,6 +73,13 @@ func (x *ModelBlob) GetOwnedByGroupId() string {
 func (x *ModelBlob) GetBlobId() string {
 	if x != nil {
 		return x.BlobId
+	}
+	return ""
+}
+
+func (x *ModelBlob) GetUrl() string {
+	if x != nil {
+		return x.Url
 	}
 	return ""
 }
@@ -407,6 +415,7 @@ type Image struct {
 	Width          int32                  `protobuf:"varint,3,opt,name=width,proto3" json:"width,omitempty"`
 	OwnedByGroupId string                 `protobuf:"bytes,4,opt,name=owned_by_group_id,json=ownedByGroupId,proto3" json:"owned_by_group_id,omitempty"`
 	BlobId         string                 `protobuf:"bytes,5,opt,name=blob_id,json=blobId,proto3" json:"blob_id,omitempty"`
+	Url            string                 `protobuf:"bytes,6,opt,name=url,proto3" json:"url,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -476,6 +485,13 @@ func (x *Image) GetBlobId() string {
 	return ""
 }
 
+func (x *Image) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
 type ClassLabel struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -532,10 +548,11 @@ var File_request_proto protoreflect.FileDescriptor
 
 const file_request_proto_rawDesc = "" +
 	"\n" +
-	"\rrequest.proto\x12\arequest\"O\n" +
+	"\rrequest.proto\x12\arequest\"a\n" +
 	"\tModelBlob\x12)\n" +
 	"\x11owned_by_group_id\x18\x01 \x01(\tR\x0eownedByGroupId\x12\x17\n" +
-	"\ablob_id\x18\x02 \x01(\tR\x06blobId\"p\n" +
+	"\ablob_id\x18\x02 \x01(\tR\x06blobId\x12\x10\n" +
+	"\x03url\x18\x03 \x01(\tR\x03url\"p\n" +
 	"\bSnapshot\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12&\n" +
 	"\x04onnx\x18\x02 \x01(\v2\x12.request.ModelBlobR\x04onnx\x12,\n" +
@@ -560,13 +577,14 @@ const file_request_proto_rawDesc = "" +
 	"\fclass_labels\x18\x04 \x03(\v2\x13.request.ClassLabelR\vclassLabels\x12.\n" +
 	"\x06config\x18\x05 \x01(\v2\x16.request.NetworkConfigR\x06config\x12-\n" +
 	"\bsnapshot\x18\x06 \x01(\v2\x11.request.SnapshotR\bsnapshot\x12^\n" +
-	"\x1aocr_character_restrictions\x18\a \x03(\v2 .request.OcrCharacterRestrictionR\x18ocrCharacterRestrictions\"\x92\x01\n" +
+	"\x1aocr_character_restrictions\x18\a \x03(\v2 .request.OcrCharacterRestrictionR\x18ocrCharacterRestrictions\"\xa4\x01\n" +
 	"\x05Image\x12\x17\n" +
 	"\afile_id\x18\x01 \x01(\tR\x06fileId\x12\x16\n" +
 	"\x06height\x18\x02 \x01(\x05R\x06height\x12\x14\n" +
 	"\x05width\x18\x03 \x01(\x05R\x05width\x12)\n" +
 	"\x11owned_by_group_id\x18\x04 \x01(\tR\x0eownedByGroupId\x12\x17\n" +
-	"\ablob_id\x18\x05 \x01(\tR\x06blobId\".\n" +
+	"\ablob_id\x18\x05 \x01(\tR\x06blobId\x12\x10\n" +
+	"\x03url\x18\x06 \x01(\tR\x03url\".\n" +
 	"\n" +
 	"ClassLabel\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x10\n" +

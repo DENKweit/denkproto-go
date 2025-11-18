@@ -61,6 +61,8 @@ func (m *ModelBlob) validate(all bool) error {
 
 	// no validation rules for BlobId
 
+	// no validation rules for Url
+
 	if len(errors) > 0 {
 		return ModelBlobMultiError(errors)
 	}
@@ -909,6 +911,8 @@ func (m *Image) validate(all bool) error {
 	// no validation rules for OwnedByGroupId
 
 	// no validation rules for BlobId
+
+	// no validation rules for Url
 
 	if len(errors) > 0 {
 		return ImageMultiError(errors)
