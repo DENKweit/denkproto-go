@@ -163,9 +163,9 @@ func (m *MagicwandAnnotation) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for X
+	// no validation rules for TopLeftX
 
-	// no validation rules for Y
+	// no validation rules for TopLeftY
 
 	// no validation rules for Width
 
@@ -313,9 +313,9 @@ func (m *PenAnnotation) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for X
+	// no validation rules for TopLeftX
 
-	// no validation rules for Y
+	// no validation rules for TopLeftY
 
 	// no validation rules for Width
 
@@ -486,9 +486,9 @@ func (m *PixelAnnotation) validate(all bool) error {
 		}
 	}
 
-	// no validation rules for X
+	// no validation rules for TopLeftX
 
-	// no validation rules for Y
+	// no validation rules for TopLeftY
 
 	// no validation rules for Width
 
@@ -594,9 +594,9 @@ func (m *SausageAnnotation) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for X
+	// no validation rules for TopLeftX
 
-	// no validation rules for Y
+	// no validation rules for TopLeftY
 
 	// no validation rules for Width
 

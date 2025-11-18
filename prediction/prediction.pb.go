@@ -88,8 +88,8 @@ func (x *ClassificationPrediction) GetInterpretationMap() []byte {
 type ObjectDetectionPrediction struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	LabelId         string                 `protobuf:"bytes,1,opt,name=label_id,json=labelId,proto3" json:"label_id,omitempty"`
-	X               uint32                 `protobuf:"varint,2,opt,name=x,proto3" json:"x,omitempty"`
-	Y               uint32                 `protobuf:"varint,3,opt,name=y,proto3" json:"y,omitempty"`
+	TopLeftx        uint32                 `protobuf:"varint,2,opt,name=top_leftx,json=topLeftx,proto3" json:"top_leftx,omitempty"`
+	TopLeftY        uint32                 `protobuf:"varint,3,opt,name=top_left_y,json=topLeftY,proto3" json:"top_left_y,omitempty"`
 	Width           uint32                 `protobuf:"varint,4,opt,name=width,proto3" json:"width,omitempty"`
 	Height          uint32                 `protobuf:"varint,5,opt,name=height,proto3" json:"height,omitempty"`
 	Probability     float64                `protobuf:"fixed64,6,opt,name=probability,proto3" json:"probability,omitempty"`
@@ -136,16 +136,16 @@ func (x *ObjectDetectionPrediction) GetLabelId() string {
 	return ""
 }
 
-func (x *ObjectDetectionPrediction) GetX() uint32 {
+func (x *ObjectDetectionPrediction) GetTopLeftx() uint32 {
 	if x != nil {
-		return x.X
+		return x.TopLeftx
 	}
 	return 0
 }
 
-func (x *ObjectDetectionPrediction) GetY() uint32 {
+func (x *ObjectDetectionPrediction) GetTopLeftY() uint32 {
 	if x != nil {
-		return x.Y
+		return x.TopLeftY
 	}
 	return 0
 }
@@ -188,8 +188,8 @@ func (x *ObjectDetectionPrediction) GetFullOrientation() bool {
 type InstanceSegmentationPrediction struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	LabelId       string                 `protobuf:"bytes,1,opt,name=label_id,json=labelId,proto3" json:"label_id,omitempty"`
-	X             uint32                 `protobuf:"varint,2,opt,name=x,proto3" json:"x,omitempty"`
-	Y             uint32                 `protobuf:"varint,3,opt,name=y,proto3" json:"y,omitempty"`
+	TopLeftX      uint32                 `protobuf:"varint,2,opt,name=top_left_x,json=topLeftX,proto3" json:"top_left_x,omitempty"`
+	TopLeftY      uint32                 `protobuf:"varint,3,opt,name=top_left_y,json=topLeftY,proto3" json:"top_left_y,omitempty"`
 	Mask          []byte                 `protobuf:"bytes,4,opt,name=mask,proto3" json:"mask,omitempty"`
 	Probability   float64                `protobuf:"fixed64,5,opt,name=probability,proto3" json:"probability,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -233,16 +233,16 @@ func (x *InstanceSegmentationPrediction) GetLabelId() string {
 	return ""
 }
 
-func (x *InstanceSegmentationPrediction) GetX() uint32 {
+func (x *InstanceSegmentationPrediction) GetTopLeftX() uint32 {
 	if x != nil {
-		return x.X
+		return x.TopLeftX
 	}
 	return 0
 }
 
-func (x *InstanceSegmentationPrediction) GetY() uint32 {
+func (x *InstanceSegmentationPrediction) GetTopLeftY() uint32 {
 	if x != nil {
-		return x.Y
+		return x.TopLeftY
 	}
 	return 0
 }
@@ -512,20 +512,23 @@ const file_prediction_proto_rawDesc = "" +
 	"\x18ClassificationPrediction\x12\x19\n" +
 	"\blabel_id\x18\x01 \x01(\tR\alabelId\x12 \n" +
 	"\vprobability\x18\x02 \x01(\x01R\vprobability\x12-\n" +
-	"\x12interpretation_map\x18\x03 \x01(\fR\x11interpretationMap\"\xe3\x01\n" +
+	"\x12interpretation_map\x18\x03 \x01(\fR\x11interpretationMap\"\x82\x02\n" +
 	"\x19ObjectDetectionPrediction\x12\x19\n" +
-	"\blabel_id\x18\x01 \x01(\tR\alabelId\x12\f\n" +
-	"\x01x\x18\x02 \x01(\rR\x01x\x12\f\n" +
-	"\x01y\x18\x03 \x01(\rR\x01y\x12\x14\n" +
+	"\blabel_id\x18\x01 \x01(\tR\alabelId\x12\x1b\n" +
+	"\ttop_leftx\x18\x02 \x01(\rR\btopLeftx\x12\x1c\n" +
+	"\n" +
+	"top_left_y\x18\x03 \x01(\rR\btopLeftY\x12\x14\n" +
 	"\x05width\x18\x04 \x01(\rR\x05width\x12\x16\n" +
 	"\x06height\x18\x05 \x01(\rR\x06height\x12 \n" +
 	"\vprobability\x18\x06 \x01(\x01R\vprobability\x12\x14\n" +
 	"\x05angle\x18\a \x01(\x01R\x05angle\x12)\n" +
-	"\x10full_orientation\x18\b \x01(\bR\x0ffullOrientation\"\x8d\x01\n" +
+	"\x10full_orientation\x18\b \x01(\bR\x0ffullOrientation\"\xad\x01\n" +
 	"\x1eInstanceSegmentationPrediction\x12\x19\n" +
-	"\blabel_id\x18\x01 \x01(\tR\alabelId\x12\f\n" +
-	"\x01x\x18\x02 \x01(\rR\x01x\x12\f\n" +
-	"\x01y\x18\x03 \x01(\rR\x01y\x12\x12\n" +
+	"\blabel_id\x18\x01 \x01(\tR\alabelId\x12\x1c\n" +
+	"\n" +
+	"top_left_x\x18\x02 \x01(\rR\btopLeftX\x12\x1c\n" +
+	"\n" +
+	"top_left_y\x18\x03 \x01(\rR\btopLeftY\x12\x12\n" +
 	"\x04mask\x18\x04 \x01(\fR\x04mask\x12 \n" +
 	"\vprobability\x18\x05 \x01(\x01R\vprobability\"U\n" +
 	"\x13CharacterPrediction\x12\x1c\n" +

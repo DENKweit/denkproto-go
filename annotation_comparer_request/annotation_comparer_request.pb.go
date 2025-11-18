@@ -10,8 +10,6 @@
 package annotation_comparer_request
 
 import (
-	materialized_markup "github.com/DENKweit/denkproto-go/materialized_markup"
-	prediction "github.com/DENKweit/denkproto-go/prediction"
 	request "github.com/DENKweit/denkproto-go/request"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -31,8 +29,8 @@ type SourceTarget struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Data:
 	//
-	//	*SourceTarget_Markup
-	//	*SourceTarget_Prediction
+	//	*SourceTarget_MarkupUrl
+	//	*SourceTarget_PredictionUrl
 	Data          isSourceTarget_Data `protobuf_oneof:"data"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -75,39 +73,39 @@ func (x *SourceTarget) GetData() isSourceTarget_Data {
 	return nil
 }
 
-func (x *SourceTarget) GetMarkup() *materialized_markup.MaterializedMarkup {
+func (x *SourceTarget) GetMarkupUrl() string {
 	if x != nil {
-		if x, ok := x.Data.(*SourceTarget_Markup); ok {
-			return x.Markup
+		if x, ok := x.Data.(*SourceTarget_MarkupUrl); ok {
+			return x.MarkupUrl
 		}
 	}
-	return nil
+	return ""
 }
 
-func (x *SourceTarget) GetPrediction() *prediction.Prediction {
+func (x *SourceTarget) GetPredictionUrl() string {
 	if x != nil {
-		if x, ok := x.Data.(*SourceTarget_Prediction); ok {
-			return x.Prediction
+		if x, ok := x.Data.(*SourceTarget_PredictionUrl); ok {
+			return x.PredictionUrl
 		}
 	}
-	return nil
+	return ""
 }
 
 type isSourceTarget_Data interface {
 	isSourceTarget_Data()
 }
 
-type SourceTarget_Markup struct {
-	Markup *materialized_markup.MaterializedMarkup `protobuf:"bytes,1,opt,name=markup,proto3,oneof"`
+type SourceTarget_MarkupUrl struct {
+	MarkupUrl string `protobuf:"bytes,1,opt,name=markup_url,json=markupUrl,proto3,oneof"`
 }
 
-type SourceTarget_Prediction struct {
-	Prediction *prediction.Prediction `protobuf:"bytes,2,opt,name=prediction,proto3,oneof"`
+type SourceTarget_PredictionUrl struct {
+	PredictionUrl string `protobuf:"bytes,2,opt,name=prediction_url,json=predictionUrl,proto3,oneof"`
 }
 
-func (*SourceTarget_Markup) isSourceTarget_Data() {}
+func (*SourceTarget_MarkupUrl) isSourceTarget_Data() {}
 
-func (*SourceTarget_Prediction) isSourceTarget_Data() {}
+func (*SourceTarget_PredictionUrl) isSourceTarget_Data() {}
 
 type AnnotationComparerRequest struct {
 	state             protoimpl.MessageState     `protogen:"open.v1"`
@@ -229,12 +227,11 @@ var File_annotation_comparer_request_proto protoreflect.FileDescriptor
 
 const file_annotation_comparer_request_proto_rawDesc = "" +
 	"\n" +
-	"!annotation_comparer_request.proto\x12\x1bannotation_comparer_request\x1a\rrequest.proto\x1a\x10prediction.proto\x1a\x19materialized_markup.proto\"\x93\x01\n" +
-	"\fSourceTarget\x12A\n" +
-	"\x06markup\x18\x01 \x01(\v2'.materialized_markup.MaterializedMarkupH\x00R\x06markup\x128\n" +
+	"!annotation_comparer_request.proto\x12\x1bannotation_comparer_request\x1a\rrequest.proto\"`\n" +
+	"\fSourceTarget\x12\x1f\n" +
 	"\n" +
-	"prediction\x18\x02 \x01(\v2\x16.prediction.PredictionH\x00R\n" +
-	"predictionB\x06\n" +
+	"markup_url\x18\x01 \x01(\tH\x00R\tmarkupUrl\x12'\n" +
+	"\x0eprediction_url\x18\x02 \x01(\tH\x00R\rpredictionUrlB\x06\n" +
 	"\x04data\"\xcf\x03\n" +
 	"\x19AnnotationComparerRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
@@ -264,25 +261,21 @@ func file_annotation_comparer_request_proto_rawDescGZIP() []byte {
 
 var file_annotation_comparer_request_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_annotation_comparer_request_proto_goTypes = []any{
-	(*SourceTarget)(nil),                           // 0: annotation_comparer_request.SourceTarget
-	(*AnnotationComparerRequest)(nil),              // 1: annotation_comparer_request.AnnotationComparerRequest
-	(*materialized_markup.MaterializedMarkup)(nil), // 2: materialized_markup.MaterializedMarkup
-	(*prediction.Prediction)(nil),                  // 3: prediction.Prediction
-	(*request.NetworkExperiment)(nil),              // 4: request.NetworkExperiment
-	(*request.Image)(nil),                          // 5: request.Image
+	(*SourceTarget)(nil),              // 0: annotation_comparer_request.SourceTarget
+	(*AnnotationComparerRequest)(nil), // 1: annotation_comparer_request.AnnotationComparerRequest
+	(*request.NetworkExperiment)(nil), // 2: request.NetworkExperiment
+	(*request.Image)(nil),             // 3: request.Image
 }
 var file_annotation_comparer_request_proto_depIdxs = []int32{
-	2, // 0: annotation_comparer_request.SourceTarget.markup:type_name -> materialized_markup.MaterializedMarkup
-	3, // 1: annotation_comparer_request.SourceTarget.prediction:type_name -> prediction.Prediction
-	4, // 2: annotation_comparer_request.AnnotationComparerRequest.network_experiment:type_name -> request.NetworkExperiment
-	5, // 3: annotation_comparer_request.AnnotationComparerRequest.image:type_name -> request.Image
-	0, // 4: annotation_comparer_request.AnnotationComparerRequest.source:type_name -> annotation_comparer_request.SourceTarget
-	0, // 5: annotation_comparer_request.AnnotationComparerRequest.target:type_name -> annotation_comparer_request.SourceTarget
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	2, // 0: annotation_comparer_request.AnnotationComparerRequest.network_experiment:type_name -> request.NetworkExperiment
+	3, // 1: annotation_comparer_request.AnnotationComparerRequest.image:type_name -> request.Image
+	0, // 2: annotation_comparer_request.AnnotationComparerRequest.source:type_name -> annotation_comparer_request.SourceTarget
+	0, // 3: annotation_comparer_request.AnnotationComparerRequest.target:type_name -> annotation_comparer_request.SourceTarget
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_annotation_comparer_request_proto_init() }
@@ -291,8 +284,8 @@ func file_annotation_comparer_request_proto_init() {
 		return
 	}
 	file_annotation_comparer_request_proto_msgTypes[0].OneofWrappers = []any{
-		(*SourceTarget_Markup)(nil),
-		(*SourceTarget_Prediction)(nil),
+		(*SourceTarget_MarkupUrl)(nil),
+		(*SourceTarget_PredictionUrl)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

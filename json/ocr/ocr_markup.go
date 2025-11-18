@@ -47,21 +47,21 @@ type BoundingBox struct {
 
 // A polygon defined by one or more rings, allowing for holes and nested structures.
 type Polygon struct {
-	// Array of polygon rings. The hierarchy field within each ring determines nesting and              
-	// fill/hole status.                                                                                
-	Rings                                                                                 []RingElement `json:"rings"`
+	// Array of polygon rings. The hierarchy field within each ring determines nesting and                 
+	// fill/hole status.                                                                                   
+	Rings                                                                                 []GeometrySchema `json:"rings"`
 }
 
 // A single closed loop (ring) of a polygon, defining either an outer boundary or a hole.
-type RingElement struct {
-	// Nesting level: 0=outer, 1=hole in level 0, 2=poly in level 1 hole, etc. Even levels are               
-	// filled areas, odd levels are holes.                                                                   
-	Hierarchy                                                                                 int64          `json:"hierarchy"`
-	Points                                                                                    []PointElement `json:"points"`
+type GeometrySchema struct {
+	// Nesting level: 0=outer, 1=hole in level 0, 2=poly in level 1 hole, etc. Even levels are        
+	// filled areas, odd levels are holes.                                                            
+	Hierarchy                                                                                 int64   `json:"hierarchy"`
+	// Vertices of the ring.                                                                          
+	Points                                                                                    []Point `json:"points"`
 }
 
-// An array of points
-type PointElement struct {
+type Point struct {
 	X float64 `json:"x"`
 	Y float64 `json:"y"`
 }

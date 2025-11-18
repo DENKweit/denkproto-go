@@ -167,9 +167,9 @@ func (m *ObjectDetectionPrediction) validate(all bool) error {
 
 	// no validation rules for LabelId
 
-	// no validation rules for X
+	// no validation rules for TopLeftx
 
-	// no validation rules for Y
+	// no validation rules for TopLeftY
 
 	// no validation rules for Width
 
@@ -285,9 +285,9 @@ func (m *InstanceSegmentationPrediction) validate(all bool) error {
 
 	// no validation rules for LabelId
 
-	// no validation rules for X
+	// no validation rules for TopLeftX
 
-	// no validation rules for Y
+	// no validation rules for TopLeftY
 
 	// no validation rules for Mask
 
