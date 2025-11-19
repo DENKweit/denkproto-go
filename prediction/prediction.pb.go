@@ -479,6 +479,66 @@ func (*OcrPrediction_BoundingBox) isOcrPrediction_GeometryData() {}
 
 func (*OcrPrediction_Polygon) isOcrPrediction_GeometryData() {}
 
+type BarcodePrediction struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LabelId       string                 `protobuf:"bytes,1,opt,name=label_id,json=labelId,proto3" json:"label_id,omitempty"`
+	Data          []byte                 `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	Points        []*geometry.Point2D    `protobuf:"bytes,3,rep,name=points,proto3" json:"points,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BarcodePrediction) Reset() {
+	*x = BarcodePrediction{}
+	mi := &file_prediction_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BarcodePrediction) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BarcodePrediction) ProtoMessage() {}
+
+func (x *BarcodePrediction) ProtoReflect() protoreflect.Message {
+	mi := &file_prediction_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BarcodePrediction.ProtoReflect.Descriptor instead.
+func (*BarcodePrediction) Descriptor() ([]byte, []int) {
+	return file_prediction_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *BarcodePrediction) GetLabelId() string {
+	if x != nil {
+		return x.LabelId
+	}
+	return ""
+}
+
+func (x *BarcodePrediction) GetData() []byte {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+func (x *BarcodePrediction) GetPoints() []*geometry.Point2D {
+	if x != nil {
+		return x.Points
+	}
+	return nil
+}
+
 type Prediction struct {
 	state                           protoimpl.MessageState            `protogen:"open.v1"`
 	Height                          int32                             `protobuf:"varint,1,opt,name=height,proto3" json:"height,omitempty"`
@@ -487,13 +547,14 @@ type Prediction struct {
 	ObjectDetectionPredictions      []*ObjectDetectionPrediction      `protobuf:"bytes,4,rep,name=object_detection_predictions,json=objectDetectionPredictions,proto3" json:"object_detection_predictions,omitempty"`
 	InstanceSegmentationPredictions []*InstanceSegmentationPrediction `protobuf:"bytes,5,rep,name=instance_segmentation_predictions,json=instanceSegmentationPredictions,proto3" json:"instance_segmentation_predictions,omitempty"`
 	OcrPredictions                  []*OcrPrediction                  `protobuf:"bytes,6,rep,name=ocr_predictions,json=ocrPredictions,proto3" json:"ocr_predictions,omitempty"`
+	BarcodePredictions              []*BarcodePrediction              `protobuf:"bytes,7,rep,name=barcode_predictions,json=barcodePredictions,proto3" json:"barcode_predictions,omitempty"`
 	unknownFields                   protoimpl.UnknownFields
 	sizeCache                       protoimpl.SizeCache
 }
 
 func (x *Prediction) Reset() {
 	*x = Prediction{}
-	mi := &file_prediction_proto_msgTypes[6]
+	mi := &file_prediction_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -505,7 +566,7 @@ func (x *Prediction) String() string {
 func (*Prediction) ProtoMessage() {}
 
 func (x *Prediction) ProtoReflect() protoreflect.Message {
-	mi := &file_prediction_proto_msgTypes[6]
+	mi := &file_prediction_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -518,7 +579,7 @@ func (x *Prediction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Prediction.ProtoReflect.Descriptor instead.
 func (*Prediction) Descriptor() ([]byte, []int) {
-	return file_prediction_proto_rawDescGZIP(), []int{6}
+	return file_prediction_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *Prediction) GetHeight() int32 {
@@ -559,6 +620,13 @@ func (x *Prediction) GetInstanceSegmentationPredictions() []*InstanceSegmentatio
 func (x *Prediction) GetOcrPredictions() []*OcrPrediction {
 	if x != nil {
 		return x.OcrPredictions
+	}
+	return nil
+}
+
+func (x *Prediction) GetBarcodePredictions() []*BarcodePrediction {
+	if x != nil {
+		return x.BarcodePredictions
 	}
 	return nil
 }
@@ -604,7 +672,11 @@ const file_prediction_proto_rawDesc = "" +
 	"\x15character_predictions\x18\x03 \x03(\v2\x1f.prediction.CharacterPredictionR\x14characterPredictions\x12:\n" +
 	"\fbounding_box\x18\x04 \x01(\v2\x15.geometry.BoundingBoxH\x00R\vboundingBox\x12-\n" +
 	"\apolygon\x18\x05 \x01(\v2\x11.geometry.PolygonH\x00R\apolygonB\x0f\n" +
-	"\rgeometry_data\"\xc4\x03\n" +
+	"\rgeometry_data\"m\n" +
+	"\x11BarcodePrediction\x12\x19\n" +
+	"\blabel_id\x18\x01 \x01(\tR\alabelId\x12\x12\n" +
+	"\x04data\x18\x02 \x01(\fR\x04data\x12)\n" +
+	"\x06points\x18\x03 \x03(\v2\x11.geometry.Point2DR\x06points\"\x94\x04\n" +
 	"\n" +
 	"Prediction\x12\x16\n" +
 	"\x06height\x18\x01 \x01(\x05R\x06height\x12\x14\n" +
@@ -612,7 +684,8 @@ const file_prediction_proto_rawDesc = "" +
 	"\x1aclassification_predictions\x18\x03 \x03(\v2$.prediction.ClassificationPredictionR\x19classificationPredictions\x12g\n" +
 	"\x1cobject_detection_predictions\x18\x04 \x03(\v2%.prediction.ObjectDetectionPredictionR\x1aobjectDetectionPredictions\x12v\n" +
 	"!instance_segmentation_predictions\x18\x05 \x03(\v2*.prediction.InstanceSegmentationPredictionR\x1finstanceSegmentationPredictions\x12B\n" +
-	"\x0focr_predictions\x18\x06 \x03(\v2\x19.prediction.OcrPredictionR\x0eocrPredictionsBEZ+github.com/DENKweit/denkproto-go/prediction\xaa\x02\x15DENK.Proto.Predictionb\x06proto3"
+	"\x0focr_predictions\x18\x06 \x03(\v2\x19.prediction.OcrPredictionR\x0eocrPredictions\x12N\n" +
+	"\x13barcode_predictions\x18\a \x03(\v2\x1d.prediction.BarcodePredictionR\x12barcodePredictionsBEZ+github.com/DENKweit/denkproto-go/prediction\xaa\x02\x15DENK.Proto.Predictionb\x06proto3"
 
 var (
 	file_prediction_proto_rawDescOnce sync.Once
@@ -626,7 +699,7 @@ func file_prediction_proto_rawDescGZIP() []byte {
 	return file_prediction_proto_rawDescData
 }
 
-var file_prediction_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_prediction_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_prediction_proto_goTypes = []any{
 	(*InterpretationMap)(nil),              // 0: prediction.InterpretationMap
 	(*ClassificationPrediction)(nil),       // 1: prediction.ClassificationPrediction
@@ -634,24 +707,28 @@ var file_prediction_proto_goTypes = []any{
 	(*InstanceSegmentationPrediction)(nil), // 3: prediction.InstanceSegmentationPrediction
 	(*CharacterPrediction)(nil),            // 4: prediction.CharacterPrediction
 	(*OcrPrediction)(nil),                  // 5: prediction.OcrPrediction
-	(*Prediction)(nil),                     // 6: prediction.Prediction
-	(*geometry.BoundingBox)(nil),           // 7: geometry.BoundingBox
-	(*geometry.Polygon)(nil),               // 8: geometry.Polygon
+	(*BarcodePrediction)(nil),              // 6: prediction.BarcodePrediction
+	(*Prediction)(nil),                     // 7: prediction.Prediction
+	(*geometry.BoundingBox)(nil),           // 8: geometry.BoundingBox
+	(*geometry.Polygon)(nil),               // 9: geometry.Polygon
+	(*geometry.Point2D)(nil),               // 10: geometry.Point2D
 }
 var file_prediction_proto_depIdxs = []int32{
-	0, // 0: prediction.ClassificationPrediction.interpretation_map:type_name -> prediction.InterpretationMap
-	4, // 1: prediction.OcrPrediction.character_predictions:type_name -> prediction.CharacterPrediction
-	7, // 2: prediction.OcrPrediction.bounding_box:type_name -> geometry.BoundingBox
-	8, // 3: prediction.OcrPrediction.polygon:type_name -> geometry.Polygon
-	1, // 4: prediction.Prediction.classification_predictions:type_name -> prediction.ClassificationPrediction
-	2, // 5: prediction.Prediction.object_detection_predictions:type_name -> prediction.ObjectDetectionPrediction
-	3, // 6: prediction.Prediction.instance_segmentation_predictions:type_name -> prediction.InstanceSegmentationPrediction
-	5, // 7: prediction.Prediction.ocr_predictions:type_name -> prediction.OcrPrediction
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	0,  // 0: prediction.ClassificationPrediction.interpretation_map:type_name -> prediction.InterpretationMap
+	4,  // 1: prediction.OcrPrediction.character_predictions:type_name -> prediction.CharacterPrediction
+	8,  // 2: prediction.OcrPrediction.bounding_box:type_name -> geometry.BoundingBox
+	9,  // 3: prediction.OcrPrediction.polygon:type_name -> geometry.Polygon
+	10, // 4: prediction.BarcodePrediction.points:type_name -> geometry.Point2D
+	1,  // 5: prediction.Prediction.classification_predictions:type_name -> prediction.ClassificationPrediction
+	2,  // 6: prediction.Prediction.object_detection_predictions:type_name -> prediction.ObjectDetectionPrediction
+	3,  // 7: prediction.Prediction.instance_segmentation_predictions:type_name -> prediction.InstanceSegmentationPrediction
+	5,  // 8: prediction.Prediction.ocr_predictions:type_name -> prediction.OcrPrediction
+	6,  // 9: prediction.Prediction.barcode_predictions:type_name -> prediction.BarcodePrediction
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_prediction_proto_init() }
@@ -669,7 +746,7 @@ func file_prediction_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_prediction_proto_rawDesc), len(file_prediction_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

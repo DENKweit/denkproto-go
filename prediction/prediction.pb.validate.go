@@ -840,6 +840,146 @@ var _ interface {
 	ErrorName() string
 } = OcrPredictionValidationError{}
 
+// Validate checks the field values on BarcodePrediction with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *BarcodePrediction) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on BarcodePrediction with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// BarcodePredictionMultiError, or nil if none found.
+func (m *BarcodePrediction) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *BarcodePrediction) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for LabelId
+
+	// no validation rules for Data
+
+	for idx, item := range m.GetPoints() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, BarcodePredictionValidationError{
+						field:  fmt.Sprintf("Points[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, BarcodePredictionValidationError{
+						field:  fmt.Sprintf("Points[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return BarcodePredictionValidationError{
+					field:  fmt.Sprintf("Points[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return BarcodePredictionMultiError(errors)
+	}
+
+	return nil
+}
+
+// BarcodePredictionMultiError is an error wrapping multiple validation errors
+// returned by BarcodePrediction.ValidateAll() if the designated constraints
+// aren't met.
+type BarcodePredictionMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m BarcodePredictionMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m BarcodePredictionMultiError) AllErrors() []error { return m }
+
+// BarcodePredictionValidationError is the validation error returned by
+// BarcodePrediction.Validate if the designated constraints aren't met.
+type BarcodePredictionValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e BarcodePredictionValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e BarcodePredictionValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e BarcodePredictionValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e BarcodePredictionValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e BarcodePredictionValidationError) ErrorName() string {
+	return "BarcodePredictionValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e BarcodePredictionValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sBarcodePrediction.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = BarcodePredictionValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = BarcodePredictionValidationError{}
+
 // Validate checks the field values on Prediction with the rules defined in the
 // proto definition for this message. If any rules are violated, the first
 // error encountered is returned, or nil if there are no violations.
@@ -994,6 +1134,40 @@ func (m *Prediction) validate(all bool) error {
 			if err := v.Validate(); err != nil {
 				return PredictionValidationError{
 					field:  fmt.Sprintf("OcrPredictions[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetBarcodePredictions() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, PredictionValidationError{
+						field:  fmt.Sprintf("BarcodePredictions[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, PredictionValidationError{
+						field:  fmt.Sprintf("BarcodePredictions[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return PredictionValidationError{
+					field:  fmt.Sprintf("BarcodePredictions[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
