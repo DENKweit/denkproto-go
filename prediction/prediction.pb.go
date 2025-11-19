@@ -25,18 +25,78 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type InterpretationMap struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Width         uint32                 `protobuf:"varint,1,opt,name=width,proto3" json:"width,omitempty"`
+	Height        uint32                 `protobuf:"varint,2,opt,name=height,proto3" json:"height,omitempty"`
+	Data          []byte                 `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InterpretationMap) Reset() {
+	*x = InterpretationMap{}
+	mi := &file_prediction_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InterpretationMap) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InterpretationMap) ProtoMessage() {}
+
+func (x *InterpretationMap) ProtoReflect() protoreflect.Message {
+	mi := &file_prediction_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InterpretationMap.ProtoReflect.Descriptor instead.
+func (*InterpretationMap) Descriptor() ([]byte, []int) {
+	return file_prediction_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *InterpretationMap) GetWidth() uint32 {
+	if x != nil {
+		return x.Width
+	}
+	return 0
+}
+
+func (x *InterpretationMap) GetHeight() uint32 {
+	if x != nil {
+		return x.Height
+	}
+	return 0
+}
+
+func (x *InterpretationMap) GetData() []byte {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
 type ClassificationPrediction struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	LabelId           string                 `protobuf:"bytes,1,opt,name=label_id,json=labelId,proto3" json:"label_id,omitempty"`
 	Probability       float64                `protobuf:"fixed64,2,opt,name=probability,proto3" json:"probability,omitempty"`
-	InterpretationMap []byte                 `protobuf:"bytes,3,opt,name=interpretation_map,json=interpretationMap,proto3" json:"interpretation_map,omitempty"`
+	InterpretationMap *InterpretationMap     `protobuf:"bytes,3,opt,name=interpretation_map,json=interpretationMap,proto3" json:"interpretation_map,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
 
 func (x *ClassificationPrediction) Reset() {
 	*x = ClassificationPrediction{}
-	mi := &file_prediction_proto_msgTypes[0]
+	mi := &file_prediction_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -48,7 +108,7 @@ func (x *ClassificationPrediction) String() string {
 func (*ClassificationPrediction) ProtoMessage() {}
 
 func (x *ClassificationPrediction) ProtoReflect() protoreflect.Message {
-	mi := &file_prediction_proto_msgTypes[0]
+	mi := &file_prediction_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -61,7 +121,7 @@ func (x *ClassificationPrediction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ClassificationPrediction.ProtoReflect.Descriptor instead.
 func (*ClassificationPrediction) Descriptor() ([]byte, []int) {
-	return file_prediction_proto_rawDescGZIP(), []int{0}
+	return file_prediction_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ClassificationPrediction) GetLabelId() string {
@@ -78,7 +138,7 @@ func (x *ClassificationPrediction) GetProbability() float64 {
 	return 0
 }
 
-func (x *ClassificationPrediction) GetInterpretationMap() []byte {
+func (x *ClassificationPrediction) GetInterpretationMap() *InterpretationMap {
 	if x != nil {
 		return x.InterpretationMap
 	}
@@ -101,7 +161,7 @@ type ObjectDetectionPrediction struct {
 
 func (x *ObjectDetectionPrediction) Reset() {
 	*x = ObjectDetectionPrediction{}
-	mi := &file_prediction_proto_msgTypes[1]
+	mi := &file_prediction_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -113,7 +173,7 @@ func (x *ObjectDetectionPrediction) String() string {
 func (*ObjectDetectionPrediction) ProtoMessage() {}
 
 func (x *ObjectDetectionPrediction) ProtoReflect() protoreflect.Message {
-	mi := &file_prediction_proto_msgTypes[1]
+	mi := &file_prediction_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -126,7 +186,7 @@ func (x *ObjectDetectionPrediction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ObjectDetectionPrediction.ProtoReflect.Descriptor instead.
 func (*ObjectDetectionPrediction) Descriptor() ([]byte, []int) {
-	return file_prediction_proto_rawDescGZIP(), []int{1}
+	return file_prediction_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ObjectDetectionPrediction) GetLabelId() string {
@@ -198,7 +258,7 @@ type InstanceSegmentationPrediction struct {
 
 func (x *InstanceSegmentationPrediction) Reset() {
 	*x = InstanceSegmentationPrediction{}
-	mi := &file_prediction_proto_msgTypes[2]
+	mi := &file_prediction_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -210,7 +270,7 @@ func (x *InstanceSegmentationPrediction) String() string {
 func (*InstanceSegmentationPrediction) ProtoMessage() {}
 
 func (x *InstanceSegmentationPrediction) ProtoReflect() protoreflect.Message {
-	mi := &file_prediction_proto_msgTypes[2]
+	mi := &file_prediction_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -223,7 +283,7 @@ func (x *InstanceSegmentationPrediction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InstanceSegmentationPrediction.ProtoReflect.Descriptor instead.
 func (*InstanceSegmentationPrediction) Descriptor() ([]byte, []int) {
-	return file_prediction_proto_rawDescGZIP(), []int{2}
+	return file_prediction_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *InstanceSegmentationPrediction) GetLabelId() string {
@@ -271,7 +331,7 @@ type CharacterPrediction struct {
 
 func (x *CharacterPrediction) Reset() {
 	*x = CharacterPrediction{}
-	mi := &file_prediction_proto_msgTypes[3]
+	mi := &file_prediction_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -283,7 +343,7 @@ func (x *CharacterPrediction) String() string {
 func (*CharacterPrediction) ProtoMessage() {}
 
 func (x *CharacterPrediction) ProtoReflect() protoreflect.Message {
-	mi := &file_prediction_proto_msgTypes[3]
+	mi := &file_prediction_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -296,7 +356,7 @@ func (x *CharacterPrediction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CharacterPrediction.ProtoReflect.Descriptor instead.
 func (*CharacterPrediction) Descriptor() ([]byte, []int) {
-	return file_prediction_proto_rawDescGZIP(), []int{3}
+	return file_prediction_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CharacterPrediction) GetCharacter() string {
@@ -329,7 +389,7 @@ type OcrPrediction struct {
 
 func (x *OcrPrediction) Reset() {
 	*x = OcrPrediction{}
-	mi := &file_prediction_proto_msgTypes[4]
+	mi := &file_prediction_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -341,7 +401,7 @@ func (x *OcrPrediction) String() string {
 func (*OcrPrediction) ProtoMessage() {}
 
 func (x *OcrPrediction) ProtoReflect() protoreflect.Message {
-	mi := &file_prediction_proto_msgTypes[4]
+	mi := &file_prediction_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -354,7 +414,7 @@ func (x *OcrPrediction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OcrPrediction.ProtoReflect.Descriptor instead.
 func (*OcrPrediction) Descriptor() ([]byte, []int) {
-	return file_prediction_proto_rawDescGZIP(), []int{4}
+	return file_prediction_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *OcrPrediction) GetLabelId() string {
@@ -433,7 +493,7 @@ type Prediction struct {
 
 func (x *Prediction) Reset() {
 	*x = Prediction{}
-	mi := &file_prediction_proto_msgTypes[5]
+	mi := &file_prediction_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -445,7 +505,7 @@ func (x *Prediction) String() string {
 func (*Prediction) ProtoMessage() {}
 
 func (x *Prediction) ProtoReflect() protoreflect.Message {
-	mi := &file_prediction_proto_msgTypes[5]
+	mi := &file_prediction_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -458,7 +518,7 @@ func (x *Prediction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Prediction.ProtoReflect.Descriptor instead.
 func (*Prediction) Descriptor() ([]byte, []int) {
-	return file_prediction_proto_rawDescGZIP(), []int{5}
+	return file_prediction_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *Prediction) GetHeight() int32 {
@@ -508,11 +568,15 @@ var File_prediction_proto protoreflect.FileDescriptor
 const file_prediction_proto_rawDesc = "" +
 	"\n" +
 	"\x10prediction.proto\x12\n" +
-	"prediction\x1a\x0egeometry.proto\"\x86\x01\n" +
+	"prediction\x1a\x0egeometry.proto\"U\n" +
+	"\x11InterpretationMap\x12\x14\n" +
+	"\x05width\x18\x01 \x01(\rR\x05width\x12\x16\n" +
+	"\x06height\x18\x02 \x01(\rR\x06height\x12\x12\n" +
+	"\x04data\x18\x03 \x01(\fR\x04data\"\xa5\x01\n" +
 	"\x18ClassificationPrediction\x12\x19\n" +
 	"\blabel_id\x18\x01 \x01(\tR\alabelId\x12 \n" +
-	"\vprobability\x18\x02 \x01(\x01R\vprobability\x12-\n" +
-	"\x12interpretation_map\x18\x03 \x01(\fR\x11interpretationMap\"\x82\x02\n" +
+	"\vprobability\x18\x02 \x01(\x01R\vprobability\x12L\n" +
+	"\x12interpretation_map\x18\x03 \x01(\v2\x1d.prediction.InterpretationMapR\x11interpretationMap\"\x82\x02\n" +
 	"\x19ObjectDetectionPrediction\x12\x19\n" +
 	"\blabel_id\x18\x01 \x01(\tR\alabelId\x12\x1b\n" +
 	"\ttop_leftx\x18\x02 \x01(\rR\btopLeftx\x12\x1c\n" +
@@ -562,30 +626,32 @@ func file_prediction_proto_rawDescGZIP() []byte {
 	return file_prediction_proto_rawDescData
 }
 
-var file_prediction_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_prediction_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_prediction_proto_goTypes = []any{
-	(*ClassificationPrediction)(nil),       // 0: prediction.ClassificationPrediction
-	(*ObjectDetectionPrediction)(nil),      // 1: prediction.ObjectDetectionPrediction
-	(*InstanceSegmentationPrediction)(nil), // 2: prediction.InstanceSegmentationPrediction
-	(*CharacterPrediction)(nil),            // 3: prediction.CharacterPrediction
-	(*OcrPrediction)(nil),                  // 4: prediction.OcrPrediction
-	(*Prediction)(nil),                     // 5: prediction.Prediction
-	(*geometry.BoundingBox)(nil),           // 6: geometry.BoundingBox
-	(*geometry.Polygon)(nil),               // 7: geometry.Polygon
+	(*InterpretationMap)(nil),              // 0: prediction.InterpretationMap
+	(*ClassificationPrediction)(nil),       // 1: prediction.ClassificationPrediction
+	(*ObjectDetectionPrediction)(nil),      // 2: prediction.ObjectDetectionPrediction
+	(*InstanceSegmentationPrediction)(nil), // 3: prediction.InstanceSegmentationPrediction
+	(*CharacterPrediction)(nil),            // 4: prediction.CharacterPrediction
+	(*OcrPrediction)(nil),                  // 5: prediction.OcrPrediction
+	(*Prediction)(nil),                     // 6: prediction.Prediction
+	(*geometry.BoundingBox)(nil),           // 7: geometry.BoundingBox
+	(*geometry.Polygon)(nil),               // 8: geometry.Polygon
 }
 var file_prediction_proto_depIdxs = []int32{
-	3, // 0: prediction.OcrPrediction.character_predictions:type_name -> prediction.CharacterPrediction
-	6, // 1: prediction.OcrPrediction.bounding_box:type_name -> geometry.BoundingBox
-	7, // 2: prediction.OcrPrediction.polygon:type_name -> geometry.Polygon
-	0, // 3: prediction.Prediction.classification_predictions:type_name -> prediction.ClassificationPrediction
-	1, // 4: prediction.Prediction.object_detection_predictions:type_name -> prediction.ObjectDetectionPrediction
-	2, // 5: prediction.Prediction.instance_segmentation_predictions:type_name -> prediction.InstanceSegmentationPrediction
-	4, // 6: prediction.Prediction.ocr_predictions:type_name -> prediction.OcrPrediction
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	0, // 0: prediction.ClassificationPrediction.interpretation_map:type_name -> prediction.InterpretationMap
+	4, // 1: prediction.OcrPrediction.character_predictions:type_name -> prediction.CharacterPrediction
+	7, // 2: prediction.OcrPrediction.bounding_box:type_name -> geometry.BoundingBox
+	8, // 3: prediction.OcrPrediction.polygon:type_name -> geometry.Polygon
+	1, // 4: prediction.Prediction.classification_predictions:type_name -> prediction.ClassificationPrediction
+	2, // 5: prediction.Prediction.object_detection_predictions:type_name -> prediction.ObjectDetectionPrediction
+	3, // 6: prediction.Prediction.instance_segmentation_predictions:type_name -> prediction.InstanceSegmentationPrediction
+	5, // 7: prediction.Prediction.ocr_predictions:type_name -> prediction.OcrPrediction
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_prediction_proto_init() }
@@ -593,7 +659,7 @@ func file_prediction_proto_init() {
 	if File_prediction_proto != nil {
 		return
 	}
-	file_prediction_proto_msgTypes[4].OneofWrappers = []any{
+	file_prediction_proto_msgTypes[5].OneofWrappers = []any{
 		(*OcrPrediction_BoundingBox)(nil),
 		(*OcrPrediction_Polygon)(nil),
 	}
@@ -603,7 +669,7 @@ func file_prediction_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_prediction_proto_rawDesc), len(file_prediction_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
