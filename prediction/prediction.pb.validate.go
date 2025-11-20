@@ -35,22 +35,22 @@ var (
 	_ = sort.Sort
 )
 
-// Validate checks the field values on InterpretationMap with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *InterpretationMap) Validate() error {
+// Validate checks the field values on UInt8Map with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *UInt8Map) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on InterpretationMap with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// InterpretationMapMultiError, or nil if none found.
-func (m *InterpretationMap) ValidateAll() error {
+// ValidateAll checks the field values on UInt8Map with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in UInt8MapMultiError, or nil
+// if none found.
+func (m *UInt8Map) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *InterpretationMap) validate(all bool) error {
+func (m *UInt8Map) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -64,19 +64,18 @@ func (m *InterpretationMap) validate(all bool) error {
 	// no validation rules for Data
 
 	if len(errors) > 0 {
-		return InterpretationMapMultiError(errors)
+		return UInt8MapMultiError(errors)
 	}
 
 	return nil
 }
 
-// InterpretationMapMultiError is an error wrapping multiple validation errors
-// returned by InterpretationMap.ValidateAll() if the designated constraints
-// aren't met.
-type InterpretationMapMultiError []error
+// UInt8MapMultiError is an error wrapping multiple validation errors returned
+// by UInt8Map.ValidateAll() if the designated constraints aren't met.
+type UInt8MapMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m InterpretationMapMultiError) Error() string {
+func (m UInt8MapMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -85,11 +84,11 @@ func (m InterpretationMapMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m InterpretationMapMultiError) AllErrors() []error { return m }
+func (m UInt8MapMultiError) AllErrors() []error { return m }
 
-// InterpretationMapValidationError is the validation error returned by
-// InterpretationMap.Validate if the designated constraints aren't met.
-type InterpretationMapValidationError struct {
+// UInt8MapValidationError is the validation error returned by
+// UInt8Map.Validate if the designated constraints aren't met.
+type UInt8MapValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -97,24 +96,22 @@ type InterpretationMapValidationError struct {
 }
 
 // Field function returns field value.
-func (e InterpretationMapValidationError) Field() string { return e.field }
+func (e UInt8MapValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e InterpretationMapValidationError) Reason() string { return e.reason }
+func (e UInt8MapValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e InterpretationMapValidationError) Cause() error { return e.cause }
+func (e UInt8MapValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e InterpretationMapValidationError) Key() bool { return e.key }
+func (e UInt8MapValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e InterpretationMapValidationError) ErrorName() string {
-	return "InterpretationMapValidationError"
-}
+func (e UInt8MapValidationError) ErrorName() string { return "UInt8MapValidationError" }
 
 // Error satisfies the builtin error interface
-func (e InterpretationMapValidationError) Error() string {
+func (e UInt8MapValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -126,14 +123,14 @@ func (e InterpretationMapValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sInterpretationMap.%s: %s%s",
+		"invalid %sUInt8Map.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = InterpretationMapValidationError{}
+var _ error = UInt8MapValidationError{}
 
 var _ interface {
 	Field() string
@@ -141,7 +138,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = InterpretationMapValidationError{}
+} = UInt8MapValidationError{}
 
 // Validate checks the field values on ClassificationPrediction with the rules
 // defined in the proto definition for this message. If any rules are
@@ -1195,6 +1192,40 @@ func (m *Prediction) validate(all bool) error {
 			if err := v.Validate(); err != nil {
 				return PredictionValidationError{
 					field:  fmt.Sprintf("BarcodePredictions[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	for idx, item := range m.GetAnomalyPredictions() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, PredictionValidationError{
+						field:  fmt.Sprintf("AnomalyPredictions[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, PredictionValidationError{
+						field:  fmt.Sprintf("AnomalyPredictions[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return PredictionValidationError{
+					field:  fmt.Sprintf("AnomalyPredictions[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
