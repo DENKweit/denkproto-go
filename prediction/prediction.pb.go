@@ -246,12 +246,12 @@ func (x *ObjectDetectionPrediction) GetFullOrientation() bool {
 }
 
 type InstanceSegmentationPrediction struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	LabelId       string                 `protobuf:"bytes,1,opt,name=label_id,json=labelId,proto3" json:"label_id,omitempty"`
-	TopLeftX      uint32                 `protobuf:"varint,2,opt,name=top_left_x,json=topLeftX,proto3" json:"top_left_x,omitempty"`
-	TopLeftY      uint32                 `protobuf:"varint,3,opt,name=top_left_y,json=topLeftY,proto3" json:"top_left_y,omitempty"`
-	Mask          []byte                 `protobuf:"bytes,4,opt,name=mask,proto3" json:"mask,omitempty"`
-	Probability   float64                `protobuf:"fixed64,5,opt,name=probability,proto3" json:"probability,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	LabelId       string                   `protobuf:"bytes,1,opt,name=label_id,json=labelId,proto3" json:"label_id,omitempty"`
+	TopLeftX      uint32                   `protobuf:"varint,2,opt,name=top_left_x,json=topLeftX,proto3" json:"top_left_x,omitempty"`
+	TopLeftY      uint32                   `protobuf:"varint,3,opt,name=top_left_y,json=topLeftY,proto3" json:"top_left_y,omitempty"`
+	Mask          *geometry.BinaryMaskData `protobuf:"bytes,4,opt,name=mask,proto3" json:"mask,omitempty"`
+	Probability   float64                  `protobuf:"fixed64,5,opt,name=probability,proto3" json:"probability,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -307,7 +307,7 @@ func (x *InstanceSegmentationPrediction) GetTopLeftY() uint32 {
 	return 0
 }
 
-func (x *InstanceSegmentationPrediction) GetMask() []byte {
+func (x *InstanceSegmentationPrediction) GetMask() *geometry.BinaryMaskData {
 	if x != nil {
 		return x.Mask
 	}
@@ -654,14 +654,14 @@ const file_prediction_proto_rawDesc = "" +
 	"\x06height\x18\x05 \x01(\rR\x06height\x12 \n" +
 	"\vprobability\x18\x06 \x01(\x01R\vprobability\x12\x14\n" +
 	"\x05angle\x18\a \x01(\x01R\x05angle\x12)\n" +
-	"\x10full_orientation\x18\b \x01(\bR\x0ffullOrientation\"\xad\x01\n" +
+	"\x10full_orientation\x18\b \x01(\bR\x0ffullOrientation\"\xc7\x01\n" +
 	"\x1eInstanceSegmentationPrediction\x12\x19\n" +
 	"\blabel_id\x18\x01 \x01(\tR\alabelId\x12\x1c\n" +
 	"\n" +
 	"top_left_x\x18\x02 \x01(\rR\btopLeftX\x12\x1c\n" +
 	"\n" +
-	"top_left_y\x18\x03 \x01(\rR\btopLeftY\x12\x12\n" +
-	"\x04mask\x18\x04 \x01(\fR\x04mask\x12 \n" +
+	"top_left_y\x18\x03 \x01(\rR\btopLeftY\x12,\n" +
+	"\x04mask\x18\x04 \x01(\v2\x18.geometry.BinaryMaskDataR\x04mask\x12 \n" +
 	"\vprobability\x18\x05 \x01(\x01R\vprobability\"U\n" +
 	"\x13CharacterPrediction\x12\x1c\n" +
 	"\tcharacter\x18\x01 \x01(\tR\tcharacter\x12 \n" +
@@ -709,26 +709,28 @@ var file_prediction_proto_goTypes = []any{
 	(*OcrPrediction)(nil),                  // 5: prediction.OcrPrediction
 	(*BarcodePrediction)(nil),              // 6: prediction.BarcodePrediction
 	(*Prediction)(nil),                     // 7: prediction.Prediction
-	(*geometry.BoundingBox)(nil),           // 8: geometry.BoundingBox
-	(*geometry.Polygon)(nil),               // 9: geometry.Polygon
-	(*geometry.Point2D)(nil),               // 10: geometry.Point2D
+	(*geometry.BinaryMaskData)(nil),        // 8: geometry.BinaryMaskData
+	(*geometry.BoundingBox)(nil),           // 9: geometry.BoundingBox
+	(*geometry.Polygon)(nil),               // 10: geometry.Polygon
+	(*geometry.Point2D)(nil),               // 11: geometry.Point2D
 }
 var file_prediction_proto_depIdxs = []int32{
 	0,  // 0: prediction.ClassificationPrediction.interpretation_map:type_name -> prediction.InterpretationMap
-	4,  // 1: prediction.OcrPrediction.character_predictions:type_name -> prediction.CharacterPrediction
-	8,  // 2: prediction.OcrPrediction.bounding_box:type_name -> geometry.BoundingBox
-	9,  // 3: prediction.OcrPrediction.polygon:type_name -> geometry.Polygon
-	10, // 4: prediction.BarcodePrediction.points:type_name -> geometry.Point2D
-	1,  // 5: prediction.Prediction.classification_predictions:type_name -> prediction.ClassificationPrediction
-	2,  // 6: prediction.Prediction.object_detection_predictions:type_name -> prediction.ObjectDetectionPrediction
-	3,  // 7: prediction.Prediction.instance_segmentation_predictions:type_name -> prediction.InstanceSegmentationPrediction
-	5,  // 8: prediction.Prediction.ocr_predictions:type_name -> prediction.OcrPrediction
-	6,  // 9: prediction.Prediction.barcode_predictions:type_name -> prediction.BarcodePrediction
-	10, // [10:10] is the sub-list for method output_type
-	10, // [10:10] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	8,  // 1: prediction.InstanceSegmentationPrediction.mask:type_name -> geometry.BinaryMaskData
+	4,  // 2: prediction.OcrPrediction.character_predictions:type_name -> prediction.CharacterPrediction
+	9,  // 3: prediction.OcrPrediction.bounding_box:type_name -> geometry.BoundingBox
+	10, // 4: prediction.OcrPrediction.polygon:type_name -> geometry.Polygon
+	11, // 5: prediction.BarcodePrediction.points:type_name -> geometry.Point2D
+	1,  // 6: prediction.Prediction.classification_predictions:type_name -> prediction.ClassificationPrediction
+	2,  // 7: prediction.Prediction.object_detection_predictions:type_name -> prediction.ObjectDetectionPrediction
+	3,  // 8: prediction.Prediction.instance_segmentation_predictions:type_name -> prediction.InstanceSegmentationPrediction
+	5,  // 9: prediction.Prediction.ocr_predictions:type_name -> prediction.OcrPrediction
+	6,  // 10: prediction.Prediction.barcode_predictions:type_name -> prediction.BarcodePrediction
+	11, // [11:11] is the sub-list for method output_type
+	11, // [11:11] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_prediction_proto_init() }
