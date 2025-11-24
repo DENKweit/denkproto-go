@@ -137,31 +137,29 @@ func (x *ClassificationAnnotation) GetValue() float64 {
 	return 0
 }
 
-type SegmentationAnnotation struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
-	AnnotationId  string                   `protobuf:"bytes,1,opt,name=annotation_id,json=annotationId,proto3" json:"annotation_id,omitempty"`
-	LabelId       string                   `protobuf:"bytes,2,opt,name=label_id,json=labelId,proto3" json:"label_id,omitempty"`
-	X             uint32                   `protobuf:"varint,3,opt,name=x,proto3" json:"x,omitempty"`
-	Y             uint32                   `protobuf:"varint,4,opt,name=y,proto3" json:"y,omitempty"`
-	Data          *geometry.BinaryMaskData `protobuf:"bytes,5,opt,name=data,proto3" json:"data,omitempty"`
+type InstanceSegmentationAnnotation struct {
+	state         protoimpl.MessageState             `protogen:"open.v1"`
+	Id            string                             `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	LabelId       string                             `protobuf:"bytes,2,opt,name=label_id,json=labelId,proto3" json:"label_id,omitempty"`
+	Mask          *geometry.InstanceSegmentationMask `protobuf:"bytes,3,opt,name=mask,proto3" json:"mask,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *SegmentationAnnotation) Reset() {
-	*x = SegmentationAnnotation{}
+func (x *InstanceSegmentationAnnotation) Reset() {
+	*x = InstanceSegmentationAnnotation{}
 	mi := &file_materialized_markup_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *SegmentationAnnotation) String() string {
+func (x *InstanceSegmentationAnnotation) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*SegmentationAnnotation) ProtoMessage() {}
+func (*InstanceSegmentationAnnotation) ProtoMessage() {}
 
-func (x *SegmentationAnnotation) ProtoReflect() protoreflect.Message {
+func (x *InstanceSegmentationAnnotation) ProtoReflect() protoreflect.Message {
 	mi := &file_materialized_markup_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -173,42 +171,28 @@ func (x *SegmentationAnnotation) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use SegmentationAnnotation.ProtoReflect.Descriptor instead.
-func (*SegmentationAnnotation) Descriptor() ([]byte, []int) {
+// Deprecated: Use InstanceSegmentationAnnotation.ProtoReflect.Descriptor instead.
+func (*InstanceSegmentationAnnotation) Descriptor() ([]byte, []int) {
 	return file_materialized_markup_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *SegmentationAnnotation) GetAnnotationId() string {
+func (x *InstanceSegmentationAnnotation) GetId() string {
 	if x != nil {
-		return x.AnnotationId
+		return x.Id
 	}
 	return ""
 }
 
-func (x *SegmentationAnnotation) GetLabelId() string {
+func (x *InstanceSegmentationAnnotation) GetLabelId() string {
 	if x != nil {
 		return x.LabelId
 	}
 	return ""
 }
 
-func (x *SegmentationAnnotation) GetX() uint32 {
+func (x *InstanceSegmentationAnnotation) GetMask() *geometry.InstanceSegmentationMask {
 	if x != nil {
-		return x.X
-	}
-	return 0
-}
-
-func (x *SegmentationAnnotation) GetY() uint32 {
-	if x != nil {
-		return x.Y
-	}
-	return 0
-}
-
-func (x *SegmentationAnnotation) GetData() *geometry.BinaryMaskData {
-	if x != nil {
-		return x.Data
+		return x.Mask
 	}
 	return nil
 }
@@ -478,16 +462,16 @@ func (*FocusArea_BoundingBox) isFocusArea_GeometryData() {}
 func (*FocusArea_Polygon) isFocusArea_GeometryData() {}
 
 type MaterializedMarkup struct {
-	state                      protoimpl.MessageState       `protogen:"open.v1"`
-	Height                     int32                        `protobuf:"varint,1,opt,name=height,proto3" json:"height,omitempty"`
-	Width                      int32                        `protobuf:"varint,2,opt,name=width,proto3" json:"width,omitempty"`
-	ClassificationAnnotations  []*ClassificationAnnotation  `protobuf:"bytes,3,rep,name=classification_annotations,json=classificationAnnotations,proto3" json:"classification_annotations,omitempty"`
-	SegmentationAnnotations    []*SegmentationAnnotation    `protobuf:"bytes,4,rep,name=segmentation_annotations,json=segmentationAnnotations,proto3" json:"segmentation_annotations,omitempty"`
-	ObjectDetectionAnnotations []*ObjectDetectionAnnotation `protobuf:"bytes,5,rep,name=object_detection_annotations,json=objectDetectionAnnotations,proto3" json:"object_detection_annotations,omitempty"`
-	OcrAnnotations             []*OcrAnnotation             `protobuf:"bytes,6,rep,name=ocr_annotations,json=ocrAnnotations,proto3" json:"ocr_annotations,omitempty"`
-	FocusAreas                 []*FocusArea                 `protobuf:"bytes,10,rep,name=focus_areas,json=focusAreas,proto3" json:"focus_areas,omitempty"`
-	unknownFields              protoimpl.UnknownFields
-	sizeCache                  protoimpl.SizeCache
+	state                           protoimpl.MessageState            `protogen:"open.v1"`
+	Height                          int32                             `protobuf:"varint,1,opt,name=height,proto3" json:"height,omitempty"`
+	Width                           int32                             `protobuf:"varint,2,opt,name=width,proto3" json:"width,omitempty"`
+	ClassificationAnnotations       []*ClassificationAnnotation       `protobuf:"bytes,3,rep,name=classification_annotations,json=classificationAnnotations,proto3" json:"classification_annotations,omitempty"`
+	InstanceSegmentationAnnotations []*InstanceSegmentationAnnotation `protobuf:"bytes,4,rep,name=instance_segmentation_annotations,json=instanceSegmentationAnnotations,proto3" json:"instance_segmentation_annotations,omitempty"`
+	ObjectDetectionAnnotations      []*ObjectDetectionAnnotation      `protobuf:"bytes,5,rep,name=object_detection_annotations,json=objectDetectionAnnotations,proto3" json:"object_detection_annotations,omitempty"`
+	OcrAnnotations                  []*OcrAnnotation                  `protobuf:"bytes,6,rep,name=ocr_annotations,json=ocrAnnotations,proto3" json:"ocr_annotations,omitempty"`
+	FocusAreas                      []*FocusArea                      `protobuf:"bytes,10,rep,name=focus_areas,json=focusAreas,proto3" json:"focus_areas,omitempty"`
+	unknownFields                   protoimpl.UnknownFields
+	sizeCache                       protoimpl.SizeCache
 }
 
 func (x *MaterializedMarkup) Reset() {
@@ -541,9 +525,9 @@ func (x *MaterializedMarkup) GetClassificationAnnotations() []*ClassificationAnn
 	return nil
 }
 
-func (x *MaterializedMarkup) GetSegmentationAnnotations() []*SegmentationAnnotation {
+func (x *MaterializedMarkup) GetInstanceSegmentationAnnotations() []*InstanceSegmentationAnnotation {
 	if x != nil {
-		return x.SegmentationAnnotations
+		return x.InstanceSegmentationAnnotations
 	}
 	return nil
 }
@@ -577,13 +561,11 @@ const file_materialized_markup_proto_rawDesc = "" +
 	"\x18ClassificationAnnotation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
 	"\blabel_id\x18\x02 \x01(\tR\alabelId\x12\x14\n" +
-	"\x05value\x18\x03 \x01(\x01R\x05value\"\xa2\x01\n" +
-	"\x16SegmentationAnnotation\x12#\n" +
-	"\rannotation_id\x18\x01 \x01(\tR\fannotationId\x12\x19\n" +
-	"\blabel_id\x18\x02 \x01(\tR\alabelId\x12\f\n" +
-	"\x01x\x18\x03 \x01(\rR\x01x\x12\f\n" +
-	"\x01y\x18\x04 \x01(\rR\x01y\x12,\n" +
-	"\x04data\x18\x05 \x01(\v2\x18.geometry.BinaryMaskDataR\x04data\"\x80\x01\n" +
+	"\x05value\x18\x03 \x01(\x01R\x05value\"\x83\x01\n" +
+	"\x1eInstanceSegmentationAnnotation\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
+	"\blabel_id\x18\x02 \x01(\tR\alabelId\x126\n" +
+	"\x04mask\x18\x03 \x01(\v2\".geometry.InstanceSegmentationMaskR\x04mask\"\x80\x01\n" +
 	"\x19ObjectDetectionAnnotation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
 	"\blabel_id\x18\x02 \x01(\tR\alabelId\x128\n" +
@@ -600,12 +582,12 @@ const file_materialized_markup_proto_rawDesc = "" +
 	"\x04type\x18\x02 \x01(\x0e2\".materialized_markup.FocusAreaTypeR\x04type\x12:\n" +
 	"\fbounding_box\x18\x03 \x01(\v2\x15.geometry.BoundingBoxH\x00R\vboundingBox\x12-\n" +
 	"\apolygon\x18\x04 \x01(\v2\x11.geometry.PolygonH\x00R\apolygonB\x0f\n" +
-	"\rgeometry_data\"\x98\x04\n" +
+	"\rgeometry_data\"\xb1\x04\n" +
 	"\x12MaterializedMarkup\x12\x16\n" +
 	"\x06height\x18\x01 \x01(\x05R\x06height\x12\x14\n" +
 	"\x05width\x18\x02 \x01(\x05R\x05width\x12l\n" +
-	"\x1aclassification_annotations\x18\x03 \x03(\v2-.materialized_markup.ClassificationAnnotationR\x19classificationAnnotations\x12f\n" +
-	"\x18segmentation_annotations\x18\x04 \x03(\v2+.materialized_markup.SegmentationAnnotationR\x17segmentationAnnotations\x12p\n" +
+	"\x1aclassification_annotations\x18\x03 \x03(\v2-.materialized_markup.ClassificationAnnotationR\x19classificationAnnotations\x12\x7f\n" +
+	"!instance_segmentation_annotations\x18\x04 \x03(\v23.materialized_markup.InstanceSegmentationAnnotationR\x1finstanceSegmentationAnnotations\x12p\n" +
 	"\x1cobject_detection_annotations\x18\x05 \x03(\v2..materialized_markup.ObjectDetectionAnnotationR\x1aobjectDetectionAnnotations\x12K\n" +
 	"\x0focr_annotations\x18\x06 \x03(\v2\".materialized_markup.OcrAnnotationR\x0eocrAnnotations\x12?\n" +
 	"\vfocus_areas\x18\n" +
@@ -632,19 +614,19 @@ func file_materialized_markup_proto_rawDescGZIP() []byte {
 var file_materialized_markup_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_materialized_markup_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_materialized_markup_proto_goTypes = []any{
-	(FocusAreaType)(0),                // 0: materialized_markup.FocusAreaType
-	(*ClassificationAnnotation)(nil),  // 1: materialized_markup.ClassificationAnnotation
-	(*SegmentationAnnotation)(nil),    // 2: materialized_markup.SegmentationAnnotation
-	(*ObjectDetectionAnnotation)(nil), // 3: materialized_markup.ObjectDetectionAnnotation
-	(*OcrAnnotation)(nil),             // 4: materialized_markup.OcrAnnotation
-	(*FocusArea)(nil),                 // 5: materialized_markup.FocusArea
-	(*MaterializedMarkup)(nil),        // 6: materialized_markup.MaterializedMarkup
-	(*geometry.BinaryMaskData)(nil),   // 7: geometry.BinaryMaskData
-	(*geometry.BoundingBox)(nil),      // 8: geometry.BoundingBox
-	(*geometry.Polygon)(nil),          // 9: geometry.Polygon
+	(FocusAreaType)(0),                        // 0: materialized_markup.FocusAreaType
+	(*ClassificationAnnotation)(nil),          // 1: materialized_markup.ClassificationAnnotation
+	(*InstanceSegmentationAnnotation)(nil),    // 2: materialized_markup.InstanceSegmentationAnnotation
+	(*ObjectDetectionAnnotation)(nil),         // 3: materialized_markup.ObjectDetectionAnnotation
+	(*OcrAnnotation)(nil),                     // 4: materialized_markup.OcrAnnotation
+	(*FocusArea)(nil),                         // 5: materialized_markup.FocusArea
+	(*MaterializedMarkup)(nil),                // 6: materialized_markup.MaterializedMarkup
+	(*geometry.InstanceSegmentationMask)(nil), // 7: geometry.InstanceSegmentationMask
+	(*geometry.BoundingBox)(nil),              // 8: geometry.BoundingBox
+	(*geometry.Polygon)(nil),                  // 9: geometry.Polygon
 }
 var file_materialized_markup_proto_depIdxs = []int32{
-	7,  // 0: materialized_markup.SegmentationAnnotation.data:type_name -> geometry.BinaryMaskData
+	7,  // 0: materialized_markup.InstanceSegmentationAnnotation.mask:type_name -> geometry.InstanceSegmentationMask
 	8,  // 1: materialized_markup.ObjectDetectionAnnotation.bounding_box:type_name -> geometry.BoundingBox
 	8,  // 2: materialized_markup.OcrAnnotation.bounding_box:type_name -> geometry.BoundingBox
 	9,  // 3: materialized_markup.OcrAnnotation.polygon:type_name -> geometry.Polygon
@@ -652,7 +634,7 @@ var file_materialized_markup_proto_depIdxs = []int32{
 	8,  // 5: materialized_markup.FocusArea.bounding_box:type_name -> geometry.BoundingBox
 	9,  // 6: materialized_markup.FocusArea.polygon:type_name -> geometry.Polygon
 	1,  // 7: materialized_markup.MaterializedMarkup.classification_annotations:type_name -> materialized_markup.ClassificationAnnotation
-	2,  // 8: materialized_markup.MaterializedMarkup.segmentation_annotations:type_name -> materialized_markup.SegmentationAnnotation
+	2,  // 8: materialized_markup.MaterializedMarkup.instance_segmentation_annotations:type_name -> materialized_markup.InstanceSegmentationAnnotation
 	3,  // 9: materialized_markup.MaterializedMarkup.object_detection_annotations:type_name -> materialized_markup.ObjectDetectionAnnotation
 	4,  // 10: materialized_markup.MaterializedMarkup.ocr_annotations:type_name -> materialized_markup.OcrAnnotation
 	5,  // 11: materialized_markup.MaterializedMarkup.focus_areas:type_name -> materialized_markup.FocusArea

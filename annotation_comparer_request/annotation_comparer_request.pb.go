@@ -29,7 +29,7 @@ type SourceTarget struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Data:
 	//
-	//	*SourceTarget_MarkupUrl
+	//	*SourceTarget_MaterializedMarkupUrl
 	//	*SourceTarget_PredictionUrl
 	Data          isSourceTarget_Data `protobuf_oneof:"data"`
 	unknownFields protoimpl.UnknownFields
@@ -73,10 +73,10 @@ func (x *SourceTarget) GetData() isSourceTarget_Data {
 	return nil
 }
 
-func (x *SourceTarget) GetMarkupUrl() string {
+func (x *SourceTarget) GetMaterializedMarkupUrl() string {
 	if x != nil {
-		if x, ok := x.Data.(*SourceTarget_MarkupUrl); ok {
-			return x.MarkupUrl
+		if x, ok := x.Data.(*SourceTarget_MaterializedMarkupUrl); ok {
+			return x.MaterializedMarkupUrl
 		}
 	}
 	return ""
@@ -95,15 +95,15 @@ type isSourceTarget_Data interface {
 	isSourceTarget_Data()
 }
 
-type SourceTarget_MarkupUrl struct {
-	MarkupUrl string `protobuf:"bytes,1,opt,name=markup_url,json=markupUrl,proto3,oneof"`
+type SourceTarget_MaterializedMarkupUrl struct {
+	MaterializedMarkupUrl string `protobuf:"bytes,1,opt,name=materialized_markup_url,json=materializedMarkupUrl,proto3,oneof"`
 }
 
 type SourceTarget_PredictionUrl struct {
 	PredictionUrl string `protobuf:"bytes,2,opt,name=prediction_url,json=predictionUrl,proto3,oneof"`
 }
 
-func (*SourceTarget_MarkupUrl) isSourceTarget_Data() {}
+func (*SourceTarget_MaterializedMarkupUrl) isSourceTarget_Data() {}
 
 func (*SourceTarget_PredictionUrl) isSourceTarget_Data() {}
 
@@ -227,10 +227,9 @@ var File_annotation_comparer_request_proto protoreflect.FileDescriptor
 
 const file_annotation_comparer_request_proto_rawDesc = "" +
 	"\n" +
-	"!annotation_comparer_request.proto\x12\x1bannotation_comparer_request\x1a\rrequest.proto\"`\n" +
-	"\fSourceTarget\x12\x1f\n" +
-	"\n" +
-	"markup_url\x18\x01 \x01(\tH\x00R\tmarkupUrl\x12'\n" +
+	"!annotation_comparer_request.proto\x12\x1bannotation_comparer_request\x1a\rrequest.proto\"y\n" +
+	"\fSourceTarget\x128\n" +
+	"\x17materialized_markup_url\x18\x01 \x01(\tH\x00R\x15materializedMarkupUrl\x12'\n" +
 	"\x0eprediction_url\x18\x02 \x01(\tH\x00R\rpredictionUrlB\x06\n" +
 	"\x04data\"\xcf\x03\n" +
 	"\x19AnnotationComparerRequest\x12\x0e\n" +
@@ -284,7 +283,7 @@ func file_annotation_comparer_request_proto_init() {
 		return
 	}
 	file_annotation_comparer_request_proto_msgTypes[0].OneofWrappers = []any{
-		(*SourceTarget_MarkupUrl)(nil),
+		(*SourceTarget_MaterializedMarkupUrl)(nil),
 		(*SourceTarget_PredictionUrl)(nil),
 	}
 	type x struct{}

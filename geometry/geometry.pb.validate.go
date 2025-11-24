@@ -159,9 +159,9 @@ func (m *BoundingBox) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for X
+	// no validation rules for TopLeftX
 
-	// no validation rules for Y
+	// no validation rules for TopLeftY
 
 	// no validation rules for Width
 
@@ -541,9 +541,9 @@ func (m *BinaryMaskData) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for MaskWidth
+	// no validation rules for Width
 
-	// no validation rules for MaskHeight
+	// no validation rules for Height
 
 	if len(errors) > 0 {
 		return BinaryMaskDataMultiError(errors)
@@ -622,3 +622,138 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = BinaryMaskDataValidationError{}
+
+// Validate checks the field values on InstanceSegmentationMask with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *InstanceSegmentationMask) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on InstanceSegmentationMask with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// InstanceSegmentationMaskMultiError, or nil if none found.
+func (m *InstanceSegmentationMask) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *InstanceSegmentationMask) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for TopLeftX
+
+	// no validation rules for TopLeftY
+
+	if all {
+		switch v := interface{}(m.GetMask()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, InstanceSegmentationMaskValidationError{
+					field:  "Mask",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, InstanceSegmentationMaskValidationError{
+					field:  "Mask",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetMask()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return InstanceSegmentationMaskValidationError{
+				field:  "Mask",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if len(errors) > 0 {
+		return InstanceSegmentationMaskMultiError(errors)
+	}
+
+	return nil
+}
+
+// InstanceSegmentationMaskMultiError is an error wrapping multiple validation
+// errors returned by InstanceSegmentationMask.ValidateAll() if the designated
+// constraints aren't met.
+type InstanceSegmentationMaskMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m InstanceSegmentationMaskMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m InstanceSegmentationMaskMultiError) AllErrors() []error { return m }
+
+// InstanceSegmentationMaskValidationError is the validation error returned by
+// InstanceSegmentationMask.Validate if the designated constraints aren't met.
+type InstanceSegmentationMaskValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e InstanceSegmentationMaskValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e InstanceSegmentationMaskValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e InstanceSegmentationMaskValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e InstanceSegmentationMaskValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e InstanceSegmentationMaskValidationError) ErrorName() string {
+	return "InstanceSegmentationMaskValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e InstanceSegmentationMaskValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sInstanceSegmentationMask.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = InstanceSegmentationMaskValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = InstanceSegmentationMaskValidationError{}

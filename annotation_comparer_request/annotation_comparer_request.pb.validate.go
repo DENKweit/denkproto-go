@@ -58,7 +58,7 @@ func (m *SourceTarget) validate(all bool) error {
 	var errors []error
 
 	switch v := m.Data.(type) {
-	case *SourceTarget_MarkupUrl:
+	case *SourceTarget_MaterializedMarkupUrl:
 		if v == nil {
 			err := SourceTargetValidationError{
 				field:  "Data",
@@ -69,7 +69,7 @@ func (m *SourceTarget) validate(all bool) error {
 			}
 			errors = append(errors, err)
 		}
-		// no validation rules for MarkupUrl
+		// no validation rules for MaterializedMarkupUrl
 	case *SourceTarget_PredictionUrl:
 		if v == nil {
 			err := SourceTargetValidationError{

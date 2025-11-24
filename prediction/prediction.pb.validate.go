@@ -299,19 +299,36 @@ func (m *ObjectDetectionPrediction) validate(all bool) error {
 
 	// no validation rules for LabelId
 
-	// no validation rules for TopLeftx
-
-	// no validation rules for TopLeftY
-
-	// no validation rules for Width
-
-	// no validation rules for Height
+	if all {
+		switch v := interface{}(m.GetBoundingBox()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ObjectDetectionPredictionValidationError{
+					field:  "BoundingBox",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ObjectDetectionPredictionValidationError{
+					field:  "BoundingBox",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetBoundingBox()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ObjectDetectionPredictionValidationError{
+				field:  "BoundingBox",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	// no validation rules for Probability
-
-	// no validation rules for Angle
-
-	// no validation rules for FullOrientation
 
 	if len(errors) > 0 {
 		return ObjectDetectionPredictionMultiError(errors)
@@ -416,10 +433,6 @@ func (m *InstanceSegmentationPrediction) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for LabelId
-
-	// no validation rules for TopLeftX
-
-	// no validation rules for TopLeftY
 
 	if all {
 		switch v := interface{}(m.GetMask()).(type) {
@@ -663,8 +676,6 @@ func (m *OcrPrediction) validate(all bool) error {
 
 	// no validation rules for LabelId
 
-	// no validation rules for Text
-
 	for idx, item := range m.GetCharacterPredictions() {
 		_, _ = idx, item
 
@@ -784,6 +795,10 @@ func (m *OcrPrediction) validate(all bool) error {
 
 	default:
 		_ = v // ensures v is used
+	}
+
+	if m.Text != nil {
+		// no validation rules for Text
 	}
 
 	if len(errors) > 0 {

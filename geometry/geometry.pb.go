@@ -78,8 +78,8 @@ func (x *Point2D) GetY() uint32 {
 
 type BoundingBox struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
-	X               uint32                 `protobuf:"varint,1,opt,name=x,proto3" json:"x,omitempty"`
-	Y               uint32                 `protobuf:"varint,2,opt,name=y,proto3" json:"y,omitempty"`
+	TopLeftX        uint32                 `protobuf:"varint,1,opt,name=top_left_x,json=topLeftX,proto3" json:"top_left_x,omitempty"`
+	TopLeftY        uint32                 `protobuf:"varint,2,opt,name=top_left_y,json=topLeftY,proto3" json:"top_left_y,omitempty"`
 	Width           uint32                 `protobuf:"varint,3,opt,name=width,proto3" json:"width,omitempty"`
 	Height          uint32                 `protobuf:"varint,4,opt,name=height,proto3" json:"height,omitempty"`
 	Angle           *float64               `protobuf:"fixed64,5,opt,name=angle,proto3,oneof" json:"angle,omitempty"`
@@ -118,16 +118,16 @@ func (*BoundingBox) Descriptor() ([]byte, []int) {
 	return file_geometry_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *BoundingBox) GetX() uint32 {
+func (x *BoundingBox) GetTopLeftX() uint32 {
 	if x != nil {
-		return x.X
+		return x.TopLeftX
 	}
 	return 0
 }
 
-func (x *BoundingBox) GetY() uint32 {
+func (x *BoundingBox) GetTopLeftY() uint32 {
 	if x != nil {
-		return x.Y
+		return x.TopLeftY
 	}
 	return 0
 }
@@ -259,8 +259,8 @@ func (x *Polygon) GetRings() []*PolygonRing {
 type BinaryMaskData struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	DeltaValues   []uint32               `protobuf:"varint,1,rep,packed,name=delta_values,json=deltaValues,proto3" json:"delta_values,omitempty"`
-	MaskWidth     uint32                 `protobuf:"varint,2,opt,name=mask_width,json=maskWidth,proto3" json:"mask_width,omitempty"`
-	MaskHeight    uint32                 `protobuf:"varint,3,opt,name=mask_height,json=maskHeight,proto3" json:"mask_height,omitempty"`
+	Width         uint32                 `protobuf:"varint,2,opt,name=width,proto3" json:"width,omitempty"`
+	Height        uint32                 `protobuf:"varint,3,opt,name=height,proto3" json:"height,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -302,18 +302,78 @@ func (x *BinaryMaskData) GetDeltaValues() []uint32 {
 	return nil
 }
 
-func (x *BinaryMaskData) GetMaskWidth() uint32 {
+func (x *BinaryMaskData) GetWidth() uint32 {
 	if x != nil {
-		return x.MaskWidth
+		return x.Width
 	}
 	return 0
 }
 
-func (x *BinaryMaskData) GetMaskHeight() uint32 {
+func (x *BinaryMaskData) GetHeight() uint32 {
 	if x != nil {
-		return x.MaskHeight
+		return x.Height
 	}
 	return 0
+}
+
+type InstanceSegmentationMask struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TopLeftX      uint32                 `protobuf:"varint,1,opt,name=top_left_x,json=topLeftX,proto3" json:"top_left_x,omitempty"`
+	TopLeftY      uint32                 `protobuf:"varint,2,opt,name=top_left_y,json=topLeftY,proto3" json:"top_left_y,omitempty"`
+	Mask          *BinaryMaskData        `protobuf:"bytes,3,opt,name=mask,proto3" json:"mask,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InstanceSegmentationMask) Reset() {
+	*x = InstanceSegmentationMask{}
+	mi := &file_geometry_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InstanceSegmentationMask) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InstanceSegmentationMask) ProtoMessage() {}
+
+func (x *InstanceSegmentationMask) ProtoReflect() protoreflect.Message {
+	mi := &file_geometry_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InstanceSegmentationMask.ProtoReflect.Descriptor instead.
+func (*InstanceSegmentationMask) Descriptor() ([]byte, []int) {
+	return file_geometry_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *InstanceSegmentationMask) GetTopLeftX() uint32 {
+	if x != nil {
+		return x.TopLeftX
+	}
+	return 0
+}
+
+func (x *InstanceSegmentationMask) GetTopLeftY() uint32 {
+	if x != nil {
+		return x.TopLeftY
+	}
+	return 0
+}
+
+func (x *InstanceSegmentationMask) GetMask() *BinaryMaskData {
+	if x != nil {
+		return x.Mask
+	}
+	return nil
 }
 
 var File_geometry_proto protoreflect.FileDescriptor
@@ -323,10 +383,12 @@ const file_geometry_proto_rawDesc = "" +
 	"\x0egeometry.proto\x12\bgeometry\"%\n" +
 	"\aPoint2D\x12\f\n" +
 	"\x01x\x18\x01 \x01(\rR\x01x\x12\f\n" +
-	"\x01y\x18\x02 \x01(\rR\x01y\"\xc1\x01\n" +
-	"\vBoundingBox\x12\f\n" +
-	"\x01x\x18\x01 \x01(\rR\x01x\x12\f\n" +
-	"\x01y\x18\x02 \x01(\rR\x01y\x12\x14\n" +
+	"\x01y\x18\x02 \x01(\rR\x01y\"\xe1\x01\n" +
+	"\vBoundingBox\x12\x1c\n" +
+	"\n" +
+	"top_left_x\x18\x01 \x01(\rR\btopLeftX\x12\x1c\n" +
+	"\n" +
+	"top_left_y\x18\x02 \x01(\rR\btopLeftY\x12\x14\n" +
 	"\x05width\x18\x03 \x01(\rR\x05width\x12\x16\n" +
 	"\x06height\x18\x04 \x01(\rR\x06height\x12\x19\n" +
 	"\x05angle\x18\x05 \x01(\x01H\x00R\x05angle\x88\x01\x01\x12.\n" +
@@ -337,13 +399,17 @@ const file_geometry_proto_rawDesc = "" +
 	"\thierarchy\x18\x01 \x01(\x05R\thierarchy\x12)\n" +
 	"\x06points\x18\x02 \x03(\v2\x11.geometry.Point2DR\x06points\"6\n" +
 	"\aPolygon\x12+\n" +
-	"\x05rings\x18\x01 \x03(\v2\x15.geometry.PolygonRingR\x05rings\"s\n" +
+	"\x05rings\x18\x01 \x03(\v2\x15.geometry.PolygonRingR\x05rings\"a\n" +
 	"\x0eBinaryMaskData\x12!\n" +
-	"\fdelta_values\x18\x01 \x03(\rR\vdeltaValues\x12\x1d\n" +
+	"\fdelta_values\x18\x01 \x03(\rR\vdeltaValues\x12\x14\n" +
+	"\x05width\x18\x02 \x01(\rR\x05width\x12\x16\n" +
+	"\x06height\x18\x03 \x01(\rR\x06height\"\x84\x01\n" +
+	"\x18InstanceSegmentationMask\x12\x1c\n" +
 	"\n" +
-	"mask_width\x18\x02 \x01(\rR\tmaskWidth\x12\x1f\n" +
-	"\vmask_height\x18\x03 \x01(\rR\n" +
-	"maskHeightBAZ)github.com/DENKweit/denkproto-go/geometry\xaa\x02\x13DENK.Proto.Geometryb\x06proto3"
+	"top_left_x\x18\x01 \x01(\rR\btopLeftX\x12\x1c\n" +
+	"\n" +
+	"top_left_y\x18\x02 \x01(\rR\btopLeftY\x12,\n" +
+	"\x04mask\x18\x03 \x01(\v2\x18.geometry.BinaryMaskDataR\x04maskBAZ)github.com/DENKweit/denkproto-go/geometry\xaa\x02\x13DENK.Proto.Geometryb\x06proto3"
 
 var (
 	file_geometry_proto_rawDescOnce sync.Once
@@ -357,22 +423,24 @@ func file_geometry_proto_rawDescGZIP() []byte {
 	return file_geometry_proto_rawDescData
 }
 
-var file_geometry_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_geometry_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_geometry_proto_goTypes = []any{
-	(*Point2D)(nil),        // 0: geometry.Point2D
-	(*BoundingBox)(nil),    // 1: geometry.BoundingBox
-	(*PolygonRing)(nil),    // 2: geometry.PolygonRing
-	(*Polygon)(nil),        // 3: geometry.Polygon
-	(*BinaryMaskData)(nil), // 4: geometry.BinaryMaskData
+	(*Point2D)(nil),                  // 0: geometry.Point2D
+	(*BoundingBox)(nil),              // 1: geometry.BoundingBox
+	(*PolygonRing)(nil),              // 2: geometry.PolygonRing
+	(*Polygon)(nil),                  // 3: geometry.Polygon
+	(*BinaryMaskData)(nil),           // 4: geometry.BinaryMaskData
+	(*InstanceSegmentationMask)(nil), // 5: geometry.InstanceSegmentationMask
 }
 var file_geometry_proto_depIdxs = []int32{
 	0, // 0: geometry.PolygonRing.points:type_name -> geometry.Point2D
 	2, // 1: geometry.Polygon.rings:type_name -> geometry.PolygonRing
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	4, // 2: geometry.InstanceSegmentationMask.mask:type_name -> geometry.BinaryMaskData
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_geometry_proto_init() }
@@ -387,7 +455,7 @@ func file_geometry_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_geometry_proto_rawDesc), len(file_geometry_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
