@@ -110,15 +110,13 @@ func (*SourceTarget_PredictionUrl) isSourceTarget_Data() {}
 type AnnotationComparerRequest struct {
 	state             protoimpl.MessageState     `protogen:"open.v1"`
 	Id                string                     `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	User1Id           string                     `protobuf:"bytes,2,opt,name=user1_id,json=user1Id,proto3" json:"user1_id,omitempty"`
-	User2Id           string                     `protobuf:"bytes,3,opt,name=user2_id,json=user2Id,proto3" json:"user2_id,omitempty"`
-	OwnedByGroupId    string                     `protobuf:"bytes,4,opt,name=owned_by_group_id,json=ownedByGroupId,proto3" json:"owned_by_group_id,omitempty"`
-	HasuraUrl         string                     `protobuf:"bytes,5,opt,name=hasura_url,json=hasuraUrl,proto3" json:"hasura_url,omitempty"`
-	CreatedByUserId   string                     `protobuf:"bytes,6,opt,name=created_by_user_id,json=createdByUserId,proto3" json:"created_by_user_id,omitempty"`
-	NetworkExperiment *request.NetworkExperiment `protobuf:"bytes,7,opt,name=network_experiment,json=networkExperiment,proto3" json:"network_experiment,omitempty"`
-	Image             *request.Image             `protobuf:"bytes,8,opt,name=image,proto3" json:"image,omitempty"`
-	Source            *SourceTarget              `protobuf:"bytes,9,opt,name=source,proto3" json:"source,omitempty"`
-	Target            *SourceTarget              `protobuf:"bytes,10,opt,name=target,proto3" json:"target,omitempty"`
+	OwnedByGroupId    string                     `protobuf:"bytes,2,opt,name=owned_by_group_id,json=ownedByGroupId,proto3" json:"owned_by_group_id,omitempty"`
+	HasuraUrl         string                     `protobuf:"bytes,3,opt,name=hasura_url,json=hasuraUrl,proto3" json:"hasura_url,omitempty"`
+	CreatedByUserId   string                     `protobuf:"bytes,4,opt,name=created_by_user_id,json=createdByUserId,proto3" json:"created_by_user_id,omitempty"`
+	NetworkExperiment *request.NetworkExperiment `protobuf:"bytes,5,opt,name=network_experiment,json=networkExperiment,proto3" json:"network_experiment,omitempty"`
+	Image             *request.Image             `protobuf:"bytes,6,opt,name=image,proto3" json:"image,omitempty"`
+	Source            *SourceTarget              `protobuf:"bytes,7,opt,name=source,proto3" json:"source,omitempty"`
+	Target            *SourceTarget              `protobuf:"bytes,8,opt,name=target,proto3" json:"target,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -156,20 +154,6 @@ func (*AnnotationComparerRequest) Descriptor() ([]byte, []int) {
 func (x *AnnotationComparerRequest) GetId() string {
 	if x != nil {
 		return x.Id
-	}
-	return ""
-}
-
-func (x *AnnotationComparerRequest) GetUser1Id() string {
-	if x != nil {
-		return x.User1Id
-	}
-	return ""
-}
-
-func (x *AnnotationComparerRequest) GetUser2Id() string {
-	if x != nil {
-		return x.User2Id
 	}
 	return ""
 }
@@ -231,20 +215,17 @@ const file_annotation_comparer_request_proto_rawDesc = "" +
 	"\fSourceTarget\x128\n" +
 	"\x17materialized_markup_url\x18\x01 \x01(\tH\x00R\x15materializedMarkupUrl\x12'\n" +
 	"\x0eprediction_url\x18\x02 \x01(\tH\x00R\rpredictionUrlB\x06\n" +
-	"\x04data\"\xcf\x03\n" +
+	"\x04data\"\x99\x03\n" +
 	"\x19AnnotationComparerRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
-	"\buser1_id\x18\x02 \x01(\tR\auser1Id\x12\x19\n" +
-	"\buser2_id\x18\x03 \x01(\tR\auser2Id\x12)\n" +
-	"\x11owned_by_group_id\x18\x04 \x01(\tR\x0eownedByGroupId\x12\x1d\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12)\n" +
+	"\x11owned_by_group_id\x18\x02 \x01(\tR\x0eownedByGroupId\x12\x1d\n" +
 	"\n" +
-	"hasura_url\x18\x05 \x01(\tR\thasuraUrl\x12+\n" +
-	"\x12created_by_user_id\x18\x06 \x01(\tR\x0fcreatedByUserId\x12I\n" +
-	"\x12network_experiment\x18\a \x01(\v2\x1a.request.NetworkExperimentR\x11networkExperiment\x12$\n" +
-	"\x05image\x18\b \x01(\v2\x0e.request.ImageR\x05image\x12A\n" +
-	"\x06source\x18\t \x01(\v2).annotation_comparer_request.SourceTargetR\x06source\x12A\n" +
-	"\x06target\x18\n" +
-	" \x01(\v2).annotation_comparer_request.SourceTargetR\x06targetBeZ<github.com/DENKweit/denkproto-go/annotation_comparer_request\xaa\x02$DENK.Proto.AnnotationComparerRequestb\x06proto3"
+	"hasura_url\x18\x03 \x01(\tR\thasuraUrl\x12+\n" +
+	"\x12created_by_user_id\x18\x04 \x01(\tR\x0fcreatedByUserId\x12I\n" +
+	"\x12network_experiment\x18\x05 \x01(\v2\x1a.request.NetworkExperimentR\x11networkExperiment\x12$\n" +
+	"\x05image\x18\x06 \x01(\v2\x0e.request.ImageR\x05image\x12A\n" +
+	"\x06source\x18\a \x01(\v2).annotation_comparer_request.SourceTargetR\x06source\x12A\n" +
+	"\x06target\x18\b \x01(\v2).annotation_comparer_request.SourceTargetR\x06targetBeZ<github.com/DENKweit/denkproto-go/annotation_comparer_request\xaa\x02$DENK.Proto.AnnotationComparerRequestb\x06proto3"
 
 var (
 	file_annotation_comparer_request_proto_rawDescOnce sync.Once

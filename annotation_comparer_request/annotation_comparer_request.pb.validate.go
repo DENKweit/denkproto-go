@@ -187,10 +187,6 @@ func (m *AnnotationComparerRequest) validate(all bool) error {
 
 	// no validation rules for Id
 
-	// no validation rules for User1Id
-
-	// no validation rules for User2Id
-
 	// no validation rules for OwnedByGroupId
 
 	// no validation rules for HasuraUrl
