@@ -138,12 +138,12 @@ func (x *ClassificationAnnotation) GetValue() float64 {
 }
 
 type InstanceSegmentationAnnotation struct {
-	state         protoimpl.MessageState             `protogen:"open.v1"`
-	Id            string                             `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	LabelId       string                             `protobuf:"bytes,2,opt,name=label_id,json=labelId,proto3" json:"label_id,omitempty"`
-	Mask          *geometry.InstanceSegmentationMask `protobuf:"bytes,3,opt,name=mask,proto3" json:"mask,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state                    protoimpl.MessageState             `protogen:"open.v1"`
+	Id                       string                             `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	LabelId                  string                             `protobuf:"bytes,2,opt,name=label_id,json=labelId,proto3" json:"label_id,omitempty"`
+	InstanceSegmentationMask *geometry.InstanceSegmentationMask `protobuf:"bytes,3,opt,name=instance_segmentation_mask,json=instanceSegmentationMask,proto3" json:"instance_segmentation_mask,omitempty"`
+	unknownFields            protoimpl.UnknownFields
+	sizeCache                protoimpl.SizeCache
 }
 
 func (x *InstanceSegmentationAnnotation) Reset() {
@@ -190,9 +190,9 @@ func (x *InstanceSegmentationAnnotation) GetLabelId() string {
 	return ""
 }
 
-func (x *InstanceSegmentationAnnotation) GetMask() *geometry.InstanceSegmentationMask {
+func (x *InstanceSegmentationAnnotation) GetInstanceSegmentationMask() *geometry.InstanceSegmentationMask {
 	if x != nil {
-		return x.Mask
+		return x.InstanceSegmentationMask
 	}
 	return nil
 }
@@ -561,11 +561,11 @@ const file_materialized_markup_proto_rawDesc = "" +
 	"\x18ClassificationAnnotation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
 	"\blabel_id\x18\x02 \x01(\tR\alabelId\x12\x14\n" +
-	"\x05value\x18\x03 \x01(\x01R\x05value\"\x83\x01\n" +
+	"\x05value\x18\x03 \x01(\x01R\x05value\"\xad\x01\n" +
 	"\x1eInstanceSegmentationAnnotation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
-	"\blabel_id\x18\x02 \x01(\tR\alabelId\x126\n" +
-	"\x04mask\x18\x03 \x01(\v2\".geometry.InstanceSegmentationMaskR\x04mask\"\x80\x01\n" +
+	"\blabel_id\x18\x02 \x01(\tR\alabelId\x12`\n" +
+	"\x1ainstance_segmentation_mask\x18\x03 \x01(\v2\".geometry.InstanceSegmentationMaskR\x18instanceSegmentationMask\"\x80\x01\n" +
 	"\x19ObjectDetectionAnnotation\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
 	"\blabel_id\x18\x02 \x01(\tR\alabelId\x128\n" +
@@ -626,7 +626,7 @@ var file_materialized_markup_proto_goTypes = []any{
 	(*geometry.Polygon)(nil),                  // 9: geometry.Polygon
 }
 var file_materialized_markup_proto_depIdxs = []int32{
-	7,  // 0: materialized_markup.InstanceSegmentationAnnotation.mask:type_name -> geometry.InstanceSegmentationMask
+	7,  // 0: materialized_markup.InstanceSegmentationAnnotation.instance_segmentation_mask:type_name -> geometry.InstanceSegmentationMask
 	8,  // 1: materialized_markup.ObjectDetectionAnnotation.bounding_box:type_name -> geometry.BoundingBox
 	8,  // 2: materialized_markup.OcrAnnotation.bounding_box:type_name -> geometry.BoundingBox
 	9,  // 3: materialized_markup.OcrAnnotation.polygon:type_name -> geometry.Polygon
