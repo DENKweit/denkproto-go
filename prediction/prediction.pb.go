@@ -483,6 +483,50 @@ func (x *BarcodePrediction) GetPoints() []*geometry.Point2D {
 	return nil
 }
 
+type AnomalyPrediction struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AnomalyMap    *UInt8Map              `protobuf:"bytes,1,opt,name=anomaly_map,json=anomalyMap,proto3" json:"anomaly_map,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AnomalyPrediction) Reset() {
+	*x = AnomalyPrediction{}
+	mi := &file_prediction_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AnomalyPrediction) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AnomalyPrediction) ProtoMessage() {}
+
+func (x *AnomalyPrediction) ProtoReflect() protoreflect.Message {
+	mi := &file_prediction_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AnomalyPrediction.ProtoReflect.Descriptor instead.
+func (*AnomalyPrediction) Descriptor() ([]byte, []int) {
+	return file_prediction_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *AnomalyPrediction) GetAnomalyMap() *UInt8Map {
+	if x != nil {
+		return x.AnomalyMap
+	}
+	return nil
+}
+
 type Prediction struct {
 	state                           protoimpl.MessageState            `protogen:"open.v1"`
 	Height                          int32                             `protobuf:"varint,1,opt,name=height,proto3" json:"height,omitempty"`
@@ -492,14 +536,14 @@ type Prediction struct {
 	InstanceSegmentationPredictions []*InstanceSegmentationPrediction `protobuf:"bytes,5,rep,name=instance_segmentation_predictions,json=instanceSegmentationPredictions,proto3" json:"instance_segmentation_predictions,omitempty"`
 	OcrPredictions                  []*OcrPrediction                  `protobuf:"bytes,6,rep,name=ocr_predictions,json=ocrPredictions,proto3" json:"ocr_predictions,omitempty"`
 	BarcodePredictions              []*BarcodePrediction              `protobuf:"bytes,7,rep,name=barcode_predictions,json=barcodePredictions,proto3" json:"barcode_predictions,omitempty"`
-	AnomalyPredictions              []*UInt8Map                       `protobuf:"bytes,8,rep,name=anomaly_predictions,json=anomalyPredictions,proto3" json:"anomaly_predictions,omitempty"`
+	AnomalyPredictions              []*AnomalyPrediction              `protobuf:"bytes,8,rep,name=anomaly_predictions,json=anomalyPredictions,proto3" json:"anomaly_predictions,omitempty"`
 	unknownFields                   protoimpl.UnknownFields
 	sizeCache                       protoimpl.SizeCache
 }
 
 func (x *Prediction) Reset() {
 	*x = Prediction{}
-	mi := &file_prediction_proto_msgTypes[7]
+	mi := &file_prediction_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -511,7 +555,7 @@ func (x *Prediction) String() string {
 func (*Prediction) ProtoMessage() {}
 
 func (x *Prediction) ProtoReflect() protoreflect.Message {
-	mi := &file_prediction_proto_msgTypes[7]
+	mi := &file_prediction_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -524,7 +568,7 @@ func (x *Prediction) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Prediction.ProtoReflect.Descriptor instead.
 func (*Prediction) Descriptor() ([]byte, []int) {
-	return file_prediction_proto_rawDescGZIP(), []int{7}
+	return file_prediction_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *Prediction) GetHeight() int32 {
@@ -576,7 +620,7 @@ func (x *Prediction) GetBarcodePredictions() []*BarcodePrediction {
 	return nil
 }
 
-func (x *Prediction) GetAnomalyPredictions() []*UInt8Map {
+func (x *Prediction) GetAnomalyPredictions() []*AnomalyPrediction {
 	if x != nil {
 		return x.AnomalyPredictions
 	}
@@ -619,7 +663,10 @@ const file_prediction_proto_rawDesc = "" +
 	"\x11BarcodePrediction\x12\x19\n" +
 	"\blabel_id\x18\x01 \x01(\tR\alabelId\x12\x12\n" +
 	"\x04data\x18\x02 \x01(\fR\x04data\x12)\n" +
-	"\x06points\x18\x03 \x03(\v2\x11.geometry.Point2DR\x06points\"\xdb\x04\n" +
+	"\x06points\x18\x03 \x03(\v2\x11.geometry.Point2DR\x06points\"J\n" +
+	"\x11AnomalyPrediction\x125\n" +
+	"\vanomaly_map\x18\x01 \x01(\v2\x14.prediction.UInt8MapR\n" +
+	"anomalyMap\"\xe4\x04\n" +
 	"\n" +
 	"Prediction\x12\x16\n" +
 	"\x06height\x18\x01 \x01(\x05R\x06height\x12\x14\n" +
@@ -628,8 +675,8 @@ const file_prediction_proto_rawDesc = "" +
 	"\x1cobject_detection_predictions\x18\x04 \x03(\v2%.prediction.ObjectDetectionPredictionR\x1aobjectDetectionPredictions\x12v\n" +
 	"!instance_segmentation_predictions\x18\x05 \x03(\v2*.prediction.InstanceSegmentationPredictionR\x1finstanceSegmentationPredictions\x12B\n" +
 	"\x0focr_predictions\x18\x06 \x03(\v2\x19.prediction.OcrPredictionR\x0eocrPredictions\x12N\n" +
-	"\x13barcode_predictions\x18\a \x03(\v2\x1d.prediction.BarcodePredictionR\x12barcodePredictions\x12E\n" +
-	"\x13anomaly_predictions\x18\b \x03(\v2\x14.prediction.UInt8MapR\x12anomalyPredictionsBEZ+github.com/DENKweit/denkproto-go/prediction\xaa\x02\x15DENK.Proto.Predictionb\x06proto3"
+	"\x13barcode_predictions\x18\a \x03(\v2\x1d.prediction.BarcodePredictionR\x12barcodePredictions\x12N\n" +
+	"\x13anomaly_predictions\x18\b \x03(\v2\x1d.prediction.AnomalyPredictionR\x12anomalyPredictionsBEZ+github.com/DENKweit/denkproto-go/prediction\xaa\x02\x15DENK.Proto.Predictionb\x06proto3"
 
 var (
 	file_prediction_proto_rawDescOnce sync.Once
@@ -643,7 +690,7 @@ func file_prediction_proto_rawDescGZIP() []byte {
 	return file_prediction_proto_rawDescData
 }
 
-var file_prediction_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_prediction_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_prediction_proto_goTypes = []any{
 	(*UInt8Map)(nil),                          // 0: prediction.UInt8Map
 	(*ClassificationPrediction)(nil),          // 1: prediction.ClassificationPrediction
@@ -652,31 +699,33 @@ var file_prediction_proto_goTypes = []any{
 	(*CharacterPrediction)(nil),               // 4: prediction.CharacterPrediction
 	(*OcrPrediction)(nil),                     // 5: prediction.OcrPrediction
 	(*BarcodePrediction)(nil),                 // 6: prediction.BarcodePrediction
-	(*Prediction)(nil),                        // 7: prediction.Prediction
-	(*geometry.BoundingBox)(nil),              // 8: geometry.BoundingBox
-	(*geometry.InstanceSegmentationMask)(nil), // 9: geometry.InstanceSegmentationMask
-	(*geometry.Polygon)(nil),                  // 10: geometry.Polygon
-	(*geometry.Point2D)(nil),                  // 11: geometry.Point2D
+	(*AnomalyPrediction)(nil),                 // 7: prediction.AnomalyPrediction
+	(*Prediction)(nil),                        // 8: prediction.Prediction
+	(*geometry.BoundingBox)(nil),              // 9: geometry.BoundingBox
+	(*geometry.InstanceSegmentationMask)(nil), // 10: geometry.InstanceSegmentationMask
+	(*geometry.Polygon)(nil),                  // 11: geometry.Polygon
+	(*geometry.Point2D)(nil),                  // 12: geometry.Point2D
 }
 var file_prediction_proto_depIdxs = []int32{
 	0,  // 0: prediction.ClassificationPrediction.interpretation_map:type_name -> prediction.UInt8Map
-	8,  // 1: prediction.ObjectDetectionPrediction.bounding_box:type_name -> geometry.BoundingBox
-	9,  // 2: prediction.InstanceSegmentationPrediction.mask:type_name -> geometry.InstanceSegmentationMask
+	9,  // 1: prediction.ObjectDetectionPrediction.bounding_box:type_name -> geometry.BoundingBox
+	10, // 2: prediction.InstanceSegmentationPrediction.mask:type_name -> geometry.InstanceSegmentationMask
 	4,  // 3: prediction.OcrPrediction.character_predictions:type_name -> prediction.CharacterPrediction
-	8,  // 4: prediction.OcrPrediction.bounding_box:type_name -> geometry.BoundingBox
-	10, // 5: prediction.OcrPrediction.polygon:type_name -> geometry.Polygon
-	11, // 6: prediction.BarcodePrediction.points:type_name -> geometry.Point2D
-	1,  // 7: prediction.Prediction.classification_predictions:type_name -> prediction.ClassificationPrediction
-	2,  // 8: prediction.Prediction.object_detection_predictions:type_name -> prediction.ObjectDetectionPrediction
-	3,  // 9: prediction.Prediction.instance_segmentation_predictions:type_name -> prediction.InstanceSegmentationPrediction
-	5,  // 10: prediction.Prediction.ocr_predictions:type_name -> prediction.OcrPrediction
-	6,  // 11: prediction.Prediction.barcode_predictions:type_name -> prediction.BarcodePrediction
-	0,  // 12: prediction.Prediction.anomaly_predictions:type_name -> prediction.UInt8Map
-	13, // [13:13] is the sub-list for method output_type
-	13, // [13:13] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	9,  // 4: prediction.OcrPrediction.bounding_box:type_name -> geometry.BoundingBox
+	11, // 5: prediction.OcrPrediction.polygon:type_name -> geometry.Polygon
+	12, // 6: prediction.BarcodePrediction.points:type_name -> geometry.Point2D
+	0,  // 7: prediction.AnomalyPrediction.anomaly_map:type_name -> prediction.UInt8Map
+	1,  // 8: prediction.Prediction.classification_predictions:type_name -> prediction.ClassificationPrediction
+	2,  // 9: prediction.Prediction.object_detection_predictions:type_name -> prediction.ObjectDetectionPrediction
+	3,  // 10: prediction.Prediction.instance_segmentation_predictions:type_name -> prediction.InstanceSegmentationPrediction
+	5,  // 11: prediction.Prediction.ocr_predictions:type_name -> prediction.OcrPrediction
+	6,  // 12: prediction.Prediction.barcode_predictions:type_name -> prediction.BarcodePrediction
+	7,  // 13: prediction.Prediction.anomaly_predictions:type_name -> prediction.AnomalyPrediction
+	14, // [14:14] is the sub-list for method output_type
+	14, // [14:14] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_prediction_proto_init() }
@@ -694,7 +743,7 @@ func file_prediction_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_prediction_proto_rawDesc), len(file_prediction_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
