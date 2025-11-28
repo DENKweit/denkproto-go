@@ -1070,6 +1070,8 @@ func (m *AnomalyPrediction) validate(all bool) error {
 		}
 	}
 
+	// no validation rules for AnomalyScore
+
 	if len(errors) > 0 {
 		return AnomalyPredictionMultiError(errors)
 	}

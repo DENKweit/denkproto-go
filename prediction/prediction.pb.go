@@ -486,6 +486,7 @@ func (x *BarcodePrediction) GetPoints() []*geometry.Point2D {
 type AnomalyPrediction struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	AnomalyMap    *UInt8Map              `protobuf:"bytes,1,opt,name=anomaly_map,json=anomalyMap,proto3" json:"anomaly_map,omitempty"`
+	AnomalyScore  float64                `protobuf:"fixed64,2,opt,name=anomaly_score,json=anomalyScore,proto3" json:"anomaly_score,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -525,6 +526,13 @@ func (x *AnomalyPrediction) GetAnomalyMap() *UInt8Map {
 		return x.AnomalyMap
 	}
 	return nil
+}
+
+func (x *AnomalyPrediction) GetAnomalyScore() float64 {
+	if x != nil {
+		return x.AnomalyScore
+	}
+	return 0
 }
 
 type Prediction struct {
@@ -663,10 +671,11 @@ const file_prediction_proto_rawDesc = "" +
 	"\x11BarcodePrediction\x12\x19\n" +
 	"\blabel_id\x18\x01 \x01(\tR\alabelId\x12\x12\n" +
 	"\x04data\x18\x02 \x01(\fR\x04data\x12)\n" +
-	"\x06points\x18\x03 \x03(\v2\x11.geometry.Point2DR\x06points\"J\n" +
+	"\x06points\x18\x03 \x03(\v2\x11.geometry.Point2DR\x06points\"o\n" +
 	"\x11AnomalyPrediction\x125\n" +
 	"\vanomaly_map\x18\x01 \x01(\v2\x14.prediction.UInt8MapR\n" +
-	"anomalyMap\"\xe4\x04\n" +
+	"anomalyMap\x12#\n" +
+	"\ranomaly_score\x18\x02 \x01(\x01R\fanomalyScore\"\xe4\x04\n" +
 	"\n" +
 	"Prediction\x12\x16\n" +
 	"\x06height\x18\x01 \x01(\x05R\x06height\x12\x14\n" +
