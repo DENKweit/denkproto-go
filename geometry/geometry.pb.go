@@ -26,8 +26,8 @@ const (
 
 type Point2D struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	X             uint32                 `protobuf:"varint,1,opt,name=x,proto3" json:"x,omitempty"`
-	Y             uint32                 `protobuf:"varint,2,opt,name=y,proto3" json:"y,omitempty"`
+	X             int32                  `protobuf:"varint,1,opt,name=x,proto3" json:"x,omitempty"`
+	Y             int32                  `protobuf:"varint,2,opt,name=y,proto3" json:"y,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -62,14 +62,14 @@ func (*Point2D) Descriptor() ([]byte, []int) {
 	return file_geometry_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Point2D) GetX() uint32 {
+func (x *Point2D) GetX() int32 {
 	if x != nil {
 		return x.X
 	}
 	return 0
 }
 
-func (x *Point2D) GetY() uint32 {
+func (x *Point2D) GetY() int32 {
 	if x != nil {
 		return x.Y
 	}
@@ -382,8 +382,8 @@ const file_geometry_proto_rawDesc = "" +
 	"\n" +
 	"\x0egeometry.proto\x12\bgeometry\"%\n" +
 	"\aPoint2D\x12\f\n" +
-	"\x01x\x18\x01 \x01(\rR\x01x\x12\f\n" +
-	"\x01y\x18\x02 \x01(\rR\x01y\"\xe1\x01\n" +
+	"\x01x\x18\x01 \x01(\x05R\x01x\x12\f\n" +
+	"\x01y\x18\x02 \x01(\x05R\x01y\"\xe1\x01\n" +
 	"\vBoundingBox\x12\x1c\n" +
 	"\n" +
 	"top_left_x\x18\x01 \x01(\x05R\btopLeftX\x12\x1c\n" +

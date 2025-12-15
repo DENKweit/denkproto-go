@@ -79,8 +79,8 @@ func (FocusAreaType) EnumDescriptor() ([]byte, []int) {
 
 type CircleAnnotation struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	CenterX       uint32                 `protobuf:"varint,1,opt,name=center_x,json=centerX,proto3" json:"center_x,omitempty"`
-	CenterY       uint32                 `protobuf:"varint,2,opt,name=center_y,json=centerY,proto3" json:"center_y,omitempty"`
+	CenterX       int32                  `protobuf:"varint,1,opt,name=center_x,json=centerX,proto3" json:"center_x,omitempty"`
+	CenterY       int32                  `protobuf:"varint,2,opt,name=center_y,json=centerY,proto3" json:"center_y,omitempty"`
 	Radius        uint32                 `protobuf:"varint,3,opt,name=radius,proto3" json:"radius,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -116,14 +116,14 @@ func (*CircleAnnotation) Descriptor() ([]byte, []int) {
 	return file_markup_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CircleAnnotation) GetCenterX() uint32 {
+func (x *CircleAnnotation) GetCenterX() int32 {
 	if x != nil {
 		return x.CenterX
 	}
 	return 0
 }
 
-func (x *CircleAnnotation) GetCenterY() uint32 {
+func (x *CircleAnnotation) GetCenterY() int32 {
 	if x != nil {
 		return x.CenterY
 	}
@@ -139,12 +139,12 @@ func (x *CircleAnnotation) GetRadius() uint32 {
 
 type MagicwandAnnotation struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	TopLeftX      uint32                 `protobuf:"varint,1,opt,name=top_left_x,json=topLeftX,proto3" json:"top_left_x,omitempty"`
-	TopLeftY      uint32                 `protobuf:"varint,2,opt,name=top_left_y,json=topLeftY,proto3" json:"top_left_y,omitempty"`
+	TopLeftX      int32                  `protobuf:"varint,1,opt,name=top_left_x,json=topLeftX,proto3" json:"top_left_x,omitempty"`
+	TopLeftY      int32                  `protobuf:"varint,2,opt,name=top_left_y,json=topLeftY,proto3" json:"top_left_y,omitempty"`
 	Width         uint32                 `protobuf:"varint,3,opt,name=width,proto3" json:"width,omitempty"`
 	Height        uint32                 `protobuf:"varint,4,opt,name=height,proto3" json:"height,omitempty"`
-	CenterX       uint32                 `protobuf:"varint,5,opt,name=center_x,json=centerX,proto3" json:"center_x,omitempty"`
-	CenterY       uint32                 `protobuf:"varint,6,opt,name=center_y,json=centerY,proto3" json:"center_y,omitempty"`
+	CenterX       int32                  `protobuf:"varint,5,opt,name=center_x,json=centerX,proto3" json:"center_x,omitempty"`
+	CenterY       int32                  `protobuf:"varint,6,opt,name=center_y,json=centerY,proto3" json:"center_y,omitempty"`
 	Points        []*geometry.Point2D    `protobuf:"bytes,7,rep,name=points,proto3" json:"points,omitempty"`
 	Threshold     uint32                 `protobuf:"varint,8,opt,name=threshold,proto3" json:"threshold,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -181,14 +181,14 @@ func (*MagicwandAnnotation) Descriptor() ([]byte, []int) {
 	return file_markup_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *MagicwandAnnotation) GetTopLeftX() uint32 {
+func (x *MagicwandAnnotation) GetTopLeftX() int32 {
 	if x != nil {
 		return x.TopLeftX
 	}
 	return 0
 }
 
-func (x *MagicwandAnnotation) GetTopLeftY() uint32 {
+func (x *MagicwandAnnotation) GetTopLeftY() int32 {
 	if x != nil {
 		return x.TopLeftY
 	}
@@ -209,14 +209,14 @@ func (x *MagicwandAnnotation) GetHeight() uint32 {
 	return 0
 }
 
-func (x *MagicwandAnnotation) GetCenterX() uint32 {
+func (x *MagicwandAnnotation) GetCenterX() int32 {
 	if x != nil {
 		return x.CenterX
 	}
 	return 0
 }
 
-func (x *MagicwandAnnotation) GetCenterY() uint32 {
+func (x *MagicwandAnnotation) GetCenterY() int32 {
 	if x != nil {
 		return x.CenterY
 	}
@@ -239,8 +239,8 @@ func (x *MagicwandAnnotation) GetThreshold() uint32 {
 
 type PenAnnotation struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	TopLeftX      uint32                 `protobuf:"varint,1,opt,name=top_left_x,json=topLeftX,proto3" json:"top_left_x,omitempty"`
-	TopLeftY      uint32                 `protobuf:"varint,2,opt,name=top_left_y,json=topLeftY,proto3" json:"top_left_y,omitempty"`
+	TopLeftX      int32                  `protobuf:"varint,1,opt,name=top_left_x,json=topLeftX,proto3" json:"top_left_x,omitempty"`
+	TopLeftY      int32                  `protobuf:"varint,2,opt,name=top_left_y,json=topLeftY,proto3" json:"top_left_y,omitempty"`
 	Width         uint32                 `protobuf:"varint,3,opt,name=width,proto3" json:"width,omitempty"`
 	Height        uint32                 `protobuf:"varint,4,opt,name=height,proto3" json:"height,omitempty"`
 	Points        []*geometry.Point2D    `protobuf:"bytes,5,rep,name=points,proto3" json:"points,omitempty"`
@@ -279,14 +279,14 @@ func (*PenAnnotation) Descriptor() ([]byte, []int) {
 	return file_markup_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *PenAnnotation) GetTopLeftX() uint32 {
+func (x *PenAnnotation) GetTopLeftX() int32 {
 	if x != nil {
 		return x.TopLeftX
 	}
 	return 0
 }
 
-func (x *PenAnnotation) GetTopLeftY() uint32 {
+func (x *PenAnnotation) GetTopLeftY() int32 {
 	if x != nil {
 		return x.TopLeftY
 	}
@@ -324,8 +324,8 @@ func (x *PenAnnotation) GetThickness() uint32 {
 type PixelAnnotation struct {
 	state         protoimpl.MessageState   `protogen:"open.v1"`
 	Data          *geometry.BinaryMaskData `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
-	TopLeftX      uint32                   `protobuf:"varint,2,opt,name=top_left_x,json=topLeftX,proto3" json:"top_left_x,omitempty"`
-	TopLeftY      uint32                   `protobuf:"varint,3,opt,name=top_left_y,json=topLeftY,proto3" json:"top_left_y,omitempty"`
+	TopLeftX      int32                    `protobuf:"varint,2,opt,name=top_left_x,json=topLeftX,proto3" json:"top_left_x,omitempty"`
+	TopLeftY      int32                    `protobuf:"varint,3,opt,name=top_left_y,json=topLeftY,proto3" json:"top_left_y,omitempty"`
 	Width         uint32                   `protobuf:"varint,4,opt,name=width,proto3" json:"width,omitempty"`
 	Height        uint32                   `protobuf:"varint,5,opt,name=height,proto3" json:"height,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -369,14 +369,14 @@ func (x *PixelAnnotation) GetData() *geometry.BinaryMaskData {
 	return nil
 }
 
-func (x *PixelAnnotation) GetTopLeftX() uint32 {
+func (x *PixelAnnotation) GetTopLeftX() int32 {
 	if x != nil {
 		return x.TopLeftX
 	}
 	return 0
 }
 
-func (x *PixelAnnotation) GetTopLeftY() uint32 {
+func (x *PixelAnnotation) GetTopLeftY() int32 {
 	if x != nil {
 		return x.TopLeftY
 	}
@@ -399,8 +399,8 @@ func (x *PixelAnnotation) GetHeight() uint32 {
 
 type SausageAnnotation struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	TopLeftX      uint32                 `protobuf:"varint,1,opt,name=top_left_x,json=topLeftX,proto3" json:"top_left_x,omitempty"`
-	TopLeftY      uint32                 `protobuf:"varint,2,opt,name=top_left_y,json=topLeftY,proto3" json:"top_left_y,omitempty"`
+	TopLeftX      int32                  `protobuf:"varint,1,opt,name=top_left_x,json=topLeftX,proto3" json:"top_left_x,omitempty"`
+	TopLeftY      int32                  `protobuf:"varint,2,opt,name=top_left_y,json=topLeftY,proto3" json:"top_left_y,omitempty"`
 	Width         uint32                 `protobuf:"varint,3,opt,name=width,proto3" json:"width,omitempty"`
 	Height        uint32                 `protobuf:"varint,4,opt,name=height,proto3" json:"height,omitempty"`
 	Points        []*geometry.Point2D    `protobuf:"bytes,5,rep,name=points,proto3" json:"points,omitempty"`
@@ -439,14 +439,14 @@ func (*SausageAnnotation) Descriptor() ([]byte, []int) {
 	return file_markup_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *SausageAnnotation) GetTopLeftX() uint32 {
+func (x *SausageAnnotation) GetTopLeftX() int32 {
 	if x != nil {
 		return x.TopLeftX
 	}
 	return 0
 }
 
-func (x *SausageAnnotation) GetTopLeftY() uint32 {
+func (x *SausageAnnotation) GetTopLeftY() int32 {
 	if x != nil {
 		return x.TopLeftY
 	}
@@ -1081,25 +1081,25 @@ const file_markup_proto_rawDesc = "" +
 	"\n" +
 	"\fmarkup.proto\x12\x06markup\x1a\x0egeometry.proto\"`\n" +
 	"\x10CircleAnnotation\x12\x19\n" +
-	"\bcenter_x\x18\x01 \x01(\rR\acenterX\x12\x19\n" +
-	"\bcenter_y\x18\x02 \x01(\rR\acenterY\x12\x16\n" +
+	"\bcenter_x\x18\x01 \x01(\x05R\acenterX\x12\x19\n" +
+	"\bcenter_y\x18\x02 \x01(\x05R\acenterY\x12\x16\n" +
 	"\x06radius\x18\x03 \x01(\rR\x06radius\"\xfe\x01\n" +
 	"\x13MagicwandAnnotation\x12\x1c\n" +
 	"\n" +
-	"top_left_x\x18\x01 \x01(\rR\btopLeftX\x12\x1c\n" +
+	"top_left_x\x18\x01 \x01(\x05R\btopLeftX\x12\x1c\n" +
 	"\n" +
-	"top_left_y\x18\x02 \x01(\rR\btopLeftY\x12\x14\n" +
+	"top_left_y\x18\x02 \x01(\x05R\btopLeftY\x12\x14\n" +
 	"\x05width\x18\x03 \x01(\rR\x05width\x12\x16\n" +
 	"\x06height\x18\x04 \x01(\rR\x06height\x12\x19\n" +
-	"\bcenter_x\x18\x05 \x01(\rR\acenterX\x12\x19\n" +
-	"\bcenter_y\x18\x06 \x01(\rR\acenterY\x12)\n" +
+	"\bcenter_x\x18\x05 \x01(\x05R\acenterX\x12\x19\n" +
+	"\bcenter_y\x18\x06 \x01(\x05R\acenterY\x12)\n" +
 	"\x06points\x18\a \x03(\v2\x11.geometry.Point2DR\x06points\x12\x1c\n" +
 	"\tthreshold\x18\b \x01(\rR\tthreshold\"\xc2\x01\n" +
 	"\rPenAnnotation\x12\x1c\n" +
 	"\n" +
-	"top_left_x\x18\x01 \x01(\rR\btopLeftX\x12\x1c\n" +
+	"top_left_x\x18\x01 \x01(\x05R\btopLeftX\x12\x1c\n" +
 	"\n" +
-	"top_left_y\x18\x02 \x01(\rR\btopLeftY\x12\x14\n" +
+	"top_left_y\x18\x02 \x01(\x05R\btopLeftY\x12\x14\n" +
 	"\x05width\x18\x03 \x01(\rR\x05width\x12\x16\n" +
 	"\x06height\x18\x04 \x01(\rR\x06height\x12)\n" +
 	"\x06points\x18\x05 \x03(\v2\x11.geometry.Point2DR\x06points\x12\x1c\n" +
@@ -1107,16 +1107,16 @@ const file_markup_proto_rawDesc = "" +
 	"\x0fPixelAnnotation\x12,\n" +
 	"\x04data\x18\x01 \x01(\v2\x18.geometry.BinaryMaskDataR\x04data\x12\x1c\n" +
 	"\n" +
-	"top_left_x\x18\x02 \x01(\rR\btopLeftX\x12\x1c\n" +
+	"top_left_x\x18\x02 \x01(\x05R\btopLeftX\x12\x1c\n" +
 	"\n" +
-	"top_left_y\x18\x03 \x01(\rR\btopLeftY\x12\x14\n" +
+	"top_left_y\x18\x03 \x01(\x05R\btopLeftY\x12\x14\n" +
 	"\x05width\x18\x04 \x01(\rR\x05width\x12\x16\n" +
 	"\x06height\x18\x05 \x01(\rR\x06height\"\xc0\x01\n" +
 	"\x11SausageAnnotation\x12\x1c\n" +
 	"\n" +
-	"top_left_x\x18\x01 \x01(\rR\btopLeftX\x12\x1c\n" +
+	"top_left_x\x18\x01 \x01(\x05R\btopLeftX\x12\x1c\n" +
 	"\n" +
-	"top_left_y\x18\x02 \x01(\rR\btopLeftY\x12\x14\n" +
+	"top_left_y\x18\x02 \x01(\x05R\btopLeftY\x12\x14\n" +
 	"\x05width\x18\x03 \x01(\rR\x05width\x12\x16\n" +
 	"\x06height\x18\x04 \x01(\rR\x06height\x12)\n" +
 	"\x06points\x18\x05 \x03(\v2\x11.geometry.Point2DR\x06points\x12\x16\n" +
