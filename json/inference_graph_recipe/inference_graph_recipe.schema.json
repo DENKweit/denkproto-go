@@ -18,7 +18,11 @@
       "description": "Unix timestamp when the recipe was created"
     }
   },
-  "required": ["nodes", "license_id", "created_at"],
+  "required": [
+    "nodes",
+    "license_id",
+    "created_at"
+  ],
   "additionalProperties": false,
   "definitions": {
     "BoundingBoxFilterNode": {
@@ -71,7 +75,9 @@
           "$ref": "#/definitions/ConstTensorFloat64Data"
         }
       ],
-      "required": ["data_type"]
+      "required": [
+        "data_type"
+      ]
     },
     "ConstTensorFloat64Data": {
       "description": "Constant tensor data of type float64. Base type for constant tensor data.",
@@ -88,7 +94,10 @@
           }
         }
       },
-      "required": ["data_type", "data"],
+      "required": [
+        "data_type",
+        "data"
+      ],
       "additionalProperties": false
     },
     "ConstTensorInt64Data": {
@@ -106,7 +115,10 @@
           }
         }
       },
-      "required": ["data_type", "data"],
+      "required": [
+        "data_type",
+        "data"
+      ],
       "additionalProperties": false
     },
     "ConstTensorNode": {
@@ -133,7 +145,13 @@
           "pattern": "^[a-zA-Z0-9_-]+$"
         }
       },
-      "required": ["node_type", "name", "shape", "data", "output_port_name"],
+      "required": [
+        "node_type",
+        "name",
+        "shape",
+        "data",
+        "output_port_name"
+      ],
       "additionalProperties": false
     },
     "ConstTensorUint64Data": {
@@ -151,7 +169,10 @@
           }
         }
       },
-      "required": ["data_type", "data"],
+      "required": [
+        "data_type",
+        "data"
+      ],
       "additionalProperties": false
     },
     "ImageSize": {
@@ -167,7 +188,10 @@
           "minimum": 1
         }
       },
-      "required": ["height", "width"],
+      "required": [
+        "height",
+        "width"
+      ],
       "additionalProperties": false
     },
     "TargetSizeSource": {
@@ -176,7 +200,9 @@
       "discriminator": {
         "propertyName": "source_type"
       },
-      "required": ["source_type"],
+      "required": [
+        "source_type"
+      ],
       "oneOf": [
         {
           "properties": {
@@ -188,7 +214,10 @@
               "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
             }
           },
-          "required": ["source_type", "topic"],
+          "required": [
+            "source_type",
+            "topic"
+          ],
           "additionalProperties": false
         },
         {
@@ -200,7 +229,10 @@
               "$ref": "#/definitions/ImageSize"
             }
           },
-          "required": ["source_type", "size"],
+          "required": [
+            "source_type",
+            "size"
+          ],
           "additionalProperties": false
         }
       ]
@@ -211,7 +243,9 @@
       "discriminator": {
         "propertyName": "source_type"
       },
-      "required": ["source_type"],
+      "required": [
+        "source_type"
+      ],
       "oneOf": [
         {
           "properties": {
@@ -223,7 +257,10 @@
               "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
             }
           },
-          "required": ["source_type", "topic"],
+          "required": [
+            "source_type",
+            "topic"
+          ],
           "additionalProperties": false
         },
         {
@@ -238,7 +275,10 @@
               "maximum": 1.0
             }
           },
-          "required": ["source_type", "value"],
+          "required": [
+            "source_type",
+            "value"
+          ],
           "additionalProperties": false
         }
       ]
@@ -257,7 +297,6 @@
           "type": "string",
           "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
         },
-
         "model_source": {
           "$ref": "#/definitions/ModelSourceBase"
         },
@@ -501,6 +540,14 @@
         "output_port_name": {
           "type": "string",
           "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "resize_mode": {
+          "title": "ResizeMode",
+          "enum": [
+            "RM_STRETCH",
+            "RM_CENTER_PAD_BLACK"
+          ],
+          "type": "string"
         }
       },
       "required": [
@@ -508,7 +555,8 @@
         "name",
         "input_size",
         "input_image",
-        "output_port_name"
+        "output_port_name",
+        "resize_mode"
       ],
       "additionalProperties": false
     },
@@ -526,7 +574,9 @@
           "$ref": "#/definitions/ModelSourceFromNetworkExperimentId"
         }
       ],
-      "required": ["source_type"]
+      "required": [
+        "source_type"
+      ]
     },
     "ModelSourceFromNetworkExperimentId": {
       "description": "Model source specified by a network experiment ID. Base type for the source of the model.",
@@ -541,7 +591,10 @@
           "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
         }
       },
-      "required": ["source_type", "network_experiment_id"],
+      "required": [
+        "source_type",
+        "network_experiment_id"
+      ],
       "additionalProperties": false
     },
     "ModelSourceFromNetworkId": {
@@ -557,7 +610,10 @@
           "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
         }
       },
-      "required": ["source_type", "network_id"],
+      "required": [
+        "source_type",
+        "network_id"
+      ],
       "additionalProperties": false
     },
     "Node": {
@@ -600,7 +656,9 @@
       "discriminator": {
         "propertyName": "node_type"
       },
-      "required": ["node_type"]
+      "required": [
+        "node_type"
+      ]
     },
     "VirtualCameraNode": {
       "description": "Node representing a virtual camera source. Base type for all nodes in the graph.",
@@ -620,7 +678,12 @@
           "pattern": "^[a-zA-Z0-9_-]+$"
         }
       },
-      "required": ["node_type", "name", "path", "output_port_name"],
+      "required": [
+        "node_type",
+        "name",
+        "path",
+        "output_port_name"
+      ],
       "additionalProperties": false
     }
   }

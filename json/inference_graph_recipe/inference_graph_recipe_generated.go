@@ -886,6 +886,7 @@ type ImageResizeNode struct {
 	Name           string `json:"name"`
 	NodeType       string `json:"node_type"`
 	OutputPortName string `json:"output_port_name"`
+	ResizeMode     string `json:"resize_mode"`
 }
 
 // isNode implements the Node interface.
@@ -893,12 +894,13 @@ func (i *ImageResizeNode) isNode() {}
 
 // NewImageResizeNode creates a new instance of ImageResizeNode with required fields.
 // Optional fields should be set using builder methods.
-func NewImageResizeNode(name string, inputsize string, inputimage string, outputportname string) *ImageResizeNode {
+func NewImageResizeNode(name string, inputsize string, inputimage string, outputportname string, resizemode string) *ImageResizeNode {
 	i := &ImageResizeNode{
 		Name:           name,
 		InputSize:      inputsize,
 		InputImage:     inputimage,
 		OutputPortName: outputportname,
+		ResizeMode:     resizemode,
 		NodeType:       "image_resize",
 	}
 	return i
