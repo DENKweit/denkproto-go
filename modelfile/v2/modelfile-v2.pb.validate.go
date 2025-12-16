@@ -227,116 +227,62 @@ func (m *ModelFile) validate(all bool) error {
 
 	}
 
-	if len(m.GetInputs()) < 1 {
-		err := ModelFileValidationError{
-			field:  "Inputs",
-			reason: "value must contain at least 1 item(s)",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	for idx, item := range m.GetInputs() {
-		_, _ = idx, item
-
-		if item == nil {
-			err := ModelFileValidationError{
-				field:  fmt.Sprintf("Inputs[%v]", idx),
-				reason: "value is required",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ModelFileValidationError{
-						field:  fmt.Sprintf("Inputs[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, ModelFileValidationError{
-						field:  fmt.Sprintf("Inputs[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return ModelFileValidationError{
-					field:  fmt.Sprintf("Inputs[%v]", idx),
+	if all {
+		switch v := interface{}(m.GetInputDecodingInformation()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ModelFileValidationError{
+					field:  "InputDecodingInformation",
 					reason: "embedded message failed validation",
 					cause:  err,
-				}
+				})
 			}
-		}
-
-	}
-
-	if len(m.GetOutputs()) < 1 {
-		err := ModelFileValidationError{
-			field:  "Outputs",
-			reason: "value must contain at least 1 item(s)",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	for idx, item := range m.GetOutputs() {
-		_, _ = idx, item
-
-		if item == nil {
-			err := ModelFileValidationError{
-				field:  fmt.Sprintf("Outputs[%v]", idx),
-				reason: "value is required",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ModelFileValidationError{
-						field:  fmt.Sprintf("Outputs[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, ModelFileValidationError{
-						field:  fmt.Sprintf("Outputs[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				return ModelFileValidationError{
-					field:  fmt.Sprintf("Outputs[%v]", idx),
+				errors = append(errors, ModelFileValidationError{
+					field:  "InputDecodingInformation",
 					reason: "embedded message failed validation",
 					cause:  err,
-				}
+				})
 			}
 		}
+	} else if v, ok := interface{}(m.GetInputDecodingInformation()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ModelFileValidationError{
+				field:  "InputDecodingInformation",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
+	if all {
+		switch v := interface{}(m.GetOutputDecodingInformation()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, ModelFileValidationError{
+					field:  "OutputDecodingInformation",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, ModelFileValidationError{
+					field:  "OutputDecodingInformation",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetOutputDecodingInformation()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ModelFileValidationError{
+				field:  "OutputDecodingInformation",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
 	}
 
 	if len(errors) > 0 {
@@ -1136,397 +1082,33 @@ var _ interface {
 	ErrorName() string
 } = ModelFile_RegionFromEdgeValidationError{}
 
-// Validate checks the field values on ModelFile_Input with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *ModelFile_Input) Validate() error {
+// Validate checks the field values on ModelFile_InputFormatInformation with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *ModelFile_InputFormatInformation) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on ModelFile_Input with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// ModelFile_InputMultiError, or nil if none found.
-func (m *ModelFile_Input) ValidateAll() error {
+// ValidateAll checks the field values on ModelFile_InputFormatInformation with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// ModelFile_InputFormatInformationMultiError, or nil if none found.
+func (m *ModelFile_InputFormatInformation) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ModelFile_Input) validate(all bool) error {
+func (m *ModelFile_InputFormatInformation) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	// no validation rules for InputName
-
-	switch v := m.FormatInformation.(type) {
-	case *ModelFile_Input_ImageFormat:
-		if v == nil {
-			err := ModelFile_InputValidationError{
-				field:  "FormatInformation",
-				reason: "oneof value cannot be a typed-nil",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-
-		if all {
-			switch v := interface{}(m.GetImageFormat()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ModelFile_InputValidationError{
-						field:  "ImageFormat",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, ModelFile_InputValidationError{
-						field:  "ImageFormat",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetImageFormat()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return ModelFile_InputValidationError{
-					field:  "ImageFormat",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	default:
-		_ = v // ensures v is used
-	}
-
-	if len(errors) > 0 {
-		return ModelFile_InputMultiError(errors)
-	}
-
-	return nil
-}
-
-// ModelFile_InputMultiError is an error wrapping multiple validation errors
-// returned by ModelFile_Input.ValidateAll() if the designated constraints
-// aren't met.
-type ModelFile_InputMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m ModelFile_InputMultiError) Error() string {
-	msgs := make([]string, 0, len(m))
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m ModelFile_InputMultiError) AllErrors() []error { return m }
-
-// ModelFile_InputValidationError is the validation error returned by
-// ModelFile_Input.Validate if the designated constraints aren't met.
-type ModelFile_InputValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e ModelFile_InputValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e ModelFile_InputValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e ModelFile_InputValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e ModelFile_InputValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e ModelFile_InputValidationError) ErrorName() string { return "ModelFile_InputValidationError" }
-
-// Error satisfies the builtin error interface
-func (e ModelFile_InputValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sModelFile_Input.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = ModelFile_InputValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = ModelFile_InputValidationError{}
-
-// Validate checks the field values on ModelFile_Output with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *ModelFile_Output) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on ModelFile_Output with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// ModelFile_OutputMultiError, or nil if none found.
-func (m *ModelFile_Output) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *ModelFile_Output) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for OutputName
-
-	oneofFormatInformationPresent := false
-	switch v := m.FormatInformation.(type) {
-	case *ModelFile_Output_ScalarFormat:
-		if v == nil {
-			err := ModelFile_OutputValidationError{
-				field:  "FormatInformation",
-				reason: "oneof value cannot be a typed-nil",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-		oneofFormatInformationPresent = true
-
-		if all {
-			switch v := interface{}(m.GetScalarFormat()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ModelFile_OutputValidationError{
-						field:  "ScalarFormat",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, ModelFile_OutputValidationError{
-						field:  "ScalarFormat",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetScalarFormat()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return ModelFile_OutputValidationError{
-					field:  "ScalarFormat",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	case *ModelFile_Output_SegmentationMapsFormat:
-		if v == nil {
-			err := ModelFile_OutputValidationError{
-				field:  "FormatInformation",
-				reason: "oneof value cannot be a typed-nil",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-		oneofFormatInformationPresent = true
-
-		if all {
-			switch v := interface{}(m.GetSegmentationMapsFormat()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ModelFile_OutputValidationError{
-						field:  "SegmentationMapsFormat",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, ModelFile_OutputValidationError{
-						field:  "SegmentationMapsFormat",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetSegmentationMapsFormat()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return ModelFile_OutputValidationError{
-					field:  "SegmentationMapsFormat",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	case *ModelFile_Output_BoundingBoxesFormat:
-		if v == nil {
-			err := ModelFile_OutputValidationError{
-				field:  "FormatInformation",
-				reason: "oneof value cannot be a typed-nil",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-		oneofFormatInformationPresent = true
-
-		if all {
-			switch v := interface{}(m.GetBoundingBoxesFormat()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ModelFile_OutputValidationError{
-						field:  "BoundingBoxesFormat",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, ModelFile_OutputValidationError{
-						field:  "BoundingBoxesFormat",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetBoundingBoxesFormat()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return ModelFile_OutputValidationError{
-					field:  "BoundingBoxesFormat",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	case *ModelFile_Output_BoundingBoxSegmentationsFormat:
-		if v == nil {
-			err := ModelFile_OutputValidationError{
-				field:  "FormatInformation",
-				reason: "oneof value cannot be a typed-nil",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-		oneofFormatInformationPresent = true
-
-		if all {
-			switch v := interface{}(m.GetBoundingBoxSegmentationsFormat()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ModelFile_OutputValidationError{
-						field:  "BoundingBoxSegmentationsFormat",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, ModelFile_OutputValidationError{
-						field:  "BoundingBoxSegmentationsFormat",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetBoundingBoxSegmentationsFormat()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return ModelFile_OutputValidationError{
-					field:  "BoundingBoxSegmentationsFormat",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	case *ModelFile_Output_OcrFormat:
-		if v == nil {
-			err := ModelFile_OutputValidationError{
-				field:  "FormatInformation",
-				reason: "oneof value cannot be a typed-nil",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-		oneofFormatInformationPresent = true
-
-		if all {
-			switch v := interface{}(m.GetOcrFormat()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ModelFile_OutputValidationError{
-						field:  "OcrFormat",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, ModelFile_OutputValidationError{
-						field:  "OcrFormat",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetOcrFormat()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return ModelFile_OutputValidationError{
-					field:  "OcrFormat",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	default:
-		_ = v // ensures v is used
-	}
-	if !oneofFormatInformationPresent {
-		err := ModelFile_OutputValidationError{
-			field:  "FormatInformation",
-			reason: "value is required",
+	if len(m.GetInputs()) < 1 {
+		err := ModelFile_InputFormatInformationValidationError{
+			field:  "Inputs",
+			reason: "value must contain at least 1 item(s)",
 		}
 		if !all {
 			return err
@@ -1534,20 +1116,66 @@ func (m *ModelFile_Output) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	for idx, item := range m.GetInputs() {
+		_, _ = idx, item
+
+		if item == nil {
+			err := ModelFile_InputFormatInformationValidationError{
+				field:  fmt.Sprintf("Inputs[%v]", idx),
+				reason: "value is required",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ModelFile_InputFormatInformationValidationError{
+						field:  fmt.Sprintf("Inputs[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ModelFile_InputFormatInformationValidationError{
+						field:  fmt.Sprintf("Inputs[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ModelFile_InputFormatInformationValidationError{
+					field:  fmt.Sprintf("Inputs[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if len(errors) > 0 {
-		return ModelFile_OutputMultiError(errors)
+		return ModelFile_InputFormatInformationMultiError(errors)
 	}
 
 	return nil
 }
 
-// ModelFile_OutputMultiError is an error wrapping multiple validation errors
-// returned by ModelFile_Output.ValidateAll() if the designated constraints
-// aren't met.
-type ModelFile_OutputMultiError []error
+// ModelFile_InputFormatInformationMultiError is an error wrapping multiple
+// validation errors returned by
+// ModelFile_InputFormatInformation.ValidateAll() if the designated
+// constraints aren't met.
+type ModelFile_InputFormatInformationMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ModelFile_OutputMultiError) Error() string {
+func (m ModelFile_InputFormatInformationMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1556,11 +1184,12 @@ func (m ModelFile_OutputMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ModelFile_OutputMultiError) AllErrors() []error { return m }
+func (m ModelFile_InputFormatInformationMultiError) AllErrors() []error { return m }
 
-// ModelFile_OutputValidationError is the validation error returned by
-// ModelFile_Output.Validate if the designated constraints aren't met.
-type ModelFile_OutputValidationError struct {
+// ModelFile_InputFormatInformationValidationError is the validation error
+// returned by ModelFile_InputFormatInformation.Validate if the designated
+// constraints aren't met.
+type ModelFile_InputFormatInformationValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1568,22 +1197,24 @@ type ModelFile_OutputValidationError struct {
 }
 
 // Field function returns field value.
-func (e ModelFile_OutputValidationError) Field() string { return e.field }
+func (e ModelFile_InputFormatInformationValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ModelFile_OutputValidationError) Reason() string { return e.reason }
+func (e ModelFile_InputFormatInformationValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ModelFile_OutputValidationError) Cause() error { return e.cause }
+func (e ModelFile_InputFormatInformationValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ModelFile_OutputValidationError) Key() bool { return e.key }
+func (e ModelFile_InputFormatInformationValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ModelFile_OutputValidationError) ErrorName() string { return "ModelFile_OutputValidationError" }
+func (e ModelFile_InputFormatInformationValidationError) ErrorName() string {
+	return "ModelFile_InputFormatInformationValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e ModelFile_OutputValidationError) Error() string {
+func (e ModelFile_InputFormatInformationValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1595,14 +1226,14 @@ func (e ModelFile_OutputValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sModelFile_Output.%s: %s%s",
+		"invalid %sModelFile_InputFormatInformation.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ModelFile_OutputValidationError{}
+var _ error = ModelFile_InputFormatInformationValidationError{}
 
 var _ interface {
 	Field() string
@@ -1610,7 +1241,158 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ModelFile_OutputValidationError{}
+} = ModelFile_InputFormatInformationValidationError{}
+
+// Validate checks the field values on ModelFile_OutputDecodingInformation with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *ModelFile_OutputDecodingInformation) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ModelFile_OutputDecodingInformation
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// ModelFile_OutputDecodingInformationMultiError, or nil if none found.
+func (m *ModelFile_OutputDecodingInformation) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ModelFile_OutputDecodingInformation) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for DecodingType
+
+	if len(m.GetOutputNames()) < 1 {
+		err := ModelFile_OutputDecodingInformationValidationError{
+			field:  "OutputNames",
+			reason: "value must contain at least 1 item(s)",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if m.OcrDecodingInformation != nil {
+
+		if all {
+			switch v := interface{}(m.GetOcrDecodingInformation()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ModelFile_OutputDecodingInformationValidationError{
+						field:  "OcrDecodingInformation",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ModelFile_OutputDecodingInformationValidationError{
+						field:  "OcrDecodingInformation",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetOcrDecodingInformation()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ModelFile_OutputDecodingInformationValidationError{
+					field:  "OcrDecodingInformation",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return ModelFile_OutputDecodingInformationMultiError(errors)
+	}
+
+	return nil
+}
+
+// ModelFile_OutputDecodingInformationMultiError is an error wrapping multiple
+// validation errors returned by
+// ModelFile_OutputDecodingInformation.ValidateAll() if the designated
+// constraints aren't met.
+type ModelFile_OutputDecodingInformationMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ModelFile_OutputDecodingInformationMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ModelFile_OutputDecodingInformationMultiError) AllErrors() []error { return m }
+
+// ModelFile_OutputDecodingInformationValidationError is the validation error
+// returned by ModelFile_OutputDecodingInformation.Validate if the designated
+// constraints aren't met.
+type ModelFile_OutputDecodingInformationValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ModelFile_OutputDecodingInformationValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ModelFile_OutputDecodingInformationValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ModelFile_OutputDecodingInformationValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ModelFile_OutputDecodingInformationValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ModelFile_OutputDecodingInformationValidationError) ErrorName() string {
+	return "ModelFile_OutputDecodingInformationValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ModelFile_OutputDecodingInformationValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sModelFile_OutputDecodingInformation.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ModelFile_OutputDecodingInformationValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ModelFile_OutputDecodingInformationValidationError{}
 
 // Validate checks the field values on ModelFile_FileInfo with the rules
 // defined in the proto definition for this message. If any rules are
@@ -1764,6 +1546,8 @@ func (m *ModelFile_FileInfo) validate(all bool) error {
 			}
 		}
 	}
+
+	// no validation rules for NetworkSnapshotTimestamp
 
 	if len(errors) > 0 {
 		return ModelFile_FileInfoMultiError(errors)
@@ -2161,23 +1945,179 @@ var _ interface {
 	ErrorName() string
 } = ModelFile_Content_KeySlotValidationError{}
 
-// Validate checks the field values on ModelFile_Input_ImageInputFormat with
-// the rules defined in the proto definition for this message. If any rules
-// are violated, the first error encountered is returned, or nil if there are
-// no violations.
-func (m *ModelFile_Input_ImageInputFormat) Validate() error {
+// Validate checks the field values on ModelFile_InputFormatInformation_Input
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *ModelFile_InputFormatInformation_Input) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on ModelFile_Input_ImageInputFormat with
-// the rules defined in the proto definition for this message. If any rules
-// are violated, the result is a list of violation errors wrapped in
-// ModelFile_Input_ImageInputFormatMultiError, or nil if none found.
-func (m *ModelFile_Input_ImageInputFormat) ValidateAll() error {
+// ValidateAll checks the field values on
+// ModelFile_InputFormatInformation_Input with the rules defined in the proto
+// definition for this message. If any rules are violated, the result is a
+// list of violation errors wrapped in
+// ModelFile_InputFormatInformation_InputMultiError, or nil if none found.
+func (m *ModelFile_InputFormatInformation_Input) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ModelFile_Input_ImageInputFormat) validate(all bool) error {
+func (m *ModelFile_InputFormatInformation_Input) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for InputName
+
+	switch v := m.FormatInformation.(type) {
+	case *ModelFile_InputFormatInformation_Input_ImageFormat:
+		if v == nil {
+			err := ModelFile_InputFormatInformation_InputValidationError{
+				field:  "FormatInformation",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+		if all {
+			switch v := interface{}(m.GetImageFormat()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ModelFile_InputFormatInformation_InputValidationError{
+						field:  "ImageFormat",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ModelFile_InputFormatInformation_InputValidationError{
+						field:  "ImageFormat",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetImageFormat()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ModelFile_InputFormatInformation_InputValidationError{
+					field:  "ImageFormat",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	default:
+		_ = v // ensures v is used
+	}
+
+	if len(errors) > 0 {
+		return ModelFile_InputFormatInformation_InputMultiError(errors)
+	}
+
+	return nil
+}
+
+// ModelFile_InputFormatInformation_InputMultiError is an error wrapping
+// multiple validation errors returned by
+// ModelFile_InputFormatInformation_Input.ValidateAll() if the designated
+// constraints aren't met.
+type ModelFile_InputFormatInformation_InputMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ModelFile_InputFormatInformation_InputMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ModelFile_InputFormatInformation_InputMultiError) AllErrors() []error { return m }
+
+// ModelFile_InputFormatInformation_InputValidationError is the validation
+// error returned by ModelFile_InputFormatInformation_Input.Validate if the
+// designated constraints aren't met.
+type ModelFile_InputFormatInformation_InputValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ModelFile_InputFormatInformation_InputValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ModelFile_InputFormatInformation_InputValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ModelFile_InputFormatInformation_InputValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ModelFile_InputFormatInformation_InputValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ModelFile_InputFormatInformation_InputValidationError) ErrorName() string {
+	return "ModelFile_InputFormatInformation_InputValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ModelFile_InputFormatInformation_InputValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sModelFile_InputFormatInformation_Input.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ModelFile_InputFormatInformation_InputValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ModelFile_InputFormatInformation_InputValidationError{}
+
+// Validate checks the field values on
+// ModelFile_InputFormatInformation_Input_ImageInputFormat with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ModelFile_InputFormatInformation_Input_ImageInputFormat) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on
+// ModelFile_InputFormatInformation_Input_ImageInputFormat with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ModelFile_InputFormatInformation_Input_ImageInputFormatMultiError, or nil
+// if none found.
+func (m *ModelFile_InputFormatInformation_Input_ImageInputFormat) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ModelFile_InputFormatInformation_Input_ImageInputFormat) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -2188,7 +2128,7 @@ func (m *ModelFile_Input_ImageInputFormat) validate(all bool) error {
 		switch v := interface{}(m.GetRegionOfInterest()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ModelFile_Input_ImageInputFormatValidationError{
+				errors = append(errors, ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError{
 					field:  "RegionOfInterest",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -2196,7 +2136,7 @@ func (m *ModelFile_Input_ImageInputFormat) validate(all bool) error {
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, ModelFile_Input_ImageInputFormatValidationError{
+				errors = append(errors, ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError{
 					field:  "RegionOfInterest",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -2205,7 +2145,7 @@ func (m *ModelFile_Input_ImageInputFormat) validate(all bool) error {
 		}
 	} else if v, ok := interface{}(m.GetRegionOfInterest()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return ModelFile_Input_ImageInputFormatValidationError{
+			return ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError{
 				field:  "RegionOfInterest",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -2214,9 +2154,9 @@ func (m *ModelFile_Input_ImageInputFormat) validate(all bool) error {
 	}
 
 	switch v := m.ImageSizeRequirements.(type) {
-	case *ModelFile_Input_ImageInputFormat_ExactImageSize:
+	case *ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSize:
 		if v == nil {
-			err := ModelFile_Input_ImageInputFormatValidationError{
+			err := ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError{
 				field:  "ImageSizeRequirements",
 				reason: "oneof value cannot be a typed-nil",
 			}
@@ -2230,7 +2170,7 @@ func (m *ModelFile_Input_ImageInputFormat) validate(all bool) error {
 			switch v := interface{}(m.GetExactImageSize()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ModelFile_Input_ImageInputFormatValidationError{
+					errors = append(errors, ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError{
 						field:  "ExactImageSize",
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -2238,7 +2178,7 @@ func (m *ModelFile_Input_ImageInputFormat) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, ModelFile_Input_ImageInputFormatValidationError{
+					errors = append(errors, ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError{
 						field:  "ExactImageSize",
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -2247,7 +2187,7 @@ func (m *ModelFile_Input_ImageInputFormat) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(m.GetExactImageSize()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return ModelFile_Input_ImageInputFormatValidationError{
+				return ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError{
 					field:  "ExactImageSize",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -2255,9 +2195,9 @@ func (m *ModelFile_Input_ImageInputFormat) validate(all bool) error {
 			}
 		}
 
-	case *ModelFile_Input_ImageInputFormat_DivisibleImageSize:
+	case *ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSize:
 		if v == nil {
-			err := ModelFile_Input_ImageInputFormatValidationError{
+			err := ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError{
 				field:  "ImageSizeRequirements",
 				reason: "oneof value cannot be a typed-nil",
 			}
@@ -2271,7 +2211,7 @@ func (m *ModelFile_Input_ImageInputFormat) validate(all bool) error {
 			switch v := interface{}(m.GetDivisibleImageSize()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ModelFile_Input_ImageInputFormatValidationError{
+					errors = append(errors, ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError{
 						field:  "DivisibleImageSize",
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -2279,7 +2219,7 @@ func (m *ModelFile_Input_ImageInputFormat) validate(all bool) error {
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, ModelFile_Input_ImageInputFormatValidationError{
+					errors = append(errors, ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError{
 						field:  "DivisibleImageSize",
 						reason: "embedded message failed validation",
 						cause:  err,
@@ -2288,7 +2228,7 @@ func (m *ModelFile_Input_ImageInputFormat) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(m.GetDivisibleImageSize()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return ModelFile_Input_ImageInputFormatValidationError{
+				return ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError{
 					field:  "DivisibleImageSize",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -2301,20 +2241,20 @@ func (m *ModelFile_Input_ImageInputFormat) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return ModelFile_Input_ImageInputFormatMultiError(errors)
+		return ModelFile_InputFormatInformation_Input_ImageInputFormatMultiError(errors)
 	}
 
 	return nil
 }
 
-// ModelFile_Input_ImageInputFormatMultiError is an error wrapping multiple
-// validation errors returned by
-// ModelFile_Input_ImageInputFormat.ValidateAll() if the designated
-// constraints aren't met.
-type ModelFile_Input_ImageInputFormatMultiError []error
+// ModelFile_InputFormatInformation_Input_ImageInputFormatMultiError is an
+// error wrapping multiple validation errors returned by
+// ModelFile_InputFormatInformation_Input_ImageInputFormat.ValidateAll() if
+// the designated constraints aren't met.
+type ModelFile_InputFormatInformation_Input_ImageInputFormatMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ModelFile_Input_ImageInputFormatMultiError) Error() string {
+func (m ModelFile_InputFormatInformation_Input_ImageInputFormatMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -2323,12 +2263,15 @@ func (m ModelFile_Input_ImageInputFormatMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ModelFile_Input_ImageInputFormatMultiError) AllErrors() []error { return m }
+func (m ModelFile_InputFormatInformation_Input_ImageInputFormatMultiError) AllErrors() []error {
+	return m
+}
 
-// ModelFile_Input_ImageInputFormatValidationError is the validation error
-// returned by ModelFile_Input_ImageInputFormat.Validate if the designated
-// constraints aren't met.
-type ModelFile_Input_ImageInputFormatValidationError struct {
+// ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError is
+// the validation error returned by
+// ModelFile_InputFormatInformation_Input_ImageInputFormat.Validate if the
+// designated constraints aren't met.
+type ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -2336,24 +2279,32 @@ type ModelFile_Input_ImageInputFormatValidationError struct {
 }
 
 // Field function returns field value.
-func (e ModelFile_Input_ImageInputFormatValidationError) Field() string { return e.field }
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError) Field() string {
+	return e.field
+}
 
 // Reason function returns reason value.
-func (e ModelFile_Input_ImageInputFormatValidationError) Reason() string { return e.reason }
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError) Reason() string {
+	return e.reason
+}
 
 // Cause function returns cause value.
-func (e ModelFile_Input_ImageInputFormatValidationError) Cause() error { return e.cause }
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError) Cause() error {
+	return e.cause
+}
 
 // Key function returns key value.
-func (e ModelFile_Input_ImageInputFormatValidationError) Key() bool { return e.key }
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError) Key() bool {
+	return e.key
+}
 
 // ErrorName returns error name.
-func (e ModelFile_Input_ImageInputFormatValidationError) ErrorName() string {
-	return "ModelFile_Input_ImageInputFormatValidationError"
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError) ErrorName() string {
+	return "ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e ModelFile_Input_ImageInputFormatValidationError) Error() string {
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -2365,14 +2316,14 @@ func (e ModelFile_Input_ImageInputFormatValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sModelFile_Input_ImageInputFormat.%s: %s%s",
+		"invalid %sModelFile_InputFormatInformation_Input_ImageInputFormat.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ModelFile_Input_ImageInputFormatValidationError{}
+var _ error = ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError{}
 
 var _ interface {
 	Field() string
@@ -2380,27 +2331,28 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ModelFile_Input_ImageInputFormatValidationError{}
+} = ModelFile_InputFormatInformation_Input_ImageInputFormatValidationError{}
 
 // Validate checks the field values on
-// ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement) Validate() error {
+// ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement) Validate() error {
 	return m.validate(false)
 }
 
 // ValidateAll checks the field values on
-// ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementMultiError, or
-// nil if none found.
-func (m *ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement) ValidateAll() error {
+// ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementMultiError,
+// or nil if none found.
+func (m *ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement) validate(all bool) error {
+func (m *ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -2411,7 +2363,7 @@ func (m *ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement) validate(al
 		switch v := interface{}(m.GetImageSize()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementValidationError{
+				errors = append(errors, ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementValidationError{
 					field:  "ImageSize",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -2419,7 +2371,7 @@ func (m *ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement) validate(al
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementValidationError{
+				errors = append(errors, ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementValidationError{
 					field:  "ImageSize",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -2428,7 +2380,7 @@ func (m *ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement) validate(al
 		}
 	} else if v, ok := interface{}(m.GetImageSize()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementValidationError{
+			return ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementValidationError{
 				field:  "ImageSize",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -2437,20 +2389,20 @@ func (m *ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement) validate(al
 	}
 
 	if len(errors) > 0 {
-		return ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementMultiError(errors)
+		return ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementMultiError(errors)
 	}
 
 	return nil
 }
 
-// ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementMultiError is an
-// error wrapping multiple validation errors returned by
-// ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement.ValidateAll() if
-// the designated constraints aren't met.
-type ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementMultiError []error
+// ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementMultiError
+// is an error wrapping multiple validation errors returned by
+// ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement.ValidateAll()
+// if the designated constraints aren't met.
+type ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementMultiError) Error() string {
+func (m ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -2459,15 +2411,15 @@ func (m ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementMultiError) Er
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementMultiError) AllErrors() []error {
+func (m ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementMultiError) AllErrors() []error {
 	return m
 }
 
-// ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementValidationError is
-// the validation error returned by
-// ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement.Validate if the
-// designated constraints aren't met.
-type ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementValidationError struct {
+// ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementValidationError
+// is the validation error returned by
+// ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement.Validate
+// if the designated constraints aren't met.
+type ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -2475,32 +2427,32 @@ type ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementValidationError s
 }
 
 // Field function returns field value.
-func (e ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementValidationError) Field() string {
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementValidationError) Field() string {
 	return e.field
 }
 
 // Reason function returns reason value.
-func (e ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementValidationError) Reason() string {
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementValidationError) Reason() string {
 	return e.reason
 }
 
 // Cause function returns cause value.
-func (e ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementValidationError) Cause() error {
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementValidationError) Cause() error {
 	return e.cause
 }
 
 // Key function returns key value.
-func (e ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementValidationError) Key() bool {
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementValidationError) Key() bool {
 	return e.key
 }
 
 // ErrorName returns error name.
-func (e ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementValidationError) ErrorName() string {
-	return "ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementValidationError"
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementValidationError) ErrorName() string {
+	return "ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementValidationError) Error() string {
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -2512,14 +2464,14 @@ func (e ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementValidationErro
 	}
 
 	return fmt.Sprintf(
-		"invalid %sModelFile_Input_ImageInputFormat_ExactImageSizeRequirement.%s: %s%s",
+		"invalid %sModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementValidationError{}
+var _ error = ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementValidationError{}
 
 var _ interface {
 	Field() string
@@ -2527,27 +2479,28 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ModelFile_Input_ImageInputFormat_ExactImageSizeRequirementValidationError{}
+} = ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirementValidationError{}
 
 // Validate checks the field values on
-// ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) Validate() error {
+// ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement) Validate() error {
 	return m.validate(false)
 }
 
 // ValidateAll checks the field values on
-// ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementMultiError,
+// ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementMultiError,
 // or nil if none found.
-func (m *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) ValidateAll() error {
+func (m *ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) validate(all bool) error {
+func (m *ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -2558,7 +2511,7 @@ func (m *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) validat
 		switch v := interface{}(m.GetImageSizeDivisors()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
+				errors = append(errors, ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
 					field:  "ImageSizeDivisors",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -2566,7 +2519,7 @@ func (m *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) validat
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
+				errors = append(errors, ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
 					field:  "ImageSizeDivisors",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -2575,7 +2528,7 @@ func (m *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) validat
 		}
 	} else if v, ok := interface{}(m.GetImageSizeDivisors()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
+			return ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
 				field:  "ImageSizeDivisors",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -2587,7 +2540,7 @@ func (m *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) validat
 		switch v := interface{}(m.GetMinimumImageSize()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
+				errors = append(errors, ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
 					field:  "MinimumImageSize",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -2595,7 +2548,7 @@ func (m *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) validat
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
+				errors = append(errors, ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
 					field:  "MinimumImageSize",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -2604,7 +2557,7 @@ func (m *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) validat
 		}
 	} else if v, ok := interface{}(m.GetMinimumImageSize()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
+			return ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
 				field:  "MinimumImageSize",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -2616,7 +2569,7 @@ func (m *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) validat
 		switch v := interface{}(m.GetSuggestedImageSize()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
+				errors = append(errors, ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
 					field:  "SuggestedImageSize",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -2624,7 +2577,7 @@ func (m *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) validat
 			}
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
-				errors = append(errors, ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
+				errors = append(errors, ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
 					field:  "SuggestedImageSize",
 					reason: "embedded message failed validation",
 					cause:  err,
@@ -2633,7 +2586,7 @@ func (m *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) validat
 		}
 	} else if v, ok := interface{}(m.GetSuggestedImageSize()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
+			return ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{
 				field:  "SuggestedImageSize",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -2642,20 +2595,20 @@ func (m *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) validat
 	}
 
 	if len(errors) > 0 {
-		return ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementMultiError(errors)
+		return ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementMultiError(errors)
 	}
 
 	return nil
 }
 
-// ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementMultiError is
-// an error wrapping multiple validation errors returned by
-// ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement.ValidateAll()
+// ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementMultiError
+// is an error wrapping multiple validation errors returned by
+// ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement.ValidateAll()
 // if the designated constraints aren't met.
-type ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementMultiError []error
+type ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementMultiError) Error() string {
+func (m ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -2664,15 +2617,15 @@ func (m ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementMultiError
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementMultiError) AllErrors() []error {
+func (m ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementMultiError) AllErrors() []error {
 	return m
 }
 
-// ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError
+// ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError
 // is the validation error returned by
-// ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement.Validate if
-// the designated constraints aren't met.
-type ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError struct {
+// ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement.Validate
+// if the designated constraints aren't met.
+type ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -2680,32 +2633,32 @@ type ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationErr
 }
 
 // Field function returns field value.
-func (e ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError) Field() string {
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError) Field() string {
 	return e.field
 }
 
 // Reason function returns reason value.
-func (e ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError) Reason() string {
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError) Reason() string {
 	return e.reason
 }
 
 // Cause function returns cause value.
-func (e ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError) Cause() error {
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError) Cause() error {
 	return e.cause
 }
 
 // Key function returns key value.
-func (e ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError) Key() bool {
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError) Key() bool {
 	return e.key
 }
 
 // ErrorName returns error name.
-func (e ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError) ErrorName() string {
-	return "ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError"
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError) ErrorName() string {
+	return "ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError) Error() string {
+func (e ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -2717,14 +2670,14 @@ func (e ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidation
 	}
 
 	return fmt.Sprintf(
-		"invalid %sModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement.%s: %s%s",
+		"invalid %sModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{}
+var _ error = ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{}
 
 var _ interface {
 	Field() string
@@ -2732,504 +2685,52 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{}
-
-// Validate checks the field values on ModelFile_Output_ScalarOutputFormat with
-// the rules defined in the proto definition for this message. If any rules
-// are violated, the first error encountered is returned, or nil if there are
-// no violations.
-func (m *ModelFile_Output_ScalarOutputFormat) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on ModelFile_Output_ScalarOutputFormat
-// with the rules defined in the proto definition for this message. If any
-// rules are violated, the result is a list of violation errors wrapped in
-// ModelFile_Output_ScalarOutputFormatMultiError, or nil if none found.
-func (m *ModelFile_Output_ScalarOutputFormat) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *ModelFile_Output_ScalarOutputFormat) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if len(errors) > 0 {
-		return ModelFile_Output_ScalarOutputFormatMultiError(errors)
-	}
-
-	return nil
-}
-
-// ModelFile_Output_ScalarOutputFormatMultiError is an error wrapping multiple
-// validation errors returned by
-// ModelFile_Output_ScalarOutputFormat.ValidateAll() if the designated
-// constraints aren't met.
-type ModelFile_Output_ScalarOutputFormatMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m ModelFile_Output_ScalarOutputFormatMultiError) Error() string {
-	msgs := make([]string, 0, len(m))
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m ModelFile_Output_ScalarOutputFormatMultiError) AllErrors() []error { return m }
-
-// ModelFile_Output_ScalarOutputFormatValidationError is the validation error
-// returned by ModelFile_Output_ScalarOutputFormat.Validate if the designated
-// constraints aren't met.
-type ModelFile_Output_ScalarOutputFormatValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e ModelFile_Output_ScalarOutputFormatValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e ModelFile_Output_ScalarOutputFormatValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e ModelFile_Output_ScalarOutputFormatValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e ModelFile_Output_ScalarOutputFormatValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e ModelFile_Output_ScalarOutputFormatValidationError) ErrorName() string {
-	return "ModelFile_Output_ScalarOutputFormatValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e ModelFile_Output_ScalarOutputFormatValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sModelFile_Output_ScalarOutputFormat.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = ModelFile_Output_ScalarOutputFormatValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = ModelFile_Output_ScalarOutputFormatValidationError{}
+} = ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirementValidationError{}
 
 // Validate checks the field values on
-// ModelFile_Output_SegmentationMapsOutputFormat with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *ModelFile_Output_SegmentationMapsOutputFormat) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on
-// ModelFile_Output_SegmentationMapsOutputFormat with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in
-// ModelFile_Output_SegmentationMapsOutputFormatMultiError, or nil if none found.
-func (m *ModelFile_Output_SegmentationMapsOutputFormat) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *ModelFile_Output_SegmentationMapsOutputFormat) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if len(errors) > 0 {
-		return ModelFile_Output_SegmentationMapsOutputFormatMultiError(errors)
-	}
-
-	return nil
-}
-
-// ModelFile_Output_SegmentationMapsOutputFormatMultiError is an error wrapping
-// multiple validation errors returned by
-// ModelFile_Output_SegmentationMapsOutputFormat.ValidateAll() if the
-// designated constraints aren't met.
-type ModelFile_Output_SegmentationMapsOutputFormatMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m ModelFile_Output_SegmentationMapsOutputFormatMultiError) Error() string {
-	msgs := make([]string, 0, len(m))
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m ModelFile_Output_SegmentationMapsOutputFormatMultiError) AllErrors() []error { return m }
-
-// ModelFile_Output_SegmentationMapsOutputFormatValidationError is the
-// validation error returned by
-// ModelFile_Output_SegmentationMapsOutputFormat.Validate if the designated
-// constraints aren't met.
-type ModelFile_Output_SegmentationMapsOutputFormatValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e ModelFile_Output_SegmentationMapsOutputFormatValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e ModelFile_Output_SegmentationMapsOutputFormatValidationError) Reason() string {
-	return e.reason
-}
-
-// Cause function returns cause value.
-func (e ModelFile_Output_SegmentationMapsOutputFormatValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e ModelFile_Output_SegmentationMapsOutputFormatValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e ModelFile_Output_SegmentationMapsOutputFormatValidationError) ErrorName() string {
-	return "ModelFile_Output_SegmentationMapsOutputFormatValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e ModelFile_Output_SegmentationMapsOutputFormatValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sModelFile_Output_SegmentationMapsOutputFormat.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = ModelFile_Output_SegmentationMapsOutputFormatValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = ModelFile_Output_SegmentationMapsOutputFormatValidationError{}
-
-// Validate checks the field values on
-// ModelFile_Output_BoundingBoxesOutputFormat with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *ModelFile_Output_BoundingBoxesOutputFormat) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on
-// ModelFile_Output_BoundingBoxesOutputFormat with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in
-// ModelFile_Output_BoundingBoxesOutputFormatMultiError, or nil if none found.
-func (m *ModelFile_Output_BoundingBoxesOutputFormat) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *ModelFile_Output_BoundingBoxesOutputFormat) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for X1Offset
-
-	// no validation rules for Y1Offset
-
-	// no validation rules for X2Offset
-
-	// no validation rules for Y2Offset
-
-	// no validation rules for ConfidenceOffset
-
-	// no validation rules for ClassLabelIndexOffset
-
-	if m.AngleOffset != nil {
-		// no validation rules for AngleOffset
-	}
-
-	if len(errors) > 0 {
-		return ModelFile_Output_BoundingBoxesOutputFormatMultiError(errors)
-	}
-
-	return nil
-}
-
-// ModelFile_Output_BoundingBoxesOutputFormatMultiError is an error wrapping
-// multiple validation errors returned by
-// ModelFile_Output_BoundingBoxesOutputFormat.ValidateAll() if the designated
-// constraints aren't met.
-type ModelFile_Output_BoundingBoxesOutputFormatMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m ModelFile_Output_BoundingBoxesOutputFormatMultiError) Error() string {
-	msgs := make([]string, 0, len(m))
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m ModelFile_Output_BoundingBoxesOutputFormatMultiError) AllErrors() []error { return m }
-
-// ModelFile_Output_BoundingBoxesOutputFormatValidationError is the validation
-// error returned by ModelFile_Output_BoundingBoxesOutputFormat.Validate if
-// the designated constraints aren't met.
-type ModelFile_Output_BoundingBoxesOutputFormatValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e ModelFile_Output_BoundingBoxesOutputFormatValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e ModelFile_Output_BoundingBoxesOutputFormatValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e ModelFile_Output_BoundingBoxesOutputFormatValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e ModelFile_Output_BoundingBoxesOutputFormatValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e ModelFile_Output_BoundingBoxesOutputFormatValidationError) ErrorName() string {
-	return "ModelFile_Output_BoundingBoxesOutputFormatValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e ModelFile_Output_BoundingBoxesOutputFormatValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sModelFile_Output_BoundingBoxesOutputFormat.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = ModelFile_Output_BoundingBoxesOutputFormatValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = ModelFile_Output_BoundingBoxesOutputFormatValidationError{}
-
-// Validate checks the field values on
-// ModelFile_Output_BoundingBoxSegmentationsOutputFormat with the rules
+// ModelFile_OutputDecodingInformation_OcrDecodingInformation with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the first error encountered is returned, or nil if there are no violations.
-func (m *ModelFile_Output_BoundingBoxSegmentationsOutputFormat) Validate() error {
+func (m *ModelFile_OutputDecodingInformation_OcrDecodingInformation) Validate() error {
 	return m.validate(false)
 }
 
 // ValidateAll checks the field values on
-// ModelFile_Output_BoundingBoxSegmentationsOutputFormat with the rules
+// ModelFile_OutputDecodingInformation_OcrDecodingInformation with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// ModelFile_Output_BoundingBoxSegmentationsOutputFormatMultiError, or nil if
-// none found.
-func (m *ModelFile_Output_BoundingBoxSegmentationsOutputFormat) ValidateAll() error {
+// ModelFile_OutputDecodingInformation_OcrDecodingInformationMultiError, or
+// nil if none found.
+func (m *ModelFile_OutputDecodingInformation_OcrDecodingInformation) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ModelFile_Output_BoundingBoxSegmentationsOutputFormat) validate(all bool) error {
+func (m *ModelFile_OutputDecodingInformation_OcrDecodingInformation) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	// no validation rules for RelativeToBoundingBox
+	// no validation rules for Charset
 
-	if len(errors) > 0 {
-		return ModelFile_Output_BoundingBoxSegmentationsOutputFormatMultiError(errors)
-	}
-
-	return nil
-}
-
-// ModelFile_Output_BoundingBoxSegmentationsOutputFormatMultiError is an error
-// wrapping multiple validation errors returned by
-// ModelFile_Output_BoundingBoxSegmentationsOutputFormat.ValidateAll() if the
-// designated constraints aren't met.
-type ModelFile_Output_BoundingBoxSegmentationsOutputFormatMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m ModelFile_Output_BoundingBoxSegmentationsOutputFormatMultiError) Error() string {
-	msgs := make([]string, 0, len(m))
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m ModelFile_Output_BoundingBoxSegmentationsOutputFormatMultiError) AllErrors() []error {
-	return m
-}
-
-// ModelFile_Output_BoundingBoxSegmentationsOutputFormatValidationError is the
-// validation error returned by
-// ModelFile_Output_BoundingBoxSegmentationsOutputFormat.Validate if the
-// designated constraints aren't met.
-type ModelFile_Output_BoundingBoxSegmentationsOutputFormatValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e ModelFile_Output_BoundingBoxSegmentationsOutputFormatValidationError) Field() string {
-	return e.field
-}
-
-// Reason function returns reason value.
-func (e ModelFile_Output_BoundingBoxSegmentationsOutputFormatValidationError) Reason() string {
-	return e.reason
-}
-
-// Cause function returns cause value.
-func (e ModelFile_Output_BoundingBoxSegmentationsOutputFormatValidationError) Cause() error {
-	return e.cause
-}
-
-// Key function returns key value.
-func (e ModelFile_Output_BoundingBoxSegmentationsOutputFormatValidationError) Key() bool {
-	return e.key
-}
-
-// ErrorName returns error name.
-func (e ModelFile_Output_BoundingBoxSegmentationsOutputFormatValidationError) ErrorName() string {
-	return "ModelFile_Output_BoundingBoxSegmentationsOutputFormatValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e ModelFile_Output_BoundingBoxSegmentationsOutputFormatValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sModelFile_Output_BoundingBoxSegmentationsOutputFormat.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = ModelFile_Output_BoundingBoxSegmentationsOutputFormatValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = ModelFile_Output_BoundingBoxSegmentationsOutputFormatValidationError{}
-
-// Validate checks the field values on ModelFile_Output_OcrOutputFormat with
-// the rules defined in the proto definition for this message. If any rules
-// are violated, the first error encountered is returned, or nil if there are
-// no violations.
-func (m *ModelFile_Output_OcrOutputFormat) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on ModelFile_Output_OcrOutputFormat with
-// the rules defined in the proto definition for this message. If any rules
-// are violated, the result is a list of violation errors wrapped in
-// ModelFile_Output_OcrOutputFormatMultiError, or nil if none found.
-func (m *ModelFile_Output_OcrOutputFormat) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *ModelFile_Output_OcrOutputFormat) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	for idx, item := range m.GetCharacters() {
+	for idx, item := range m.GetFormatRestrictions() {
 		_, _ = idx, item
 
 		if all {
 			switch v := interface{}(item).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ModelFile_Output_OcrOutputFormatValidationError{
-						field:  fmt.Sprintf("Characters[%v]", idx),
+					errors = append(errors, ModelFile_OutputDecodingInformation_OcrDecodingInformationValidationError{
+						field:  fmt.Sprintf("FormatRestrictions[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
-					errors = append(errors, ModelFile_Output_OcrOutputFormatValidationError{
-						field:  fmt.Sprintf("Characters[%v]", idx),
+					errors = append(errors, ModelFile_OutputDecodingInformation_OcrDecodingInformationValidationError{
+						field:  fmt.Sprintf("FormatRestrictions[%v]", idx),
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -3237,8 +2738,8 @@ func (m *ModelFile_Output_OcrOutputFormat) validate(all bool) error {
 			}
 		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return ModelFile_Output_OcrOutputFormatValidationError{
-					field:  fmt.Sprintf("Characters[%v]", idx),
+				return ModelFile_OutputDecodingInformation_OcrDecodingInformationValidationError{
+					field:  fmt.Sprintf("FormatRestrictions[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -3247,50 +2748,21 @@ func (m *ModelFile_Output_OcrOutputFormat) validate(all bool) error {
 
 	}
 
-	if all {
-		switch v := interface{}(m.GetCharacterRestrictions()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ModelFile_Output_OcrOutputFormatValidationError{
-					field:  "CharacterRestrictions",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, ModelFile_Output_OcrOutputFormatValidationError{
-					field:  "CharacterRestrictions",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetCharacterRestrictions()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return ModelFile_Output_OcrOutputFormatValidationError{
-				field:  "CharacterRestrictions",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
-	}
-
 	if len(errors) > 0 {
-		return ModelFile_Output_OcrOutputFormatMultiError(errors)
+		return ModelFile_OutputDecodingInformation_OcrDecodingInformationMultiError(errors)
 	}
 
 	return nil
 }
 
-// ModelFile_Output_OcrOutputFormatMultiError is an error wrapping multiple
-// validation errors returned by
-// ModelFile_Output_OcrOutputFormat.ValidateAll() if the designated
-// constraints aren't met.
-type ModelFile_Output_OcrOutputFormatMultiError []error
+// ModelFile_OutputDecodingInformation_OcrDecodingInformationMultiError is an
+// error wrapping multiple validation errors returned by
+// ModelFile_OutputDecodingInformation_OcrDecodingInformation.ValidateAll() if
+// the designated constraints aren't met.
+type ModelFile_OutputDecodingInformation_OcrDecodingInformationMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ModelFile_Output_OcrOutputFormatMultiError) Error() string {
+func (m ModelFile_OutputDecodingInformation_OcrDecodingInformationMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -3299,12 +2771,15 @@ func (m ModelFile_Output_OcrOutputFormatMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ModelFile_Output_OcrOutputFormatMultiError) AllErrors() []error { return m }
+func (m ModelFile_OutputDecodingInformation_OcrDecodingInformationMultiError) AllErrors() []error {
+	return m
+}
 
-// ModelFile_Output_OcrOutputFormatValidationError is the validation error
-// returned by ModelFile_Output_OcrOutputFormat.Validate if the designated
-// constraints aren't met.
-type ModelFile_Output_OcrOutputFormatValidationError struct {
+// ModelFile_OutputDecodingInformation_OcrDecodingInformationValidationError is
+// the validation error returned by
+// ModelFile_OutputDecodingInformation_OcrDecodingInformation.Validate if the
+// designated constraints aren't met.
+type ModelFile_OutputDecodingInformation_OcrDecodingInformationValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -3312,24 +2787,32 @@ type ModelFile_Output_OcrOutputFormatValidationError struct {
 }
 
 // Field function returns field value.
-func (e ModelFile_Output_OcrOutputFormatValidationError) Field() string { return e.field }
+func (e ModelFile_OutputDecodingInformation_OcrDecodingInformationValidationError) Field() string {
+	return e.field
+}
 
 // Reason function returns reason value.
-func (e ModelFile_Output_OcrOutputFormatValidationError) Reason() string { return e.reason }
+func (e ModelFile_OutputDecodingInformation_OcrDecodingInformationValidationError) Reason() string {
+	return e.reason
+}
 
 // Cause function returns cause value.
-func (e ModelFile_Output_OcrOutputFormatValidationError) Cause() error { return e.cause }
+func (e ModelFile_OutputDecodingInformation_OcrDecodingInformationValidationError) Cause() error {
+	return e.cause
+}
 
 // Key function returns key value.
-func (e ModelFile_Output_OcrOutputFormatValidationError) Key() bool { return e.key }
+func (e ModelFile_OutputDecodingInformation_OcrDecodingInformationValidationError) Key() bool {
+	return e.key
+}
 
 // ErrorName returns error name.
-func (e ModelFile_Output_OcrOutputFormatValidationError) ErrorName() string {
-	return "ModelFile_Output_OcrOutputFormatValidationError"
+func (e ModelFile_OutputDecodingInformation_OcrDecodingInformationValidationError) ErrorName() string {
+	return "ModelFile_OutputDecodingInformation_OcrDecodingInformationValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e ModelFile_Output_OcrOutputFormatValidationError) Error() string {
+func (e ModelFile_OutputDecodingInformation_OcrDecodingInformationValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -3341,14 +2824,14 @@ func (e ModelFile_Output_OcrOutputFormatValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sModelFile_Output_OcrOutputFormat.%s: %s%s",
+		"invalid %sModelFile_OutputDecodingInformation_OcrDecodingInformation.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ModelFile_Output_OcrOutputFormatValidationError{}
+var _ error = ModelFile_OutputDecodingInformation_OcrDecodingInformationValidationError{}
 
 var _ interface {
 	Field() string
@@ -3356,27 +2839,28 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ModelFile_Output_OcrOutputFormatValidationError{}
+} = ModelFile_OutputDecodingInformation_OcrDecodingInformationValidationError{}
 
 // Validate checks the field values on
-// ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock) Validate() error {
+// ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the first error encountered is returned, or nil if
+// there are no violations.
+func (m *ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock) Validate() error {
 	return m.validate(false)
 }
 
 // ValidateAll checks the field values on
-// ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockMultiError, or
-// nil if none found.
-func (m *ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock) ValidateAll() error {
+// ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock
+// with the rules defined in the proto definition for this message. If any
+// rules are violated, the result is a list of violation errors wrapped in
+// ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockMultiError,
+// or nil if none found.
+func (m *ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock) validate(all bool) error {
+func (m *ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -3386,20 +2870,20 @@ func (m *ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock) validate(al
 	// no validation rules for NumberOfCharacters
 
 	if len(errors) > 0 {
-		return ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockMultiError(errors)
+		return ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockMultiError(errors)
 	}
 
 	return nil
 }
 
-// ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockMultiError is an
-// error wrapping multiple validation errors returned by
-// ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock.ValidateAll() if
-// the designated constraints aren't met.
-type ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockMultiError []error
+// ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockMultiError
+// is an error wrapping multiple validation errors returned by
+// ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock.ValidateAll()
+// if the designated constraints aren't met.
+type ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockMultiError) Error() string {
+func (m ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockMultiError) Error() string {
 	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -3408,15 +2892,15 @@ func (m ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockMultiError) Er
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockMultiError) AllErrors() []error {
+func (m ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockMultiError) AllErrors() []error {
 	return m
 }
 
-// ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockValidationError is
-// the validation error returned by
-// ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock.Validate if the
-// designated constraints aren't met.
-type ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockValidationError struct {
+// ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockValidationError
+// is the validation error returned by
+// ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock.Validate
+// if the designated constraints aren't met.
+type ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -3424,32 +2908,32 @@ type ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockValidationError s
 }
 
 // Field function returns field value.
-func (e ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockValidationError) Field() string {
+func (e ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockValidationError) Field() string {
 	return e.field
 }
 
 // Reason function returns reason value.
-func (e ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockValidationError) Reason() string {
+func (e ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockValidationError) Reason() string {
 	return e.reason
 }
 
 // Cause function returns cause value.
-func (e ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockValidationError) Cause() error {
+func (e ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockValidationError) Cause() error {
 	return e.cause
 }
 
 // Key function returns key value.
-func (e ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockValidationError) Key() bool {
+func (e ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockValidationError) Key() bool {
 	return e.key
 }
 
 // ErrorName returns error name.
-func (e ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockValidationError) ErrorName() string {
-	return "ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockValidationError"
+func (e ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockValidationError) ErrorName() string {
+	return "ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockValidationError) Error() string {
+func (e ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -3461,14 +2945,14 @@ func (e ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockValidationErro
 	}
 
 	return fmt.Sprintf(
-		"invalid %sModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock.%s: %s%s",
+		"invalid %sModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockValidationError{}
+var _ error = ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockValidationError{}
 
 var _ interface {
 	Field() string
@@ -3476,137 +2960,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlockValidationError{}
-
-// Validate checks the field values on
-// ModelFile_Output_OcrOutputFormat_Character with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *ModelFile_Output_OcrOutputFormat_Character) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on
-// ModelFile_Output_OcrOutputFormat_Character with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in
-// ModelFile_Output_OcrOutputFormat_CharacterMultiError, or nil if none found.
-func (m *ModelFile_Output_OcrOutputFormat_Character) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *ModelFile_Output_OcrOutputFormat_Character) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if len(m.GetUtf8Representation()) < 1 {
-		err := ModelFile_Output_OcrOutputFormat_CharacterValidationError{
-			field:  "Utf8Representation",
-			reason: "value length must be at least 1 bytes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	if _, ok := ModelFile_Output_OcrOutputFormat_Character_CharacterType_name[int32(m.GetCharacterType())]; !ok {
-		err := ModelFile_Output_OcrOutputFormat_CharacterValidationError{
-			field:  "CharacterType",
-			reason: "value must be one of the defined enum values",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	// no validation rules for Ignore
-
-	if len(errors) > 0 {
-		return ModelFile_Output_OcrOutputFormat_CharacterMultiError(errors)
-	}
-
-	return nil
-}
-
-// ModelFile_Output_OcrOutputFormat_CharacterMultiError is an error wrapping
-// multiple validation errors returned by
-// ModelFile_Output_OcrOutputFormat_Character.ValidateAll() if the designated
-// constraints aren't met.
-type ModelFile_Output_OcrOutputFormat_CharacterMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m ModelFile_Output_OcrOutputFormat_CharacterMultiError) Error() string {
-	msgs := make([]string, 0, len(m))
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m ModelFile_Output_OcrOutputFormat_CharacterMultiError) AllErrors() []error { return m }
-
-// ModelFile_Output_OcrOutputFormat_CharacterValidationError is the validation
-// error returned by ModelFile_Output_OcrOutputFormat_Character.Validate if
-// the designated constraints aren't met.
-type ModelFile_Output_OcrOutputFormat_CharacterValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e ModelFile_Output_OcrOutputFormat_CharacterValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e ModelFile_Output_OcrOutputFormat_CharacterValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e ModelFile_Output_OcrOutputFormat_CharacterValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e ModelFile_Output_OcrOutputFormat_CharacterValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e ModelFile_Output_OcrOutputFormat_CharacterValidationError) ErrorName() string {
-	return "ModelFile_Output_OcrOutputFormat_CharacterValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e ModelFile_Output_OcrOutputFormat_CharacterValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sModelFile_Output_OcrOutputFormat_Character.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = ModelFile_Output_OcrOutputFormat_CharacterValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = ModelFile_Output_OcrOutputFormat_CharacterValidationError{}
+} = ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlockValidationError{}
 
 // Validate checks the field values on ModelFile_FileContent_DefaultModel with
 // the rules defined in the proto definition for this message. If any rules

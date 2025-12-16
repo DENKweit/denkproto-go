@@ -75,6 +75,52 @@ func (ExecutionProvider) EnumDescriptor() ([]byte, []int) {
 	return file_inference_graph_proto_rawDescGZIP(), []int{0}
 }
 
+type ImageResizeNode_ResizeMode int32
+
+const (
+	ImageResizeNode_RM_STRETCH          ImageResizeNode_ResizeMode = 0
+	ImageResizeNode_RM_CENTER_PAD_BLACK ImageResizeNode_ResizeMode = 1
+)
+
+// Enum value maps for ImageResizeNode_ResizeMode.
+var (
+	ImageResizeNode_ResizeMode_name = map[int32]string{
+		0: "RM_STRETCH",
+		1: "RM_CENTER_PAD_BLACK",
+	}
+	ImageResizeNode_ResizeMode_value = map[string]int32{
+		"RM_STRETCH":          0,
+		"RM_CENTER_PAD_BLACK": 1,
+	}
+)
+
+func (x ImageResizeNode_ResizeMode) Enum() *ImageResizeNode_ResizeMode {
+	p := new(ImageResizeNode_ResizeMode)
+	*p = x
+	return p
+}
+
+func (x ImageResizeNode_ResizeMode) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ImageResizeNode_ResizeMode) Descriptor() protoreflect.EnumDescriptor {
+	return file_inference_graph_proto_enumTypes[1].Descriptor()
+}
+
+func (ImageResizeNode_ResizeMode) Type() protoreflect.EnumType {
+	return &file_inference_graph_proto_enumTypes[1]
+}
+
+func (x ImageResizeNode_ResizeMode) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ImageResizeNode_ResizeMode.Descriptor instead.
+func (ImageResizeNode_ResizeMode) EnumDescriptor() ([]byte, []int) {
+	return file_inference_graph_proto_rawDescGZIP(), []int{3, 0}
+}
+
 type ModelSource struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to SourceType:
@@ -348,12 +394,13 @@ func (*ConstTensorNode_Int64Data) isConstTensorNode_DataType() {}
 func (*ConstTensorNode_Float64Data) isConstTensorNode_DataType() {}
 
 type ImageResizeNode struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	InputSize      string                 `protobuf:"bytes,2,opt,name=input_size,json=inputSize,proto3" json:"input_size,omitempty"`
-	InputImage     string                 `protobuf:"bytes,3,opt,name=input_image,json=inputImage,proto3" json:"input_image,omitempty"`
-	OutputPortName string                 `protobuf:"bytes,4,opt,name=output_port_name,json=outputPortName,proto3" json:"output_port_name,omitempty"`
-	SessionInfo    *SessionInfo           `protobuf:"bytes,5,opt,name=session_info,json=sessionInfo,proto3,oneof" json:"session_info,omitempty"`
+	state          protoimpl.MessageState     `protogen:"open.v1"`
+	Name           string                     `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	InputSize      string                     `protobuf:"bytes,2,opt,name=input_size,json=inputSize,proto3" json:"input_size,omitempty"`
+	InputImage     string                     `protobuf:"bytes,3,opt,name=input_image,json=inputImage,proto3" json:"input_image,omitempty"`
+	OutputPortName string                     `protobuf:"bytes,4,opt,name=output_port_name,json=outputPortName,proto3" json:"output_port_name,omitempty"`
+	SessionInfo    *SessionInfo               `protobuf:"bytes,5,opt,name=session_info,json=sessionInfo,proto3,oneof" json:"session_info,omitempty"`
+	ResizeMode     ImageResizeNode_ResizeMode `protobuf:"varint,6,opt,name=resize_mode,json=resizeMode,proto3,enum=inference_graph.ImageResizeNode_ResizeMode" json:"resize_mode,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -421,6 +468,13 @@ func (x *ImageResizeNode) GetSessionInfo() *SessionInfo {
 		return x.SessionInfo
 	}
 	return nil
+}
+
+func (x *ImageResizeNode) GetResizeMode() ImageResizeNode_ResizeMode {
+	if x != nil {
+		return x.ResizeMode
+	}
+	return ImageResizeNode_RM_STRETCH
 }
 
 type ImagePatchesNode struct {
@@ -1797,7 +1851,7 @@ const file_inference_graph_proto_rawDesc = "" +
 	"\x04data\x18\x01 \x03(\x12R\x04data\x1a\"\n" +
 	"\fFloat64Array\x12\x12\n" +
 	"\x04data\x18\x01 \x03(\x01R\x04dataB\x10\n" +
-	"\tdata_type\x12\x03\xf8B\x01\"\xfe\x02\n" +
+	"\tdata_type\x12\x03\xf8B\x01\"\x83\x04\n" +
 	"\x0fImageResizeNode\x12\x1b\n" +
 	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x12W\n" +
 	"\n" +
@@ -1805,7 +1859,14 @@ const file_inference_graph_proto_rawDesc = "" +
 	"\vinput_image\x18\x03 \x01(\tB8\xfaB5r3\x10\x012/^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$R\n" +
 	"inputImage\x12C\n" +
 	"\x10output_port_name\x18\x04 \x01(\tB\x19\xfaB\x16r\x14\x10\x012\x10^[a-zA-Z0-9_-]+$R\x0eoutputPortName\x12D\n" +
-	"\fsession_info\x18\x05 \x01(\v2\x1c.inference_graph.SessionInfoH\x00R\vsessionInfo\x88\x01\x01B\x0f\n" +
+	"\fsession_info\x18\x05 \x01(\v2\x1c.inference_graph.SessionInfoH\x00R\vsessionInfo\x88\x01\x01\x12L\n" +
+	"\vresize_mode\x18\x06 \x01(\x0e2+.inference_graph.ImageResizeNode.ResizeModeR\n" +
+	"resizeMode\"5\n" +
+	"\n" +
+	"ResizeMode\x12\x0e\n" +
+	"\n" +
+	"RM_STRETCH\x10\x00\x12\x17\n" +
+	"\x13RM_CENTER_PAD_BLACK\x10\x01B\x0f\n" +
 	"\r_session_info\"\x93\x06\n" +
 	"\x10ImagePatchesNode\x12\x1b\n" +
 	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x12Y\n" +
@@ -1932,75 +1993,77 @@ func file_inference_graph_proto_rawDescGZIP() []byte {
 	return file_inference_graph_proto_rawDescData
 }
 
-var file_inference_graph_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_inference_graph_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_inference_graph_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_inference_graph_proto_goTypes = []any{
 	(ExecutionProvider)(0),                              // 0: inference_graph.ExecutionProvider
-	(*ModelSource)(nil),                                 // 1: inference_graph.ModelSource
-	(*SessionInfo)(nil),                                 // 2: inference_graph.SessionInfo
-	(*ConstTensorNode)(nil),                             // 3: inference_graph.ConstTensorNode
-	(*ImageResizeNode)(nil),                             // 4: inference_graph.ImageResizeNode
-	(*ImagePatchesNode)(nil),                            // 5: inference_graph.ImagePatchesNode
-	(*VirtualCameraNode)(nil),                           // 6: inference_graph.VirtualCameraNode
-	(*ImageClassificationNode)(nil),                     // 7: inference_graph.ImageClassificationNode
-	(*ImageObjectDetectionNode)(nil),                    // 8: inference_graph.ImageObjectDetectionNode
-	(*ImageOcrNode)(nil),                                // 9: inference_graph.ImageOcrNode
-	(*ImageSegmentationNode)(nil),                       // 10: inference_graph.ImageSegmentationNode
-	(*ImageInstanceSegmentationNode)(nil),               // 11: inference_graph.ImageInstanceSegmentationNode
-	(*ImageAnomalyDetectionNode)(nil),                   // 12: inference_graph.ImageAnomalyDetectionNode
-	(*BoundingBoxFilterNode)(nil),                       // 13: inference_graph.BoundingBoxFilterNode
-	(*Node)(nil),                                        // 14: inference_graph.Node
-	(*Graph)(nil),                                       // 15: inference_graph.Graph
-	(*ConstTensorNode_Uint64Array)(nil),                 // 16: inference_graph.ConstTensorNode.Uint64Array
-	(*ConstTensorNode_Int64Array)(nil),                  // 17: inference_graph.ConstTensorNode.Int64Array
-	(*ConstTensorNode_Float64Array)(nil),                // 18: inference_graph.ConstTensorNode.Float64Array
-	(*ImagePatchesNode_TargetSizeSource)(nil),           // 19: inference_graph.ImagePatchesNode.TargetSizeSource
-	(*ImagePatchesNode_TargetSizeSource_ImageSize)(nil), // 20: inference_graph.ImagePatchesNode.TargetSizeSource.ImageSize
-	(*BoundingBoxFilterNode_ThresholdSource)(nil),       // 21: inference_graph.BoundingBoxFilterNode.ThresholdSource
-	(*v2.ModelFile)(nil),                                // 22: modelfile.v2.ModelFile
+	(ImageResizeNode_ResizeMode)(0),                     // 1: inference_graph.ImageResizeNode.ResizeMode
+	(*ModelSource)(nil),                                 // 2: inference_graph.ModelSource
+	(*SessionInfo)(nil),                                 // 3: inference_graph.SessionInfo
+	(*ConstTensorNode)(nil),                             // 4: inference_graph.ConstTensorNode
+	(*ImageResizeNode)(nil),                             // 5: inference_graph.ImageResizeNode
+	(*ImagePatchesNode)(nil),                            // 6: inference_graph.ImagePatchesNode
+	(*VirtualCameraNode)(nil),                           // 7: inference_graph.VirtualCameraNode
+	(*ImageClassificationNode)(nil),                     // 8: inference_graph.ImageClassificationNode
+	(*ImageObjectDetectionNode)(nil),                    // 9: inference_graph.ImageObjectDetectionNode
+	(*ImageOcrNode)(nil),                                // 10: inference_graph.ImageOcrNode
+	(*ImageSegmentationNode)(nil),                       // 11: inference_graph.ImageSegmentationNode
+	(*ImageInstanceSegmentationNode)(nil),               // 12: inference_graph.ImageInstanceSegmentationNode
+	(*ImageAnomalyDetectionNode)(nil),                   // 13: inference_graph.ImageAnomalyDetectionNode
+	(*BoundingBoxFilterNode)(nil),                       // 14: inference_graph.BoundingBoxFilterNode
+	(*Node)(nil),                                        // 15: inference_graph.Node
+	(*Graph)(nil),                                       // 16: inference_graph.Graph
+	(*ConstTensorNode_Uint64Array)(nil),                 // 17: inference_graph.ConstTensorNode.Uint64Array
+	(*ConstTensorNode_Int64Array)(nil),                  // 18: inference_graph.ConstTensorNode.Int64Array
+	(*ConstTensorNode_Float64Array)(nil),                // 19: inference_graph.ConstTensorNode.Float64Array
+	(*ImagePatchesNode_TargetSizeSource)(nil),           // 20: inference_graph.ImagePatchesNode.TargetSizeSource
+	(*ImagePatchesNode_TargetSizeSource_ImageSize)(nil), // 21: inference_graph.ImagePatchesNode.TargetSizeSource.ImageSize
+	(*BoundingBoxFilterNode_ThresholdSource)(nil),       // 22: inference_graph.BoundingBoxFilterNode.ThresholdSource
+	(*v2.ModelFile)(nil),                                // 23: modelfile.v2.ModelFile
 }
 var file_inference_graph_proto_depIdxs = []int32{
-	22, // 0: inference_graph.ModelSource.from_proto:type_name -> modelfile.v2.ModelFile
+	23, // 0: inference_graph.ModelSource.from_proto:type_name -> modelfile.v2.ModelFile
 	0,  // 1: inference_graph.SessionInfo.execution_provider:type_name -> inference_graph.ExecutionProvider
-	16, // 2: inference_graph.ConstTensorNode.uint64_data:type_name -> inference_graph.ConstTensorNode.Uint64Array
-	17, // 3: inference_graph.ConstTensorNode.int64_data:type_name -> inference_graph.ConstTensorNode.Int64Array
-	18, // 4: inference_graph.ConstTensorNode.float64_data:type_name -> inference_graph.ConstTensorNode.Float64Array
-	2,  // 5: inference_graph.ImageResizeNode.session_info:type_name -> inference_graph.SessionInfo
-	19, // 6: inference_graph.ImagePatchesNode.input_target_size:type_name -> inference_graph.ImagePatchesNode.TargetSizeSource
-	2,  // 7: inference_graph.ImagePatchesNode.session_info:type_name -> inference_graph.SessionInfo
-	1,  // 8: inference_graph.ImageClassificationNode.model_source:type_name -> inference_graph.ModelSource
-	2,  // 9: inference_graph.ImageClassificationNode.session_info:type_name -> inference_graph.SessionInfo
-	1,  // 10: inference_graph.ImageObjectDetectionNode.model_source:type_name -> inference_graph.ModelSource
-	2,  // 11: inference_graph.ImageObjectDetectionNode.session_info:type_name -> inference_graph.SessionInfo
-	1,  // 12: inference_graph.ImageOcrNode.model_source:type_name -> inference_graph.ModelSource
-	2,  // 13: inference_graph.ImageOcrNode.session_info:type_name -> inference_graph.SessionInfo
-	1,  // 14: inference_graph.ImageSegmentationNode.model_source:type_name -> inference_graph.ModelSource
-	2,  // 15: inference_graph.ImageSegmentationNode.session_info:type_name -> inference_graph.SessionInfo
-	1,  // 16: inference_graph.ImageInstanceSegmentationNode.model_source:type_name -> inference_graph.ModelSource
-	2,  // 17: inference_graph.ImageInstanceSegmentationNode.session_info:type_name -> inference_graph.SessionInfo
-	1,  // 18: inference_graph.ImageAnomalyDetectionNode.model_source:type_name -> inference_graph.ModelSource
-	2,  // 19: inference_graph.ImageAnomalyDetectionNode.session_info:type_name -> inference_graph.SessionInfo
-	21, // 20: inference_graph.BoundingBoxFilterNode.input_score_threshold:type_name -> inference_graph.BoundingBoxFilterNode.ThresholdSource
-	21, // 21: inference_graph.BoundingBoxFilterNode.input_iou_threshold:type_name -> inference_graph.BoundingBoxFilterNode.ThresholdSource
-	2,  // 22: inference_graph.BoundingBoxFilterNode.session_info:type_name -> inference_graph.SessionInfo
-	3,  // 23: inference_graph.Node.const_tensor_node:type_name -> inference_graph.ConstTensorNode
-	4,  // 24: inference_graph.Node.image_resize_node:type_name -> inference_graph.ImageResizeNode
-	5,  // 25: inference_graph.Node.image_patches_node:type_name -> inference_graph.ImagePatchesNode
-	6,  // 26: inference_graph.Node.virtual_camera_node:type_name -> inference_graph.VirtualCameraNode
-	7,  // 27: inference_graph.Node.image_classification_node:type_name -> inference_graph.ImageClassificationNode
-	8,  // 28: inference_graph.Node.image_object_detection_node:type_name -> inference_graph.ImageObjectDetectionNode
-	9,  // 29: inference_graph.Node.image_ocr_node:type_name -> inference_graph.ImageOcrNode
-	13, // 30: inference_graph.Node.bounding_box_filter_node:type_name -> inference_graph.BoundingBoxFilterNode
-	10, // 31: inference_graph.Node.image_segmentation_node:type_name -> inference_graph.ImageSegmentationNode
-	11, // 32: inference_graph.Node.image_instance_segmentation_node:type_name -> inference_graph.ImageInstanceSegmentationNode
-	12, // 33: inference_graph.Node.image_anomaly_detection_node:type_name -> inference_graph.ImageAnomalyDetectionNode
-	14, // 34: inference_graph.Graph.nodes:type_name -> inference_graph.Node
-	20, // 35: inference_graph.ImagePatchesNode.TargetSizeSource.size:type_name -> inference_graph.ImagePatchesNode.TargetSizeSource.ImageSize
-	36, // [36:36] is the sub-list for method output_type
-	36, // [36:36] is the sub-list for method input_type
-	36, // [36:36] is the sub-list for extension type_name
-	36, // [36:36] is the sub-list for extension extendee
-	0,  // [0:36] is the sub-list for field type_name
+	17, // 2: inference_graph.ConstTensorNode.uint64_data:type_name -> inference_graph.ConstTensorNode.Uint64Array
+	18, // 3: inference_graph.ConstTensorNode.int64_data:type_name -> inference_graph.ConstTensorNode.Int64Array
+	19, // 4: inference_graph.ConstTensorNode.float64_data:type_name -> inference_graph.ConstTensorNode.Float64Array
+	3,  // 5: inference_graph.ImageResizeNode.session_info:type_name -> inference_graph.SessionInfo
+	1,  // 6: inference_graph.ImageResizeNode.resize_mode:type_name -> inference_graph.ImageResizeNode.ResizeMode
+	20, // 7: inference_graph.ImagePatchesNode.input_target_size:type_name -> inference_graph.ImagePatchesNode.TargetSizeSource
+	3,  // 8: inference_graph.ImagePatchesNode.session_info:type_name -> inference_graph.SessionInfo
+	2,  // 9: inference_graph.ImageClassificationNode.model_source:type_name -> inference_graph.ModelSource
+	3,  // 10: inference_graph.ImageClassificationNode.session_info:type_name -> inference_graph.SessionInfo
+	2,  // 11: inference_graph.ImageObjectDetectionNode.model_source:type_name -> inference_graph.ModelSource
+	3,  // 12: inference_graph.ImageObjectDetectionNode.session_info:type_name -> inference_graph.SessionInfo
+	2,  // 13: inference_graph.ImageOcrNode.model_source:type_name -> inference_graph.ModelSource
+	3,  // 14: inference_graph.ImageOcrNode.session_info:type_name -> inference_graph.SessionInfo
+	2,  // 15: inference_graph.ImageSegmentationNode.model_source:type_name -> inference_graph.ModelSource
+	3,  // 16: inference_graph.ImageSegmentationNode.session_info:type_name -> inference_graph.SessionInfo
+	2,  // 17: inference_graph.ImageInstanceSegmentationNode.model_source:type_name -> inference_graph.ModelSource
+	3,  // 18: inference_graph.ImageInstanceSegmentationNode.session_info:type_name -> inference_graph.SessionInfo
+	2,  // 19: inference_graph.ImageAnomalyDetectionNode.model_source:type_name -> inference_graph.ModelSource
+	3,  // 20: inference_graph.ImageAnomalyDetectionNode.session_info:type_name -> inference_graph.SessionInfo
+	22, // 21: inference_graph.BoundingBoxFilterNode.input_score_threshold:type_name -> inference_graph.BoundingBoxFilterNode.ThresholdSource
+	22, // 22: inference_graph.BoundingBoxFilterNode.input_iou_threshold:type_name -> inference_graph.BoundingBoxFilterNode.ThresholdSource
+	3,  // 23: inference_graph.BoundingBoxFilterNode.session_info:type_name -> inference_graph.SessionInfo
+	4,  // 24: inference_graph.Node.const_tensor_node:type_name -> inference_graph.ConstTensorNode
+	5,  // 25: inference_graph.Node.image_resize_node:type_name -> inference_graph.ImageResizeNode
+	6,  // 26: inference_graph.Node.image_patches_node:type_name -> inference_graph.ImagePatchesNode
+	7,  // 27: inference_graph.Node.virtual_camera_node:type_name -> inference_graph.VirtualCameraNode
+	8,  // 28: inference_graph.Node.image_classification_node:type_name -> inference_graph.ImageClassificationNode
+	9,  // 29: inference_graph.Node.image_object_detection_node:type_name -> inference_graph.ImageObjectDetectionNode
+	10, // 30: inference_graph.Node.image_ocr_node:type_name -> inference_graph.ImageOcrNode
+	14, // 31: inference_graph.Node.bounding_box_filter_node:type_name -> inference_graph.BoundingBoxFilterNode
+	11, // 32: inference_graph.Node.image_segmentation_node:type_name -> inference_graph.ImageSegmentationNode
+	12, // 33: inference_graph.Node.image_instance_segmentation_node:type_name -> inference_graph.ImageInstanceSegmentationNode
+	13, // 34: inference_graph.Node.image_anomaly_detection_node:type_name -> inference_graph.ImageAnomalyDetectionNode
+	15, // 35: inference_graph.Graph.nodes:type_name -> inference_graph.Node
+	21, // 36: inference_graph.ImagePatchesNode.TargetSizeSource.size:type_name -> inference_graph.ImagePatchesNode.TargetSizeSource.ImageSize
+	37, // [37:37] is the sub-list for method output_type
+	37, // [37:37] is the sub-list for method input_type
+	37, // [37:37] is the sub-list for extension type_name
+	37, // [37:37] is the sub-list for extension extendee
+	0,  // [0:37] is the sub-list for field type_name
 }
 
 func init() { file_inference_graph_proto_init() }
@@ -2053,7 +2116,7 @@ func file_inference_graph_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_inference_graph_proto_rawDesc), len(file_inference_graph_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      2,
 			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   0,
