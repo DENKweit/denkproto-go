@@ -75,50 +75,53 @@ func (ExecutionProvider) EnumDescriptor() ([]byte, []int) {
 	return file_inference_graph_proto_rawDescGZIP(), []int{0}
 }
 
-type ImageResizeNode_ResizeMode int32
+type ResizeMode int32
 
 const (
-	ImageResizeNode_RM_STRETCH          ImageResizeNode_ResizeMode = 0
-	ImageResizeNode_RM_CENTER_PAD_BLACK ImageResizeNode_ResizeMode = 1
+	ResizeMode_RM_UNDEFINED        ResizeMode = 0
+	ResizeMode_RM_STRETCH          ResizeMode = 1
+	ResizeMode_RM_CENTER_PAD_BLACK ResizeMode = 2
 )
 
-// Enum value maps for ImageResizeNode_ResizeMode.
+// Enum value maps for ResizeMode.
 var (
-	ImageResizeNode_ResizeMode_name = map[int32]string{
-		0: "RM_STRETCH",
-		1: "RM_CENTER_PAD_BLACK",
+	ResizeMode_name = map[int32]string{
+		0: "RM_UNDEFINED",
+		1: "RM_STRETCH",
+		2: "RM_CENTER_PAD_BLACK",
 	}
-	ImageResizeNode_ResizeMode_value = map[string]int32{
-		"RM_STRETCH":          0,
-		"RM_CENTER_PAD_BLACK": 1,
+	ResizeMode_value = map[string]int32{
+		"RM_UNDEFINED":        0,
+		"RM_STRETCH":          1,
+		"RM_CENTER_PAD_BLACK": 2,
 	}
 )
 
-func (x ImageResizeNode_ResizeMode) Enum() *ImageResizeNode_ResizeMode {
-	p := new(ImageResizeNode_ResizeMode)
+func (x ResizeMode) Enum() *ResizeMode {
+	p := new(ResizeMode)
 	*p = x
 	return p
 }
 
-func (x ImageResizeNode_ResizeMode) String() string {
+func (x ResizeMode) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (ImageResizeNode_ResizeMode) Descriptor() protoreflect.EnumDescriptor {
+func (ResizeMode) Descriptor() protoreflect.EnumDescriptor {
 	return file_inference_graph_proto_enumTypes[1].Descriptor()
 }
 
-func (ImageResizeNode_ResizeMode) Type() protoreflect.EnumType {
+func (ResizeMode) Type() protoreflect.EnumType {
 	return &file_inference_graph_proto_enumTypes[1]
 }
 
-func (x ImageResizeNode_ResizeMode) Number() protoreflect.EnumNumber {
+func (x ResizeMode) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ImageResizeNode_ResizeMode.Descriptor instead.
-func (ImageResizeNode_ResizeMode) EnumDescriptor() ([]byte, []int) {
-	return file_inference_graph_proto_rawDescGZIP(), []int{3, 0}
+// Deprecated: Use ResizeMode.Descriptor instead.
+func (ResizeMode) EnumDescriptor() ([]byte, []int) {
+	return file_inference_graph_proto_rawDescGZIP(), []int{1}
 }
 
 type ModelSource struct {
@@ -394,13 +397,12 @@ func (*ConstTensorNode_Int64Data) isConstTensorNode_DataType() {}
 func (*ConstTensorNode_Float64Data) isConstTensorNode_DataType() {}
 
 type ImageResizeNode struct {
-	state          protoimpl.MessageState     `protogen:"open.v1"`
-	Name           string                     `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	InputSize      string                     `protobuf:"bytes,2,opt,name=input_size,json=inputSize,proto3" json:"input_size,omitempty"`
-	InputImage     string                     `protobuf:"bytes,3,opt,name=input_image,json=inputImage,proto3" json:"input_image,omitempty"`
-	OutputPortName string                     `protobuf:"bytes,4,opt,name=output_port_name,json=outputPortName,proto3" json:"output_port_name,omitempty"`
-	SessionInfo    *SessionInfo               `protobuf:"bytes,5,opt,name=session_info,json=sessionInfo,proto3,oneof" json:"session_info,omitempty"`
-	ResizeMode     ImageResizeNode_ResizeMode `protobuf:"varint,6,opt,name=resize_mode,json=resizeMode,proto3,enum=inference_graph.ImageResizeNode_ResizeMode" json:"resize_mode,omitempty"`
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Name           string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	InputSize      string                 `protobuf:"bytes,2,opt,name=input_size,json=inputSize,proto3" json:"input_size,omitempty"`
+	InputImage     string                 `protobuf:"bytes,3,opt,name=input_image,json=inputImage,proto3" json:"input_image,omitempty"`
+	OutputPortName string                 `protobuf:"bytes,4,opt,name=output_port_name,json=outputPortName,proto3" json:"output_port_name,omitempty"`
+	SessionInfo    *SessionInfo           `protobuf:"bytes,5,opt,name=session_info,json=sessionInfo,proto3,oneof" json:"session_info,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -470,13 +472,6 @@ func (x *ImageResizeNode) GetSessionInfo() *SessionInfo {
 	return nil
 }
 
-func (x *ImageResizeNode) GetResizeMode() ImageResizeNode_ResizeMode {
-	if x != nil {
-		return x.ResizeMode
-	}
-	return ImageResizeNode_RM_STRETCH
-}
-
 type ImagePatchesNode struct {
 	state              protoimpl.MessageState             `protogen:"open.v1"`
 	Name               string                             `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -485,6 +480,7 @@ type ImagePatchesNode struct {
 	InputTargetSize    *ImagePatchesNode_TargetSizeSource `protobuf:"bytes,4,opt,name=input_target_size,json=inputTargetSize,proto3" json:"input_target_size,omitempty"`
 	OutputPortName     string                             `protobuf:"bytes,5,opt,name=output_port_name,json=outputPortName,proto3" json:"output_port_name,omitempty"`
 	SessionInfo        *SessionInfo                       `protobuf:"bytes,7,opt,name=session_info,json=sessionInfo,proto3,oneof" json:"session_info,omitempty"`
+	ResizeMode         ResizeMode                         `protobuf:"varint,8,opt,name=resize_mode,json=resizeMode,proto3,enum=inference_graph.ResizeMode" json:"resize_mode,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -559,6 +555,13 @@ func (x *ImagePatchesNode) GetSessionInfo() *SessionInfo {
 		return x.SessionInfo
 	}
 	return nil
+}
+
+func (x *ImagePatchesNode) GetResizeMode() ResizeMode {
+	if x != nil {
+		return x.ResizeMode
+	}
+	return ResizeMode_RM_UNDEFINED
 }
 
 type VirtualCameraNode struct {
@@ -1851,7 +1854,7 @@ const file_inference_graph_proto_rawDesc = "" +
 	"\x04data\x18\x01 \x03(\x12R\x04data\x1a\"\n" +
 	"\fFloat64Array\x12\x12\n" +
 	"\x04data\x18\x01 \x03(\x01R\x04dataB\x10\n" +
-	"\tdata_type\x12\x03\xf8B\x01\"\x83\x04\n" +
+	"\tdata_type\x12\x03\xf8B\x01\"\xfe\x02\n" +
 	"\x0fImageResizeNode\x12\x1b\n" +
 	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x12W\n" +
 	"\n" +
@@ -1859,15 +1862,8 @@ const file_inference_graph_proto_rawDesc = "" +
 	"\vinput_image\x18\x03 \x01(\tB8\xfaB5r3\x10\x012/^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$R\n" +
 	"inputImage\x12C\n" +
 	"\x10output_port_name\x18\x04 \x01(\tB\x19\xfaB\x16r\x14\x10\x012\x10^[a-zA-Z0-9_-]+$R\x0eoutputPortName\x12D\n" +
-	"\fsession_info\x18\x05 \x01(\v2\x1c.inference_graph.SessionInfoH\x00R\vsessionInfo\x88\x01\x01\x12L\n" +
-	"\vresize_mode\x18\x06 \x01(\x0e2+.inference_graph.ImageResizeNode.ResizeModeR\n" +
-	"resizeMode\"5\n" +
-	"\n" +
-	"ResizeMode\x12\x0e\n" +
-	"\n" +
-	"RM_STRETCH\x10\x00\x12\x17\n" +
-	"\x13RM_CENTER_PAD_BLACK\x10\x01B\x0f\n" +
-	"\r_session_info\"\x93\x06\n" +
+	"\fsession_info\x18\x05 \x01(\v2\x1c.inference_graph.SessionInfoH\x00R\vsessionInfo\x88\x01\x01B\x0f\n" +
+	"\r_session_info\"\xd1\x06\n" +
 	"\x10ImagePatchesNode\x12\x1b\n" +
 	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x12Y\n" +
 	"\vinput_image\x18\x02 \x01(\tB8\xfaB5r3\x10\x012/^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$R\n" +
@@ -1875,7 +1871,9 @@ const file_inference_graph_proto_rawDesc = "" +
 	"\x14input_bounding_boxes\x18\x03 \x01(\tB8\xfaB5r3\x10\x012/^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$R\x12inputBoundingBoxes\x12h\n" +
 	"\x11input_target_size\x18\x04 \x01(\v22.inference_graph.ImagePatchesNode.TargetSizeSourceB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x0finputTargetSize\x12C\n" +
 	"\x10output_port_name\x18\x05 \x01(\tB\x19\xfaB\x16r\x14\x10\x012\x10^[a-zA-Z0-9_-]+$R\x0eoutputPortName\x12D\n" +
-	"\fsession_info\x18\a \x01(\v2\x1c.inference_graph.SessionInfoH\x00R\vsessionInfo\x88\x01\x01\x1a\x94\x02\n" +
+	"\fsession_info\x18\a \x01(\v2\x1c.inference_graph.SessionInfoH\x00R\vsessionInfo\x88\x01\x01\x12<\n" +
+	"\vresize_mode\x18\b \x01(\x0e2\x1b.inference_graph.ResizeModeR\n" +
+	"resizeMode\x1a\x94\x02\n" +
 	"\x10TargetSizeSource\x12P\n" +
 	"\x05topic\x18\x01 \x01(\tB8\xfaB5r3\x10\x012/^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$H\x00R\x05topic\x12R\n" +
 	"\x04size\x18\x02 \x01(\v2<.inference_graph.ImagePatchesNode.TargetSizeSource.ImageSizeH\x00R\x04size\x1aK\n" +
@@ -1979,7 +1977,13 @@ const file_inference_graph_proto_rawDesc = "" +
 	"\x03CPU\x10\x00\x12\b\n" +
 	"\x04CUDA\x10\x01\x12\f\n" +
 	"\bDIRECTML\x10\x02\x12\f\n" +
-	"\bTENSORRT\x10\x03BNZ0github.com/DENKweit/denkproto-go/inference_graph\xaa\x02\x19DENK.Proto.InferenceGraphb\x06proto3"
+	"\bTENSORRT\x10\x03*G\n" +
+	"\n" +
+	"ResizeMode\x12\x10\n" +
+	"\fRM_UNDEFINED\x10\x00\x12\x0e\n" +
+	"\n" +
+	"RM_STRETCH\x10\x01\x12\x17\n" +
+	"\x13RM_CENTER_PAD_BLACK\x10\x02BNZ0github.com/DENKweit/denkproto-go/inference_graph\xaa\x02\x19DENK.Proto.InferenceGraphb\x06proto3"
 
 var (
 	file_inference_graph_proto_rawDescOnce sync.Once
@@ -1997,7 +2001,7 @@ var file_inference_graph_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_inference_graph_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_inference_graph_proto_goTypes = []any{
 	(ExecutionProvider)(0),                              // 0: inference_graph.ExecutionProvider
-	(ImageResizeNode_ResizeMode)(0),                     // 1: inference_graph.ImageResizeNode.ResizeMode
+	(ResizeMode)(0),                                     // 1: inference_graph.ResizeMode
 	(*ModelSource)(nil),                                 // 2: inference_graph.ModelSource
 	(*SessionInfo)(nil),                                 // 3: inference_graph.SessionInfo
 	(*ConstTensorNode)(nil),                             // 4: inference_graph.ConstTensorNode
@@ -2028,9 +2032,9 @@ var file_inference_graph_proto_depIdxs = []int32{
 	18, // 3: inference_graph.ConstTensorNode.int64_data:type_name -> inference_graph.ConstTensorNode.Int64Array
 	19, // 4: inference_graph.ConstTensorNode.float64_data:type_name -> inference_graph.ConstTensorNode.Float64Array
 	3,  // 5: inference_graph.ImageResizeNode.session_info:type_name -> inference_graph.SessionInfo
-	1,  // 6: inference_graph.ImageResizeNode.resize_mode:type_name -> inference_graph.ImageResizeNode.ResizeMode
-	20, // 7: inference_graph.ImagePatchesNode.input_target_size:type_name -> inference_graph.ImagePatchesNode.TargetSizeSource
-	3,  // 8: inference_graph.ImagePatchesNode.session_info:type_name -> inference_graph.SessionInfo
+	20, // 6: inference_graph.ImagePatchesNode.input_target_size:type_name -> inference_graph.ImagePatchesNode.TargetSizeSource
+	3,  // 7: inference_graph.ImagePatchesNode.session_info:type_name -> inference_graph.SessionInfo
+	1,  // 8: inference_graph.ImagePatchesNode.resize_mode:type_name -> inference_graph.ResizeMode
 	2,  // 9: inference_graph.ImageClassificationNode.model_source:type_name -> inference_graph.ModelSource
 	3,  // 10: inference_graph.ImageClassificationNode.session_info:type_name -> inference_graph.SessionInfo
 	2,  // 11: inference_graph.ImageObjectDetectionNode.model_source:type_name -> inference_graph.ModelSource

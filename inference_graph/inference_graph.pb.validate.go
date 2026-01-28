@@ -750,8 +750,6 @@ func (m *ImageResizeNode) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	// no validation rules for ResizeMode
-
 	if m.SessionInfo != nil {
 
 		if all {
@@ -1007,6 +1005,8 @@ func (m *ImagePatchesNode) validate(all bool) error {
 		}
 		errors = append(errors, err)
 	}
+
+	// no validation rules for ResizeMode
 
 	if m.SessionInfo != nil {
 

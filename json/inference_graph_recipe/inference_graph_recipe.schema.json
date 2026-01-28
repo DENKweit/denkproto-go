@@ -507,6 +507,15 @@
         "output_port_name": {
           "type": "string",
           "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "resize_mode": {
+          "title": "ResizeMode",
+          "enum": [
+            "RM_UNDEFINED",
+            "RM_STRETCH",
+            "RM_CENTER_PAD_BLACK"
+          ],
+          "type": "string"
         }
       },
       "required": [
@@ -515,7 +524,8 @@
         "input_image",
         "input_bounding_boxes",
         "input_target_size",
-        "output_port_name"
+        "output_port_name",
+        "resize_mode"
       ],
       "additionalProperties": false
     },
@@ -540,14 +550,6 @@
         "output_port_name": {
           "type": "string",
           "pattern": "^[a-zA-Z0-9_-]+$"
-        },
-        "resize_mode": {
-          "title": "ResizeMode",
-          "enum": [
-            "RM_STRETCH",
-            "RM_CENTER_PAD_BLACK"
-          ],
-          "type": "string"
         }
       },
       "required": [
@@ -555,8 +557,7 @@
         "name",
         "input_size",
         "input_image",
-        "output_port_name",
-        "resize_mode"
+        "output_port_name"
       ],
       "additionalProperties": false
     },
