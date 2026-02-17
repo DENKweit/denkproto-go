@@ -26,30 +26,34 @@ type OcrMarkup struct {
 }
 
 type Annotation struct {
-	BoundingBox                                                                         *BoundingBox `json:"bounding_box,omitempty"`
-	ID                                                                                  string       `json:"id"`
-	LabelID                                                                             string       `json:"label_id"`
-	// A polygon defined by one or more rings, allowing for holes and nested structures.             
-	Polygon                                                                             *Polygon     `json:"polygon,omitempty"`
-	Text                                                                                string       `json:"text"`
+	BoundingBox *BoundingBox `json:"bounding_box,omitempty"`
+	ID          string       `json:"id"`
+	LabelID     string       `json:"label_id"`
+	Polygon     *Polygon     `json:"polygon,omitempty"`
+	Text        string       `json:"text"`
 }
 
+// A bounding box with optional rotation information
 type BoundingBox struct {
-	BottomRightX float64 `json:"bottom_right_x"`
-	BottomRightY float64 `json:"bottom_right_y"`
-	TopLeftX     float64 `json:"top_left_x"`
-	TopLeftY     float64 `json:"top_left_y"`
+	// Optional rotation angle                
+	Angle                            *float64 `json:"angle,omitempty"`
+	BottomRightX                     float64  `json:"bottom_right_x"`
+	BottomRightY                     float64  `json:"bottom_right_y"`
+	// Optional full orientation flag         
+	FullOrientation                  *bool    `json:"full_orientation,omitempty"`
+	TopLeftX                         float64  `json:"top_left_x"`
+	TopLeftY                         float64  `json:"top_left_y"`
 }
 
 // A polygon defined by one or more rings, allowing for holes and nested structures.
 type Polygon struct {
-	// Array of polygon rings. The hierarchy field within each ring determines nesting and                  
-	// fill/hole status.                                                                                    
-	Rings                                                                                 []OcrMarkupSchema `json:"rings"`
+	// Array of polygon rings. The hierarchy field within each ring determines nesting and                 
+	// fill/hole status.                                                                                   
+	Rings                                                                                 []GeometrySchema `json:"rings"`
 }
 
 // A single closed loop (ring) of a polygon, defining either an outer boundary or a hole.
-type OcrMarkupSchema struct {
+type GeometrySchema struct {
 	// Nesting level: 0=outer, 1=hole in level 0, 2=poly in level 1 hole, etc. Even levels are        
 	// filled areas, odd levels are holes.                                                            
 	Hierarchy                                                                                 int64   `json:"hierarchy"`

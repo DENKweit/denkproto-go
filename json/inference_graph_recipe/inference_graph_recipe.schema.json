@@ -18,11 +18,7 @@
       "description": "Unix timestamp when the recipe was created"
     }
   },
-  "required": [
-    "nodes",
-    "license_id",
-    "created_at"
-  ],
+  "required": ["nodes", "license_id", "created_at"],
   "additionalProperties": false,
   "definitions": {
     "BoundingBoxFilterNode": {
@@ -75,9 +71,7 @@
           "$ref": "#/definitions/ConstTensorFloat64Data"
         }
       ],
-      "required": [
-        "data_type"
-      ]
+      "required": ["data_type"]
     },
     "ConstTensorFloat64Data": {
       "description": "Constant tensor data of type float64. Base type for constant tensor data.",
@@ -94,10 +88,7 @@
           }
         }
       },
-      "required": [
-        "data_type",
-        "data"
-      ],
+      "required": ["data_type", "data"],
       "additionalProperties": false
     },
     "ConstTensorInt64Data": {
@@ -115,10 +106,7 @@
           }
         }
       },
-      "required": [
-        "data_type",
-        "data"
-      ],
+      "required": ["data_type", "data"],
       "additionalProperties": false
     },
     "ConstTensorNode": {
@@ -145,13 +133,7 @@
           "pattern": "^[a-zA-Z0-9_-]+$"
         }
       },
-      "required": [
-        "node_type",
-        "name",
-        "shape",
-        "data",
-        "output_port_name"
-      ],
+      "required": ["node_type", "name", "shape", "data", "output_port_name"],
       "additionalProperties": false
     },
     "ConstTensorUint64Data": {
@@ -169,10 +151,7 @@
           }
         }
       },
-      "required": [
-        "data_type",
-        "data"
-      ],
+      "required": ["data_type", "data"],
       "additionalProperties": false
     },
     "ImageSize": {
@@ -188,98 +167,95 @@
           "minimum": 1
         }
       },
-      "required": [
-        "height",
-        "width"
-      ],
+      "required": ["height", "width"],
+      "additionalProperties": false
+    },
+    "TargetSizeSourceTopic": {
+      "description": "Target size from a topic source.",
+      "type": "object",
+      "properties": {
+        "source_type": {
+          "const": "topic"
+        },
+        "topic": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+        }
+      },
+      "required": ["source_type", "topic"],
+      "additionalProperties": false
+    },
+    "TargetSizeSourceImageSize": {
+      "description": "Target size from an ImageSize constant.",
+      "type": "object",
+      "properties": {
+        "source_type": {
+          "const": "image_size"
+        },
+        "size": {
+          "$ref": "#/definitions/ImageSize"
+        }
+      },
+      "required": ["source_type", "size"],
       "additionalProperties": false
     },
     "TargetSizeSource": {
       "description": "Source for the target size, either from a topic or a constant ImageSize.",
-      "type": "object",
       "discriminator": {
         "propertyName": "source_type"
       },
-      "required": [
-        "source_type"
-      ],
       "oneOf": [
         {
-          "properties": {
-            "source_type": {
-              "const": "topic"
-            },
-            "topic": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
-            }
-          },
-          "required": [
-            "source_type",
-            "topic"
-          ],
-          "additionalProperties": false
+          "$ref": "#/definitions/TargetSizeSourceTopic"
         },
         {
-          "properties": {
-            "source_type": {
-              "const": "image_size"
-            },
-            "size": {
-              "$ref": "#/definitions/ImageSize"
-            }
-          },
-          "required": [
-            "source_type",
-            "size"
-          ],
-          "additionalProperties": false
+          "$ref": "#/definitions/TargetSizeSourceImageSize"
         }
       ]
     },
+    "ThresholdSourceTopic": {
+      "description": "Threshold from a topic source.",
+      "type": "object",
+      "properties": {
+        "source_type": {
+          "const": "topic"
+        },
+        "topic": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+        }
+      },
+      "required": ["source_type", "topic"],
+      "additionalProperties": false
+    },
+    "ThresholdSourceValue": {
+      "description": "Threshold from a constant value.",
+      "type": "object",
+      "properties": {
+        "source_type": {
+          "const": "value"
+        },
+        "value": {
+          "type": "number",
+          "format": "float",
+          "minimum": 0.0,
+          "maximum": 1.0
+        }
+      },
+      "required": ["source_type", "value"],
+      "additionalProperties": false
+    },
     "ThresholdSource": {
       "description": "Source for a threshold value (0.0-1.0), either from a topic or a constant value.",
-      "type": "object",
       "discriminator": {
         "propertyName": "source_type"
       },
-      "required": [
-        "source_type"
-      ],
       "oneOf": [
         {
-          "properties": {
-            "source_type": {
-              "const": "topic"
-            },
-            "topic": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
-            }
-          },
-          "required": [
-            "source_type",
-            "topic"
-          ],
-          "additionalProperties": false
+          "$ref": "#/definitions/ThresholdSourceTopic"
         },
         {
-          "properties": {
-            "source_type": {
-              "const": "value"
-            },
-            "value": {
-              "type": "number",
-              "format": "float",
-              "minimum": 0.0,
-              "maximum": 1.0
-            }
-          },
-          "required": [
-            "source_type",
-            "value"
-          ],
-          "additionalProperties": false
+          "$ref": "#/definitions/ThresholdSourceValue"
         }
       ]
     },
@@ -297,6 +273,7 @@
           "type": "string",
           "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
         },
+
         "model_source": {
           "$ref": "#/definitions/ModelSourceBase"
         },
@@ -507,15 +484,6 @@
         "output_port_name": {
           "type": "string",
           "pattern": "^[a-zA-Z0-9_-]+$"
-        },
-        "resize_mode": {
-          "title": "ResizeMode",
-          "enum": [
-            "RM_UNDEFINED",
-            "RM_STRETCH",
-            "RM_CENTER_PAD_BLACK"
-          ],
-          "type": "string"
         }
       },
       "required": [
@@ -524,8 +492,7 @@
         "input_image",
         "input_bounding_boxes",
         "input_target_size",
-        "output_port_name",
-        "resize_mode"
+        "output_port_name"
       ],
       "additionalProperties": false
     },
@@ -575,9 +542,7 @@
           "$ref": "#/definitions/ModelSourceFromNetworkExperimentId"
         }
       ],
-      "required": [
-        "source_type"
-      ]
+      "required": ["source_type"]
     },
     "ModelSourceFromNetworkExperimentId": {
       "description": "Model source specified by a network experiment ID. Base type for the source of the model.",
@@ -592,10 +557,7 @@
           "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
         }
       },
-      "required": [
-        "source_type",
-        "network_experiment_id"
-      ],
+      "required": ["source_type", "network_experiment_id"],
       "additionalProperties": false
     },
     "ModelSourceFromNetworkId": {
@@ -611,10 +573,7 @@
           "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
         }
       },
-      "required": [
-        "source_type",
-        "network_id"
-      ],
+      "required": ["source_type", "network_id"],
       "additionalProperties": false
     },
     "Node": {
@@ -657,9 +616,7 @@
       "discriminator": {
         "propertyName": "node_type"
       },
-      "required": [
-        "node_type"
-      ]
+      "required": ["node_type"]
     },
     "VirtualCameraNode": {
       "description": "Node representing a virtual camera source. Base type for all nodes in the graph.",
@@ -679,12 +636,7 @@
           "pattern": "^[a-zA-Z0-9_-]+$"
         }
       },
-      "required": [
-        "node_type",
-        "name",
-        "path",
-        "output_port_name"
-      ],
+      "required": ["node_type", "name", "path", "output_port_name"],
       "additionalProperties": false
     }
   }
