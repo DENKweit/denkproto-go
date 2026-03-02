@@ -978,10 +978,10 @@ func (m *ImagePatchesNode) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if m.GetInputTargetSize() == nil {
+	if utf8.RuneCountInString(m.GetInputTargetSize()) < 1 {
 		err := ImagePatchesNodeValidationError{
 			field:  "InputTargetSize",
-			reason: "value is required",
+			reason: "value length must be at least 1 runes",
 		}
 		if !all {
 			return err
@@ -989,33 +989,15 @@ func (m *ImagePatchesNode) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if all {
-		switch v := interface{}(m.GetInputTargetSize()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, ImagePatchesNodeValidationError{
-					field:  "InputTargetSize",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, ImagePatchesNodeValidationError{
-					field:  "InputTargetSize",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
+	if !_ImagePatchesNode_InputTargetSize_Pattern.MatchString(m.GetInputTargetSize()) {
+		err := ImagePatchesNodeValidationError{
+			field:  "InputTargetSize",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_]+\\\\/[a-zA-Z0-9_]+([?]timeout=\\\\d+)?$\"",
 		}
-	} else if v, ok := interface{}(m.GetInputTargetSize()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return ImagePatchesNodeValidationError{
-				field:  "InputTargetSize",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
+		if !all {
+			return err
 		}
+		errors = append(errors, err)
 	}
 
 	if utf8.RuneCountInString(m.GetOutputPortName()) < 1 {
@@ -1156,6 +1138,8 @@ var _ interface {
 var _ImagePatchesNode_InputImage_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
 
 var _ImagePatchesNode_InputBoundingBoxes_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
+
+var _ImagePatchesNode_InputTargetSize_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
 
 var _ImagePatchesNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
 
@@ -2782,70 +2766,48 @@ func (m *BoundingBoxFilterNode) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if m.InputScoreThreshold != nil {
-
-		if all {
-			switch v := interface{}(m.GetInputScoreThreshold()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, BoundingBoxFilterNodeValidationError{
-						field:  "InputScoreThreshold",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, BoundingBoxFilterNodeValidationError{
-						field:  "InputScoreThreshold",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetInputScoreThreshold()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return BoundingBoxFilterNodeValidationError{
-					field:  "InputScoreThreshold",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
+	if utf8.RuneCountInString(m.GetInputScoreThreshold()) < 1 {
+		err := BoundingBoxFilterNodeValidationError{
+			field:  "InputScoreThreshold",
+			reason: "value length must be at least 1 runes",
 		}
-
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
-	if m.InputIouThreshold != nil {
-
-		if all {
-			switch v := interface{}(m.GetInputIouThreshold()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, BoundingBoxFilterNodeValidationError{
-						field:  "InputIouThreshold",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, BoundingBoxFilterNodeValidationError{
-						field:  "InputIouThreshold",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetInputIouThreshold()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return BoundingBoxFilterNodeValidationError{
-					field:  "InputIouThreshold",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
+	if !_BoundingBoxFilterNode_InputScoreThreshold_Pattern.MatchString(m.GetInputScoreThreshold()) {
+		err := BoundingBoxFilterNodeValidationError{
+			field:  "InputScoreThreshold",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_]+\\\\/[a-zA-Z0-9_]+([?]timeout=\\\\d+)?$\"",
 		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
+	if utf8.RuneCountInString(m.GetInputIouThreshold()) < 1 {
+		err := BoundingBoxFilterNodeValidationError{
+			field:  "InputIouThreshold",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if !_BoundingBoxFilterNode_InputIouThreshold_Pattern.MatchString(m.GetInputIouThreshold()) {
+		err := BoundingBoxFilterNodeValidationError{
+			field:  "InputIouThreshold",
+			reason: "value does not match regex pattern \"^[a-zA-Z0-9_]+\\\\/[a-zA-Z0-9_]+([?]timeout=\\\\d+)?$\"",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
 	}
 
 	if m.SessionInfo != nil {
@@ -2964,6 +2926,10 @@ var _ interface {
 var _BoundingBoxFilterNode_InputBoundingBoxes_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
 
 var _BoundingBoxFilterNode_OutputPortName_Pattern = regexp.MustCompile("^[a-zA-Z0-9_-]+$")
+
+var _BoundingBoxFilterNode_InputScoreThreshold_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
+
+var _BoundingBoxFilterNode_InputIouThreshold_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
 
 // Validate checks the field values on Node with the rules defined in the proto
 // definition for this message. If any rules are violated, the first error
@@ -4111,513 +4077,3 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ConstTensorNode_Float64ArrayValidationError{}
-
-// Validate checks the field values on ImagePatchesNode_TargetSizeSource with
-// the rules defined in the proto definition for this message. If any rules
-// are violated, the first error encountered is returned, or nil if there are
-// no violations.
-func (m *ImagePatchesNode_TargetSizeSource) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on ImagePatchesNode_TargetSizeSource
-// with the rules defined in the proto definition for this message. If any
-// rules are violated, the result is a list of violation errors wrapped in
-// ImagePatchesNode_TargetSizeSourceMultiError, or nil if none found.
-func (m *ImagePatchesNode_TargetSizeSource) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *ImagePatchesNode_TargetSizeSource) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	oneofSourcePresent := false
-	switch v := m.Source.(type) {
-	case *ImagePatchesNode_TargetSizeSource_Topic:
-		if v == nil {
-			err := ImagePatchesNode_TargetSizeSourceValidationError{
-				field:  "Source",
-				reason: "oneof value cannot be a typed-nil",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-		oneofSourcePresent = true
-
-		if utf8.RuneCountInString(m.GetTopic()) < 1 {
-			err := ImagePatchesNode_TargetSizeSourceValidationError{
-				field:  "Topic",
-				reason: "value length must be at least 1 runes",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-
-		if !_ImagePatchesNode_TargetSizeSource_Topic_Pattern.MatchString(m.GetTopic()) {
-			err := ImagePatchesNode_TargetSizeSourceValidationError{
-				field:  "Topic",
-				reason: "value does not match regex pattern \"^[a-zA-Z0-9_]+\\\\/[a-zA-Z0-9_]+([?]timeout=\\\\d+)?$\"",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-
-	case *ImagePatchesNode_TargetSizeSource_Size:
-		if v == nil {
-			err := ImagePatchesNode_TargetSizeSourceValidationError{
-				field:  "Source",
-				reason: "oneof value cannot be a typed-nil",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-		oneofSourcePresent = true
-
-		if all {
-			switch v := interface{}(m.GetSize()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, ImagePatchesNode_TargetSizeSourceValidationError{
-						field:  "Size",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, ImagePatchesNode_TargetSizeSourceValidationError{
-						field:  "Size",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetSize()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return ImagePatchesNode_TargetSizeSourceValidationError{
-					field:  "Size",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	default:
-		_ = v // ensures v is used
-	}
-	if !oneofSourcePresent {
-		err := ImagePatchesNode_TargetSizeSourceValidationError{
-			field:  "Source",
-			reason: "value is required",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	if len(errors) > 0 {
-		return ImagePatchesNode_TargetSizeSourceMultiError(errors)
-	}
-
-	return nil
-}
-
-// ImagePatchesNode_TargetSizeSourceMultiError is an error wrapping multiple
-// validation errors returned by
-// ImagePatchesNode_TargetSizeSource.ValidateAll() if the designated
-// constraints aren't met.
-type ImagePatchesNode_TargetSizeSourceMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m ImagePatchesNode_TargetSizeSourceMultiError) Error() string {
-	msgs := make([]string, 0, len(m))
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m ImagePatchesNode_TargetSizeSourceMultiError) AllErrors() []error { return m }
-
-// ImagePatchesNode_TargetSizeSourceValidationError is the validation error
-// returned by ImagePatchesNode_TargetSizeSource.Validate if the designated
-// constraints aren't met.
-type ImagePatchesNode_TargetSizeSourceValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e ImagePatchesNode_TargetSizeSourceValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e ImagePatchesNode_TargetSizeSourceValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e ImagePatchesNode_TargetSizeSourceValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e ImagePatchesNode_TargetSizeSourceValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e ImagePatchesNode_TargetSizeSourceValidationError) ErrorName() string {
-	return "ImagePatchesNode_TargetSizeSourceValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e ImagePatchesNode_TargetSizeSourceValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sImagePatchesNode_TargetSizeSource.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = ImagePatchesNode_TargetSizeSourceValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = ImagePatchesNode_TargetSizeSourceValidationError{}
-
-var _ImagePatchesNode_TargetSizeSource_Topic_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
-
-// Validate checks the field values on
-// ImagePatchesNode_TargetSizeSource_ImageSize with the rules defined in the
-// proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *ImagePatchesNode_TargetSizeSource_ImageSize) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on
-// ImagePatchesNode_TargetSizeSource_ImageSize with the rules defined in the
-// proto definition for this message. If any rules are violated, the result is
-// a list of violation errors wrapped in
-// ImagePatchesNode_TargetSizeSource_ImageSizeMultiError, or nil if none found.
-func (m *ImagePatchesNode_TargetSizeSource_ImageSize) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *ImagePatchesNode_TargetSizeSource_ImageSize) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	if m.GetHeight() < 1 {
-		err := ImagePatchesNode_TargetSizeSource_ImageSizeValidationError{
-			field:  "Height",
-			reason: "value must be greater than or equal to 1",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	if m.GetWidth() < 1 {
-		err := ImagePatchesNode_TargetSizeSource_ImageSizeValidationError{
-			field:  "Width",
-			reason: "value must be greater than or equal to 1",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	if len(errors) > 0 {
-		return ImagePatchesNode_TargetSizeSource_ImageSizeMultiError(errors)
-	}
-
-	return nil
-}
-
-// ImagePatchesNode_TargetSizeSource_ImageSizeMultiError is an error wrapping
-// multiple validation errors returned by
-// ImagePatchesNode_TargetSizeSource_ImageSize.ValidateAll() if the designated
-// constraints aren't met.
-type ImagePatchesNode_TargetSizeSource_ImageSizeMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m ImagePatchesNode_TargetSizeSource_ImageSizeMultiError) Error() string {
-	msgs := make([]string, 0, len(m))
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m ImagePatchesNode_TargetSizeSource_ImageSizeMultiError) AllErrors() []error { return m }
-
-// ImagePatchesNode_TargetSizeSource_ImageSizeValidationError is the validation
-// error returned by ImagePatchesNode_TargetSizeSource_ImageSize.Validate if
-// the designated constraints aren't met.
-type ImagePatchesNode_TargetSizeSource_ImageSizeValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e ImagePatchesNode_TargetSizeSource_ImageSizeValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e ImagePatchesNode_TargetSizeSource_ImageSizeValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e ImagePatchesNode_TargetSizeSource_ImageSizeValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e ImagePatchesNode_TargetSizeSource_ImageSizeValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e ImagePatchesNode_TargetSizeSource_ImageSizeValidationError) ErrorName() string {
-	return "ImagePatchesNode_TargetSizeSource_ImageSizeValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e ImagePatchesNode_TargetSizeSource_ImageSizeValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sImagePatchesNode_TargetSizeSource_ImageSize.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = ImagePatchesNode_TargetSizeSource_ImageSizeValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = ImagePatchesNode_TargetSizeSource_ImageSizeValidationError{}
-
-// Validate checks the field values on BoundingBoxFilterNode_ThresholdSource
-// with the rules defined in the proto definition for this message. If any
-// rules are violated, the first error encountered is returned, or nil if
-// there are no violations.
-func (m *BoundingBoxFilterNode_ThresholdSource) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on BoundingBoxFilterNode_ThresholdSource
-// with the rules defined in the proto definition for this message. If any
-// rules are violated, the result is a list of violation errors wrapped in
-// BoundingBoxFilterNode_ThresholdSourceMultiError, or nil if none found.
-func (m *BoundingBoxFilterNode_ThresholdSource) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *BoundingBoxFilterNode_ThresholdSource) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	oneofSourcePresent := false
-	switch v := m.Source.(type) {
-	case *BoundingBoxFilterNode_ThresholdSource_Topic:
-		if v == nil {
-			err := BoundingBoxFilterNode_ThresholdSourceValidationError{
-				field:  "Source",
-				reason: "oneof value cannot be a typed-nil",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-		oneofSourcePresent = true
-
-		if utf8.RuneCountInString(m.GetTopic()) < 1 {
-			err := BoundingBoxFilterNode_ThresholdSourceValidationError{
-				field:  "Topic",
-				reason: "value length must be at least 1 runes",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-
-		if !_BoundingBoxFilterNode_ThresholdSource_Topic_Pattern.MatchString(m.GetTopic()) {
-			err := BoundingBoxFilterNode_ThresholdSourceValidationError{
-				field:  "Topic",
-				reason: "value does not match regex pattern \"^[a-zA-Z0-9_]+\\\\/[a-zA-Z0-9_]+([?]timeout=\\\\d+)?$\"",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-
-	case *BoundingBoxFilterNode_ThresholdSource_Value:
-		if v == nil {
-			err := BoundingBoxFilterNode_ThresholdSourceValidationError{
-				field:  "Source",
-				reason: "oneof value cannot be a typed-nil",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-		oneofSourcePresent = true
-
-		if val := m.GetValue(); val < 0 || val > 1 {
-			err := BoundingBoxFilterNode_ThresholdSourceValidationError{
-				field:  "Value",
-				reason: "value must be inside range [0, 1]",
-			}
-			if !all {
-				return err
-			}
-			errors = append(errors, err)
-		}
-
-	default:
-		_ = v // ensures v is used
-	}
-	if !oneofSourcePresent {
-		err := BoundingBoxFilterNode_ThresholdSourceValidationError{
-			field:  "Source",
-			reason: "value is required",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
-	if len(errors) > 0 {
-		return BoundingBoxFilterNode_ThresholdSourceMultiError(errors)
-	}
-
-	return nil
-}
-
-// BoundingBoxFilterNode_ThresholdSourceMultiError is an error wrapping
-// multiple validation errors returned by
-// BoundingBoxFilterNode_ThresholdSource.ValidateAll() if the designated
-// constraints aren't met.
-type BoundingBoxFilterNode_ThresholdSourceMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m BoundingBoxFilterNode_ThresholdSourceMultiError) Error() string {
-	msgs := make([]string, 0, len(m))
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m BoundingBoxFilterNode_ThresholdSourceMultiError) AllErrors() []error { return m }
-
-// BoundingBoxFilterNode_ThresholdSourceValidationError is the validation error
-// returned by BoundingBoxFilterNode_ThresholdSource.Validate if the
-// designated constraints aren't met.
-type BoundingBoxFilterNode_ThresholdSourceValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e BoundingBoxFilterNode_ThresholdSourceValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e BoundingBoxFilterNode_ThresholdSourceValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e BoundingBoxFilterNode_ThresholdSourceValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e BoundingBoxFilterNode_ThresholdSourceValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e BoundingBoxFilterNode_ThresholdSourceValidationError) ErrorName() string {
-	return "BoundingBoxFilterNode_ThresholdSourceValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e BoundingBoxFilterNode_ThresholdSourceValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sBoundingBoxFilterNode_ThresholdSource.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = BoundingBoxFilterNode_ThresholdSourceValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = BoundingBoxFilterNode_ThresholdSourceValidationError{}
-
-var _BoundingBoxFilterNode_ThresholdSource_Topic_Pattern = regexp.MustCompile("^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$")
