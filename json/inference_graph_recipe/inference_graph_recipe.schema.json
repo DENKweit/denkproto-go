@@ -121,6 +121,30 @@
       ],
       "additionalProperties": false
     },
+    "ParameterDescription": {
+      "description": "Describes a mutable parameter for a ConstTensorNode.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "index": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "index"
+      ],
+      "additionalProperties": false
+    },
     "ConstTensorNode": {
       "description": "Node representing a constant tensor. Base type for all nodes in the graph.",
       "type": "object",
@@ -143,6 +167,12 @@
         "output_port_name": {
           "type": "string",
           "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "parameter_descriptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ParameterDescription"
+          }
         }
       },
       "required": [

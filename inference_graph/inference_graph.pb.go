@@ -1486,7 +1486,7 @@ type ConstTensorNode_ParameterDescription struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	Index         []uint64               `protobuf:"varint,3,rep,packed,name=index,proto3" json:"index,omitempty"`
+	Index         []uint32               `protobuf:"varint,3,rep,packed,name=index,proto3" json:"index,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1535,7 +1535,7 @@ func (x *ConstTensorNode_ParameterDescription) GetDescription() string {
 	return ""
 }
 
-func (x *ConstTensorNode_ParameterDescription) GetIndex() []uint64 {
+func (x *ConstTensorNode_ParameterDescription) GetIndex() []uint32 {
 	if x != nil {
 		return x.Index
 	}
@@ -1919,7 +1919,7 @@ const file_inference_graph_proto_rawDesc = "" +
 	"\x14ParameterDescription\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x14\n" +
-	"\x05index\x18\x03 \x03(\x04R\x05index\x1a!\n" +
+	"\x05index\x18\x03 \x03(\rR\x05index\x1a!\n" +
 	"\vUint64Array\x12\x12\n" +
 	"\x04data\x18\x01 \x03(\x04R\x04data\x1a \n" +
 	"\n" +

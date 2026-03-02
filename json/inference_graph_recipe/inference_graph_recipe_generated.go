@@ -587,11 +587,12 @@ func NewConstTensorInt64Data(data []int64) *ConstTensorInt64Data {
 // ConstTensorNode corresponds to the JSON schema definition 'ConstTensorNode'.
 // Node representing a constant tensor. Base type for all nodes in the graph.
 type ConstTensorNode struct {
-	Data           ConstTensorDataBase `json:"data"`
-	Name           string              `json:"name"`
-	NodeType       string              `json:"node_type"`
-	OutputPortName string              `json:"output_port_name"`
-	Shape          []int64             `json:"shape"`
+	Data                  ConstTensorDataBase     `json:"data"`
+	Name                  string                  `json:"name"`
+	NodeType              string                  `json:"node_type"`
+	OutputPortName        string                  `json:"output_port_name"`
+	ParameterDescriptions *[]ParameterDescription `json:"parameter_descriptions,omitempty"` // Optional
+	Shape                 []int64                 `json:"shape"`
 }
 
 // isNode implements the Node interface.
@@ -649,6 +650,12 @@ func NewConstTensorNode(name string, shape []int64, data ConstTensorDataBase, ou
 // SetData sets the Data field, which is an interface type (ConstTensorDataBase).
 func (c *ConstTensorNode) SetData(data ConstTensorDataBase) {
 	c.Data = data
+}
+
+// WithParameterDescriptions sets the optional parameter_descriptions field and returns the struct pointer for chaining.
+func (c *ConstTensorNode) WithParameterDescriptions(value []ParameterDescription) *ConstTensorNode {
+	c.ParameterDescriptions = &value
+	return c
 }
 
 // ConstTensorUint64Data corresponds to the JSON schema definition 'ConstTensorUint64Data'.
@@ -1170,6 +1177,25 @@ func NewOcrNode(name string, inputimage string, modelsource ModelSourceBase, out
 // SetModelSource sets the ModelSource field, which is an interface type (ModelSourceBase).
 func (o *OcrNode) SetModelSource(modelsource ModelSourceBase) {
 	o.ModelSource = modelsource
+}
+
+// ParameterDescription corresponds to the JSON schema definition 'ParameterDescription'.
+// Describes a mutable parameter for a ConstTensorNode.
+type ParameterDescription struct {
+	Description string  `json:"description"`
+	Index       []int64 `json:"index"`
+	Name        string  `json:"name"`
+}
+
+// NewParameterDescription creates a new instance of ParameterDescription with required fields.
+// Optional fields should be set using builder methods.
+func NewParameterDescription(name string, description string, index []int64) *ParameterDescription {
+	p := &ParameterDescription{
+		Name:        name,
+		Description: description,
+		Index:       index,
+	}
+	return p
 }
 
 // TargetSizeSourceImageSizeOption corresponds to the JSON schema definition 'inline-TargetSizeSourceImageSizeOption'.
