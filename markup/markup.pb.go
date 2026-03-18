@@ -983,22 +983,67 @@ func (*FocusArea_BoundingBox) isFocusArea_GeometryData() {}
 
 func (*FocusArea_Polygon) isFocusArea_GeometryData() {}
 
+type AnomalyDetectionAnnotation struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AnomalyDetectionAnnotation) Reset() {
+	*x = AnomalyDetectionAnnotation{}
+	mi := &file_markup_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AnomalyDetectionAnnotation) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AnomalyDetectionAnnotation) ProtoMessage() {}
+
+func (x *AnomalyDetectionAnnotation) ProtoReflect() protoreflect.Message {
+	mi := &file_markup_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AnomalyDetectionAnnotation.ProtoReflect.Descriptor instead.
+func (*AnomalyDetectionAnnotation) Descriptor() ([]byte, []int) {
+	return file_markup_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *AnomalyDetectionAnnotation) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
 type Markup struct {
-	state                      protoimpl.MessageState       `protogen:"open.v1"`
-	Height                     int32                        `protobuf:"varint,1,opt,name=height,proto3" json:"height,omitempty"`
-	Width                      int32                        `protobuf:"varint,2,opt,name=width,proto3" json:"width,omitempty"`
-	ClassificationAnnotations  []*ClassificationAnnotation  `protobuf:"bytes,3,rep,name=classification_annotations,json=classificationAnnotations,proto3" json:"classification_annotations,omitempty"`
-	SegmentationAnnotations    []*SegmentationAnnotation    `protobuf:"bytes,4,rep,name=segmentation_annotations,json=segmentationAnnotations,proto3" json:"segmentation_annotations,omitempty"`
-	ObjectDetectionAnnotations []*ObjectDetectionAnnotation `protobuf:"bytes,5,rep,name=object_detection_annotations,json=objectDetectionAnnotations,proto3" json:"object_detection_annotations,omitempty"`
-	OcrAnnotations             []*OcrAnnotation             `protobuf:"bytes,6,rep,name=ocr_annotations,json=ocrAnnotations,proto3" json:"ocr_annotations,omitempty"`
-	FocusAreas                 []*FocusArea                 `protobuf:"bytes,10,rep,name=focus_areas,json=focusAreas,proto3" json:"focus_areas,omitempty"`
-	unknownFields              protoimpl.UnknownFields
-	sizeCache                  protoimpl.SizeCache
+	state                       protoimpl.MessageState        `protogen:"open.v1"`
+	Height                      int32                         `protobuf:"varint,1,opt,name=height,proto3" json:"height,omitempty"`
+	Width                       int32                         `protobuf:"varint,2,opt,name=width,proto3" json:"width,omitempty"`
+	ClassificationAnnotations   []*ClassificationAnnotation   `protobuf:"bytes,3,rep,name=classification_annotations,json=classificationAnnotations,proto3" json:"classification_annotations,omitempty"`
+	SegmentationAnnotations     []*SegmentationAnnotation     `protobuf:"bytes,4,rep,name=segmentation_annotations,json=segmentationAnnotations,proto3" json:"segmentation_annotations,omitempty"`
+	ObjectDetectionAnnotations  []*ObjectDetectionAnnotation  `protobuf:"bytes,5,rep,name=object_detection_annotations,json=objectDetectionAnnotations,proto3" json:"object_detection_annotations,omitempty"`
+	OcrAnnotations              []*OcrAnnotation              `protobuf:"bytes,6,rep,name=ocr_annotations,json=ocrAnnotations,proto3" json:"ocr_annotations,omitempty"`
+	AnomalyDetectionAnnotations []*AnomalyDetectionAnnotation `protobuf:"bytes,7,rep,name=anomaly_detection_annotations,json=anomalyDetectionAnnotations,proto3" json:"anomaly_detection_annotations,omitempty"`
+	FocusAreas                  []*FocusArea                  `protobuf:"bytes,10,rep,name=focus_areas,json=focusAreas,proto3" json:"focus_areas,omitempty"`
+	unknownFields               protoimpl.UnknownFields
+	sizeCache                   protoimpl.SizeCache
 }
 
 func (x *Markup) Reset() {
 	*x = Markup{}
-	mi := &file_markup_proto_msgTypes[10]
+	mi := &file_markup_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1010,7 +1055,7 @@ func (x *Markup) String() string {
 func (*Markup) ProtoMessage() {}
 
 func (x *Markup) ProtoReflect() protoreflect.Message {
-	mi := &file_markup_proto_msgTypes[10]
+	mi := &file_markup_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1023,7 +1068,7 @@ func (x *Markup) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Markup.ProtoReflect.Descriptor instead.
 func (*Markup) Descriptor() ([]byte, []int) {
-	return file_markup_proto_rawDescGZIP(), []int{10}
+	return file_markup_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *Markup) GetHeight() int32 {
@@ -1064,6 +1109,13 @@ func (x *Markup) GetObjectDetectionAnnotations() []*ObjectDetectionAnnotation {
 func (x *Markup) GetOcrAnnotations() []*OcrAnnotation {
 	if x != nil {
 		return x.OcrAnnotations
+	}
+	return nil
+}
+
+func (x *Markup) GetAnomalyDetectionAnnotations() []*AnomalyDetectionAnnotation {
+	if x != nil {
+		return x.AnomalyDetectionAnnotations
 	}
 	return nil
 }
@@ -1152,14 +1204,17 @@ const file_markup_proto_rawDesc = "" +
 	"\x04type\x18\x02 \x01(\x0e2\x15.markup.FocusAreaTypeR\x04type\x12:\n" +
 	"\fbounding_box\x18\x03 \x01(\v2\x15.geometry.BoundingBoxH\x00R\vboundingBox\x12-\n" +
 	"\apolygon\x18\x04 \x01(\v2\x11.geometry.PolygonH\x00R\apolygonB\x0f\n" +
-	"\rgeometry_data\"\xcb\x03\n" +
+	"\rgeometry_data\",\n" +
+	"\x1aAnomalyDetectionAnnotation\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xb3\x04\n" +
 	"\x06Markup\x12\x16\n" +
 	"\x06height\x18\x01 \x01(\x05R\x06height\x12\x14\n" +
 	"\x05width\x18\x02 \x01(\x05R\x05width\x12_\n" +
 	"\x1aclassification_annotations\x18\x03 \x03(\v2 .markup.ClassificationAnnotationR\x19classificationAnnotations\x12Y\n" +
 	"\x18segmentation_annotations\x18\x04 \x03(\v2\x1e.markup.SegmentationAnnotationR\x17segmentationAnnotations\x12c\n" +
 	"\x1cobject_detection_annotations\x18\x05 \x03(\v2!.markup.ObjectDetectionAnnotationR\x1aobjectDetectionAnnotations\x12>\n" +
-	"\x0focr_annotations\x18\x06 \x03(\v2\x15.markup.OcrAnnotationR\x0eocrAnnotations\x122\n" +
+	"\x0focr_annotations\x18\x06 \x03(\v2\x15.markup.OcrAnnotationR\x0eocrAnnotations\x12f\n" +
+	"\x1danomaly_detection_annotations\x18\a \x03(\v2\".markup.AnomalyDetectionAnnotationR\x1banomalyDetectionAnnotations\x122\n" +
 	"\vfocus_areas\x18\n" +
 	" \x03(\v2\x11.markup.FocusAreaR\n" +
 	"focusAreas*\x83\x01\n" +
@@ -1182,53 +1237,55 @@ func file_markup_proto_rawDescGZIP() []byte {
 }
 
 var file_markup_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_markup_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_markup_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_markup_proto_goTypes = []any{
-	(FocusAreaType)(0),                // 0: markup.FocusAreaType
-	(*CircleAnnotation)(nil),          // 1: markup.CircleAnnotation
-	(*MagicwandAnnotation)(nil),       // 2: markup.MagicwandAnnotation
-	(*PenAnnotation)(nil),             // 3: markup.PenAnnotation
-	(*PixelAnnotation)(nil),           // 4: markup.PixelAnnotation
-	(*SausageAnnotation)(nil),         // 5: markup.SausageAnnotation
-	(*ClassificationAnnotation)(nil),  // 6: markup.ClassificationAnnotation
-	(*SegmentationAnnotation)(nil),    // 7: markup.SegmentationAnnotation
-	(*ObjectDetectionAnnotation)(nil), // 8: markup.ObjectDetectionAnnotation
-	(*OcrAnnotation)(nil),             // 9: markup.OcrAnnotation
-	(*FocusArea)(nil),                 // 10: markup.FocusArea
-	(*Markup)(nil),                    // 11: markup.Markup
-	(*geometry.Point2D)(nil),          // 12: geometry.Point2D
-	(*geometry.BinaryMaskData)(nil),   // 13: geometry.BinaryMaskData
-	(*geometry.Polygon)(nil),          // 14: geometry.Polygon
-	(*geometry.BoundingBox)(nil),      // 15: geometry.BoundingBox
+	(FocusAreaType)(0),                 // 0: markup.FocusAreaType
+	(*CircleAnnotation)(nil),           // 1: markup.CircleAnnotation
+	(*MagicwandAnnotation)(nil),        // 2: markup.MagicwandAnnotation
+	(*PenAnnotation)(nil),              // 3: markup.PenAnnotation
+	(*PixelAnnotation)(nil),            // 4: markup.PixelAnnotation
+	(*SausageAnnotation)(nil),          // 5: markup.SausageAnnotation
+	(*ClassificationAnnotation)(nil),   // 6: markup.ClassificationAnnotation
+	(*SegmentationAnnotation)(nil),     // 7: markup.SegmentationAnnotation
+	(*ObjectDetectionAnnotation)(nil),  // 8: markup.ObjectDetectionAnnotation
+	(*OcrAnnotation)(nil),              // 9: markup.OcrAnnotation
+	(*FocusArea)(nil),                  // 10: markup.FocusArea
+	(*AnomalyDetectionAnnotation)(nil), // 11: markup.AnomalyDetectionAnnotation
+	(*Markup)(nil),                     // 12: markup.Markup
+	(*geometry.Point2D)(nil),           // 13: geometry.Point2D
+	(*geometry.BinaryMaskData)(nil),    // 14: geometry.BinaryMaskData
+	(*geometry.Polygon)(nil),           // 15: geometry.Polygon
+	(*geometry.BoundingBox)(nil),       // 16: geometry.BoundingBox
 }
 var file_markup_proto_depIdxs = []int32{
-	12, // 0: markup.MagicwandAnnotation.points:type_name -> geometry.Point2D
-	12, // 1: markup.PenAnnotation.points:type_name -> geometry.Point2D
-	13, // 2: markup.PixelAnnotation.data:type_name -> geometry.BinaryMaskData
-	12, // 3: markup.SausageAnnotation.points:type_name -> geometry.Point2D
+	13, // 0: markup.MagicwandAnnotation.points:type_name -> geometry.Point2D
+	13, // 1: markup.PenAnnotation.points:type_name -> geometry.Point2D
+	14, // 2: markup.PixelAnnotation.data:type_name -> geometry.BinaryMaskData
+	13, // 3: markup.SausageAnnotation.points:type_name -> geometry.Point2D
 	1,  // 4: markup.SegmentationAnnotation.circle_annotation:type_name -> markup.CircleAnnotation
 	2,  // 5: markup.SegmentationAnnotation.magicwand_annotation:type_name -> markup.MagicwandAnnotation
 	3,  // 6: markup.SegmentationAnnotation.pen_annotation:type_name -> markup.PenAnnotation
 	4,  // 7: markup.SegmentationAnnotation.pixel_annotation:type_name -> markup.PixelAnnotation
-	14, // 8: markup.SegmentationAnnotation.polygon_annotation:type_name -> geometry.Polygon
-	15, // 9: markup.SegmentationAnnotation.rectangle_annotation:type_name -> geometry.BoundingBox
+	15, // 8: markup.SegmentationAnnotation.polygon_annotation:type_name -> geometry.Polygon
+	16, // 9: markup.SegmentationAnnotation.rectangle_annotation:type_name -> geometry.BoundingBox
 	5,  // 10: markup.SegmentationAnnotation.sausage_annotation:type_name -> markup.SausageAnnotation
-	15, // 11: markup.ObjectDetectionAnnotation.bounding_box:type_name -> geometry.BoundingBox
-	15, // 12: markup.OcrAnnotation.bounding_box:type_name -> geometry.BoundingBox
-	14, // 13: markup.OcrAnnotation.polygon:type_name -> geometry.Polygon
+	16, // 11: markup.ObjectDetectionAnnotation.bounding_box:type_name -> geometry.BoundingBox
+	16, // 12: markup.OcrAnnotation.bounding_box:type_name -> geometry.BoundingBox
+	15, // 13: markup.OcrAnnotation.polygon:type_name -> geometry.Polygon
 	0,  // 14: markup.FocusArea.type:type_name -> markup.FocusAreaType
-	15, // 15: markup.FocusArea.bounding_box:type_name -> geometry.BoundingBox
-	14, // 16: markup.FocusArea.polygon:type_name -> geometry.Polygon
+	16, // 15: markup.FocusArea.bounding_box:type_name -> geometry.BoundingBox
+	15, // 16: markup.FocusArea.polygon:type_name -> geometry.Polygon
 	6,  // 17: markup.Markup.classification_annotations:type_name -> markup.ClassificationAnnotation
 	7,  // 18: markup.Markup.segmentation_annotations:type_name -> markup.SegmentationAnnotation
 	8,  // 19: markup.Markup.object_detection_annotations:type_name -> markup.ObjectDetectionAnnotation
 	9,  // 20: markup.Markup.ocr_annotations:type_name -> markup.OcrAnnotation
-	10, // 21: markup.Markup.focus_areas:type_name -> markup.FocusArea
-	22, // [22:22] is the sub-list for method output_type
-	22, // [22:22] is the sub-list for method input_type
-	22, // [22:22] is the sub-list for extension type_name
-	22, // [22:22] is the sub-list for extension extendee
-	0,  // [0:22] is the sub-list for field type_name
+	11, // 21: markup.Markup.anomaly_detection_annotations:type_name -> markup.AnomalyDetectionAnnotation
+	10, // 22: markup.Markup.focus_areas:type_name -> markup.FocusArea
+	23, // [23:23] is the sub-list for method output_type
+	23, // [23:23] is the sub-list for method input_type
+	23, // [23:23] is the sub-list for extension type_name
+	23, // [23:23] is the sub-list for extension extendee
+	0,  // [0:23] is the sub-list for field type_name
 }
 
 func init() { file_markup_proto_init() }
@@ -1259,7 +1316,7 @@ func file_markup_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_markup_proto_rawDesc), len(file_markup_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   11,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

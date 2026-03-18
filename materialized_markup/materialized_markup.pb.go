@@ -461,6 +461,50 @@ func (*FocusArea_BoundingBox) isFocusArea_GeometryData() {}
 
 func (*FocusArea_Polygon) isFocusArea_GeometryData() {}
 
+type AnomalyDetectionAnnotation struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AnomalyDetectionAnnotation) Reset() {
+	*x = AnomalyDetectionAnnotation{}
+	mi := &file_materialized_markup_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AnomalyDetectionAnnotation) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AnomalyDetectionAnnotation) ProtoMessage() {}
+
+func (x *AnomalyDetectionAnnotation) ProtoReflect() protoreflect.Message {
+	mi := &file_materialized_markup_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AnomalyDetectionAnnotation.ProtoReflect.Descriptor instead.
+func (*AnomalyDetectionAnnotation) Descriptor() ([]byte, []int) {
+	return file_materialized_markup_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *AnomalyDetectionAnnotation) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
 type MaterializedMarkup struct {
 	state                           protoimpl.MessageState            `protogen:"open.v1"`
 	Height                          int32                             `protobuf:"varint,1,opt,name=height,proto3" json:"height,omitempty"`
@@ -469,6 +513,7 @@ type MaterializedMarkup struct {
 	InstanceSegmentationAnnotations []*InstanceSegmentationAnnotation `protobuf:"bytes,4,rep,name=instance_segmentation_annotations,json=instanceSegmentationAnnotations,proto3" json:"instance_segmentation_annotations,omitempty"`
 	ObjectDetectionAnnotations      []*ObjectDetectionAnnotation      `protobuf:"bytes,5,rep,name=object_detection_annotations,json=objectDetectionAnnotations,proto3" json:"object_detection_annotations,omitempty"`
 	OcrAnnotations                  []*OcrAnnotation                  `protobuf:"bytes,6,rep,name=ocr_annotations,json=ocrAnnotations,proto3" json:"ocr_annotations,omitempty"`
+	AnomalyDetectionAnnotations     []*AnomalyDetectionAnnotation     `protobuf:"bytes,7,rep,name=anomaly_detection_annotations,json=anomalyDetectionAnnotations,proto3" json:"anomaly_detection_annotations,omitempty"`
 	FocusAreas                      []*FocusArea                      `protobuf:"bytes,10,rep,name=focus_areas,json=focusAreas,proto3" json:"focus_areas,omitempty"`
 	unknownFields                   protoimpl.UnknownFields
 	sizeCache                       protoimpl.SizeCache
@@ -476,7 +521,7 @@ type MaterializedMarkup struct {
 
 func (x *MaterializedMarkup) Reset() {
 	*x = MaterializedMarkup{}
-	mi := &file_materialized_markup_proto_msgTypes[5]
+	mi := &file_materialized_markup_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -488,7 +533,7 @@ func (x *MaterializedMarkup) String() string {
 func (*MaterializedMarkup) ProtoMessage() {}
 
 func (x *MaterializedMarkup) ProtoReflect() protoreflect.Message {
-	mi := &file_materialized_markup_proto_msgTypes[5]
+	mi := &file_materialized_markup_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -501,7 +546,7 @@ func (x *MaterializedMarkup) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MaterializedMarkup.ProtoReflect.Descriptor instead.
 func (*MaterializedMarkup) Descriptor() ([]byte, []int) {
-	return file_materialized_markup_proto_rawDescGZIP(), []int{5}
+	return file_materialized_markup_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *MaterializedMarkup) GetHeight() int32 {
@@ -546,6 +591,13 @@ func (x *MaterializedMarkup) GetOcrAnnotations() []*OcrAnnotation {
 	return nil
 }
 
+func (x *MaterializedMarkup) GetAnomalyDetectionAnnotations() []*AnomalyDetectionAnnotation {
+	if x != nil {
+		return x.AnomalyDetectionAnnotations
+	}
+	return nil
+}
+
 func (x *MaterializedMarkup) GetFocusAreas() []*FocusArea {
 	if x != nil {
 		return x.FocusAreas
@@ -582,14 +634,17 @@ const file_materialized_markup_proto_rawDesc = "" +
 	"\x04type\x18\x02 \x01(\x0e2\".materialized_markup.FocusAreaTypeR\x04type\x12:\n" +
 	"\fbounding_box\x18\x03 \x01(\v2\x15.geometry.BoundingBoxH\x00R\vboundingBox\x12-\n" +
 	"\apolygon\x18\x04 \x01(\v2\x11.geometry.PolygonH\x00R\apolygonB\x0f\n" +
-	"\rgeometry_data\"\xb1\x04\n" +
+	"\rgeometry_data\",\n" +
+	"\x1aAnomalyDetectionAnnotation\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xa6\x05\n" +
 	"\x12MaterializedMarkup\x12\x16\n" +
 	"\x06height\x18\x01 \x01(\x05R\x06height\x12\x14\n" +
 	"\x05width\x18\x02 \x01(\x05R\x05width\x12l\n" +
 	"\x1aclassification_annotations\x18\x03 \x03(\v2-.materialized_markup.ClassificationAnnotationR\x19classificationAnnotations\x12\x7f\n" +
 	"!instance_segmentation_annotations\x18\x04 \x03(\v23.materialized_markup.InstanceSegmentationAnnotationR\x1finstanceSegmentationAnnotations\x12p\n" +
 	"\x1cobject_detection_annotations\x18\x05 \x03(\v2..materialized_markup.ObjectDetectionAnnotationR\x1aobjectDetectionAnnotations\x12K\n" +
-	"\x0focr_annotations\x18\x06 \x03(\v2\".materialized_markup.OcrAnnotationR\x0eocrAnnotations\x12?\n" +
+	"\x0focr_annotations\x18\x06 \x03(\v2\".materialized_markup.OcrAnnotationR\x0eocrAnnotations\x12s\n" +
+	"\x1danomaly_detection_annotations\x18\a \x03(\v2/.materialized_markup.AnomalyDetectionAnnotationR\x1banomalyDetectionAnnotations\x12?\n" +
 	"\vfocus_areas\x18\n" +
 	" \x03(\v2\x1e.materialized_markup.FocusAreaR\n" +
 	"focusAreas*\x83\x01\n" +
@@ -612,7 +667,7 @@ func file_materialized_markup_proto_rawDescGZIP() []byte {
 }
 
 var file_materialized_markup_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_materialized_markup_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_materialized_markup_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_materialized_markup_proto_goTypes = []any{
 	(FocusAreaType)(0),                        // 0: materialized_markup.FocusAreaType
 	(*ClassificationAnnotation)(nil),          // 1: materialized_markup.ClassificationAnnotation
@@ -620,29 +675,31 @@ var file_materialized_markup_proto_goTypes = []any{
 	(*ObjectDetectionAnnotation)(nil),         // 3: materialized_markup.ObjectDetectionAnnotation
 	(*OcrAnnotation)(nil),                     // 4: materialized_markup.OcrAnnotation
 	(*FocusArea)(nil),                         // 5: materialized_markup.FocusArea
-	(*MaterializedMarkup)(nil),                // 6: materialized_markup.MaterializedMarkup
-	(*geometry.InstanceSegmentationMask)(nil), // 7: geometry.InstanceSegmentationMask
-	(*geometry.BoundingBox)(nil),              // 8: geometry.BoundingBox
-	(*geometry.Polygon)(nil),                  // 9: geometry.Polygon
+	(*AnomalyDetectionAnnotation)(nil),        // 6: materialized_markup.AnomalyDetectionAnnotation
+	(*MaterializedMarkup)(nil),                // 7: materialized_markup.MaterializedMarkup
+	(*geometry.InstanceSegmentationMask)(nil), // 8: geometry.InstanceSegmentationMask
+	(*geometry.BoundingBox)(nil),              // 9: geometry.BoundingBox
+	(*geometry.Polygon)(nil),                  // 10: geometry.Polygon
 }
 var file_materialized_markup_proto_depIdxs = []int32{
-	7,  // 0: materialized_markup.InstanceSegmentationAnnotation.instance_segmentation_mask:type_name -> geometry.InstanceSegmentationMask
-	8,  // 1: materialized_markup.ObjectDetectionAnnotation.bounding_box:type_name -> geometry.BoundingBox
-	8,  // 2: materialized_markup.OcrAnnotation.bounding_box:type_name -> geometry.BoundingBox
-	9,  // 3: materialized_markup.OcrAnnotation.polygon:type_name -> geometry.Polygon
+	8,  // 0: materialized_markup.InstanceSegmentationAnnotation.instance_segmentation_mask:type_name -> geometry.InstanceSegmentationMask
+	9,  // 1: materialized_markup.ObjectDetectionAnnotation.bounding_box:type_name -> geometry.BoundingBox
+	9,  // 2: materialized_markup.OcrAnnotation.bounding_box:type_name -> geometry.BoundingBox
+	10, // 3: materialized_markup.OcrAnnotation.polygon:type_name -> geometry.Polygon
 	0,  // 4: materialized_markup.FocusArea.type:type_name -> materialized_markup.FocusAreaType
-	8,  // 5: materialized_markup.FocusArea.bounding_box:type_name -> geometry.BoundingBox
-	9,  // 6: materialized_markup.FocusArea.polygon:type_name -> geometry.Polygon
+	9,  // 5: materialized_markup.FocusArea.bounding_box:type_name -> geometry.BoundingBox
+	10, // 6: materialized_markup.FocusArea.polygon:type_name -> geometry.Polygon
 	1,  // 7: materialized_markup.MaterializedMarkup.classification_annotations:type_name -> materialized_markup.ClassificationAnnotation
 	2,  // 8: materialized_markup.MaterializedMarkup.instance_segmentation_annotations:type_name -> materialized_markup.InstanceSegmentationAnnotation
 	3,  // 9: materialized_markup.MaterializedMarkup.object_detection_annotations:type_name -> materialized_markup.ObjectDetectionAnnotation
 	4,  // 10: materialized_markup.MaterializedMarkup.ocr_annotations:type_name -> materialized_markup.OcrAnnotation
-	5,  // 11: materialized_markup.MaterializedMarkup.focus_areas:type_name -> materialized_markup.FocusArea
-	12, // [12:12] is the sub-list for method output_type
-	12, // [12:12] is the sub-list for method input_type
-	12, // [12:12] is the sub-list for extension type_name
-	12, // [12:12] is the sub-list for extension extendee
-	0,  // [0:12] is the sub-list for field type_name
+	6,  // 11: materialized_markup.MaterializedMarkup.anomaly_detection_annotations:type_name -> materialized_markup.AnomalyDetectionAnnotation
+	5,  // 12: materialized_markup.MaterializedMarkup.focus_areas:type_name -> materialized_markup.FocusArea
+	13, // [13:13] is the sub-list for method output_type
+	13, // [13:13] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_materialized_markup_proto_init() }
@@ -664,7 +721,7 @@ func file_materialized_markup_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_materialized_markup_proto_rawDesc), len(file_materialized_markup_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   6,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

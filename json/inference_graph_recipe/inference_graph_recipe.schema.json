@@ -40,12 +40,10 @@
           "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
         },
         "input_score_threshold": {
-          "type": "string",
-          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+          "$ref": "#/definitions/ThresholdSource"
         },
         "input_iou_threshold": {
-          "type": "string",
-          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+          "$ref": "#/definitions/ThresholdSource"
         },
         "output_port_name": {
           "type": "string",
@@ -56,9 +54,7 @@
         "node_type",
         "name",
         "input_bounding_boxes",
-        "output_port_name",
-        "input_score_threshold",
-        "input_iou_threshold"
+        "output_port_name"
       ],
       "additionalProperties": false
     },
@@ -125,30 +121,6 @@
       ],
       "additionalProperties": false
     },
-    "ParameterDescription": {
-      "description": "Describes a mutable parameter for a ConstTensorNode.",
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "index": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          }
-        }
-      },
-      "required": [
-        "name",
-        "description",
-        "index"
-      ],
-      "additionalProperties": false
-    },
     "ConstTensorNode": {
       "description": "Node representing a constant tensor. Base type for all nodes in the graph.",
       "type": "object",
@@ -171,12 +143,6 @@
         "output_port_name": {
           "type": "string",
           "pattern": "^[a-zA-Z0-9_-]+$"
-        },
-        "parameter_descriptions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ParameterDescription"
-          }
         }
       },
       "required": [
@@ -227,6 +193,95 @@
         "width"
       ],
       "additionalProperties": false
+    },
+    "TargetSizeSource": {
+      "description": "Source for the target size, either from a topic or a constant ImageSize.",
+      "type": "object",
+      "discriminator": {
+        "propertyName": "source_type"
+      },
+      "required": [
+        "source_type"
+      ],
+      "oneOf": [
+        {
+          "properties": {
+            "source_type": {
+              "const": "topic"
+            },
+            "topic": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+            }
+          },
+          "required": [
+            "source_type",
+            "topic"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "source_type": {
+              "const": "image_size"
+            },
+            "size": {
+              "$ref": "#/definitions/ImageSize"
+            }
+          },
+          "required": [
+            "source_type",
+            "size"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ThresholdSource": {
+      "description": "Source for a threshold value (0.0-1.0), either from a topic or a constant value.",
+      "type": "object",
+      "discriminator": {
+        "propertyName": "source_type"
+      },
+      "required": [
+        "source_type"
+      ],
+      "oneOf": [
+        {
+          "properties": {
+            "source_type": {
+              "const": "topic"
+            },
+            "topic": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+            }
+          },
+          "required": [
+            "source_type",
+            "topic"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "properties": {
+            "source_type": {
+              "const": "value"
+            },
+            "value": {
+              "type": "number",
+              "format": "float",
+              "minimum": 0.0,
+              "maximum": 1.0
+            }
+          },
+          "required": [
+            "source_type",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      ]
     },
     "ClassificationNode": {
       "description": "Node for image classification. Base type for all nodes in the graph.",
@@ -447,8 +502,7 @@
           "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
         },
         "input_target_size": {
-          "type": "string",
-          "pattern": "^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$"
+          "$ref": "#/definitions/TargetSizeSource"
         },
         "output_port_name": {
           "type": "string",

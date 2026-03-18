@@ -7,6 +7,7 @@
 package inference_graph
 
 import (
+	file_metadata "github.com/DENKweit/denkproto-go/file_metadata"
 	v2 "github.com/DENKweit/denkproto-go/modelfile/v2"
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -30,6 +31,7 @@ const (
 	ExecutionProvider_CUDA     ExecutionProvider = 1
 	ExecutionProvider_DIRECTML ExecutionProvider = 2
 	ExecutionProvider_TENSORRT ExecutionProvider = 3
+	ExecutionProvider_OPENVINO ExecutionProvider = 4
 )
 
 // Enum value maps for ExecutionProvider.
@@ -39,12 +41,14 @@ var (
 		1: "CUDA",
 		2: "DIRECTML",
 		3: "TENSORRT",
+		4: "OPENVINO",
 	}
 	ExecutionProvider_value = map[string]int32{
 		"CPU":      0,
 		"CUDA":     1,
 		"DIRECTML": 2,
 		"TENSORRT": 3,
+		"OPENVINO": 4,
 	}
 )
 
@@ -283,11 +287,10 @@ type ConstTensorNode struct {
 	//	*ConstTensorNode_Uint64Data
 	//	*ConstTensorNode_Int64Data
 	//	*ConstTensorNode_Float64Data
-	DataType              isConstTensorNode_DataType              `protobuf_oneof:"data_type"`
-	OutputPortName        string                                  `protobuf:"bytes,6,opt,name=output_port_name,json=outputPortName,proto3" json:"output_port_name,omitempty"`
-	ParameterDescriptions []*ConstTensorNode_ParameterDescription `protobuf:"bytes,7,rep,name=parameter_descriptions,json=parameterDescriptions,proto3" json:"parameter_descriptions,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
+	DataType       isConstTensorNode_DataType `protobuf_oneof:"data_type"`
+	OutputPortName string                     `protobuf:"bytes,6,opt,name=output_port_name,json=outputPortName,proto3" json:"output_port_name,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *ConstTensorNode) Reset() {
@@ -375,13 +378,6 @@ func (x *ConstTensorNode) GetOutputPortName() string {
 	return ""
 }
 
-func (x *ConstTensorNode) GetParameterDescriptions() []*ConstTensorNode_ParameterDescription {
-	if x != nil {
-		return x.ParameterDescriptions
-	}
-	return nil
-}
-
 type isConstTensorNode_DataType interface {
 	isConstTensorNode_DataType()
 }
@@ -411,6 +407,7 @@ type ImageResizeNode struct {
 	InputImage     string                 `protobuf:"bytes,3,opt,name=input_image,json=inputImage,proto3" json:"input_image,omitempty"`
 	OutputPortName string                 `protobuf:"bytes,4,opt,name=output_port_name,json=outputPortName,proto3" json:"output_port_name,omitempty"`
 	SessionInfo    *SessionInfo           `protobuf:"bytes,5,opt,name=session_info,json=sessionInfo,proto3,oneof" json:"session_info,omitempty"`
+	ResizeMode     ResizeMode             `protobuf:"varint,6,opt,name=resize_mode,json=resizeMode,proto3,enum=inference_graph.ResizeMode" json:"resize_mode,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -480,15 +477,22 @@ func (x *ImageResizeNode) GetSessionInfo() *SessionInfo {
 	return nil
 }
 
+func (x *ImageResizeNode) GetResizeMode() ResizeMode {
+	if x != nil {
+		return x.ResizeMode
+	}
+	return ResizeMode_RM_UNDEFINED
+}
+
 type ImagePatchesNode struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	Name               string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	InputImage         string                 `protobuf:"bytes,2,opt,name=input_image,json=inputImage,proto3" json:"input_image,omitempty"`
-	InputBoundingBoxes string                 `protobuf:"bytes,3,opt,name=input_bounding_boxes,json=inputBoundingBoxes,proto3" json:"input_bounding_boxes,omitempty"`
-	InputTargetSize    string                 `protobuf:"bytes,4,opt,name=input_target_size,json=inputTargetSize,proto3" json:"input_target_size,omitempty"`
-	OutputPortName     string                 `protobuf:"bytes,5,opt,name=output_port_name,json=outputPortName,proto3" json:"output_port_name,omitempty"`
-	SessionInfo        *SessionInfo           `protobuf:"bytes,7,opt,name=session_info,json=sessionInfo,proto3,oneof" json:"session_info,omitempty"`
-	ResizeMode         ResizeMode             `protobuf:"varint,8,opt,name=resize_mode,json=resizeMode,proto3,enum=inference_graph.ResizeMode" json:"resize_mode,omitempty"`
+	state              protoimpl.MessageState             `protogen:"open.v1"`
+	Name               string                             `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	InputImage         string                             `protobuf:"bytes,2,opt,name=input_image,json=inputImage,proto3" json:"input_image,omitempty"`
+	InputBoundingBoxes string                             `protobuf:"bytes,3,opt,name=input_bounding_boxes,json=inputBoundingBoxes,proto3" json:"input_bounding_boxes,omitempty"`
+	InputTargetSize    *ImagePatchesNode_TargetSizeSource `protobuf:"bytes,4,opt,name=input_target_size,json=inputTargetSize,proto3" json:"input_target_size,omitempty"`
+	OutputPortName     string                             `protobuf:"bytes,5,opt,name=output_port_name,json=outputPortName,proto3" json:"output_port_name,omitempty"`
+	SessionInfo        *SessionInfo                       `protobuf:"bytes,7,opt,name=session_info,json=sessionInfo,proto3,oneof" json:"session_info,omitempty"`
+	ResizeMode         ResizeMode                         `protobuf:"varint,8,opt,name=resize_mode,json=resizeMode,proto3,enum=inference_graph.ResizeMode" json:"resize_mode,omitempty"`
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -544,11 +548,11 @@ func (x *ImagePatchesNode) GetInputBoundingBoxes() string {
 	return ""
 }
 
-func (x *ImagePatchesNode) GetInputTargetSize() string {
+func (x *ImagePatchesNode) GetInputTargetSize() *ImagePatchesNode_TargetSizeSource {
 	if x != nil {
 		return x.InputTargetSize
 	}
-	return ""
+	return nil
 }
 
 func (x *ImagePatchesNode) GetOutputPortName() string {
@@ -1113,13 +1117,13 @@ func (x *ImageAnomalyDetectionNode) GetSessionInfo() *SessionInfo {
 }
 
 type BoundingBoxFilterNode struct {
-	state               protoimpl.MessageState `protogen:"open.v1"`
-	Name                string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	InputBoundingBoxes  string                 `protobuf:"bytes,2,opt,name=input_bounding_boxes,json=inputBoundingBoxes,proto3" json:"input_bounding_boxes,omitempty"`
-	OutputPortName      string                 `protobuf:"bytes,3,opt,name=output_port_name,json=outputPortName,proto3" json:"output_port_name,omitempty"`
-	InputScoreThreshold string                 `protobuf:"bytes,4,opt,name=input_score_threshold,json=inputScoreThreshold,proto3" json:"input_score_threshold,omitempty"`
-	InputIouThreshold   string                 `protobuf:"bytes,5,opt,name=input_iou_threshold,json=inputIouThreshold,proto3" json:"input_iou_threshold,omitempty"`
-	SessionInfo         *SessionInfo           `protobuf:"bytes,6,opt,name=session_info,json=sessionInfo,proto3,oneof" json:"session_info,omitempty"`
+	state               protoimpl.MessageState                 `protogen:"open.v1"`
+	Name                string                                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	InputBoundingBoxes  string                                 `protobuf:"bytes,2,opt,name=input_bounding_boxes,json=inputBoundingBoxes,proto3" json:"input_bounding_boxes,omitempty"`
+	OutputPortName      string                                 `protobuf:"bytes,3,opt,name=output_port_name,json=outputPortName,proto3" json:"output_port_name,omitempty"`
+	InputScoreThreshold *BoundingBoxFilterNode_ThresholdSource `protobuf:"bytes,4,opt,name=input_score_threshold,json=inputScoreThreshold,proto3,oneof" json:"input_score_threshold,omitempty"`
+	InputIouThreshold   *BoundingBoxFilterNode_ThresholdSource `protobuf:"bytes,5,opt,name=input_iou_threshold,json=inputIouThreshold,proto3,oneof" json:"input_iou_threshold,omitempty"`
+	SessionInfo         *SessionInfo                           `protobuf:"bytes,6,opt,name=session_info,json=sessionInfo,proto3,oneof" json:"session_info,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -1175,18 +1179,18 @@ func (x *BoundingBoxFilterNode) GetOutputPortName() string {
 	return ""
 }
 
-func (x *BoundingBoxFilterNode) GetInputScoreThreshold() string {
+func (x *BoundingBoxFilterNode) GetInputScoreThreshold() *BoundingBoxFilterNode_ThresholdSource {
 	if x != nil {
 		return x.InputScoreThreshold
 	}
-	return ""
+	return nil
 }
 
-func (x *BoundingBoxFilterNode) GetInputIouThreshold() string {
+func (x *BoundingBoxFilterNode) GetInputIouThreshold() *BoundingBoxFilterNode_ThresholdSource {
 	if x != nil {
 		return x.InputIouThreshold
 	}
-	return ""
+	return nil
 }
 
 func (x *BoundingBoxFilterNode) GetSessionInfo() *SessionInfo {
@@ -1423,10 +1427,10 @@ func (*Node_ImageInstanceSegmentationNode) isNode_NodeType() {}
 func (*Node_ImageAnomalyDetectionNode) isNode_NodeType() {}
 
 type Graph struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Nodes         []*Node                `protobuf:"bytes,1,rep,name=nodes,proto3" json:"nodes,omitempty"`
-	CreatedAt     int64                  `protobuf:"varint,2,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	LicenseId     string                 `protobuf:"bytes,3,opt,name=license_id,json=licenseId,proto3" json:"license_id,omitempty"`
+	state         protoimpl.MessageState      `protogen:"open.v1"`
+	Nodes         []*Node                     `protobuf:"bytes,1,rep,name=nodes,proto3" json:"nodes,omitempty"`
+	LicenseId     string                      `protobuf:"bytes,2,opt,name=license_id,json=licenseId,proto3" json:"license_id,omitempty"`
+	FileMetadata  *file_metadata.FileMetadata `protobuf:"bytes,1024,opt,name=file_metadata,json=fileMetadata,proto3" json:"file_metadata,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1468,13 +1472,6 @@ func (x *Graph) GetNodes() []*Node {
 	return nil
 }
 
-func (x *Graph) GetCreatedAt() int64 {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return 0
-}
-
 func (x *Graph) GetLicenseId() string {
 	if x != nil {
 		return x.LicenseId
@@ -1482,62 +1479,9 @@ func (x *Graph) GetLicenseId() string {
 	return ""
 }
 
-type ConstTensorNode_ParameterDescription struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	Index         []uint32               `protobuf:"varint,3,rep,packed,name=index,proto3" json:"index,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ConstTensorNode_ParameterDescription) Reset() {
-	*x = ConstTensorNode_ParameterDescription{}
-	mi := &file_inference_graph_proto_msgTypes[15]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ConstTensorNode_ParameterDescription) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ConstTensorNode_ParameterDescription) ProtoMessage() {}
-
-func (x *ConstTensorNode_ParameterDescription) ProtoReflect() protoreflect.Message {
-	mi := &file_inference_graph_proto_msgTypes[15]
+func (x *Graph) GetFileMetadata() *file_metadata.FileMetadata {
 	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ConstTensorNode_ParameterDescription.ProtoReflect.Descriptor instead.
-func (*ConstTensorNode_ParameterDescription) Descriptor() ([]byte, []int) {
-	return file_inference_graph_proto_rawDescGZIP(), []int{2, 0}
-}
-
-func (x *ConstTensorNode_ParameterDescription) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *ConstTensorNode_ParameterDescription) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-func (x *ConstTensorNode_ParameterDescription) GetIndex() []uint32 {
-	if x != nil {
-		return x.Index
+		return x.FileMetadata
 	}
 	return nil
 }
@@ -1551,7 +1495,7 @@ type ConstTensorNode_Uint64Array struct {
 
 func (x *ConstTensorNode_Uint64Array) Reset() {
 	*x = ConstTensorNode_Uint64Array{}
-	mi := &file_inference_graph_proto_msgTypes[16]
+	mi := &file_inference_graph_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1563,7 +1507,7 @@ func (x *ConstTensorNode_Uint64Array) String() string {
 func (*ConstTensorNode_Uint64Array) ProtoMessage() {}
 
 func (x *ConstTensorNode_Uint64Array) ProtoReflect() protoreflect.Message {
-	mi := &file_inference_graph_proto_msgTypes[16]
+	mi := &file_inference_graph_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1576,7 +1520,7 @@ func (x *ConstTensorNode_Uint64Array) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConstTensorNode_Uint64Array.ProtoReflect.Descriptor instead.
 func (*ConstTensorNode_Uint64Array) Descriptor() ([]byte, []int) {
-	return file_inference_graph_proto_rawDescGZIP(), []int{2, 1}
+	return file_inference_graph_proto_rawDescGZIP(), []int{2, 0}
 }
 
 func (x *ConstTensorNode_Uint64Array) GetData() []uint64 {
@@ -1595,7 +1539,7 @@ type ConstTensorNode_Int64Array struct {
 
 func (x *ConstTensorNode_Int64Array) Reset() {
 	*x = ConstTensorNode_Int64Array{}
-	mi := &file_inference_graph_proto_msgTypes[17]
+	mi := &file_inference_graph_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1607,7 +1551,7 @@ func (x *ConstTensorNode_Int64Array) String() string {
 func (*ConstTensorNode_Int64Array) ProtoMessage() {}
 
 func (x *ConstTensorNode_Int64Array) ProtoReflect() protoreflect.Message {
-	mi := &file_inference_graph_proto_msgTypes[17]
+	mi := &file_inference_graph_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1620,7 +1564,7 @@ func (x *ConstTensorNode_Int64Array) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConstTensorNode_Int64Array.ProtoReflect.Descriptor instead.
 func (*ConstTensorNode_Int64Array) Descriptor() ([]byte, []int) {
-	return file_inference_graph_proto_rawDescGZIP(), []int{2, 2}
+	return file_inference_graph_proto_rawDescGZIP(), []int{2, 1}
 }
 
 func (x *ConstTensorNode_Int64Array) GetData() []int64 {
@@ -1639,7 +1583,7 @@ type ConstTensorNode_Float64Array struct {
 
 func (x *ConstTensorNode_Float64Array) Reset() {
 	*x = ConstTensorNode_Float64Array{}
-	mi := &file_inference_graph_proto_msgTypes[18]
+	mi := &file_inference_graph_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1651,7 +1595,7 @@ func (x *ConstTensorNode_Float64Array) String() string {
 func (*ConstTensorNode_Float64Array) ProtoMessage() {}
 
 func (x *ConstTensorNode_Float64Array) ProtoReflect() protoreflect.Message {
-	mi := &file_inference_graph_proto_msgTypes[18]
+	mi := &file_inference_graph_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1664,7 +1608,7 @@ func (x *ConstTensorNode_Float64Array) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConstTensorNode_Float64Array.ProtoReflect.Descriptor instead.
 func (*ConstTensorNode_Float64Array) Descriptor() ([]byte, []int) {
-	return file_inference_graph_proto_rawDescGZIP(), []int{2, 3}
+	return file_inference_graph_proto_rawDescGZIP(), []int{2, 2}
 }
 
 func (x *ConstTensorNode_Float64Array) GetData() []float64 {
@@ -1674,11 +1618,229 @@ func (x *ConstTensorNode_Float64Array) GetData() []float64 {
 	return nil
 }
 
+type ImagePatchesNode_TargetSizeSource struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Source:
+	//
+	//	*ImagePatchesNode_TargetSizeSource_Topic
+	//	*ImagePatchesNode_TargetSizeSource_Size
+	Source        isImagePatchesNode_TargetSizeSource_Source `protobuf_oneof:"source"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ImagePatchesNode_TargetSizeSource) Reset() {
+	*x = ImagePatchesNode_TargetSizeSource{}
+	mi := &file_inference_graph_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ImagePatchesNode_TargetSizeSource) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ImagePatchesNode_TargetSizeSource) ProtoMessage() {}
+
+func (x *ImagePatchesNode_TargetSizeSource) ProtoReflect() protoreflect.Message {
+	mi := &file_inference_graph_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ImagePatchesNode_TargetSizeSource.ProtoReflect.Descriptor instead.
+func (*ImagePatchesNode_TargetSizeSource) Descriptor() ([]byte, []int) {
+	return file_inference_graph_proto_rawDescGZIP(), []int{4, 0}
+}
+
+func (x *ImagePatchesNode_TargetSizeSource) GetSource() isImagePatchesNode_TargetSizeSource_Source {
+	if x != nil {
+		return x.Source
+	}
+	return nil
+}
+
+func (x *ImagePatchesNode_TargetSizeSource) GetTopic() string {
+	if x != nil {
+		if x, ok := x.Source.(*ImagePatchesNode_TargetSizeSource_Topic); ok {
+			return x.Topic
+		}
+	}
+	return ""
+}
+
+func (x *ImagePatchesNode_TargetSizeSource) GetSize() *ImagePatchesNode_TargetSizeSource_ImageSize {
+	if x != nil {
+		if x, ok := x.Source.(*ImagePatchesNode_TargetSizeSource_Size); ok {
+			return x.Size
+		}
+	}
+	return nil
+}
+
+type isImagePatchesNode_TargetSizeSource_Source interface {
+	isImagePatchesNode_TargetSizeSource_Source()
+}
+
+type ImagePatchesNode_TargetSizeSource_Topic struct {
+	Topic string `protobuf:"bytes,1,opt,name=topic,proto3,oneof"`
+}
+
+type ImagePatchesNode_TargetSizeSource_Size struct {
+	Size *ImagePatchesNode_TargetSizeSource_ImageSize `protobuf:"bytes,2,opt,name=size,proto3,oneof"`
+}
+
+func (*ImagePatchesNode_TargetSizeSource_Topic) isImagePatchesNode_TargetSizeSource_Source() {}
+
+func (*ImagePatchesNode_TargetSizeSource_Size) isImagePatchesNode_TargetSizeSource_Source() {}
+
+type ImagePatchesNode_TargetSizeSource_ImageSize struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Height        int64                  `protobuf:"varint,1,opt,name=height,proto3" json:"height,omitempty"`
+	Width         int64                  `protobuf:"varint,2,opt,name=width,proto3" json:"width,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ImagePatchesNode_TargetSizeSource_ImageSize) Reset() {
+	*x = ImagePatchesNode_TargetSizeSource_ImageSize{}
+	mi := &file_inference_graph_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ImagePatchesNode_TargetSizeSource_ImageSize) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ImagePatchesNode_TargetSizeSource_ImageSize) ProtoMessage() {}
+
+func (x *ImagePatchesNode_TargetSizeSource_ImageSize) ProtoReflect() protoreflect.Message {
+	mi := &file_inference_graph_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ImagePatchesNode_TargetSizeSource_ImageSize.ProtoReflect.Descriptor instead.
+func (*ImagePatchesNode_TargetSizeSource_ImageSize) Descriptor() ([]byte, []int) {
+	return file_inference_graph_proto_rawDescGZIP(), []int{4, 0, 0}
+}
+
+func (x *ImagePatchesNode_TargetSizeSource_ImageSize) GetHeight() int64 {
+	if x != nil {
+		return x.Height
+	}
+	return 0
+}
+
+func (x *ImagePatchesNode_TargetSizeSource_ImageSize) GetWidth() int64 {
+	if x != nil {
+		return x.Width
+	}
+	return 0
+}
+
+type BoundingBoxFilterNode_ThresholdSource struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Source:
+	//
+	//	*BoundingBoxFilterNode_ThresholdSource_Topic
+	//	*BoundingBoxFilterNode_ThresholdSource_Value
+	Source        isBoundingBoxFilterNode_ThresholdSource_Source `protobuf_oneof:"source"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BoundingBoxFilterNode_ThresholdSource) Reset() {
+	*x = BoundingBoxFilterNode_ThresholdSource{}
+	mi := &file_inference_graph_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BoundingBoxFilterNode_ThresholdSource) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BoundingBoxFilterNode_ThresholdSource) ProtoMessage() {}
+
+func (x *BoundingBoxFilterNode_ThresholdSource) ProtoReflect() protoreflect.Message {
+	mi := &file_inference_graph_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BoundingBoxFilterNode_ThresholdSource.ProtoReflect.Descriptor instead.
+func (*BoundingBoxFilterNode_ThresholdSource) Descriptor() ([]byte, []int) {
+	return file_inference_graph_proto_rawDescGZIP(), []int{12, 0}
+}
+
+func (x *BoundingBoxFilterNode_ThresholdSource) GetSource() isBoundingBoxFilterNode_ThresholdSource_Source {
+	if x != nil {
+		return x.Source
+	}
+	return nil
+}
+
+func (x *BoundingBoxFilterNode_ThresholdSource) GetTopic() string {
+	if x != nil {
+		if x, ok := x.Source.(*BoundingBoxFilterNode_ThresholdSource_Topic); ok {
+			return x.Topic
+		}
+	}
+	return ""
+}
+
+func (x *BoundingBoxFilterNode_ThresholdSource) GetValue() float32 {
+	if x != nil {
+		if x, ok := x.Source.(*BoundingBoxFilterNode_ThresholdSource_Value); ok {
+			return x.Value
+		}
+	}
+	return 0
+}
+
+type isBoundingBoxFilterNode_ThresholdSource_Source interface {
+	isBoundingBoxFilterNode_ThresholdSource_Source()
+}
+
+type BoundingBoxFilterNode_ThresholdSource_Topic struct {
+	Topic string `protobuf:"bytes,1,opt,name=topic,proto3,oneof"`
+}
+
+type BoundingBoxFilterNode_ThresholdSource_Value struct {
+	Value float32 `protobuf:"fixed32,2,opt,name=value,proto3,oneof"`
+}
+
+func (*BoundingBoxFilterNode_ThresholdSource_Topic) isBoundingBoxFilterNode_ThresholdSource_Source() {
+}
+
+func (*BoundingBoxFilterNode_ThresholdSource_Value) isBoundingBoxFilterNode_ThresholdSource_Source() {
+}
+
 var File_inference_graph_proto protoreflect.FileDescriptor
 
 const file_inference_graph_proto_rawDesc = "" +
 	"\n" +
-	"\x15inference_graph.proto\x12\x0finference_graph\x1a\x12modelfile-v2.proto\x1a\x0evalidate.proto\"\xd8\x01\n" +
+	"\x15inference_graph.proto\x12\x0finference_graph\x1a\x12modelfile-v2.proto\x1a\x0evalidate.proto\x1a\x13file_metadata.proto\"\xd8\x01\n" +
 	"\vModelSource\x128\n" +
 	"\n" +
 	"from_proto\x18\x01 \x01(\v2\x17.modelfile.v2.ModelFileH\x00R\tfromProto\x122\n" +
@@ -1687,7 +1849,7 @@ const file_inference_graph_proto_rawDesc = "" +
 	"\vsource_type\x12\x03\xf8B\x01\"\x90\x01\n" +
 	"\vSessionInfo\x12[\n" +
 	"\x12execution_provider\x18\x01 \x01(\x0e2\".inference_graph.ExecutionProviderB\b\xfaB\x05\x82\x01\x02\x10\x01R\x11executionProvider\x12$\n" +
-	"\tdevice_id\x18\x02 \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\bdeviceId\"\xc9\x05\n" +
+	"\tdevice_id\x18\x02 \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\bdeviceId\"\xf7\x03\n" +
 	"\x0fConstTensorNode\x12\x1b\n" +
 	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x12\x14\n" +
 	"\x05shape\x18\x02 \x03(\rR\x05shape\x12O\n" +
@@ -1696,12 +1858,7 @@ const file_inference_graph_proto_rawDesc = "" +
 	"\n" +
 	"int64_data\x18\x04 \x01(\v2+.inference_graph.ConstTensorNode.Int64ArrayH\x00R\tint64Data\x12R\n" +
 	"\ffloat64_data\x18\x05 \x01(\v2-.inference_graph.ConstTensorNode.Float64ArrayH\x00R\vfloat64Data\x12C\n" +
-	"\x10output_port_name\x18\x06 \x01(\tB\x19\xfaB\x16r\x14\x10\x012\x10^[a-zA-Z0-9_-]+$R\x0eoutputPortName\x12l\n" +
-	"\x16parameter_descriptions\x18\a \x03(\v25.inference_graph.ConstTensorNode.ParameterDescriptionR\x15parameterDescriptions\x1ab\n" +
-	"\x14ParameterDescription\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x14\n" +
-	"\x05index\x18\x03 \x03(\rR\x05index\x1a!\n" +
+	"\x10output_port_name\x18\x06 \x01(\tB\x19\xfaB\x16r\x14\x10\x012\x10^[a-zA-Z0-9_-]+$R\x0eoutputPortName\x1a!\n" +
 	"\vUint64Array\x12\x12\n" +
 	"\x04data\x18\x01 \x03(\x04R\x04data\x1a \n" +
 	"\n" +
@@ -1709,7 +1866,7 @@ const file_inference_graph_proto_rawDesc = "" +
 	"\x04data\x18\x01 \x03(\x12R\x04data\x1a\"\n" +
 	"\fFloat64Array\x12\x12\n" +
 	"\x04data\x18\x01 \x03(\x01R\x04dataB\x10\n" +
-	"\tdata_type\x12\x03\xf8B\x01\"\xfe\x02\n" +
+	"\tdata_type\x12\x03\xf8B\x01\"\xbc\x03\n" +
 	"\x0fImageResizeNode\x12\x1b\n" +
 	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x12W\n" +
 	"\n" +
@@ -1717,18 +1874,27 @@ const file_inference_graph_proto_rawDesc = "" +
 	"\vinput_image\x18\x03 \x01(\tB8\xfaB5r3\x10\x012/^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$R\n" +
 	"inputImage\x12C\n" +
 	"\x10output_port_name\x18\x04 \x01(\tB\x19\xfaB\x16r\x14\x10\x012\x10^[a-zA-Z0-9_-]+$R\x0eoutputPortName\x12D\n" +
-	"\fsession_info\x18\x05 \x01(\v2\x1c.inference_graph.SessionInfoH\x00R\vsessionInfo\x88\x01\x01B\x0f\n" +
-	"\r_session_info\"\xb6\x04\n" +
+	"\fsession_info\x18\x05 \x01(\v2\x1c.inference_graph.SessionInfoH\x00R\vsessionInfo\x88\x01\x01\x12<\n" +
+	"\vresize_mode\x18\x06 \x01(\x0e2\x1b.inference_graph.ResizeModeR\n" +
+	"resizeModeB\x0f\n" +
+	"\r_session_info\"\xd1\x06\n" +
 	"\x10ImagePatchesNode\x12\x1b\n" +
 	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x12Y\n" +
 	"\vinput_image\x18\x02 \x01(\tB8\xfaB5r3\x10\x012/^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$R\n" +
 	"inputImage\x12j\n" +
-	"\x14input_bounding_boxes\x18\x03 \x01(\tB8\xfaB5r3\x10\x012/^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$R\x12inputBoundingBoxes\x12d\n" +
-	"\x11input_target_size\x18\x04 \x01(\tB8\xfaB5r3\x10\x012/^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$R\x0finputTargetSize\x12C\n" +
+	"\x14input_bounding_boxes\x18\x03 \x01(\tB8\xfaB5r3\x10\x012/^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$R\x12inputBoundingBoxes\x12h\n" +
+	"\x11input_target_size\x18\x04 \x01(\v22.inference_graph.ImagePatchesNode.TargetSizeSourceB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x0finputTargetSize\x12C\n" +
 	"\x10output_port_name\x18\x05 \x01(\tB\x19\xfaB\x16r\x14\x10\x012\x10^[a-zA-Z0-9_-]+$R\x0eoutputPortName\x12D\n" +
 	"\fsession_info\x18\a \x01(\v2\x1c.inference_graph.SessionInfoH\x00R\vsessionInfo\x88\x01\x01\x12<\n" +
 	"\vresize_mode\x18\b \x01(\x0e2\x1b.inference_graph.ResizeModeR\n" +
-	"resizeModeB\x0f\n" +
+	"resizeMode\x1a\x94\x02\n" +
+	"\x10TargetSizeSource\x12P\n" +
+	"\x05topic\x18\x01 \x01(\tB8\xfaB5r3\x10\x012/^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$H\x00R\x05topic\x12R\n" +
+	"\x04size\x18\x02 \x01(\v2<.inference_graph.ImagePatchesNode.TargetSizeSource.ImageSizeH\x00R\x04size\x1aK\n" +
+	"\tImageSize\x12\x1f\n" +
+	"\x06height\x18\x01 \x01(\x03B\a\xfaB\x04\"\x02(\x01R\x06height\x12\x1d\n" +
+	"\x05width\x18\x02 \x01(\x03B\a\xfaB\x04\"\x02(\x01R\x05widthB\r\n" +
+	"\x06source\x12\x03\xf8B\x01B\x0f\n" +
 	"\r_session_info\"\x92\x01\n" +
 	"\x11VirtualCameraNode\x12\x1b\n" +
 	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x12\x1b\n" +
@@ -1784,14 +1950,22 @@ const file_inference_graph_proto_rawDesc = "" +
 	"\x15output_anomaly_scores\x18\x04 \x01(\tB\x19\xfaB\x16r\x14\x10\x012\x10^[a-zA-Z0-9_-]+$R\x13outputAnomalyScores\x12L\n" +
 	"\x14output_segmentations\x18\x05 \x01(\tB\x19\xfaB\x16r\x14\x10\x012\x10^[a-zA-Z0-9_-]+$R\x13outputSegmentations\x12D\n" +
 	"\fsession_info\x18\x06 \x01(\v2\x1c.inference_graph.SessionInfoH\x00R\vsessionInfo\x88\x01\x01B\x0f\n" +
-	"\r_session_info\"\x94\x04\n" +
+	"\r_session_info\"\xea\x05\n" +
 	"\x15BoundingBoxFilterNode\x12\x1b\n" +
 	"\x04name\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x04name\x12j\n" +
 	"\x14input_bounding_boxes\x18\x02 \x01(\tB8\xfaB5r3\x10\x012/^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$R\x12inputBoundingBoxes\x12C\n" +
-	"\x10output_port_name\x18\x03 \x01(\tB\x19\xfaB\x16r\x14\x10\x012\x10^[a-zA-Z0-9_-]+$R\x0eoutputPortName\x12l\n" +
-	"\x15input_score_threshold\x18\x04 \x01(\tB8\xfaB5r3\x10\x012/^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$R\x13inputScoreThreshold\x12h\n" +
-	"\x13input_iou_threshold\x18\x05 \x01(\tB8\xfaB5r3\x10\x012/^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$R\x11inputIouThreshold\x12D\n" +
-	"\fsession_info\x18\x06 \x01(\v2\x1c.inference_graph.SessionInfoH\x00R\vsessionInfo\x88\x01\x01B\x0f\n" +
+	"\x10output_port_name\x18\x03 \x01(\tB\x19\xfaB\x16r\x14\x10\x012\x10^[a-zA-Z0-9_-]+$R\x0eoutputPortName\x12o\n" +
+	"\x15input_score_threshold\x18\x04 \x01(\v26.inference_graph.BoundingBoxFilterNode.ThresholdSourceH\x00R\x13inputScoreThreshold\x88\x01\x01\x12k\n" +
+	"\x13input_iou_threshold\x18\x05 \x01(\v26.inference_graph.BoundingBoxFilterNode.ThresholdSourceH\x01R\x11inputIouThreshold\x88\x01\x01\x12D\n" +
+	"\fsession_info\x18\x06 \x01(\v2\x1c.inference_graph.SessionInfoH\x02R\vsessionInfo\x88\x01\x01\x1a\x9b\x01\n" +
+	"\x0fThresholdSource\x12P\n" +
+	"\x05topic\x18\x01 \x01(\tB8\xfaB5r3\x10\x012/^[a-zA-Z0-9_]+\\/[a-zA-Z0-9_]+([?]timeout=\\d+)?$H\x00R\x05topic\x12'\n" +
+	"\x05value\x18\x02 \x01(\x02B\x0f\xfaB\f\n" +
+	"\n" +
+	"\x1d\x00\x00\x80?-\x00\x00\x00\x00H\x00R\x05valueB\r\n" +
+	"\x06source\x12\x03\xf8B\x01B\x18\n" +
+	"\x16_input_score_thresholdB\x16\n" +
+	"\x14_input_iou_thresholdB\x0f\n" +
 	"\r_session_info\"\xab\b\n" +
 	"\x04Node\x12N\n" +
 	"\x11const_tensor_node\x18\x01 \x01(\v2 .inference_graph.ConstTensorNodeH\x00R\x0fconstTensorNode\x12N\n" +
@@ -1806,18 +1980,18 @@ const file_inference_graph_proto_rawDesc = "" +
 	" image_instance_segmentation_node\x18\n" +
 	" \x01(\v2..inference_graph.ImageInstanceSegmentationNodeH\x00R\x1dimageInstanceSegmentationNode\x12m\n" +
 	"\x1cimage_anomaly_detection_node\x18\v \x01(\v2*.inference_graph.ImageAnomalyDetectionNodeH\x00R\x19imageAnomalyDetectionNodeB\x10\n" +
-	"\tnode_type\x12\x03\xf8B\x01\"|\n" +
+	"\tnode_type\x12\x03\xf8B\x01\"\xa0\x01\n" +
 	"\x05Graph\x12+\n" +
-	"\x05nodes\x18\x01 \x03(\v2\x15.inference_graph.NodeR\x05nodes\x12\x1d\n" +
+	"\x05nodes\x18\x01 \x03(\v2\x15.inference_graph.NodeR\x05nodes\x12'\n" +
 	"\n" +
-	"created_at\x18\x02 \x01(\x03R\tcreatedAt\x12'\n" +
-	"\n" +
-	"license_id\x18\x03 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\tlicenseId*B\n" +
+	"license_id\x18\x02 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\tlicenseId\x12A\n" +
+	"\rfile_metadata\x18\x80\b \x01(\v2\x1b.file_metadata.FileMetadataR\ffileMetadata*P\n" +
 	"\x11ExecutionProvider\x12\a\n" +
 	"\x03CPU\x10\x00\x12\b\n" +
 	"\x04CUDA\x10\x01\x12\f\n" +
 	"\bDIRECTML\x10\x02\x12\f\n" +
-	"\bTENSORRT\x10\x03*G\n" +
+	"\bTENSORRT\x10\x03\x12\f\n" +
+	"\bOPENVINO\x10\x04*G\n" +
 	"\n" +
 	"ResizeMode\x12\x10\n" +
 	"\fRM_UNDEFINED\x10\x00\x12\x0e\n" +
@@ -1838,71 +2012,79 @@ func file_inference_graph_proto_rawDescGZIP() []byte {
 }
 
 var file_inference_graph_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_inference_graph_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
+var file_inference_graph_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_inference_graph_proto_goTypes = []any{
-	(ExecutionProvider)(0),                       // 0: inference_graph.ExecutionProvider
-	(ResizeMode)(0),                              // 1: inference_graph.ResizeMode
-	(*ModelSource)(nil),                          // 2: inference_graph.ModelSource
-	(*SessionInfo)(nil),                          // 3: inference_graph.SessionInfo
-	(*ConstTensorNode)(nil),                      // 4: inference_graph.ConstTensorNode
-	(*ImageResizeNode)(nil),                      // 5: inference_graph.ImageResizeNode
-	(*ImagePatchesNode)(nil),                     // 6: inference_graph.ImagePatchesNode
-	(*VirtualCameraNode)(nil),                    // 7: inference_graph.VirtualCameraNode
-	(*ImageClassificationNode)(nil),              // 8: inference_graph.ImageClassificationNode
-	(*ImageObjectDetectionNode)(nil),             // 9: inference_graph.ImageObjectDetectionNode
-	(*ImageOcrNode)(nil),                         // 10: inference_graph.ImageOcrNode
-	(*ImageSegmentationNode)(nil),                // 11: inference_graph.ImageSegmentationNode
-	(*ImageInstanceSegmentationNode)(nil),        // 12: inference_graph.ImageInstanceSegmentationNode
-	(*ImageAnomalyDetectionNode)(nil),            // 13: inference_graph.ImageAnomalyDetectionNode
-	(*BoundingBoxFilterNode)(nil),                // 14: inference_graph.BoundingBoxFilterNode
-	(*Node)(nil),                                 // 15: inference_graph.Node
-	(*Graph)(nil),                                // 16: inference_graph.Graph
-	(*ConstTensorNode_ParameterDescription)(nil), // 17: inference_graph.ConstTensorNode.ParameterDescription
-	(*ConstTensorNode_Uint64Array)(nil),          // 18: inference_graph.ConstTensorNode.Uint64Array
-	(*ConstTensorNode_Int64Array)(nil),           // 19: inference_graph.ConstTensorNode.Int64Array
-	(*ConstTensorNode_Float64Array)(nil),         // 20: inference_graph.ConstTensorNode.Float64Array
-	(*v2.ModelFile)(nil),                         // 21: modelfile.v2.ModelFile
+	(ExecutionProvider)(0),                              // 0: inference_graph.ExecutionProvider
+	(ResizeMode)(0),                                     // 1: inference_graph.ResizeMode
+	(*ModelSource)(nil),                                 // 2: inference_graph.ModelSource
+	(*SessionInfo)(nil),                                 // 3: inference_graph.SessionInfo
+	(*ConstTensorNode)(nil),                             // 4: inference_graph.ConstTensorNode
+	(*ImageResizeNode)(nil),                             // 5: inference_graph.ImageResizeNode
+	(*ImagePatchesNode)(nil),                            // 6: inference_graph.ImagePatchesNode
+	(*VirtualCameraNode)(nil),                           // 7: inference_graph.VirtualCameraNode
+	(*ImageClassificationNode)(nil),                     // 8: inference_graph.ImageClassificationNode
+	(*ImageObjectDetectionNode)(nil),                    // 9: inference_graph.ImageObjectDetectionNode
+	(*ImageOcrNode)(nil),                                // 10: inference_graph.ImageOcrNode
+	(*ImageSegmentationNode)(nil),                       // 11: inference_graph.ImageSegmentationNode
+	(*ImageInstanceSegmentationNode)(nil),               // 12: inference_graph.ImageInstanceSegmentationNode
+	(*ImageAnomalyDetectionNode)(nil),                   // 13: inference_graph.ImageAnomalyDetectionNode
+	(*BoundingBoxFilterNode)(nil),                       // 14: inference_graph.BoundingBoxFilterNode
+	(*Node)(nil),                                        // 15: inference_graph.Node
+	(*Graph)(nil),                                       // 16: inference_graph.Graph
+	(*ConstTensorNode_Uint64Array)(nil),                 // 17: inference_graph.ConstTensorNode.Uint64Array
+	(*ConstTensorNode_Int64Array)(nil),                  // 18: inference_graph.ConstTensorNode.Int64Array
+	(*ConstTensorNode_Float64Array)(nil),                // 19: inference_graph.ConstTensorNode.Float64Array
+	(*ImagePatchesNode_TargetSizeSource)(nil),           // 20: inference_graph.ImagePatchesNode.TargetSizeSource
+	(*ImagePatchesNode_TargetSizeSource_ImageSize)(nil), // 21: inference_graph.ImagePatchesNode.TargetSizeSource.ImageSize
+	(*BoundingBoxFilterNode_ThresholdSource)(nil),       // 22: inference_graph.BoundingBoxFilterNode.ThresholdSource
+	(*v2.ModelFile)(nil),                                // 23: modelfile.v2.ModelFile
+	(*file_metadata.FileMetadata)(nil),                  // 24: file_metadata.FileMetadata
 }
 var file_inference_graph_proto_depIdxs = []int32{
-	21, // 0: inference_graph.ModelSource.from_proto:type_name -> modelfile.v2.ModelFile
+	23, // 0: inference_graph.ModelSource.from_proto:type_name -> modelfile.v2.ModelFile
 	0,  // 1: inference_graph.SessionInfo.execution_provider:type_name -> inference_graph.ExecutionProvider
-	18, // 2: inference_graph.ConstTensorNode.uint64_data:type_name -> inference_graph.ConstTensorNode.Uint64Array
-	19, // 3: inference_graph.ConstTensorNode.int64_data:type_name -> inference_graph.ConstTensorNode.Int64Array
-	20, // 4: inference_graph.ConstTensorNode.float64_data:type_name -> inference_graph.ConstTensorNode.Float64Array
-	17, // 5: inference_graph.ConstTensorNode.parameter_descriptions:type_name -> inference_graph.ConstTensorNode.ParameterDescription
-	3,  // 6: inference_graph.ImageResizeNode.session_info:type_name -> inference_graph.SessionInfo
-	3,  // 7: inference_graph.ImagePatchesNode.session_info:type_name -> inference_graph.SessionInfo
-	1,  // 8: inference_graph.ImagePatchesNode.resize_mode:type_name -> inference_graph.ResizeMode
-	2,  // 9: inference_graph.ImageClassificationNode.model_source:type_name -> inference_graph.ModelSource
-	3,  // 10: inference_graph.ImageClassificationNode.session_info:type_name -> inference_graph.SessionInfo
-	2,  // 11: inference_graph.ImageObjectDetectionNode.model_source:type_name -> inference_graph.ModelSource
-	3,  // 12: inference_graph.ImageObjectDetectionNode.session_info:type_name -> inference_graph.SessionInfo
-	2,  // 13: inference_graph.ImageOcrNode.model_source:type_name -> inference_graph.ModelSource
-	3,  // 14: inference_graph.ImageOcrNode.session_info:type_name -> inference_graph.SessionInfo
-	2,  // 15: inference_graph.ImageSegmentationNode.model_source:type_name -> inference_graph.ModelSource
-	3,  // 16: inference_graph.ImageSegmentationNode.session_info:type_name -> inference_graph.SessionInfo
-	2,  // 17: inference_graph.ImageInstanceSegmentationNode.model_source:type_name -> inference_graph.ModelSource
-	3,  // 18: inference_graph.ImageInstanceSegmentationNode.session_info:type_name -> inference_graph.SessionInfo
-	2,  // 19: inference_graph.ImageAnomalyDetectionNode.model_source:type_name -> inference_graph.ModelSource
-	3,  // 20: inference_graph.ImageAnomalyDetectionNode.session_info:type_name -> inference_graph.SessionInfo
-	3,  // 21: inference_graph.BoundingBoxFilterNode.session_info:type_name -> inference_graph.SessionInfo
-	4,  // 22: inference_graph.Node.const_tensor_node:type_name -> inference_graph.ConstTensorNode
-	5,  // 23: inference_graph.Node.image_resize_node:type_name -> inference_graph.ImageResizeNode
-	6,  // 24: inference_graph.Node.image_patches_node:type_name -> inference_graph.ImagePatchesNode
-	7,  // 25: inference_graph.Node.virtual_camera_node:type_name -> inference_graph.VirtualCameraNode
-	8,  // 26: inference_graph.Node.image_classification_node:type_name -> inference_graph.ImageClassificationNode
-	9,  // 27: inference_graph.Node.image_object_detection_node:type_name -> inference_graph.ImageObjectDetectionNode
-	10, // 28: inference_graph.Node.image_ocr_node:type_name -> inference_graph.ImageOcrNode
-	14, // 29: inference_graph.Node.bounding_box_filter_node:type_name -> inference_graph.BoundingBoxFilterNode
-	11, // 30: inference_graph.Node.image_segmentation_node:type_name -> inference_graph.ImageSegmentationNode
-	12, // 31: inference_graph.Node.image_instance_segmentation_node:type_name -> inference_graph.ImageInstanceSegmentationNode
-	13, // 32: inference_graph.Node.image_anomaly_detection_node:type_name -> inference_graph.ImageAnomalyDetectionNode
-	15, // 33: inference_graph.Graph.nodes:type_name -> inference_graph.Node
-	34, // [34:34] is the sub-list for method output_type
-	34, // [34:34] is the sub-list for method input_type
-	34, // [34:34] is the sub-list for extension type_name
-	34, // [34:34] is the sub-list for extension extendee
-	0,  // [0:34] is the sub-list for field type_name
+	17, // 2: inference_graph.ConstTensorNode.uint64_data:type_name -> inference_graph.ConstTensorNode.Uint64Array
+	18, // 3: inference_graph.ConstTensorNode.int64_data:type_name -> inference_graph.ConstTensorNode.Int64Array
+	19, // 4: inference_graph.ConstTensorNode.float64_data:type_name -> inference_graph.ConstTensorNode.Float64Array
+	3,  // 5: inference_graph.ImageResizeNode.session_info:type_name -> inference_graph.SessionInfo
+	1,  // 6: inference_graph.ImageResizeNode.resize_mode:type_name -> inference_graph.ResizeMode
+	20, // 7: inference_graph.ImagePatchesNode.input_target_size:type_name -> inference_graph.ImagePatchesNode.TargetSizeSource
+	3,  // 8: inference_graph.ImagePatchesNode.session_info:type_name -> inference_graph.SessionInfo
+	1,  // 9: inference_graph.ImagePatchesNode.resize_mode:type_name -> inference_graph.ResizeMode
+	2,  // 10: inference_graph.ImageClassificationNode.model_source:type_name -> inference_graph.ModelSource
+	3,  // 11: inference_graph.ImageClassificationNode.session_info:type_name -> inference_graph.SessionInfo
+	2,  // 12: inference_graph.ImageObjectDetectionNode.model_source:type_name -> inference_graph.ModelSource
+	3,  // 13: inference_graph.ImageObjectDetectionNode.session_info:type_name -> inference_graph.SessionInfo
+	2,  // 14: inference_graph.ImageOcrNode.model_source:type_name -> inference_graph.ModelSource
+	3,  // 15: inference_graph.ImageOcrNode.session_info:type_name -> inference_graph.SessionInfo
+	2,  // 16: inference_graph.ImageSegmentationNode.model_source:type_name -> inference_graph.ModelSource
+	3,  // 17: inference_graph.ImageSegmentationNode.session_info:type_name -> inference_graph.SessionInfo
+	2,  // 18: inference_graph.ImageInstanceSegmentationNode.model_source:type_name -> inference_graph.ModelSource
+	3,  // 19: inference_graph.ImageInstanceSegmentationNode.session_info:type_name -> inference_graph.SessionInfo
+	2,  // 20: inference_graph.ImageAnomalyDetectionNode.model_source:type_name -> inference_graph.ModelSource
+	3,  // 21: inference_graph.ImageAnomalyDetectionNode.session_info:type_name -> inference_graph.SessionInfo
+	22, // 22: inference_graph.BoundingBoxFilterNode.input_score_threshold:type_name -> inference_graph.BoundingBoxFilterNode.ThresholdSource
+	22, // 23: inference_graph.BoundingBoxFilterNode.input_iou_threshold:type_name -> inference_graph.BoundingBoxFilterNode.ThresholdSource
+	3,  // 24: inference_graph.BoundingBoxFilterNode.session_info:type_name -> inference_graph.SessionInfo
+	4,  // 25: inference_graph.Node.const_tensor_node:type_name -> inference_graph.ConstTensorNode
+	5,  // 26: inference_graph.Node.image_resize_node:type_name -> inference_graph.ImageResizeNode
+	6,  // 27: inference_graph.Node.image_patches_node:type_name -> inference_graph.ImagePatchesNode
+	7,  // 28: inference_graph.Node.virtual_camera_node:type_name -> inference_graph.VirtualCameraNode
+	8,  // 29: inference_graph.Node.image_classification_node:type_name -> inference_graph.ImageClassificationNode
+	9,  // 30: inference_graph.Node.image_object_detection_node:type_name -> inference_graph.ImageObjectDetectionNode
+	10, // 31: inference_graph.Node.image_ocr_node:type_name -> inference_graph.ImageOcrNode
+	14, // 32: inference_graph.Node.bounding_box_filter_node:type_name -> inference_graph.BoundingBoxFilterNode
+	11, // 33: inference_graph.Node.image_segmentation_node:type_name -> inference_graph.ImageSegmentationNode
+	12, // 34: inference_graph.Node.image_instance_segmentation_node:type_name -> inference_graph.ImageInstanceSegmentationNode
+	13, // 35: inference_graph.Node.image_anomaly_detection_node:type_name -> inference_graph.ImageAnomalyDetectionNode
+	15, // 36: inference_graph.Graph.nodes:type_name -> inference_graph.Node
+	24, // 37: inference_graph.Graph.file_metadata:type_name -> file_metadata.FileMetadata
+	21, // 38: inference_graph.ImagePatchesNode.TargetSizeSource.size:type_name -> inference_graph.ImagePatchesNode.TargetSizeSource.ImageSize
+	39, // [39:39] is the sub-list for method output_type
+	39, // [39:39] is the sub-list for method input_type
+	39, // [39:39] is the sub-list for extension type_name
+	39, // [39:39] is the sub-list for extension extendee
+	0,  // [0:39] is the sub-list for field type_name
 }
 
 func init() { file_inference_graph_proto_init() }
@@ -1942,13 +2124,21 @@ func file_inference_graph_proto_init() {
 		(*Node_ImageInstanceSegmentationNode)(nil),
 		(*Node_ImageAnomalyDetectionNode)(nil),
 	}
+	file_inference_graph_proto_msgTypes[18].OneofWrappers = []any{
+		(*ImagePatchesNode_TargetSizeSource_Topic)(nil),
+		(*ImagePatchesNode_TargetSizeSource_Size)(nil),
+	}
+	file_inference_graph_proto_msgTypes[20].OneofWrappers = []any{
+		(*BoundingBoxFilterNode_ThresholdSource_Topic)(nil),
+		(*BoundingBoxFilterNode_ThresholdSource_Value)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_inference_graph_proto_rawDesc), len(file_inference_graph_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   19,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
