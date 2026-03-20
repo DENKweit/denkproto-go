@@ -671,27 +671,6 @@ func NewConstTensorUint64Data(data []int64) *ConstTensorUint64Data {
 	return c
 }
 
-// FileMetadata corresponds to the JSON schema definition 'FileMetadata'.
-// File metadata
-type FileMetadata struct {
-	CreatedAt                 int64   `json:"created_at"`
-	DenkprotoVersion          Version `json:"denkproto_version"`
-	FileType                  string  `json:"file_type"`
-	MinimumLibdenkflowVersion Version `json:"minimum_libdenkflow_version"`
-}
-
-// NewFileMetadata creates a new instance of FileMetadata with required fields.
-// Optional fields should be set using builder methods.
-func NewFileMetadata(filetype string, createdat int64, denkprotoversion Version, minimumlibdenkflowversion Version) *FileMetadata {
-	f := &FileMetadata{
-		FileType:                  filetype,
-		CreatedAt:                 createdat,
-		DenkprotoVersion:          denkprotoversion,
-		MinimumLibdenkflowVersion: minimumlibdenkflowversion,
-	}
-	return f
-}
-
 // ImageAnomalyDetectionNode corresponds to the JSON schema definition 'ImageAnomalyDetectionNode'.
 // Node for image anomaly detection. Base type for all nodes in the graph.
 type ImageAnomalyDetectionNode struct {
@@ -909,7 +888,6 @@ type ImageResizeNode struct {
 	Name           string `json:"name"`
 	NodeType       string `json:"node_type"`
 	OutputPortName string `json:"output_port_name"`
-	ResizeMode     string `json:"resize_mode"`
 }
 
 // isNode implements the Node interface.
@@ -917,13 +895,12 @@ func (i *ImageResizeNode) isNode() {}
 
 // NewImageResizeNode creates a new instance of ImageResizeNode with required fields.
 // Optional fields should be set using builder methods.
-func NewImageResizeNode(name string, inputsize string, inputimage string, outputportname string, resizemode string) *ImageResizeNode {
+func NewImageResizeNode(name string, inputsize string, inputimage string, outputportname string) *ImageResizeNode {
 	i := &ImageResizeNode{
 		Name:           name,
 		InputSize:      inputsize,
 		InputImage:     inputimage,
 		OutputPortName: outputportname,
-		ResizeMode:     resizemode,
 		NodeType:       "image_resize",
 	}
 	return i
@@ -1271,25 +1248,6 @@ func NewThresholdSourceValueOption(value float64) *ThresholdSourceValueOption {
 	return t
 }
 
-// Version corresponds to the JSON schema definition 'Version'.
-// Version information
-type Version struct {
-	Major int64 `json:"major"`
-	Minor int64 `json:"minor"`
-	Patch int64 `json:"patch"`
-}
-
-// NewVersion creates a new instance of Version with required fields.
-// Optional fields should be set using builder methods.
-func NewVersion(major int64, minor int64, patch int64) *Version {
-	v := &Version{
-		Major: major,
-		Minor: minor,
-		Patch: patch,
-	}
-	return v
-}
-
 // VirtualCameraNode corresponds to the JSON schema definition 'VirtualCameraNode'.
 // Node representing a virtual camera source. Base type for all nodes in the graph.
 type VirtualCameraNode struct {
@@ -1316,9 +1274,9 @@ func NewVirtualCameraNode(name string, path string, outputportname string) *Virt
 
 // InferenceGraphRecipe corresponds to the JSON schema definition 'root'.
 type InferenceGraphRecipe struct {
-	FileMetadata FileMetadata `json:"file_metadata"`
-	LicenseId    string       `json:"license_id"`
-	Nodes        []Node       `json:"nodes"`
+	CreatedAt int64  `json:"created_at"`
+	LicenseId string `json:"license_id"`
+	Nodes     []Node `json:"nodes"`
 }
 
 // UnmarshalJSON implements custom unmarshaling for InferenceGraphRecipe to handle interface fields.
@@ -1368,11 +1326,11 @@ func (i *InferenceGraphRecipe) UnmarshalJSON(data []byte) error {
 
 // NewInferenceGraphRecipe creates a new instance of InferenceGraphRecipe with required fields.
 // Optional fields should be set using builder methods.
-func NewInferenceGraphRecipe(nodes []Node, licenseid string, filemetadata FileMetadata) *InferenceGraphRecipe {
+func NewInferenceGraphRecipe(nodes []Node, licenseid string, createdat int64) *InferenceGraphRecipe {
 	i := &InferenceGraphRecipe{
-		Nodes:        nodes,
-		LicenseId:    licenseid,
-		FileMetadata: filemetadata,
+		Nodes:     nodes,
+		LicenseId: licenseid,
+		CreatedAt: createdat,
 	}
 	return i
 }

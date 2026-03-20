@@ -750,8 +750,6 @@ func (m *ImageResizeNode) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	// no validation rules for ResizeMode
-
 	if m.SessionInfo != nil {
 
 		if all {
@@ -3564,6 +3562,8 @@ func (m *Graph) validate(all bool) error {
 
 	}
 
+	// no validation rules for CreatedAt
+
 	if err := m._validateUuid(m.GetLicenseId()); err != nil {
 		err = GraphValidationError{
 			field:  "LicenseId",
@@ -3574,35 +3574,6 @@ func (m *Graph) validate(all bool) error {
 			return err
 		}
 		errors = append(errors, err)
-	}
-
-	if all {
-		switch v := interface{}(m.GetFileMetadata()).(type) {
-		case interface{ ValidateAll() error }:
-			if err := v.ValidateAll(); err != nil {
-				errors = append(errors, GraphValidationError{
-					field:  "FileMetadata",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		case interface{ Validate() error }:
-			if err := v.Validate(); err != nil {
-				errors = append(errors, GraphValidationError{
-					field:  "FileMetadata",
-					reason: "embedded message failed validation",
-					cause:  err,
-				})
-			}
-		}
-	} else if v, ok := interface{}(m.GetFileMetadata()).(interface{ Validate() error }); ok {
-		if err := v.Validate(); err != nil {
-			return GraphValidationError{
-				field:  "FileMetadata",
-				reason: "embedded message failed validation",
-				cause:  err,
-			}
-		}
 	}
 
 	if len(errors) > 0 {
