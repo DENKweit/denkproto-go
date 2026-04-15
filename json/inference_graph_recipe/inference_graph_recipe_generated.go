@@ -140,21 +140,21 @@ func UnmarshalJSONModelSourceBaseForField(data []byte, m *ModelSourceBase) error
 // isModelSourceBase implements the ModelSourceBase interface. Add this method to all implementing structs.
 // func (s *YourStruct) isModelSourceBase() {}
 
-// Node defines the interface for discriminated union based on node_type.
-type Node interface {
-	isNode() // Marker method for implementing types
+// NodeBase defines the interface for discriminated union based on node_type.
+type NodeBase interface {
+	isNodeBase() // Marker method for implementing types
 }
 
-// UnmarshalJSONNode implements the json.Unmarshaler interface for Node, handling polymorphism.
+// UnmarshalJSONNodeBase implements the json.Unmarshaler interface for NodeBase, handling polymorphism.
 // It delegates the actual unmarshaling to the appropriate concrete type's UnmarshalJSON method
 // based on the discriminator field 'node_type'.
-func UnmarshalJSONNode(data []byte) (Node, error) {
+func UnmarshalJSONNodeBase(data []byte) (NodeBase, error) {
 	// Determine the concrete type based on the discriminator field
 	var finder struct {
 		Type string `json:"node_type"`
 	}
 	if err := json.Unmarshal(data, &finder); err != nil {
-		return nil, fmt.Errorf("error finding discriminator field 'node_type' for Node: %w", err)
+		return nil, fmt.Errorf("error finding discriminator field 'node_type' for NodeBase: %w", err)
 	}
 
 	switch finder.Type {
@@ -225,18 +225,18 @@ func UnmarshalJSONNode(data []byte) (Node, error) {
 		}
 		return &concrete, nil
 	default:
-		return nil, fmt.Errorf("unknown type '%s' for interface Node", finder.Type)
+		return nil, fmt.Errorf("unknown type '%s' for interface NodeBase", finder.Type)
 	}
 }
 
-// NodeUnmarshalHelper is a wrapper to facilitate unmarshaling polymorphic types.
-type NodeUnmarshalHelper struct {
-	Target *Node
+// NodeBaseUnmarshalHelper is a wrapper to facilitate unmarshaling polymorphic types.
+type NodeBaseUnmarshalHelper struct {
+	Target *NodeBase
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (u *NodeUnmarshalHelper) UnmarshalJSON(data []byte) error {
-	target, err := UnmarshalJSONNode(data)
+func (u *NodeBaseUnmarshalHelper) UnmarshalJSON(data []byte) error {
+	target, err := UnmarshalJSONNodeBase(data)
 	if err != nil {
 		return err
 	}
@@ -244,9 +244,9 @@ func (u *NodeUnmarshalHelper) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// UnmarshalJSONNodeForField is used by structs containing Node fields to handle polymorphism.
-func UnmarshalJSONNodeForField(data []byte, n *Node) error {
-	target, err := UnmarshalJSONNode(data) // Use the helper that returns the interface
+// UnmarshalJSONNodeBaseForField is used by structs containing NodeBase fields to handle polymorphism.
+func UnmarshalJSONNodeBaseForField(data []byte, n *NodeBase) error {
+	target, err := UnmarshalJSONNodeBase(data) // Use the helper that returns the interface
 	if err != nil {
 		return err
 	}
@@ -254,8 +254,8 @@ func UnmarshalJSONNodeForField(data []byte, n *Node) error {
 	return nil
 }
 
-// isNode implements the Node interface. Add this method to all implementing structs.
-// func (s *YourStruct) isNode() {}
+// isNodeBase implements the NodeBase interface. Add this method to all implementing structs.
+// func (s *YourStruct) isNodeBase() {}
 
 // TargetSizeSource defines the interface for discriminated union based on source_type.
 type TargetSizeSource interface {
@@ -394,8 +394,8 @@ type BoundingBoxFilterNode struct {
 	OutputPortName      string          `json:"output_port_name"`
 }
 
-// isNode implements the Node interface.
-func (b *BoundingBoxFilterNode) isNode() {}
+// isNodeBase implements the NodeBase interface.
+func (b *BoundingBoxFilterNode) isNodeBase() {}
 
 // UnmarshalJSON implements custom unmarshaling for BoundingBoxFilterNode to handle interface fields.
 func (b *BoundingBoxFilterNode) UnmarshalJSON(data []byte) error {
@@ -487,8 +487,8 @@ type ClassificationNode struct {
 	OutputPortName string          `json:"output_port_name"`
 }
 
-// isNode implements the Node interface.
-func (c *ClassificationNode) isNode() {}
+// isNodeBase implements the NodeBase interface.
+func (c *ClassificationNode) isNodeBase() {}
 
 // UnmarshalJSON implements custom unmarshaling for ClassificationNode to handle interface fields.
 func (c *ClassificationNode) UnmarshalJSON(data []byte) error {
@@ -594,8 +594,8 @@ type ConstTensorNode struct {
 	Shape          []int64             `json:"shape"`
 }
 
-// isNode implements the Node interface.
-func (c *ConstTensorNode) isNode() {}
+// isNodeBase implements the NodeBase interface.
+func (c *ConstTensorNode) isNodeBase() {}
 
 // UnmarshalJSON implements custom unmarshaling for ConstTensorNode to handle interface fields.
 func (c *ConstTensorNode) UnmarshalJSON(data []byte) error {
@@ -671,6 +671,27 @@ func NewConstTensorUint64Data(data []int64) *ConstTensorUint64Data {
 	return c
 }
 
+// FileMetadata corresponds to the JSON schema definition 'FileMetadata'.
+// File metadata
+type FileMetadata struct {
+	CreatedAt                 int64   `json:"created_at"`
+	DenkprotoVersion          Version `json:"denkproto_version"`
+	FileType                  string  `json:"file_type"`
+	MinimumLibdenkflowVersion Version `json:"minimum_libdenkflow_version"`
+}
+
+// NewFileMetadata creates a new instance of FileMetadata with required fields.
+// Optional fields should be set using builder methods.
+func NewFileMetadata(filetype string, createdat int64, denkprotoversion Version, minimumlibdenkflowversion Version) *FileMetadata {
+	f := &FileMetadata{
+		FileType:                  filetype,
+		CreatedAt:                 createdat,
+		DenkprotoVersion:          denkprotoversion,
+		MinimumLibdenkflowVersion: minimumlibdenkflowversion,
+	}
+	return f
+}
+
 // ImageAnomalyDetectionNode corresponds to the JSON schema definition 'ImageAnomalyDetectionNode'.
 // Node for image anomaly detection. Base type for all nodes in the graph.
 type ImageAnomalyDetectionNode struct {
@@ -682,8 +703,8 @@ type ImageAnomalyDetectionNode struct {
 	OutputSegmentations string          `json:"output_segmentations"`
 }
 
-// isNode implements the Node interface.
-func (i *ImageAnomalyDetectionNode) isNode() {}
+// isNodeBase implements the NodeBase interface.
+func (i *ImageAnomalyDetectionNode) isNodeBase() {}
 
 // UnmarshalJSON implements custom unmarshaling for ImageAnomalyDetectionNode to handle interface fields.
 func (i *ImageAnomalyDetectionNode) UnmarshalJSON(data []byte) error {
@@ -751,8 +772,8 @@ type ImageInstanceSegmentationNode struct {
 	OutputSegmentations string          `json:"output_segmentations"`
 }
 
-// isNode implements the Node interface.
-func (i *ImageInstanceSegmentationNode) isNode() {}
+// isNodeBase implements the NodeBase interface.
+func (i *ImageInstanceSegmentationNode) isNodeBase() {}
 
 // UnmarshalJSON implements custom unmarshaling for ImageInstanceSegmentationNode to handle interface fields.
 func (i *ImageInstanceSegmentationNode) UnmarshalJSON(data []byte) error {
@@ -821,8 +842,8 @@ type ImagePatchesNode struct {
 	ResizeMode         string           `json:"resize_mode"`
 }
 
-// isNode implements the Node interface.
-func (i *ImagePatchesNode) isNode() {}
+// isNodeBase implements the NodeBase interface.
+func (i *ImagePatchesNode) isNodeBase() {}
 
 // UnmarshalJSON implements custom unmarshaling for ImagePatchesNode to handle interface fields.
 func (i *ImagePatchesNode) UnmarshalJSON(data []byte) error {
@@ -888,19 +909,21 @@ type ImageResizeNode struct {
 	Name           string `json:"name"`
 	NodeType       string `json:"node_type"`
 	OutputPortName string `json:"output_port_name"`
+	ResizeMode     string `json:"resize_mode"`
 }
 
-// isNode implements the Node interface.
-func (i *ImageResizeNode) isNode() {}
+// isNodeBase implements the NodeBase interface.
+func (i *ImageResizeNode) isNodeBase() {}
 
 // NewImageResizeNode creates a new instance of ImageResizeNode with required fields.
 // Optional fields should be set using builder methods.
-func NewImageResizeNode(name string, inputsize string, inputimage string, outputportname string) *ImageResizeNode {
+func NewImageResizeNode(name string, inputsize string, inputimage string, outputportname string, resizemode string) *ImageResizeNode {
 	i := &ImageResizeNode{
 		Name:           name,
 		InputSize:      inputsize,
 		InputImage:     inputimage,
 		OutputPortName: outputportname,
+		ResizeMode:     resizemode,
 		NodeType:       "image_resize",
 	}
 	return i
@@ -916,8 +939,8 @@ type ImageSegmentationNode struct {
 	OutputPortName string          `json:"output_port_name"`
 }
 
-// isNode implements the Node interface.
-func (i *ImageSegmentationNode) isNode() {}
+// isNodeBase implements the NodeBase interface.
+func (i *ImageSegmentationNode) isNodeBase() {}
 
 // UnmarshalJSON implements custom unmarshaling for ImageSegmentationNode to handle interface fields.
 func (i *ImageSegmentationNode) UnmarshalJSON(data []byte) error {
@@ -1041,8 +1064,8 @@ type ObjectDetectionNode struct {
 	ScaleBoundingBoxes *bool           `json:"scale_bounding_boxes,omitempty"` // Optional
 }
 
-// isNode implements the Node interface.
-func (o *ObjectDetectionNode) isNode() {}
+// isNodeBase implements the NodeBase interface.
+func (o *ObjectDetectionNode) isNodeBase() {}
 
 // UnmarshalJSON implements custom unmarshaling for ObjectDetectionNode to handle interface fields.
 func (o *ObjectDetectionNode) UnmarshalJSON(data []byte) error {
@@ -1115,8 +1138,8 @@ type OcrNode struct {
 	OutputPortName string          `json:"output_port_name"`
 }
 
-// isNode implements the Node interface.
-func (o *OcrNode) isNode() {}
+// isNodeBase implements the NodeBase interface.
+func (o *OcrNode) isNodeBase() {}
 
 // UnmarshalJSON implements custom unmarshaling for OcrNode to handle interface fields.
 func (o *OcrNode) UnmarshalJSON(data []byte) error {
@@ -1248,6 +1271,25 @@ func NewThresholdSourceValueOption(value float64) *ThresholdSourceValueOption {
 	return t
 }
 
+// Version corresponds to the JSON schema definition 'Version'.
+// Version information
+type Version struct {
+	Major int64 `json:"major"`
+	Minor int64 `json:"minor"`
+	Patch int64 `json:"patch"`
+}
+
+// NewVersion creates a new instance of Version with required fields.
+// Optional fields should be set using builder methods.
+func NewVersion(major int64, minor int64, patch int64) *Version {
+	v := &Version{
+		Major: major,
+		Minor: minor,
+		Patch: patch,
+	}
+	return v
+}
+
 // VirtualCameraNode corresponds to the JSON schema definition 'VirtualCameraNode'.
 // Node representing a virtual camera source. Base type for all nodes in the graph.
 type VirtualCameraNode struct {
@@ -1257,8 +1299,8 @@ type VirtualCameraNode struct {
 	Path           string `json:"path"`
 }
 
-// isNode implements the Node interface.
-func (v *VirtualCameraNode) isNode() {}
+// isNodeBase implements the NodeBase interface.
+func (v *VirtualCameraNode) isNodeBase() {}
 
 // NewVirtualCameraNode creates a new instance of VirtualCameraNode with required fields.
 // Optional fields should be set using builder methods.
@@ -1274,68 +1316,18 @@ func NewVirtualCameraNode(name string, path string, outputportname string) *Virt
 
 // InferenceGraphRecipe corresponds to the JSON schema definition 'root'.
 type InferenceGraphRecipe struct {
-	CreatedAt int64  `json:"created_at"`
-	LicenseId string `json:"license_id"`
-	Nodes     []Node `json:"nodes"`
-}
-
-// UnmarshalJSON implements custom unmarshaling for InferenceGraphRecipe to handle interface fields.
-func (i *InferenceGraphRecipe) UnmarshalJSON(data []byte) error {
-	// Define an intermediate type using json.RawMessage for interface fields
-	// and pointers for optional fields that might be interfaces
-	type Alias InferenceGraphRecipe // Use Alias for non-interface fields
-
-	// Base struct for standard fields
-	var alias Alias
-	if err := json.Unmarshal(data, &alias); err != nil {
-		return fmt.Errorf("error unmarshaling standard fields for InferenceGraphRecipe: %w", err)
-	}
-	*i = InferenceGraphRecipe(alias) // Assign standard fields first
-
-	// Struct to capture interface fields as RawMessage
-	rawFields := struct {
-		Nodes []json.RawMessage `json:"nodes"`
-	}{}
-
-	// Unmarshal RawMessages
-	if err := json.Unmarshal(data, &rawFields); err != nil {
-		return fmt.Errorf("error unmarshaling interface fields for InferenceGraphRecipe: %w", err)
-	}
-
-	// Unmarshal the Nodes field (slice of Node interfaces)
-	if len(rawFields.Nodes) > 0 { // Check if the slice has elements
-		// Allocate the slice only if raw data exists
-		slice := make([]Node, len(rawFields.Nodes))
-		for i, raw := range rawFields.Nodes {
-			if len(raw) == 0 || string(raw) == "null" { // Handle potential nulls in the array
-				continue // Skip null elements
-			}
-			var item Node // This will hold the concrete type implementing the interface
-			// Use the field-specific unmarshaler which sets the interface variable correctly
-			if err := UnmarshalJSONNodeForField(raw, &item); err != nil { // Pass address of interface variable
-				return fmt.Errorf("error unmarshaling Nodes[%d]: %w", i, err) // Note: %d and %w are correct escapes for the generated code
-			}
-			slice[i] = item // Assign the interface variable to the slice
-		}
-		// Assign the fully unmarshaled slice to the struct field
-		i.Nodes = slice // Placeholder for the correct assignment line
-	}
-
-	return nil
+	FileMetadata FileMetadata `json:"file_metadata"`
+	LicenseId    string       `json:"license_id"`
+	Nodes        []Node       `json:"nodes"`
 }
 
 // NewInferenceGraphRecipe creates a new instance of InferenceGraphRecipe with required fields.
 // Optional fields should be set using builder methods.
-func NewInferenceGraphRecipe(nodes []Node, licenseid string, createdat int64) *InferenceGraphRecipe {
+func NewInferenceGraphRecipe(nodes []Node, licenseid string, filemetadata FileMetadata) *InferenceGraphRecipe {
 	i := &InferenceGraphRecipe{
-		Nodes:     nodes,
-		LicenseId: licenseid,
-		CreatedAt: createdat,
+		Nodes:        nodes,
+		LicenseId:    licenseid,
+		FileMetadata: filemetadata,
 	}
 	return i
-}
-
-// SetNodes sets the Nodes field, which is an interface type (Node).
-func (i *InferenceGraphRecipe) SetNodes(nodes []Node) {
-	i.Nodes = nodes
 }

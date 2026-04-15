@@ -10,6 +10,7 @@
 package file_metadata
 
 import (
+	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -73,79 +74,19 @@ func (FileType) EnumDescriptor() ([]byte, []int) {
 	return file_file_metadata_proto_rawDescGZIP(), []int{0}
 }
 
-type Version struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Major         uint32                 `protobuf:"varint,1,opt,name=major,proto3" json:"major,omitempty"`
-	Minor         uint32                 `protobuf:"varint,2,opt,name=minor,proto3" json:"minor,omitempty"`
-	Patch         uint32                 `protobuf:"varint,3,opt,name=patch,proto3" json:"patch,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Version) Reset() {
-	*x = Version{}
-	mi := &file_file_metadata_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Version) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Version) ProtoMessage() {}
-
-func (x *Version) ProtoReflect() protoreflect.Message {
-	mi := &file_file_metadata_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Version.ProtoReflect.Descriptor instead.
-func (*Version) Descriptor() ([]byte, []int) {
-	return file_file_metadata_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *Version) GetMajor() uint32 {
-	if x != nil {
-		return x.Major
-	}
-	return 0
-}
-
-func (x *Version) GetMinor() uint32 {
-	if x != nil {
-		return x.Minor
-	}
-	return 0
-}
-
-func (x *Version) GetPatch() uint32 {
-	if x != nil {
-		return x.Patch
-	}
-	return 0
-}
-
 type FileMetadata struct {
-	state                     protoimpl.MessageState `protogen:"open.v1"`
-	FileType                  FileType               `protobuf:"varint,1,opt,name=file_type,json=fileType,proto3,enum=file_metadata.FileType" json:"file_type,omitempty"`
-	CreatedAt                 int64                  `protobuf:"varint,2,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	DenkprotoVersion          *Version               `protobuf:"bytes,3,opt,name=denkproto_version,json=denkprotoVersion,proto3" json:"denkproto_version,omitempty"`                              // DENKproto version that the file has been created with
-	MinimumLibdenkflowVersion *Version               `protobuf:"bytes,4,opt,name=minimum_libdenkflow_version,json=minimumLibdenkflowVersion,proto3" json:"minimum_libdenkflow_version,omitempty"` // Minimum version required to properly parse the file
-	unknownFields             protoimpl.UnknownFields
-	sizeCache                 protoimpl.SizeCache
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	FileType           FileType               `protobuf:"varint,1,opt,name=file_type,json=fileType,proto3,enum=file_metadata.FileType" json:"file_type,omitempty"`
+	FileFormatVersion  uint32                 `protobuf:"varint,2,opt,name=file_format_version,json=fileFormatVersion,proto3" json:"file_format_version,omitempty"`
+	CreatedAt          int64                  `protobuf:"varint,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`                           // Unix timestamp in seconds
+	LibdenkflowVersion string                 `protobuf:"bytes,4,opt,name=libdenkflow_version,json=libdenkflowVersion,proto3" json:"libdenkflow_version,omitempty"` // Version in the form 0.0.0, 0.0.0-a0, 0.0.0-b0 or 0.0.0-rc0
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *FileMetadata) Reset() {
 	*x = FileMetadata{}
-	mi := &file_file_metadata_proto_msgTypes[1]
+	mi := &file_file_metadata_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -157,7 +98,7 @@ func (x *FileMetadata) String() string {
 func (*FileMetadata) ProtoMessage() {}
 
 func (x *FileMetadata) ProtoReflect() protoreflect.Message {
-	mi := &file_file_metadata_proto_msgTypes[1]
+	mi := &file_file_metadata_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -170,7 +111,7 @@ func (x *FileMetadata) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FileMetadata.ProtoReflect.Descriptor instead.
 func (*FileMetadata) Descriptor() ([]byte, []int) {
-	return file_file_metadata_proto_rawDescGZIP(), []int{1}
+	return file_file_metadata_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *FileMetadata) GetFileType() FileType {
@@ -180,6 +121,13 @@ func (x *FileMetadata) GetFileType() FileType {
 	return FileType_FT_UNDEFINED
 }
 
+func (x *FileMetadata) GetFileFormatVersion() uint32 {
+	if x != nil {
+		return x.FileFormatVersion
+	}
+	return 0
+}
+
 func (x *FileMetadata) GetCreatedAt() int64 {
 	if x != nil {
 		return x.CreatedAt
@@ -187,18 +135,11 @@ func (x *FileMetadata) GetCreatedAt() int64 {
 	return 0
 }
 
-func (x *FileMetadata) GetDenkprotoVersion() *Version {
+func (x *FileMetadata) GetLibdenkflowVersion() string {
 	if x != nil {
-		return x.DenkprotoVersion
+		return x.LibdenkflowVersion
 	}
-	return nil
-}
-
-func (x *FileMetadata) GetMinimumLibdenkflowVersion() *Version {
-	if x != nil {
-		return x.MinimumLibdenkflowVersion
-	}
-	return nil
+	return ""
 }
 
 type FileMetadataContainer struct {
@@ -210,7 +151,7 @@ type FileMetadataContainer struct {
 
 func (x *FileMetadataContainer) Reset() {
 	*x = FileMetadataContainer{}
-	mi := &file_file_metadata_proto_msgTypes[2]
+	mi := &file_file_metadata_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -222,7 +163,7 @@ func (x *FileMetadataContainer) String() string {
 func (*FileMetadataContainer) ProtoMessage() {}
 
 func (x *FileMetadataContainer) ProtoReflect() protoreflect.Message {
-	mi := &file_file_metadata_proto_msgTypes[2]
+	mi := &file_file_metadata_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -235,7 +176,7 @@ func (x *FileMetadataContainer) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FileMetadataContainer.ProtoReflect.Descriptor instead.
 func (*FileMetadataContainer) Descriptor() ([]byte, []int) {
-	return file_file_metadata_proto_rawDescGZIP(), []int{2}
+	return file_file_metadata_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *FileMetadataContainer) GetFileMetadata() *FileMetadata {
@@ -249,17 +190,13 @@ var File_file_metadata_proto protoreflect.FileDescriptor
 
 const file_file_metadata_proto_rawDesc = "" +
 	"\n" +
-	"\x13file_metadata.proto\x12\rfile_metadata\"K\n" +
-	"\aVersion\x12\x14\n" +
-	"\x05major\x18\x01 \x01(\rR\x05major\x12\x14\n" +
-	"\x05minor\x18\x02 \x01(\rR\x05minor\x12\x14\n" +
-	"\x05patch\x18\x03 \x01(\rR\x05patch\"\x80\x02\n" +
+	"\x13file_metadata.proto\x12\rfile_metadata\x1a\x0evalidate.proto\"\xf1\x01\n" +
 	"\fFileMetadata\x124\n" +
-	"\tfile_type\x18\x01 \x01(\x0e2\x17.file_metadata.FileTypeR\bfileType\x12\x1d\n" +
+	"\tfile_type\x18\x01 \x01(\x0e2\x17.file_metadata.FileTypeR\bfileType\x12.\n" +
+	"\x13file_format_version\x18\x02 \x01(\rR\x11fileFormatVersion\x12\x1d\n" +
 	"\n" +
-	"created_at\x18\x02 \x01(\x03R\tcreatedAt\x12C\n" +
-	"\x11denkproto_version\x18\x03 \x01(\v2\x16.file_metadata.VersionR\x10denkprotoVersion\x12V\n" +
-	"\x1bminimum_libdenkflow_version\x18\x04 \x01(\v2\x16.file_metadata.VersionR\x19minimumLibdenkflowVersion\"Z\n" +
+	"created_at\x18\x03 \x01(\x03R\tcreatedAt\x12\\\n" +
+	"\x13libdenkflow_version\x18\x04 \x01(\tB+\xfaB(r&2$^\\d+\\.\\d+\\.\\d+(-a\\d+|-b\\d+|-rc\\d+)?$R\x12libdenkflowVersion\"Z\n" +
 	"\x15FileMetadataContainer\x12A\n" +
 	"\rfile_metadata\x18\x80\b \x01(\v2\x1b.file_metadata.FileMetadataR\ffileMetadata*?\n" +
 	"\bFileType\x12\x10\n" +
@@ -280,23 +217,20 @@ func file_file_metadata_proto_rawDescGZIP() []byte {
 }
 
 var file_file_metadata_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_file_metadata_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_file_metadata_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_file_metadata_proto_goTypes = []any{
 	(FileType)(0),                 // 0: file_metadata.FileType
-	(*Version)(nil),               // 1: file_metadata.Version
-	(*FileMetadata)(nil),          // 2: file_metadata.FileMetadata
-	(*FileMetadataContainer)(nil), // 3: file_metadata.FileMetadataContainer
+	(*FileMetadata)(nil),          // 1: file_metadata.FileMetadata
+	(*FileMetadataContainer)(nil), // 2: file_metadata.FileMetadataContainer
 }
 var file_file_metadata_proto_depIdxs = []int32{
 	0, // 0: file_metadata.FileMetadata.file_type:type_name -> file_metadata.FileType
-	1, // 1: file_metadata.FileMetadata.denkproto_version:type_name -> file_metadata.Version
-	1, // 2: file_metadata.FileMetadata.minimum_libdenkflow_version:type_name -> file_metadata.Version
-	2, // 3: file_metadata.FileMetadataContainer.file_metadata:type_name -> file_metadata.FileMetadata
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	1, // 1: file_metadata.FileMetadataContainer.file_metadata:type_name -> file_metadata.FileMetadata
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_file_metadata_proto_init() }
@@ -310,7 +244,7 @@ func file_file_metadata_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_file_metadata_proto_rawDesc), len(file_file_metadata_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   3,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

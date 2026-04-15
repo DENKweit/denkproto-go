@@ -13,18 +13,70 @@
     "license_id": {
       "type": "string"
     },
-    "created_at": {
-      "type": "integer",
-      "description": "Unix timestamp when the recipe was created"
+    "file_metadata": {
+      "$ref": "#/definitions/FileMetadata"
     }
   },
   "required": [
     "nodes",
     "license_id",
-    "created_at"
+    "file_metadata"
   ],
   "additionalProperties": false,
   "definitions": {
+    "Version": {
+      "description": "Version information",
+      "type": "object",
+      "properties": {
+        "major": {
+          "type": "integer"
+        },
+        "minor": {
+          "type": "integer"
+        },
+        "patch": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "major",
+        "minor",
+        "patch"
+      ],
+      "additionalProperties": false
+    },
+    "FileMetadata": {
+      "description": "File metadata",
+      "type": "object",
+      "properties": {
+        "file_type": {
+          "title": "FileType",
+          "enum": [
+            "FT_UNDEFINED",
+            "FT_DENKMODEL",
+            "FT_DENKFLOW"
+          ],
+          "type": "string"
+        },
+        "created_at": {
+          "type": "integer",
+          "description": "Unix timestamp when the recipe was created"
+        },
+        "denkproto_version": {
+          "$ref": "#/definitions/Version"
+        },
+        "minimum_libdenkflow_version": {
+          "$ref": "#/definitions/Version"
+        }
+      },
+      "required": [
+        "file_type",
+        "created_at",
+        "denkproto_version",
+        "minimum_libdenkflow_version"
+      ],
+      "additionalProperties": false
+    },
     "BoundingBoxFilterNode": {
       "description": "Node that filters bounding boxes based on confidence and IoU thresholds. Base type for all nodes in the graph.",
       "type": "object",
@@ -550,6 +602,15 @@
         "output_port_name": {
           "type": "string",
           "pattern": "^[a-zA-Z0-9_-]+$"
+        },
+        "resize_mode": {
+          "title": "ResizeMode",
+          "enum": [
+            "RM_UNDEFINED",
+            "RM_STRETCH",
+            "RM_CENTER_PAD_BLACK"
+          ],
+          "type": "string"
         }
       },
       "required": [
@@ -557,7 +618,8 @@
         "name",
         "input_size",
         "input_image",
-        "output_port_name"
+        "output_port_name",
+        "resize_mode"
       ],
       "additionalProperties": false
     },
@@ -619,6 +681,32 @@
     },
     "Node": {
       "description": "Represents a node in the graph.",
+      "properties": {
+        "ir_version": {
+          "description": "The version of the internal representation.",
+          "type": "integer"
+        },
+        "node_type_name": {
+          "description": "The name of the node type.",
+          "type": "string"
+        },
+        "node_name": {
+          "description": "The name of the node.",
+          "type": "string"
+        },
+        "node": {
+          "$ref": "#/definitions/NodeBase"
+        }
+      },
+      "required": [
+        "ir_version",
+        "node_type_name",
+        "node_name",
+        "node"
+      ]
+    },
+    "NodeBase": {
+      "description": "Represents a node of a specific type in the graph.",
       "oneOf": [
         {
           "$ref": "#/definitions/ConstTensorNode"

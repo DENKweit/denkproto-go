@@ -10,6 +10,7 @@
 package v2
 
 import (
+	file_metadata "github.com/DENKweit/denkproto-go/file_metadata"
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -65,7 +66,7 @@ func (x ModelFile_Content_CompressionMethod) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ModelFile_Content_CompressionMethod.Descriptor instead.
 func (ModelFile_Content_CompressionMethod) EnumDescriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 1, 0}
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
 type ModelFile_Content_EncryptionMethod int32
@@ -111,59 +112,80 @@ func (x ModelFile_Content_EncryptionMethod) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ModelFile_Content_EncryptionMethod.Descriptor instead.
 func (ModelFile_Content_EncryptionMethod) EnumDescriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 1, 1}
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 0, 1}
 }
 
-type ModelFile_Output_OcrOutputFormat_Character_CharacterType int32
+type ModelFile_OutputDecodingInformation_DecodingType int32
 
 const (
-	ModelFile_Output_OcrOutputFormat_Character_CT_REGULAR       ModelFile_Output_OcrOutputFormat_Character_CharacterType = 0
-	ModelFile_Output_OcrOutputFormat_Character_CT_START_OF_TEXT ModelFile_Output_OcrOutputFormat_Character_CharacterType = 1
-	ModelFile_Output_OcrOutputFormat_Character_CT_END_OF_TEXT   ModelFile_Output_OcrOutputFormat_Character_CharacterType = 2
-	ModelFile_Output_OcrOutputFormat_Character_CT_PADDING       ModelFile_Output_OcrOutputFormat_Character_CharacterType = 3
+	ModelFile_OutputDecodingInformation_DT_UNDEFINED                     ModelFile_OutputDecodingInformation_DecodingType = 0
+	ModelFile_OutputDecodingInformation_DT_CLASSIFICATION_DEFAULT        ModelFile_OutputDecodingInformation_DecodingType = 1
+	ModelFile_OutputDecodingInformation_DT_SEGMENTATION_DEFAULT          ModelFile_OutputDecodingInformation_DecodingType = 2
+	ModelFile_OutputDecodingInformation_DT_OBJECT_DETECTION_DEFAULT      ModelFile_OutputDecodingInformation_DecodingType = 3
+	ModelFile_OutputDecodingInformation_DT_INSTANCE_SEGMENTATION_DEFAULT ModelFile_OutputDecodingInformation_DecodingType = 4
+	ModelFile_OutputDecodingInformation_DT_ANOMALY_DETECTION_DEFAULT     ModelFile_OutputDecodingInformation_DecodingType = 5
+	ModelFile_OutputDecodingInformation_DT_OCR_DEFAULT                   ModelFile_OutputDecodingInformation_DecodingType = 6
+	ModelFile_OutputDecodingInformation_DT_KEYPOINT_DETECTION_DEFAULT    ModelFile_OutputDecodingInformation_DecodingType = 7
+	ModelFile_OutputDecodingInformation_DT_BARCODE_READING_DEFAULT       ModelFile_OutputDecodingInformation_DecodingType = 8
+	ModelFile_OutputDecodingInformation_DT_OBJECT_DETECTION_WITH_ANGLE   ModelFile_OutputDecodingInformation_DecodingType = 9
+	ModelFile_OutputDecodingInformation_DT_OCR_CTC                       ModelFile_OutputDecodingInformation_DecodingType = 10
 )
 
-// Enum value maps for ModelFile_Output_OcrOutputFormat_Character_CharacterType.
+// Enum value maps for ModelFile_OutputDecodingInformation_DecodingType.
 var (
-	ModelFile_Output_OcrOutputFormat_Character_CharacterType_name = map[int32]string{
-		0: "CT_REGULAR",
-		1: "CT_START_OF_TEXT",
-		2: "CT_END_OF_TEXT",
-		3: "CT_PADDING",
+	ModelFile_OutputDecodingInformation_DecodingType_name = map[int32]string{
+		0:  "DT_UNDEFINED",
+		1:  "DT_CLASSIFICATION_DEFAULT",
+		2:  "DT_SEGMENTATION_DEFAULT",
+		3:  "DT_OBJECT_DETECTION_DEFAULT",
+		4:  "DT_INSTANCE_SEGMENTATION_DEFAULT",
+		5:  "DT_ANOMALY_DETECTION_DEFAULT",
+		6:  "DT_OCR_DEFAULT",
+		7:  "DT_KEYPOINT_DETECTION_DEFAULT",
+		8:  "DT_BARCODE_READING_DEFAULT",
+		9:  "DT_OBJECT_DETECTION_WITH_ANGLE",
+		10: "DT_OCR_CTC",
 	}
-	ModelFile_Output_OcrOutputFormat_Character_CharacterType_value = map[string]int32{
-		"CT_REGULAR":       0,
-		"CT_START_OF_TEXT": 1,
-		"CT_END_OF_TEXT":   2,
-		"CT_PADDING":       3,
+	ModelFile_OutputDecodingInformation_DecodingType_value = map[string]int32{
+		"DT_UNDEFINED":                     0,
+		"DT_CLASSIFICATION_DEFAULT":        1,
+		"DT_SEGMENTATION_DEFAULT":          2,
+		"DT_OBJECT_DETECTION_DEFAULT":      3,
+		"DT_INSTANCE_SEGMENTATION_DEFAULT": 4,
+		"DT_ANOMALY_DETECTION_DEFAULT":     5,
+		"DT_OCR_DEFAULT":                   6,
+		"DT_KEYPOINT_DETECTION_DEFAULT":    7,
+		"DT_BARCODE_READING_DEFAULT":       8,
+		"DT_OBJECT_DETECTION_WITH_ANGLE":   9,
+		"DT_OCR_CTC":                       10,
 	}
 )
 
-func (x ModelFile_Output_OcrOutputFormat_Character_CharacterType) Enum() *ModelFile_Output_OcrOutputFormat_Character_CharacterType {
-	p := new(ModelFile_Output_OcrOutputFormat_Character_CharacterType)
+func (x ModelFile_OutputDecodingInformation_DecodingType) Enum() *ModelFile_OutputDecodingInformation_DecodingType {
+	p := new(ModelFile_OutputDecodingInformation_DecodingType)
 	*p = x
 	return p
 }
 
-func (x ModelFile_Output_OcrOutputFormat_Character_CharacterType) String() string {
+func (x ModelFile_OutputDecodingInformation_DecodingType) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (ModelFile_Output_OcrOutputFormat_Character_CharacterType) Descriptor() protoreflect.EnumDescriptor {
+func (ModelFile_OutputDecodingInformation_DecodingType) Descriptor() protoreflect.EnumDescriptor {
 	return file_modelfile_v2_proto_enumTypes[2].Descriptor()
 }
 
-func (ModelFile_Output_OcrOutputFormat_Character_CharacterType) Type() protoreflect.EnumType {
+func (ModelFile_OutputDecodingInformation_DecodingType) Type() protoreflect.EnumType {
 	return &file_modelfile_v2_proto_enumTypes[2]
 }
 
-func (x ModelFile_Output_OcrOutputFormat_Character_CharacterType) Number() protoreflect.EnumNumber {
+func (x ModelFile_OutputDecodingInformation_DecodingType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ModelFile_Output_OcrOutputFormat_Character_CharacterType.Descriptor instead.
-func (ModelFile_Output_OcrOutputFormat_Character_CharacterType) EnumDescriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 6, 4, 1, 0}
+// Deprecated: Use ModelFile_OutputDecodingInformation_DecodingType.Descriptor instead.
+func (ModelFile_OutputDecodingInformation_DecodingType) EnumDescriptor() ([]byte, []int) {
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 5, 0}
 }
 
 type ModelFile_FileInfo_NetworkType int32
@@ -224,7 +246,7 @@ func (x ModelFile_FileInfo_NetworkType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ModelFile_FileInfo_NetworkType.Descriptor instead.
 func (ModelFile_FileInfo_NetworkType) EnumDescriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 7, 0}
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 6, 0}
 }
 
 type ModelFile_FileInfo_Precision int32
@@ -318,20 +340,19 @@ func (x ModelFile_FileInfo_Precision) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ModelFile_FileInfo_Precision.Descriptor instead.
 func (ModelFile_FileInfo_Precision) EnumDescriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 7, 1}
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 6, 1}
 }
 
 type ModelFile struct {
-	state           protoimpl.MessageState  `protogen:"open.v1"`
-	ProtocolVersion *ModelFile_Version      `protobuf:"bytes,1,opt,name=protocol_version,json=protocolVersion,proto3" json:"protocol_version,omitempty"` // used too keep track of the modelfile-v2.proto version that the file was created with
-	CreatedAt       int64                   `protobuf:"varint,2,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	FileInfo        *ModelFile_FileInfo     `protobuf:"bytes,3,opt,name=file_info,json=fileInfo,proto3" json:"file_info,omitempty"` // miscellaneous model information
-	FileContent     *ModelFile_FileContent  `protobuf:"bytes,4,opt,name=file_content,json=fileContent,proto3" json:"file_content,omitempty"`
-	ClassLabels     []*ModelFile_ClassLabel `protobuf:"bytes,5,rep,name=class_labels,json=classLabels,proto3" json:"class_labels,omitempty"` // keeps track of the class labels for interpreting the network output
-	Inputs          []*ModelFile_Input      `protobuf:"bytes,6,rep,name=inputs,proto3" json:"inputs,omitempty"`                              // defines the restrictions that the input must abide by
-	Outputs         []*ModelFile_Output     `protobuf:"bytes,7,rep,name=outputs,proto3" json:"outputs,omitempty"`                            // gives information on the output structure of the model
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state                     protoimpl.MessageState               `protogen:"open.v1"`
+	FileInfo                  *ModelFile_FileInfo                  `protobuf:"bytes,1,opt,name=file_info,json=fileInfo,proto3" json:"file_info,omitempty"` // miscellaneous model information
+	FileContent               *ModelFile_FileContent               `protobuf:"bytes,2,opt,name=file_content,json=fileContent,proto3" json:"file_content,omitempty"`
+	ClassLabels               []*ModelFile_ClassLabel              `protobuf:"bytes,3,rep,name=class_labels,json=classLabels,proto3" json:"class_labels,omitempty"` // keeps track of the class labels for interpreting the network output
+	InputDecodingInformation  *ModelFile_InputFormatInformation    `protobuf:"bytes,4,opt,name=input_decoding_information,json=inputDecodingInformation,proto3" json:"input_decoding_information,omitempty"`
+	OutputDecodingInformation *ModelFile_OutputDecodingInformation `protobuf:"bytes,5,opt,name=output_decoding_information,json=outputDecodingInformation,proto3" json:"output_decoding_information,omitempty"`
+	FileMetadata              *file_metadata.FileMetadata          `protobuf:"bytes,1024,opt,name=file_metadata,json=fileMetadata,proto3" json:"file_metadata,omitempty"`
+	unknownFields             protoimpl.UnknownFields
+	sizeCache                 protoimpl.SizeCache
 }
 
 func (x *ModelFile) Reset() {
@@ -364,20 +385,6 @@ func (*ModelFile) Descriptor() ([]byte, []int) {
 	return file_modelfile_v2_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *ModelFile) GetProtocolVersion() *ModelFile_Version {
-	if x != nil {
-		return x.ProtocolVersion
-	}
-	return nil
-}
-
-func (x *ModelFile) GetCreatedAt() int64 {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return 0
-}
-
 func (x *ModelFile) GetFileInfo() *ModelFile_FileInfo {
 	if x != nil {
 		return x.FileInfo
@@ -399,78 +406,25 @@ func (x *ModelFile) GetClassLabels() []*ModelFile_ClassLabel {
 	return nil
 }
 
-func (x *ModelFile) GetInputs() []*ModelFile_Input {
+func (x *ModelFile) GetInputDecodingInformation() *ModelFile_InputFormatInformation {
 	if x != nil {
-		return x.Inputs
+		return x.InputDecodingInformation
 	}
 	return nil
 }
 
-func (x *ModelFile) GetOutputs() []*ModelFile_Output {
+func (x *ModelFile) GetOutputDecodingInformation() *ModelFile_OutputDecodingInformation {
 	if x != nil {
-		return x.Outputs
+		return x.OutputDecodingInformation
 	}
 	return nil
 }
 
-type ModelFile_Version struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Major         uint64                 `protobuf:"varint,1,opt,name=major,proto3" json:"major,omitempty"`
-	Minor         uint64                 `protobuf:"varint,2,opt,name=minor,proto3" json:"minor,omitempty"`
-	Patch         uint64                 `protobuf:"varint,3,opt,name=patch,proto3" json:"patch,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ModelFile_Version) Reset() {
-	*x = ModelFile_Version{}
-	mi := &file_modelfile_v2_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ModelFile_Version) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ModelFile_Version) ProtoMessage() {}
-
-func (x *ModelFile_Version) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[1]
+func (x *ModelFile) GetFileMetadata() *file_metadata.FileMetadata {
 	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
+		return x.FileMetadata
 	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ModelFile_Version.ProtoReflect.Descriptor instead.
-func (*ModelFile_Version) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 0}
-}
-
-func (x *ModelFile_Version) GetMajor() uint64 {
-	if x != nil {
-		return x.Major
-	}
-	return 0
-}
-
-func (x *ModelFile_Version) GetMinor() uint64 {
-	if x != nil {
-		return x.Minor
-	}
-	return 0
-}
-
-func (x *ModelFile_Version) GetPatch() uint64 {
-	if x != nil {
-		return x.Patch
-	}
-	return 0
+	return nil
 }
 
 type ModelFile_Content struct {
@@ -486,7 +440,7 @@ type ModelFile_Content struct {
 
 func (x *ModelFile_Content) Reset() {
 	*x = ModelFile_Content{}
-	mi := &file_modelfile_v2_proto_msgTypes[2]
+	mi := &file_modelfile_v2_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -498,7 +452,7 @@ func (x *ModelFile_Content) String() string {
 func (*ModelFile_Content) ProtoMessage() {}
 
 func (x *ModelFile_Content) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[2]
+	mi := &file_modelfile_v2_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -511,7 +465,7 @@ func (x *ModelFile_Content) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ModelFile_Content.ProtoReflect.Descriptor instead.
 func (*ModelFile_Content) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 1}
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 0}
 }
 
 func (x *ModelFile_Content) GetByteContent() []byte {
@@ -561,7 +515,7 @@ type ModelFile_ClassLabel struct {
 
 func (x *ModelFile_ClassLabel) Reset() {
 	*x = ModelFile_ClassLabel{}
-	mi := &file_modelfile_v2_proto_msgTypes[3]
+	mi := &file_modelfile_v2_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -573,7 +527,7 @@ func (x *ModelFile_ClassLabel) String() string {
 func (*ModelFile_ClassLabel) ProtoMessage() {}
 
 func (x *ModelFile_ClassLabel) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[3]
+	mi := &file_modelfile_v2_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -586,7 +540,7 @@ func (x *ModelFile_ClassLabel) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ModelFile_ClassLabel.ProtoReflect.Descriptor instead.
 func (*ModelFile_ClassLabel) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 2}
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 1}
 }
 
 func (x *ModelFile_ClassLabel) GetClassLabelId() string {
@@ -628,7 +582,7 @@ type ModelFile_ImageSize struct {
 
 func (x *ModelFile_ImageSize) Reset() {
 	*x = ModelFile_ImageSize{}
-	mi := &file_modelfile_v2_proto_msgTypes[4]
+	mi := &file_modelfile_v2_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -640,7 +594,7 @@ func (x *ModelFile_ImageSize) String() string {
 func (*ModelFile_ImageSize) ProtoMessage() {}
 
 func (x *ModelFile_ImageSize) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[4]
+	mi := &file_modelfile_v2_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -653,7 +607,7 @@ func (x *ModelFile_ImageSize) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ModelFile_ImageSize.ProtoReflect.Descriptor instead.
 func (*ModelFile_ImageSize) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 3}
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 2}
 }
 
 func (x *ModelFile_ImageSize) GetWidth() uint64 {
@@ -689,7 +643,7 @@ type ModelFile_RegionFromEdge struct {
 
 func (x *ModelFile_RegionFromEdge) Reset() {
 	*x = ModelFile_RegionFromEdge{}
-	mi := &file_modelfile_v2_proto_msgTypes[5]
+	mi := &file_modelfile_v2_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -701,7 +655,7 @@ func (x *ModelFile_RegionFromEdge) String() string {
 func (*ModelFile_RegionFromEdge) ProtoMessage() {}
 
 func (x *ModelFile_RegionFromEdge) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[5]
+	mi := &file_modelfile_v2_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -714,7 +668,7 @@ func (x *ModelFile_RegionFromEdge) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ModelFile_RegionFromEdge.ProtoReflect.Descriptor instead.
 func (*ModelFile_RegionFromEdge) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 4}
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 3}
 }
 
 func (x *ModelFile_RegionFromEdge) GetLeft() float64 {
@@ -745,31 +699,73 @@ func (x *ModelFile_RegionFromEdge) GetBottom() float64 {
 	return 0
 }
 
-type ModelFile_Input struct {
-	state     protoimpl.MessageState `protogen:"open.v1"`
-	InputName string                 `protobuf:"bytes,1,opt,name=input_name,json=inputName,proto3" json:"input_name,omitempty"`
-	// Types that are valid to be assigned to FormatInformation:
-	//
-	//	*ModelFile_Input_ImageFormat
-	FormatInformation isModelFile_Input_FormatInformation `protobuf_oneof:"format_information"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+type ModelFile_InputFormatInformation struct {
+	state         protoimpl.MessageState                    `protogen:"open.v1"`
+	Inputs        []*ModelFile_InputFormatInformation_Input `protobuf:"bytes,1,rep,name=inputs,proto3" json:"inputs,omitempty"` // defines the restrictions that the input must abide by
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ModelFile_Input) Reset() {
-	*x = ModelFile_Input{}
+func (x *ModelFile_InputFormatInformation) Reset() {
+	*x = ModelFile_InputFormatInformation{}
+	mi := &file_modelfile_v2_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ModelFile_InputFormatInformation) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ModelFile_InputFormatInformation) ProtoMessage() {}
+
+func (x *ModelFile_InputFormatInformation) ProtoReflect() protoreflect.Message {
+	mi := &file_modelfile_v2_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ModelFile_InputFormatInformation.ProtoReflect.Descriptor instead.
+func (*ModelFile_InputFormatInformation) Descriptor() ([]byte, []int) {
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 4}
+}
+
+func (x *ModelFile_InputFormatInformation) GetInputs() []*ModelFile_InputFormatInformation_Input {
+	if x != nil {
+		return x.Inputs
+	}
+	return nil
+}
+
+type ModelFile_OutputDecodingInformation struct {
+	state                  protoimpl.MessageState                                      `protogen:"open.v1"`
+	DecodingType           ModelFile_OutputDecodingInformation_DecodingType            `protobuf:"varint,1,opt,name=decoding_type,json=decodingType,proto3,enum=modelfile.v2.ModelFile_OutputDecodingInformation_DecodingType" json:"decoding_type,omitempty"`
+	OutputNames            []string                                                    `protobuf:"bytes,2,rep,name=output_names,json=outputNames,proto3" json:"output_names,omitempty"` // gives information on the output structure of the model
+	OcrDecodingInformation *ModelFile_OutputDecodingInformation_OcrDecodingInformation `protobuf:"bytes,3,opt,name=ocr_decoding_information,json=ocrDecodingInformation,proto3,oneof" json:"ocr_decoding_information,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
+}
+
+func (x *ModelFile_OutputDecodingInformation) Reset() {
+	*x = ModelFile_OutputDecodingInformation{}
 	mi := &file_modelfile_v2_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ModelFile_Input) String() string {
+func (x *ModelFile_OutputDecodingInformation) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ModelFile_Input) ProtoMessage() {}
+func (*ModelFile_OutputDecodingInformation) ProtoMessage() {}
 
-func (x *ModelFile_Input) ProtoReflect() protoreflect.Message {
+func (x *ModelFile_OutputDecodingInformation) ProtoReflect() protoreflect.Message {
 	mi := &file_modelfile_v2_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -781,201 +777,50 @@ func (x *ModelFile_Input) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ModelFile_Input.ProtoReflect.Descriptor instead.
-func (*ModelFile_Input) Descriptor() ([]byte, []int) {
+// Deprecated: Use ModelFile_OutputDecodingInformation.ProtoReflect.Descriptor instead.
+func (*ModelFile_OutputDecodingInformation) Descriptor() ([]byte, []int) {
 	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 5}
 }
 
-func (x *ModelFile_Input) GetInputName() string {
+func (x *ModelFile_OutputDecodingInformation) GetDecodingType() ModelFile_OutputDecodingInformation_DecodingType {
 	if x != nil {
-		return x.InputName
+		return x.DecodingType
 	}
-	return ""
+	return ModelFile_OutputDecodingInformation_DT_UNDEFINED
 }
 
-func (x *ModelFile_Input) GetFormatInformation() isModelFile_Input_FormatInformation {
+func (x *ModelFile_OutputDecodingInformation) GetOutputNames() []string {
 	if x != nil {
-		return x.FormatInformation
-	}
-	return nil
-}
-
-func (x *ModelFile_Input) GetImageFormat() *ModelFile_Input_ImageInputFormat {
-	if x != nil {
-		if x, ok := x.FormatInformation.(*ModelFile_Input_ImageFormat); ok {
-			return x.ImageFormat
-		}
+		return x.OutputNames
 	}
 	return nil
 }
 
-type isModelFile_Input_FormatInformation interface {
-	isModelFile_Input_FormatInformation()
-}
-
-type ModelFile_Input_ImageFormat struct {
-	ImageFormat *ModelFile_Input_ImageInputFormat `protobuf:"bytes,2,opt,name=image_format,json=imageFormat,proto3,oneof"`
-}
-
-func (*ModelFile_Input_ImageFormat) isModelFile_Input_FormatInformation() {}
-
-type ModelFile_Output struct {
-	state      protoimpl.MessageState `protogen:"open.v1"`
-	OutputName string                 `protobuf:"bytes,1,opt,name=output_name,json=outputName,proto3" json:"output_name,omitempty"`
-	// Types that are valid to be assigned to FormatInformation:
-	//
-	//	*ModelFile_Output_ScalarFormat
-	//	*ModelFile_Output_SegmentationMapsFormat
-	//	*ModelFile_Output_BoundingBoxesFormat
-	//	*ModelFile_Output_BoundingBoxSegmentationsFormat
-	//	*ModelFile_Output_OcrFormat
-	FormatInformation isModelFile_Output_FormatInformation `protobuf_oneof:"format_information"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
-}
-
-func (x *ModelFile_Output) Reset() {
-	*x = ModelFile_Output{}
-	mi := &file_modelfile_v2_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ModelFile_Output) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ModelFile_Output) ProtoMessage() {}
-
-func (x *ModelFile_Output) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[7]
+func (x *ModelFile_OutputDecodingInformation) GetOcrDecodingInformation() *ModelFile_OutputDecodingInformation_OcrDecodingInformation {
 	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ModelFile_Output.ProtoReflect.Descriptor instead.
-func (*ModelFile_Output) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 6}
-}
-
-func (x *ModelFile_Output) GetOutputName() string {
-	if x != nil {
-		return x.OutputName
-	}
-	return ""
-}
-
-func (x *ModelFile_Output) GetFormatInformation() isModelFile_Output_FormatInformation {
-	if x != nil {
-		return x.FormatInformation
+		return x.OcrDecodingInformation
 	}
 	return nil
 }
-
-func (x *ModelFile_Output) GetScalarFormat() *ModelFile_Output_ScalarOutputFormat {
-	if x != nil {
-		if x, ok := x.FormatInformation.(*ModelFile_Output_ScalarFormat); ok {
-			return x.ScalarFormat
-		}
-	}
-	return nil
-}
-
-func (x *ModelFile_Output) GetSegmentationMapsFormat() *ModelFile_Output_SegmentationMapsOutputFormat {
-	if x != nil {
-		if x, ok := x.FormatInformation.(*ModelFile_Output_SegmentationMapsFormat); ok {
-			return x.SegmentationMapsFormat
-		}
-	}
-	return nil
-}
-
-func (x *ModelFile_Output) GetBoundingBoxesFormat() *ModelFile_Output_BoundingBoxesOutputFormat {
-	if x != nil {
-		if x, ok := x.FormatInformation.(*ModelFile_Output_BoundingBoxesFormat); ok {
-			return x.BoundingBoxesFormat
-		}
-	}
-	return nil
-}
-
-func (x *ModelFile_Output) GetBoundingBoxSegmentationsFormat() *ModelFile_Output_BoundingBoxSegmentationsOutputFormat {
-	if x != nil {
-		if x, ok := x.FormatInformation.(*ModelFile_Output_BoundingBoxSegmentationsFormat); ok {
-			return x.BoundingBoxSegmentationsFormat
-		}
-	}
-	return nil
-}
-
-func (x *ModelFile_Output) GetOcrFormat() *ModelFile_Output_OcrOutputFormat {
-	if x != nil {
-		if x, ok := x.FormatInformation.(*ModelFile_Output_OcrFormat); ok {
-			return x.OcrFormat
-		}
-	}
-	return nil
-}
-
-type isModelFile_Output_FormatInformation interface {
-	isModelFile_Output_FormatInformation()
-}
-
-type ModelFile_Output_ScalarFormat struct {
-	ScalarFormat *ModelFile_Output_ScalarOutputFormat `protobuf:"bytes,2,opt,name=scalar_format,json=scalarFormat,proto3,oneof"`
-}
-
-type ModelFile_Output_SegmentationMapsFormat struct {
-	SegmentationMapsFormat *ModelFile_Output_SegmentationMapsOutputFormat `protobuf:"bytes,3,opt,name=segmentation_maps_format,json=segmentationMapsFormat,proto3,oneof"`
-}
-
-type ModelFile_Output_BoundingBoxesFormat struct {
-	BoundingBoxesFormat *ModelFile_Output_BoundingBoxesOutputFormat `protobuf:"bytes,4,opt,name=bounding_boxes_format,json=boundingBoxesFormat,proto3,oneof"`
-}
-
-type ModelFile_Output_BoundingBoxSegmentationsFormat struct {
-	BoundingBoxSegmentationsFormat *ModelFile_Output_BoundingBoxSegmentationsOutputFormat `protobuf:"bytes,5,opt,name=bounding_box_segmentations_format,json=boundingBoxSegmentationsFormat,proto3,oneof"`
-}
-
-type ModelFile_Output_OcrFormat struct {
-	OcrFormat *ModelFile_Output_OcrOutputFormat `protobuf:"bytes,6,opt,name=ocr_format,json=ocrFormat,proto3,oneof"`
-}
-
-func (*ModelFile_Output_ScalarFormat) isModelFile_Output_FormatInformation() {}
-
-func (*ModelFile_Output_SegmentationMapsFormat) isModelFile_Output_FormatInformation() {}
-
-func (*ModelFile_Output_BoundingBoxesFormat) isModelFile_Output_FormatInformation() {}
-
-func (*ModelFile_Output_BoundingBoxSegmentationsFormat) isModelFile_Output_FormatInformation() {}
-
-func (*ModelFile_Output_OcrFormat) isModelFile_Output_FormatInformation() {}
 
 type ModelFile_FileInfo struct {
-	state                     protoimpl.MessageState         `protogen:"open.v1"`
-	NetworkName               string                         `protobuf:"bytes,1,opt,name=network_name,json=networkName,proto3" json:"network_name,omitempty"`
-	NetworkId                 string                         `protobuf:"bytes,2,opt,name=network_id,json=networkId,proto3" json:"network_id,omitempty"`
-	NetworkExperimentId       string                         `protobuf:"bytes,3,opt,name=network_experiment_id,json=networkExperimentId,proto3" json:"network_experiment_id,omitempty"`
-	NetworkSnapshotId         string                         `protobuf:"bytes,4,opt,name=network_snapshot_id,json=networkSnapshotId,proto3" json:"network_snapshot_id,omitempty"`
-	NetworkType               ModelFile_FileInfo_NetworkType `protobuf:"varint,5,opt,name=network_type,json=networkType,proto3,enum=modelfile.v2.ModelFile_FileInfo_NetworkType" json:"network_type,omitempty"`
-	NetworkFlavor             string                         `protobuf:"bytes,6,opt,name=network_flavor,json=networkFlavor,proto3" json:"network_flavor,omitempty"`
-	NetworkVersion            *ModelFile_Version             `protobuf:"bytes,7,opt,name=network_version,json=networkVersion,proto3" json:"network_version,omitempty"`
-	RuntimeVersion            *ModelFile_Version             `protobuf:"bytes,8,opt,name=runtime_version,json=runtimeVersion,proto3" json:"runtime_version,omitempty"`
-	Precision                 ModelFile_FileInfo_Precision   `protobuf:"varint,9,opt,name=precision,proto3,enum=modelfile.v2.ModelFile_FileInfo_Precision" json:"precision,omitempty"`
-	MinimumLibdenkflowVersion *ModelFile_Version             `protobuf:"bytes,10,opt,name=minimum_libdenkflow_version,json=minimumLibdenkflowVersion,proto3" json:"minimum_libdenkflow_version,omitempty"`
-	unknownFields             protoimpl.UnknownFields
-	sizeCache                 protoimpl.SizeCache
+	state                    protoimpl.MessageState         `protogen:"open.v1"`
+	NetworkName              string                         `protobuf:"bytes,1,opt,name=network_name,json=networkName,proto3" json:"network_name,omitempty"`
+	NetworkId                string                         `protobuf:"bytes,2,opt,name=network_id,json=networkId,proto3" json:"network_id,omitempty"`
+	NetworkExperimentId      string                         `protobuf:"bytes,3,opt,name=network_experiment_id,json=networkExperimentId,proto3" json:"network_experiment_id,omitempty"`
+	NetworkSnapshotId        string                         `protobuf:"bytes,4,opt,name=network_snapshot_id,json=networkSnapshotId,proto3" json:"network_snapshot_id,omitempty"`
+	NetworkType              ModelFile_FileInfo_NetworkType `protobuf:"varint,5,opt,name=network_type,json=networkType,proto3,enum=modelfile.v2.ModelFile_FileInfo_NetworkType" json:"network_type,omitempty"`
+	NetworkFlavor            string                         `protobuf:"bytes,6,opt,name=network_flavor,json=networkFlavor,proto3" json:"network_flavor,omitempty"`
+	NetworkVersion           string                         `protobuf:"bytes,7,opt,name=network_version,json=networkVersion,proto3" json:"network_version,omitempty"`
+	Precision                ModelFile_FileInfo_Precision   `protobuf:"varint,8,opt,name=precision,proto3,enum=modelfile.v2.ModelFile_FileInfo_Precision" json:"precision,omitempty"`
+	NetworkSnapshotTimestamp int64                          `protobuf:"varint,9,opt,name=network_snapshot_timestamp,json=networkSnapshotTimestamp,proto3" json:"network_snapshot_timestamp,omitempty"`
+	unknownFields            protoimpl.UnknownFields
+	sizeCache                protoimpl.SizeCache
 }
 
 func (x *ModelFile_FileInfo) Reset() {
 	*x = ModelFile_FileInfo{}
-	mi := &file_modelfile_v2_proto_msgTypes[8]
+	mi := &file_modelfile_v2_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -987,7 +832,7 @@ func (x *ModelFile_FileInfo) String() string {
 func (*ModelFile_FileInfo) ProtoMessage() {}
 
 func (x *ModelFile_FileInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[8]
+	mi := &file_modelfile_v2_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1000,7 +845,7 @@ func (x *ModelFile_FileInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ModelFile_FileInfo.ProtoReflect.Descriptor instead.
 func (*ModelFile_FileInfo) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 7}
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 6}
 }
 
 func (x *ModelFile_FileInfo) GetNetworkName() string {
@@ -1045,18 +890,11 @@ func (x *ModelFile_FileInfo) GetNetworkFlavor() string {
 	return ""
 }
 
-func (x *ModelFile_FileInfo) GetNetworkVersion() *ModelFile_Version {
+func (x *ModelFile_FileInfo) GetNetworkVersion() string {
 	if x != nil {
 		return x.NetworkVersion
 	}
-	return nil
-}
-
-func (x *ModelFile_FileInfo) GetRuntimeVersion() *ModelFile_Version {
-	if x != nil {
-		return x.RuntimeVersion
-	}
-	return nil
+	return ""
 }
 
 func (x *ModelFile_FileInfo) GetPrecision() ModelFile_FileInfo_Precision {
@@ -1066,27 +904,27 @@ func (x *ModelFile_FileInfo) GetPrecision() ModelFile_FileInfo_Precision {
 	return ModelFile_FileInfo_P_UNDEFINED
 }
 
-func (x *ModelFile_FileInfo) GetMinimumLibdenkflowVersion() *ModelFile_Version {
+func (x *ModelFile_FileInfo) GetNetworkSnapshotTimestamp() int64 {
 	if x != nil {
-		return x.MinimumLibdenkflowVersion
+		return x.NetworkSnapshotTimestamp
 	}
-	return nil
+	return 0
 }
 
 type ModelFile_FileContent struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	// Types that are valid to be assigned to FileType:
+	// Types that are valid to be assigned to ModelType:
 	//
 	//	*ModelFile_FileContent_DefaultModel_
 	//	*ModelFile_FileContent_TensorrtModel
-	FileType      isModelFile_FileContent_FileType `protobuf_oneof:"file_type"`
+	ModelType     isModelFile_FileContent_ModelType `protobuf_oneof:"model_type"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ModelFile_FileContent) Reset() {
 	*x = ModelFile_FileContent{}
-	mi := &file_modelfile_v2_proto_msgTypes[9]
+	mi := &file_modelfile_v2_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1098,7 +936,7 @@ func (x *ModelFile_FileContent) String() string {
 func (*ModelFile_FileContent) ProtoMessage() {}
 
 func (x *ModelFile_FileContent) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[9]
+	mi := &file_modelfile_v2_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1111,19 +949,19 @@ func (x *ModelFile_FileContent) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ModelFile_FileContent.ProtoReflect.Descriptor instead.
 func (*ModelFile_FileContent) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 8}
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 7}
 }
 
-func (x *ModelFile_FileContent) GetFileType() isModelFile_FileContent_FileType {
+func (x *ModelFile_FileContent) GetModelType() isModelFile_FileContent_ModelType {
 	if x != nil {
-		return x.FileType
+		return x.ModelType
 	}
 	return nil
 }
 
 func (x *ModelFile_FileContent) GetDefaultModel() *ModelFile_FileContent_DefaultModel {
 	if x != nil {
-		if x, ok := x.FileType.(*ModelFile_FileContent_DefaultModel_); ok {
+		if x, ok := x.ModelType.(*ModelFile_FileContent_DefaultModel_); ok {
 			return x.DefaultModel
 		}
 	}
@@ -1132,15 +970,15 @@ func (x *ModelFile_FileContent) GetDefaultModel() *ModelFile_FileContent_Default
 
 func (x *ModelFile_FileContent) GetTensorrtModel() *ModelFile_FileContent_TensorRTModel {
 	if x != nil {
-		if x, ok := x.FileType.(*ModelFile_FileContent_TensorrtModel); ok {
+		if x, ok := x.ModelType.(*ModelFile_FileContent_TensorrtModel); ok {
 			return x.TensorrtModel
 		}
 	}
 	return nil
 }
 
-type isModelFile_FileContent_FileType interface {
-	isModelFile_FileContent_FileType()
+type isModelFile_FileContent_ModelType interface {
+	isModelFile_FileContent_ModelType()
 }
 
 type ModelFile_FileContent_DefaultModel_ struct {
@@ -1151,9 +989,9 @@ type ModelFile_FileContent_TensorrtModel struct {
 	TensorrtModel *ModelFile_FileContent_TensorRTModel `protobuf:"bytes,2,opt,name=tensorrt_model,json=tensorrtModel,proto3,oneof"`
 }
 
-func (*ModelFile_FileContent_DefaultModel_) isModelFile_FileContent_FileType() {}
+func (*ModelFile_FileContent_DefaultModel_) isModelFile_FileContent_ModelType() {}
 
-func (*ModelFile_FileContent_TensorrtModel) isModelFile_FileContent_FileType() {}
+func (*ModelFile_FileContent_TensorrtModel) isModelFile_FileContent_ModelType() {}
 
 type ModelFile_Content_KeySlot struct {
 	state          protoimpl.MessageState             `protogen:"open.v1"`
@@ -1165,7 +1003,7 @@ type ModelFile_Content_KeySlot struct {
 
 func (x *ModelFile_Content_KeySlot) Reset() {
 	*x = ModelFile_Content_KeySlot{}
-	mi := &file_modelfile_v2_proto_msgTypes[10]
+	mi := &file_modelfile_v2_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1177,7 +1015,7 @@ func (x *ModelFile_Content_KeySlot) String() string {
 func (*ModelFile_Content_KeySlot) ProtoMessage() {}
 
 func (x *ModelFile_Content_KeySlot) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[10]
+	mi := &file_modelfile_v2_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1190,7 +1028,7 @@ func (x *ModelFile_Content_KeySlot) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ModelFile_Content_KeySlot.ProtoReflect.Descriptor instead.
 func (*ModelFile_Content_KeySlot) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 1, 0}
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 0, 0}
 }
 
 func (x *ModelFile_Content_KeySlot) GetWrappedKey() []byte {
@@ -1207,32 +1045,107 @@ func (x *ModelFile_Content_KeySlot) GetWrappingMethod() ModelFile_Content_Encryp
 	return ModelFile_Content_EM_NONE
 }
 
-type ModelFile_Input_ImageInputFormat struct {
+type ModelFile_InputFormatInformation_Input struct {
+	state     protoimpl.MessageState `protogen:"open.v1"`
+	InputName string                 `protobuf:"bytes,1,opt,name=input_name,json=inputName,proto3" json:"input_name,omitempty"`
+	// Types that are valid to be assigned to FormatInformation:
+	//
+	//	*ModelFile_InputFormatInformation_Input_ImageFormat
+	FormatInformation isModelFile_InputFormatInformation_Input_FormatInformation `protobuf_oneof:"format_information"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *ModelFile_InputFormatInformation_Input) Reset() {
+	*x = ModelFile_InputFormatInformation_Input{}
+	mi := &file_modelfile_v2_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ModelFile_InputFormatInformation_Input) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ModelFile_InputFormatInformation_Input) ProtoMessage() {}
+
+func (x *ModelFile_InputFormatInformation_Input) ProtoReflect() protoreflect.Message {
+	mi := &file_modelfile_v2_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ModelFile_InputFormatInformation_Input.ProtoReflect.Descriptor instead.
+func (*ModelFile_InputFormatInformation_Input) Descriptor() ([]byte, []int) {
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 4, 0}
+}
+
+func (x *ModelFile_InputFormatInformation_Input) GetInputName() string {
+	if x != nil {
+		return x.InputName
+	}
+	return ""
+}
+
+func (x *ModelFile_InputFormatInformation_Input) GetFormatInformation() isModelFile_InputFormatInformation_Input_FormatInformation {
+	if x != nil {
+		return x.FormatInformation
+	}
+	return nil
+}
+
+func (x *ModelFile_InputFormatInformation_Input) GetImageFormat() *ModelFile_InputFormatInformation_Input_ImageInputFormat {
+	if x != nil {
+		if x, ok := x.FormatInformation.(*ModelFile_InputFormatInformation_Input_ImageFormat); ok {
+			return x.ImageFormat
+		}
+	}
+	return nil
+}
+
+type isModelFile_InputFormatInformation_Input_FormatInformation interface {
+	isModelFile_InputFormatInformation_Input_FormatInformation()
+}
+
+type ModelFile_InputFormatInformation_Input_ImageFormat struct {
+	ImageFormat *ModelFile_InputFormatInformation_Input_ImageInputFormat `protobuf:"bytes,2,opt,name=image_format,json=imageFormat,proto3,oneof"`
+}
+
+func (*ModelFile_InputFormatInformation_Input_ImageFormat) isModelFile_InputFormatInformation_Input_FormatInformation() {
+}
+
+type ModelFile_InputFormatInformation_Input_ImageInputFormat struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to ImageSizeRequirements:
 	//
-	//	*ModelFile_Input_ImageInputFormat_ExactImageSize
-	//	*ModelFile_Input_ImageInputFormat_DivisibleImageSize
-	ImageSizeRequirements isModelFile_Input_ImageInputFormat_ImageSizeRequirements `protobuf_oneof:"image_size_requirements"`
-	RegionOfInterest      *ModelFile_RegionFromEdge                                `protobuf:"bytes,3,opt,name=region_of_interest,json=regionOfInterest,proto3" json:"region_of_interest,omitempty"` // the relative region from the edge
+	//	*ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSize
+	//	*ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSize
+	ImageSizeRequirements isModelFile_InputFormatInformation_Input_ImageInputFormat_ImageSizeRequirements `protobuf_oneof:"image_size_requirements"`
+	RegionOfInterest      *ModelFile_RegionFromEdge                                                       `protobuf:"bytes,3,opt,name=region_of_interest,json=regionOfInterest,proto3" json:"region_of_interest,omitempty"` // the relative region from the edge
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
 
-func (x *ModelFile_Input_ImageInputFormat) Reset() {
-	*x = ModelFile_Input_ImageInputFormat{}
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat) Reset() {
+	*x = ModelFile_InputFormatInformation_Input_ImageInputFormat{}
 	mi := &file_modelfile_v2_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ModelFile_Input_ImageInputFormat) String() string {
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ModelFile_Input_ImageInputFormat) ProtoMessage() {}
+func (*ModelFile_InputFormatInformation_Input_ImageInputFormat) ProtoMessage() {}
 
-func (x *ModelFile_Input_ImageInputFormat) ProtoReflect() protoreflect.Message {
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat) ProtoReflect() protoreflect.Message {
 	mi := &file_modelfile_v2_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1244,82 +1157,83 @@ func (x *ModelFile_Input_ImageInputFormat) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ModelFile_Input_ImageInputFormat.ProtoReflect.Descriptor instead.
-func (*ModelFile_Input_ImageInputFormat) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 5, 0}
+// Deprecated: Use ModelFile_InputFormatInformation_Input_ImageInputFormat.ProtoReflect.Descriptor instead.
+func (*ModelFile_InputFormatInformation_Input_ImageInputFormat) Descriptor() ([]byte, []int) {
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 4, 0, 0}
 }
 
-func (x *ModelFile_Input_ImageInputFormat) GetImageSizeRequirements() isModelFile_Input_ImageInputFormat_ImageSizeRequirements {
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat) GetImageSizeRequirements() isModelFile_InputFormatInformation_Input_ImageInputFormat_ImageSizeRequirements {
 	if x != nil {
 		return x.ImageSizeRequirements
 	}
 	return nil
 }
 
-func (x *ModelFile_Input_ImageInputFormat) GetExactImageSize() *ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement {
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat) GetExactImageSize() *ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement {
 	if x != nil {
-		if x, ok := x.ImageSizeRequirements.(*ModelFile_Input_ImageInputFormat_ExactImageSize); ok {
+		if x, ok := x.ImageSizeRequirements.(*ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSize); ok {
 			return x.ExactImageSize
 		}
 	}
 	return nil
 }
 
-func (x *ModelFile_Input_ImageInputFormat) GetDivisibleImageSize() *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement {
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat) GetDivisibleImageSize() *ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement {
 	if x != nil {
-		if x, ok := x.ImageSizeRequirements.(*ModelFile_Input_ImageInputFormat_DivisibleImageSize); ok {
+		if x, ok := x.ImageSizeRequirements.(*ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSize); ok {
 			return x.DivisibleImageSize
 		}
 	}
 	return nil
 }
 
-func (x *ModelFile_Input_ImageInputFormat) GetRegionOfInterest() *ModelFile_RegionFromEdge {
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat) GetRegionOfInterest() *ModelFile_RegionFromEdge {
 	if x != nil {
 		return x.RegionOfInterest
 	}
 	return nil
 }
 
-type isModelFile_Input_ImageInputFormat_ImageSizeRequirements interface {
-	isModelFile_Input_ImageInputFormat_ImageSizeRequirements()
+type isModelFile_InputFormatInformation_Input_ImageInputFormat_ImageSizeRequirements interface {
+	isModelFile_InputFormatInformation_Input_ImageInputFormat_ImageSizeRequirements()
 }
 
-type ModelFile_Input_ImageInputFormat_ExactImageSize struct {
-	ExactImageSize *ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement `protobuf:"bytes,1,opt,name=exact_image_size,json=exactImageSize,proto3,oneof"`
+type ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSize struct {
+	ExactImageSize *ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement `protobuf:"bytes,1,opt,name=exact_image_size,json=exactImageSize,proto3,oneof"`
 }
 
-type ModelFile_Input_ImageInputFormat_DivisibleImageSize struct {
-	DivisibleImageSize *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement `protobuf:"bytes,2,opt,name=divisible_image_size,json=divisibleImageSize,proto3,oneof"`
+type ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSize struct {
+	DivisibleImageSize *ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement `protobuf:"bytes,2,opt,name=divisible_image_size,json=divisibleImageSize,proto3,oneof"`
 }
 
-func (*ModelFile_Input_ImageInputFormat_ExactImageSize) isModelFile_Input_ImageInputFormat_ImageSizeRequirements() {
+func (*ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSize) isModelFile_InputFormatInformation_Input_ImageInputFormat_ImageSizeRequirements() {
 }
 
-func (*ModelFile_Input_ImageInputFormat_DivisibleImageSize) isModelFile_Input_ImageInputFormat_ImageSizeRequirements() {
+func (*ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSize) isModelFile_InputFormatInformation_Input_ImageInputFormat_ImageSizeRequirements() {
 }
 
-type ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement struct {
+type ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ImageSize     *ModelFile_ImageSize   `protobuf:"bytes,1,opt,name=image_size,json=imageSize,proto3" json:"image_size,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement) Reset() {
-	*x = ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement{}
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement) Reset() {
+	*x = ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement{}
 	mi := &file_modelfile_v2_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement) String() string {
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement) ProtoMessage() {}
+func (*ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement) ProtoMessage() {
+}
 
-func (x *ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement) ProtoReflect() protoreflect.Message {
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement) ProtoReflect() protoreflect.Message {
 	mi := &file_modelfile_v2_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1331,19 +1245,19 @@ func (x *ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement) ProtoReflec
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement.ProtoReflect.Descriptor instead.
-func (*ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 5, 0, 0}
+// Deprecated: Use ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement.ProtoReflect.Descriptor instead.
+func (*ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement) Descriptor() ([]byte, []int) {
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 4, 0, 0, 0}
 }
 
-func (x *ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement) GetImageSize() *ModelFile_ImageSize {
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement) GetImageSize() *ModelFile_ImageSize {
 	if x != nil {
 		return x.ImageSize
 	}
 	return nil
 }
 
-type ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement struct {
+type ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement struct {
 	state              protoimpl.MessageState `protogen:"open.v1"`
 	ImageSizeDivisors  *ModelFile_ImageSize   `protobuf:"bytes,1,opt,name=image_size_divisors,json=imageSizeDivisors,proto3" json:"image_size_divisors,omitempty"`    // contains the values that the respective image dimensions must be divisible by
 	MinimumImageSize   *ModelFile_ImageSize   `protobuf:"bytes,2,opt,name=minimum_image_size,json=minimumImageSize,proto3" json:"minimum_image_size,omitempty"`       // the image must not be smaller than this value
@@ -1352,20 +1266,21 @@ type ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement struct {
 	sizeCache          protoimpl.SizeCache
 }
 
-func (x *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) Reset() {
-	*x = ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement{}
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement) Reset() {
+	*x = ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement{}
 	mi := &file_modelfile_v2_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) String() string {
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) ProtoMessage() {}
+func (*ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement) ProtoMessage() {
+}
 
-func (x *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) ProtoReflect() protoreflect.Message {
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement) ProtoReflect() protoreflect.Message {
 	mi := &file_modelfile_v2_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1377,53 +1292,54 @@ func (x *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) ProtoRe
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement.ProtoReflect.Descriptor instead.
-func (*ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 5, 0, 1}
+// Deprecated: Use ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement.ProtoReflect.Descriptor instead.
+func (*ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement) Descriptor() ([]byte, []int) {
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 4, 0, 0, 1}
 }
 
-func (x *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) GetImageSizeDivisors() *ModelFile_ImageSize {
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement) GetImageSizeDivisors() *ModelFile_ImageSize {
 	if x != nil {
 		return x.ImageSizeDivisors
 	}
 	return nil
 }
 
-func (x *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) GetMinimumImageSize() *ModelFile_ImageSize {
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement) GetMinimumImageSize() *ModelFile_ImageSize {
 	if x != nil {
 		return x.MinimumImageSize
 	}
 	return nil
 }
 
-func (x *ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement) GetSuggestedImageSize() *ModelFile_ImageSize {
+func (x *ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement) GetSuggestedImageSize() *ModelFile_ImageSize {
 	if x != nil {
 		return x.SuggestedImageSize
 	}
 	return nil
 }
 
-// reserved for future use
-type ModelFile_Output_ScalarOutputFormat struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+type ModelFile_OutputDecodingInformation_OcrDecodingInformation struct {
+	state              protoimpl.MessageState                                                               `protogen:"open.v1"`
+	Charset            string                                                                               `protobuf:"bytes,1,opt,name=charset,proto3" json:"charset,omitempty"` // contains the character lexicon
+	FormatRestrictions []*ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock `protobuf:"bytes,2,rep,name=format_restrictions,json=formatRestrictions,proto3" json:"format_restrictions,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
-func (x *ModelFile_Output_ScalarOutputFormat) Reset() {
-	*x = ModelFile_Output_ScalarOutputFormat{}
+func (x *ModelFile_OutputDecodingInformation_OcrDecodingInformation) Reset() {
+	*x = ModelFile_OutputDecodingInformation_OcrDecodingInformation{}
 	mi := &file_modelfile_v2_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ModelFile_Output_ScalarOutputFormat) String() string {
+func (x *ModelFile_OutputDecodingInformation_OcrDecodingInformation) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ModelFile_Output_ScalarOutputFormat) ProtoMessage() {}
+func (*ModelFile_OutputDecodingInformation_OcrDecodingInformation) ProtoMessage() {}
 
-func (x *ModelFile_Output_ScalarOutputFormat) ProtoReflect() protoreflect.Message {
+func (x *ModelFile_OutputDecodingInformation_OcrDecodingInformation) ProtoReflect() protoreflect.Message {
 	mi := &file_modelfile_v2_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1435,258 +1351,49 @@ func (x *ModelFile_Output_ScalarOutputFormat) ProtoReflect() protoreflect.Messag
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ModelFile_Output_ScalarOutputFormat.ProtoReflect.Descriptor instead.
-func (*ModelFile_Output_ScalarOutputFormat) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 6, 0}
+// Deprecated: Use ModelFile_OutputDecodingInformation_OcrDecodingInformation.ProtoReflect.Descriptor instead.
+func (*ModelFile_OutputDecodingInformation_OcrDecodingInformation) Descriptor() ([]byte, []int) {
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 5, 0}
 }
 
-type ModelFile_Output_SegmentationMapsOutputFormat struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ModelFile_Output_SegmentationMapsOutputFormat) Reset() {
-	*x = ModelFile_Output_SegmentationMapsOutputFormat{}
-	mi := &file_modelfile_v2_proto_msgTypes[16]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ModelFile_Output_SegmentationMapsOutputFormat) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ModelFile_Output_SegmentationMapsOutputFormat) ProtoMessage() {}
-
-func (x *ModelFile_Output_SegmentationMapsOutputFormat) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[16]
+func (x *ModelFile_OutputDecodingInformation_OcrDecodingInformation) GetCharset() string {
 	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
+		return x.Charset
 	}
-	return mi.MessageOf(x)
+	return ""
 }
 
-// Deprecated: Use ModelFile_Output_SegmentationMapsOutputFormat.ProtoReflect.Descriptor instead.
-func (*ModelFile_Output_SegmentationMapsOutputFormat) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 6, 1}
-}
-
-type ModelFile_Output_BoundingBoxesOutputFormat struct {
-	state                 protoimpl.MessageState `protogen:"open.v1"`
-	X1Offset              uint64                 `protobuf:"varint,1,opt,name=x1_offset,json=x1Offset,proto3" json:"x1_offset,omitempty"`
-	Y1Offset              uint64                 `protobuf:"varint,2,opt,name=y1_offset,json=y1Offset,proto3" json:"y1_offset,omitempty"`
-	X2Offset              uint64                 `protobuf:"varint,3,opt,name=x2_offset,json=x2Offset,proto3" json:"x2_offset,omitempty"`
-	Y2Offset              uint64                 `protobuf:"varint,4,opt,name=y2_offset,json=y2Offset,proto3" json:"y2_offset,omitempty"`
-	ConfidenceOffset      uint64                 `protobuf:"varint,5,opt,name=confidence_offset,json=confidenceOffset,proto3" json:"confidence_offset,omitempty"`
-	ClassLabelIndexOffset uint64                 `protobuf:"varint,6,opt,name=class_label_index_offset,json=classLabelIndexOffset,proto3" json:"class_label_index_offset,omitempty"`
-	AngleOffset           *uint64                `protobuf:"varint,7,opt,name=angle_offset,json=angleOffset,proto3,oneof" json:"angle_offset,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
-}
-
-func (x *ModelFile_Output_BoundingBoxesOutputFormat) Reset() {
-	*x = ModelFile_Output_BoundingBoxesOutputFormat{}
-	mi := &file_modelfile_v2_proto_msgTypes[17]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ModelFile_Output_BoundingBoxesOutputFormat) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ModelFile_Output_BoundingBoxesOutputFormat) ProtoMessage() {}
-
-func (x *ModelFile_Output_BoundingBoxesOutputFormat) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[17]
+func (x *ModelFile_OutputDecodingInformation_OcrDecodingInformation) GetFormatRestrictions() []*ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock {
 	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ModelFile_Output_BoundingBoxesOutputFormat.ProtoReflect.Descriptor instead.
-func (*ModelFile_Output_BoundingBoxesOutputFormat) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 6, 2}
-}
-
-func (x *ModelFile_Output_BoundingBoxesOutputFormat) GetX1Offset() uint64 {
-	if x != nil {
-		return x.X1Offset
-	}
-	return 0
-}
-
-func (x *ModelFile_Output_BoundingBoxesOutputFormat) GetY1Offset() uint64 {
-	if x != nil {
-		return x.Y1Offset
-	}
-	return 0
-}
-
-func (x *ModelFile_Output_BoundingBoxesOutputFormat) GetX2Offset() uint64 {
-	if x != nil {
-		return x.X2Offset
-	}
-	return 0
-}
-
-func (x *ModelFile_Output_BoundingBoxesOutputFormat) GetY2Offset() uint64 {
-	if x != nil {
-		return x.Y2Offset
-	}
-	return 0
-}
-
-func (x *ModelFile_Output_BoundingBoxesOutputFormat) GetConfidenceOffset() uint64 {
-	if x != nil {
-		return x.ConfidenceOffset
-	}
-	return 0
-}
-
-func (x *ModelFile_Output_BoundingBoxesOutputFormat) GetClassLabelIndexOffset() uint64 {
-	if x != nil {
-		return x.ClassLabelIndexOffset
-	}
-	return 0
-}
-
-func (x *ModelFile_Output_BoundingBoxesOutputFormat) GetAngleOffset() uint64 {
-	if x != nil && x.AngleOffset != nil {
-		return *x.AngleOffset
-	}
-	return 0
-}
-
-type ModelFile_Output_BoundingBoxSegmentationsOutputFormat struct {
-	state                 protoimpl.MessageState `protogen:"open.v1"`
-	RelativeToBoundingBox bool                   `protobuf:"varint,1,opt,name=relative_to_bounding_box,json=relativeToBoundingBox,proto3" json:"relative_to_bounding_box,omitempty"` // if false, the segmentation map will be treated as relative to the whole image
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
-}
-
-func (x *ModelFile_Output_BoundingBoxSegmentationsOutputFormat) Reset() {
-	*x = ModelFile_Output_BoundingBoxSegmentationsOutputFormat{}
-	mi := &file_modelfile_v2_proto_msgTypes[18]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ModelFile_Output_BoundingBoxSegmentationsOutputFormat) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ModelFile_Output_BoundingBoxSegmentationsOutputFormat) ProtoMessage() {}
-
-func (x *ModelFile_Output_BoundingBoxSegmentationsOutputFormat) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[18]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ModelFile_Output_BoundingBoxSegmentationsOutputFormat.ProtoReflect.Descriptor instead.
-func (*ModelFile_Output_BoundingBoxSegmentationsOutputFormat) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 6, 3}
-}
-
-func (x *ModelFile_Output_BoundingBoxSegmentationsOutputFormat) GetRelativeToBoundingBox() bool {
-	if x != nil {
-		return x.RelativeToBoundingBox
-	}
-	return false
-}
-
-type ModelFile_Output_OcrOutputFormat struct {
-	state                 protoimpl.MessageState                                      `protogen:"open.v1"`
-	Characters            []*ModelFile_Output_OcrOutputFormat_Character               `protobuf:"bytes,1,rep,name=characters,proto3" json:"characters,omitempty"` // the character lexicon
-	CharacterRestrictions *ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock `protobuf:"bytes,2,opt,name=character_restrictions,json=characterRestrictions,proto3" json:"character_restrictions,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
-}
-
-func (x *ModelFile_Output_OcrOutputFormat) Reset() {
-	*x = ModelFile_Output_OcrOutputFormat{}
-	mi := &file_modelfile_v2_proto_msgTypes[19]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ModelFile_Output_OcrOutputFormat) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ModelFile_Output_OcrOutputFormat) ProtoMessage() {}
-
-func (x *ModelFile_Output_OcrOutputFormat) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[19]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ModelFile_Output_OcrOutputFormat.ProtoReflect.Descriptor instead.
-func (*ModelFile_Output_OcrOutputFormat) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 6, 4}
-}
-
-func (x *ModelFile_Output_OcrOutputFormat) GetCharacters() []*ModelFile_Output_OcrOutputFormat_Character {
-	if x != nil {
-		return x.Characters
+		return x.FormatRestrictions
 	}
 	return nil
 }
 
-func (x *ModelFile_Output_OcrOutputFormat) GetCharacterRestrictions() *ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock {
-	if x != nil {
-		return x.CharacterRestrictions
-	}
-	return nil
-}
-
-type ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock struct {
+type ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock struct {
 	state                   protoimpl.MessageState `protogen:"open.v1"`
 	NumberOfCharacters      uint64                 `protobuf:"varint,1,opt,name=number_of_characters,json=numberOfCharacters,proto3" json:"number_of_characters,omitempty"`                       // 0 -> unlimited, only allowed for last element of array
-	AllowedCharacterIndexes []uint64               `protobuf:"varint,2,rep,packed,name=allowed_character_indexes,json=allowedCharacterIndexes,proto3" json:"allowed_character_indexes,omitempty"` // refers to the indexes in the "characters" array
+	AllowedCharacterIndexes []uint64               `protobuf:"varint,2,rep,packed,name=allowed_character_indexes,json=allowedCharacterIndexes,proto3" json:"allowed_character_indexes,omitempty"` // refers to the indexes in the charset string
 	unknownFields           protoimpl.UnknownFields
 	sizeCache               protoimpl.SizeCache
 }
 
-func (x *ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock) Reset() {
-	*x = ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock{}
-	mi := &file_modelfile_v2_proto_msgTypes[20]
+func (x *ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock) Reset() {
+	*x = ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock{}
+	mi := &file_modelfile_v2_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock) String() string {
+func (x *ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock) ProtoMessage() {}
+func (*ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock) ProtoMessage() {
+}
 
-func (x *ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[20]
+func (x *ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock) ProtoReflect() protoreflect.Message {
+	mi := &file_modelfile_v2_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1697,83 +1404,23 @@ func (x *ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock) ProtoReflec
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock.ProtoReflect.Descriptor instead.
-func (*ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 6, 4, 0}
+// Deprecated: Use ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock.ProtoReflect.Descriptor instead.
+func (*ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock) Descriptor() ([]byte, []int) {
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 5, 0, 0}
 }
 
-func (x *ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock) GetNumberOfCharacters() uint64 {
+func (x *ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock) GetNumberOfCharacters() uint64 {
 	if x != nil {
 		return x.NumberOfCharacters
 	}
 	return 0
 }
 
-func (x *ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock) GetAllowedCharacterIndexes() []uint64 {
+func (x *ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock) GetAllowedCharacterIndexes() []uint64 {
 	if x != nil {
 		return x.AllowedCharacterIndexes
 	}
 	return nil
-}
-
-type ModelFile_Output_OcrOutputFormat_Character struct {
-	state              protoimpl.MessageState                                   `protogen:"open.v1"`
-	Utf8Representation []byte                                                   `protobuf:"bytes,1,opt,name=utf8_representation,json=utf8Representation,proto3" json:"utf8_representation,omitempty"`
-	CharacterType      ModelFile_Output_OcrOutputFormat_Character_CharacterType `protobuf:"varint,2,opt,name=character_type,json=characterType,proto3,enum=modelfile.v2.ModelFile_Output_OcrOutputFormat_Character_CharacterType" json:"character_type,omitempty"`
-	Ignore             bool                                                     `protobuf:"varint,3,opt,name=ignore,proto3" json:"ignore,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
-}
-
-func (x *ModelFile_Output_OcrOutputFormat_Character) Reset() {
-	*x = ModelFile_Output_OcrOutputFormat_Character{}
-	mi := &file_modelfile_v2_proto_msgTypes[21]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ModelFile_Output_OcrOutputFormat_Character) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ModelFile_Output_OcrOutputFormat_Character) ProtoMessage() {}
-
-func (x *ModelFile_Output_OcrOutputFormat_Character) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[21]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ModelFile_Output_OcrOutputFormat_Character.ProtoReflect.Descriptor instead.
-func (*ModelFile_Output_OcrOutputFormat_Character) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 6, 4, 1}
-}
-
-func (x *ModelFile_Output_OcrOutputFormat_Character) GetUtf8Representation() []byte {
-	if x != nil {
-		return x.Utf8Representation
-	}
-	return nil
-}
-
-func (x *ModelFile_Output_OcrOutputFormat_Character) GetCharacterType() ModelFile_Output_OcrOutputFormat_Character_CharacterType {
-	if x != nil {
-		return x.CharacterType
-	}
-	return ModelFile_Output_OcrOutputFormat_Character_CT_REGULAR
-}
-
-func (x *ModelFile_Output_OcrOutputFormat_Character) GetIgnore() bool {
-	if x != nil {
-		return x.Ignore
-	}
-	return false
 }
 
 type ModelFile_FileContent_DefaultModel struct {
@@ -1785,7 +1432,7 @@ type ModelFile_FileContent_DefaultModel struct {
 
 func (x *ModelFile_FileContent_DefaultModel) Reset() {
 	*x = ModelFile_FileContent_DefaultModel{}
-	mi := &file_modelfile_v2_proto_msgTypes[22]
+	mi := &file_modelfile_v2_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1797,7 +1444,7 @@ func (x *ModelFile_FileContent_DefaultModel) String() string {
 func (*ModelFile_FileContent_DefaultModel) ProtoMessage() {}
 
 func (x *ModelFile_FileContent_DefaultModel) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[22]
+	mi := &file_modelfile_v2_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1810,7 +1457,7 @@ func (x *ModelFile_FileContent_DefaultModel) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use ModelFile_FileContent_DefaultModel.ProtoReflect.Descriptor instead.
 func (*ModelFile_FileContent_DefaultModel) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 8, 0}
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 7, 0}
 }
 
 func (x *ModelFile_FileContent_DefaultModel) GetModelData() *ModelFile_Content {
@@ -1831,7 +1478,7 @@ type ModelFile_FileContent_TensorRTModel struct {
 
 func (x *ModelFile_FileContent_TensorRTModel) Reset() {
 	*x = ModelFile_FileContent_TensorRTModel{}
-	mi := &file_modelfile_v2_proto_msgTypes[23]
+	mi := &file_modelfile_v2_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1843,7 +1490,7 @@ func (x *ModelFile_FileContent_TensorRTModel) String() string {
 func (*ModelFile_FileContent_TensorRTModel) ProtoMessage() {}
 
 func (x *ModelFile_FileContent_TensorRTModel) ProtoReflect() protoreflect.Message {
-	mi := &file_modelfile_v2_proto_msgTypes[23]
+	mi := &file_modelfile_v2_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1856,7 +1503,7 @@ func (x *ModelFile_FileContent_TensorRTModel) ProtoReflect() protoreflect.Messag
 
 // Deprecated: Use ModelFile_FileContent_TensorRTModel.ProtoReflect.Descriptor instead.
 func (*ModelFile_FileContent_TensorRTModel) Descriptor() ([]byte, []int) {
-	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 8, 1}
+	return file_modelfile_v2_proto_rawDescGZIP(), []int{0, 7, 1}
 }
 
 func (x *ModelFile_FileContent_TensorRTModel) GetModelData() *ModelFile_Content {
@@ -1884,20 +1531,14 @@ var File_modelfile_v2_proto protoreflect.FileDescriptor
 
 const file_modelfile_v2_proto_rawDesc = "" +
 	"\n" +
-	"\x12modelfile-v2.proto\x12\fmodelfile.v2\x1a\x0evalidate.proto\"\xf7/\n" +
-	"\tModelFile\x12J\n" +
-	"\x10protocol_version\x18\x01 \x01(\v2\x1f.modelfile.v2.ModelFile.VersionR\x0fprotocolVersion\x12\x1d\n" +
-	"\n" +
-	"created_at\x18\x02 \x01(\x03R\tcreatedAt\x12G\n" +
-	"\tfile_info\x18\x03 \x01(\v2 .modelfile.v2.ModelFile.FileInfoB\b\xfaB\x05\x8a\x01\x02\x10\x01R\bfileInfo\x12P\n" +
-	"\ffile_content\x18\x04 \x01(\v2#.modelfile.v2.ModelFile.FileContentB\b\xfaB\x05\x8a\x01\x02\x10\x01R\vfileContent\x12V\n" +
-	"\fclass_labels\x18\x05 \x03(\v2\".modelfile.v2.ModelFile.ClassLabelB\x0f\xfaB\f\x92\x01\t\b\x01\"\x05\x8a\x01\x02\x10\x01R\vclassLabels\x12F\n" +
-	"\x06inputs\x18\x06 \x03(\v2\x1d.modelfile.v2.ModelFile.InputB\x0f\xfaB\f\x92\x01\t\b\x01\"\x05\x8a\x01\x02\x10\x01R\x06inputs\x12I\n" +
-	"\aoutputs\x18\a \x03(\v2\x1e.modelfile.v2.ModelFile.OutputB\x0f\xfaB\f\x92\x01\t\b\x01\"\x05\x8a\x01\x02\x10\x01R\aoutputs\x1aK\n" +
-	"\aVersion\x12\x14\n" +
-	"\x05major\x18\x01 \x01(\x04R\x05major\x12\x14\n" +
-	"\x05minor\x18\x02 \x01(\x04R\x05minor\x12\x14\n" +
-	"\x05patch\x18\x03 \x01(\x04R\x05patch\x1a\xc1\x05\n" +
+	"\x12modelfile-v2.proto\x12\fmodelfile.v2\x1a\x0evalidate.proto\x1a\x13file_metadata.proto\"\xc6*\n" +
+	"\tModelFile\x12G\n" +
+	"\tfile_info\x18\x01 \x01(\v2 .modelfile.v2.ModelFile.FileInfoB\b\xfaB\x05\x8a\x01\x02\x10\x01R\bfileInfo\x12P\n" +
+	"\ffile_content\x18\x02 \x01(\v2#.modelfile.v2.ModelFile.FileContentB\b\xfaB\x05\x8a\x01\x02\x10\x01R\vfileContent\x12V\n" +
+	"\fclass_labels\x18\x03 \x03(\v2\".modelfile.v2.ModelFile.ClassLabelB\x0f\xfaB\f\x92\x01\t\b\x01\"\x05\x8a\x01\x02\x10\x01R\vclassLabels\x12l\n" +
+	"\x1ainput_decoding_information\x18\x04 \x01(\v2..modelfile.v2.ModelFile.InputFormatInformationR\x18inputDecodingInformation\x12q\n" +
+	"\x1boutput_decoding_information\x18\x05 \x01(\v21.modelfile.v2.ModelFile.OutputDecodingInformationR\x19outputDecodingInformation\x12A\n" +
+	"\rfile_metadata\x18\x80\b \x01(\v2\x1b.file_metadata.FileMetadataR\ffileMetadata\x1a\xc1\x05\n" +
 	"\aContent\x12*\n" +
 	"\fbyte_content\x18\x01 \x01(\fB\a\xfaB\x04z\x02\x10\x01R\vbyteContent\x12(\n" +
 	"\vhash_sha256\x18\x02 \x01(\fB\a\xfaB\x04z\x02\x10\x01R\n" +
@@ -1933,14 +1574,16 @@ const file_modelfile_v2_proto_rawDesc = "" +
 	"\x04left\x18\x01 \x01(\x01B\x17\xfaB\x14\x12\x12\x11\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x04left\x12-\n" +
 	"\x05right\x18\x02 \x01(\x01B\x17\xfaB\x14\x12\x12\x11\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x05right\x12)\n" +
 	"\x03top\x18\x03 \x01(\x01B\x17\xfaB\x14\x12\x12\x11\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x03top\x12/\n" +
-	"\x06bottom\x18\x04 \x01(\x01B\x17\xfaB\x14\x12\x12\x11\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x06bottom\x1a\x8a\a\n" +
+	"\x06bottom\x18\x04 \x01(\x01B\x17\xfaB\x14\x12\x12\x11\x00\x00\x00\x00\x00\x00\xf0?)\x00\x00\x00\x00\x00\x00\x00\x00R\x06bottom\x1a\xca\b\n" +
+	"\x16InputFormatInformation\x12]\n" +
+	"\x06inputs\x18\x01 \x03(\v24.modelfile.v2.ModelFile.InputFormatInformation.InputB\x0f\xfaB\f\x92\x01\t\b\x01\"\x05\x8a\x01\x02\x10\x01R\x06inputs\x1a\xd0\a\n" +
 	"\x05Input\x12\x1d\n" +
 	"\n" +
-	"input_name\x18\x01 \x01(\tR\tinputName\x12S\n" +
-	"\fimage_format\x18\x02 \x01(\v2..modelfile.v2.ModelFile.Input.ImageInputFormatH\x00R\vimageFormat\x1a\xf6\x05\n" +
-	"\x10ImageInputFormat\x12t\n" +
-	"\x10exact_image_size\x18\x01 \x01(\v2H.modelfile.v2.ModelFile.Input.ImageInputFormat.ExactImageSizeRequirementH\x00R\x0eexactImageSize\x12\x80\x01\n" +
-	"\x14divisible_image_size\x18\x02 \x01(\v2L.modelfile.v2.ModelFile.Input.ImageInputFormat.DivisibleImageSizeRequirementH\x00R\x12divisibleImageSize\x12T\n" +
+	"input_name\x18\x01 \x01(\tR\tinputName\x12j\n" +
+	"\fimage_format\x18\x02 \x01(\v2E.modelfile.v2.ModelFile.InputFormatInformation.Input.ImageInputFormatH\x00R\vimageFormat\x1a\xa5\x06\n" +
+	"\x10ImageInputFormat\x12\x8b\x01\n" +
+	"\x10exact_image_size\x18\x01 \x01(\v2_.modelfile.v2.ModelFile.InputFormatInformation.Input.ImageInputFormat.ExactImageSizeRequirementH\x00R\x0eexactImageSize\x12\x97\x01\n" +
+	"\x14divisible_image_size\x18\x02 \x01(\v2c.modelfile.v2.ModelFile.InputFormatInformation.Input.ImageInputFormat.DivisibleImageSizeRequirementH\x00R\x12divisibleImageSize\x12T\n" +
 	"\x12region_of_interest\x18\x03 \x01(\v2&.modelfile.v2.ModelFile.RegionFromEdgeR\x10regionOfInterest\x1a]\n" +
 	"\x19ExactImageSizeRequirement\x12@\n" +
 	"\n" +
@@ -1950,49 +1593,32 @@ const file_modelfile_v2_proto_rawDesc = "" +
 	"\x12minimum_image_size\x18\x02 \x01(\v2!.modelfile.v2.ModelFile.ImageSizeR\x10minimumImageSize\x12S\n" +
 	"\x14suggested_image_size\x18\x03 \x01(\v2!.modelfile.v2.ModelFile.ImageSizeR\x12suggestedImageSizeB\x19\n" +
 	"\x17image_size_requirementsB\x14\n" +
-	"\x12format_information\x1a\xe2\r\n" +
-	"\x06Output\x12\x1f\n" +
-	"\voutput_name\x18\x01 \x01(\tR\n" +
-	"outputName\x12X\n" +
-	"\rscalar_format\x18\x02 \x01(\v21.modelfile.v2.ModelFile.Output.ScalarOutputFormatH\x00R\fscalarFormat\x12w\n" +
-	"\x18segmentation_maps_format\x18\x03 \x01(\v2;.modelfile.v2.ModelFile.Output.SegmentationMapsOutputFormatH\x00R\x16segmentationMapsFormat\x12n\n" +
-	"\x15bounding_boxes_format\x18\x04 \x01(\v28.modelfile.v2.ModelFile.Output.BoundingBoxesOutputFormatH\x00R\x13boundingBoxesFormat\x12\x90\x01\n" +
-	"!bounding_box_segmentations_format\x18\x05 \x01(\v2C.modelfile.v2.ModelFile.Output.BoundingBoxSegmentationsOutputFormatH\x00R\x1eboundingBoxSegmentationsFormat\x12O\n" +
-	"\n" +
-	"ocr_format\x18\x06 \x01(\v2..modelfile.v2.ModelFile.Output.OcrOutputFormatH\x00R\tocrFormat\x1a\x14\n" +
-	"\x12ScalarOutputFormat\x1a\x1e\n" +
-	"\x1cSegmentationMapsOutputFormat\x1a\xae\x02\n" +
-	"\x19BoundingBoxesOutputFormat\x12\x1b\n" +
-	"\tx1_offset\x18\x01 \x01(\x04R\bx1Offset\x12\x1b\n" +
-	"\ty1_offset\x18\x02 \x01(\x04R\by1Offset\x12\x1b\n" +
-	"\tx2_offset\x18\x03 \x01(\x04R\bx2Offset\x12\x1b\n" +
-	"\ty2_offset\x18\x04 \x01(\x04R\by2Offset\x12+\n" +
-	"\x11confidence_offset\x18\x05 \x01(\x04R\x10confidenceOffset\x127\n" +
-	"\x18class_label_index_offset\x18\x06 \x01(\x04R\x15classLabelIndexOffset\x12&\n" +
-	"\fangle_offset\x18\a \x01(\x04H\x00R\vangleOffset\x88\x01\x01B\x0f\n" +
-	"\r_angle_offset\x1a_\n" +
-	"$BoundingBoxSegmentationsOutputFormat\x127\n" +
-	"\x18relative_to_bounding_box\x18\x01 \x01(\bR\x15relativeToBoundingBox\x1a\xac\x05\n" +
-	"\x0fOcrOutputFormat\x12X\n" +
-	"\n" +
-	"characters\x18\x01 \x03(\v28.modelfile.v2.ModelFile.Output.OcrOutputFormat.CharacterR\n" +
-	"characters\x12\x7f\n" +
-	"\x16character_restrictions\x18\x02 \x01(\v2H.modelfile.v2.ModelFile.Output.OcrOutputFormat.OcrFormatRestrictionBlockR\x15characterRestrictions\x1a\x89\x01\n" +
-	"\x19OcrFormatRestrictionBlock\x120\n" +
+	"\x12format_information\x1a\xf8\a\n" +
+	"\x19OutputDecodingInformation\x12c\n" +
+	"\rdecoding_type\x18\x01 \x01(\x0e2>.modelfile.v2.ModelFile.OutputDecodingInformation.DecodingTypeR\fdecodingType\x12+\n" +
+	"\foutput_names\x18\x02 \x03(\tB\b\xfaB\x05\x92\x01\x02\b\x01R\voutputNames\x12\x87\x01\n" +
+	"\x18ocr_decoding_information\x18\x03 \x01(\v2H.modelfile.v2.ModelFile.OutputDecodingInformation.OcrDecodingInformationH\x00R\x16ocrDecodingInformation\x88\x01\x01\x1a\xce\x02\n" +
+	"\x16OcrDecodingInformation\x12\x18\n" +
+	"\acharset\x18\x01 \x01(\tR\acharset\x12\x90\x01\n" +
+	"\x13format_restrictions\x18\x02 \x03(\v2_.modelfile.v2.ModelFile.OutputDecodingInformation.OcrDecodingInformation.FormatRestrictionBlockR\x12formatRestrictions\x1a\x86\x01\n" +
+	"\x16FormatRestrictionBlock\x120\n" +
 	"\x14number_of_characters\x18\x01 \x01(\x04R\x12numberOfCharacters\x12:\n" +
-	"\x19allowed_character_indexes\x18\x02 \x03(\x04R\x17allowedCharacterIndexes\x1a\xb1\x02\n" +
-	"\tCharacter\x128\n" +
-	"\x13utf8_representation\x18\x01 \x01(\fB\a\xfaB\x04z\x02\x10\x01R\x12utf8Representation\x12w\n" +
-	"\x0echaracter_type\x18\x02 \x01(\x0e2F.modelfile.v2.ModelFile.Output.OcrOutputFormat.Character.CharacterTypeB\b\xfaB\x05\x82\x01\x02\x10\x01R\rcharacterType\x12\x16\n" +
-	"\x06ignore\x18\x03 \x01(\bR\x06ignore\"Y\n" +
-	"\rCharacterType\x12\x0e\n" +
+	"\x19allowed_character_indexes\x18\x02 \x03(\x04R\x17allowedCharacterIndexes\"\xd0\x02\n" +
+	"\fDecodingType\x12\x10\n" +
+	"\fDT_UNDEFINED\x10\x00\x12\x1d\n" +
+	"\x19DT_CLASSIFICATION_DEFAULT\x10\x01\x12\x1b\n" +
+	"\x17DT_SEGMENTATION_DEFAULT\x10\x02\x12\x1f\n" +
+	"\x1bDT_OBJECT_DETECTION_DEFAULT\x10\x03\x12$\n" +
+	" DT_INSTANCE_SEGMENTATION_DEFAULT\x10\x04\x12 \n" +
+	"\x1cDT_ANOMALY_DETECTION_DEFAULT\x10\x05\x12\x12\n" +
+	"\x0eDT_OCR_DEFAULT\x10\x06\x12!\n" +
+	"\x1dDT_KEYPOINT_DETECTION_DEFAULT\x10\a\x12\x1e\n" +
+	"\x1aDT_BARCODE_READING_DEFAULT\x10\b\x12\"\n" +
+	"\x1eDT_OBJECT_DETECTION_WITH_ANGLE\x10\t\x12\x0e\n" +
 	"\n" +
-	"CT_REGULAR\x10\x00\x12\x14\n" +
-	"\x10CT_START_OF_TEXT\x10\x01\x12\x12\n" +
-	"\x0eCT_END_OF_TEXT\x10\x02\x12\x0e\n" +
-	"\n" +
-	"CT_PADDING\x10\x03B\x19\n" +
-	"\x12format_information\x12\x03\xf8B\x01\x1a\xc6\b\n" +
+	"DT_OCR_CTC\x10\n" +
+	"B\x1b\n" +
+	"\x19_ocr_decoding_information\x1a\xe5\a\n" +
 	"\bFileInfo\x12!\n" +
 	"\fnetwork_name\x18\x01 \x01(\tR\vnetworkName\x12'\n" +
 	"\n" +
@@ -2000,12 +1626,10 @@ const file_modelfile_v2_proto_rawDesc = "" +
 	"\x15network_experiment_id\x18\x03 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x13networkExperimentId\x128\n" +
 	"\x13network_snapshot_id\x18\x04 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x11networkSnapshotId\x12O\n" +
 	"\fnetwork_type\x18\x05 \x01(\x0e2,.modelfile.v2.ModelFile.FileInfo.NetworkTypeR\vnetworkType\x12%\n" +
-	"\x0enetwork_flavor\x18\x06 \x01(\tR\rnetworkFlavor\x12H\n" +
-	"\x0fnetwork_version\x18\a \x01(\v2\x1f.modelfile.v2.ModelFile.VersionR\x0enetworkVersion\x12H\n" +
-	"\x0fruntime_version\x18\b \x01(\v2\x1f.modelfile.v2.ModelFile.VersionR\x0eruntimeVersion\x12H\n" +
-	"\tprecision\x18\t \x01(\x0e2*.modelfile.v2.ModelFile.FileInfo.PrecisionR\tprecision\x12_\n" +
-	"\x1bminimum_libdenkflow_version\x18\n" +
-	" \x01(\v2\x1f.modelfile.v2.ModelFile.VersionR\x19minimumLibdenkflowVersion\"\xc0\x01\n" +
+	"\x0enetwork_flavor\x18\x06 \x01(\tR\rnetworkFlavor\x12T\n" +
+	"\x0fnetwork_version\x18\a \x01(\tB+\xfaB(r&2$^\\d+\\.\\d+\\.\\d+(-a\\d+|-b\\d+|-rc\\d+)?$R\x0enetworkVersion\x12H\n" +
+	"\tprecision\x18\b \x01(\x0e2*.modelfile.v2.ModelFile.FileInfo.PrecisionR\tprecision\x12<\n" +
+	"\x1anetwork_snapshot_timestamp\x18\t \x01(\x03R\x18networkSnapshotTimestamp\"\xc0\x01\n" +
 	"\vNetworkType\x12\x0e\n" +
 	"\n" +
 	"NT_UNKNOWN\x10\x00\x12\x15\n" +
@@ -2041,7 +1665,7 @@ const file_modelfile_v2_proto_rawDesc = "" +
 	"\aP_UINT8\x10\x0e\x12\f\n" +
 	"\bP_UINT16\x10\x0f\x12\f\n" +
 	"\bP_UINT32\x10\x10\x12\f\n" +
-	"\bP_UINT64\x10\x11\x1a\xc6\x04\n" +
+	"\bP_UINT64\x10\x11\x1a\xc7\x04\n" +
 	"\vFileContent\x12W\n" +
 	"\rdefault_model\x18\x01 \x01(\v20.modelfile.v2.ModelFile.FileContent.DefaultModelH\x00R\fdefaultModel\x12Z\n" +
 	"\x0etensorrt_model\x18\x02 \x01(\v21.modelfile.v2.ModelFile.FileContent.TensorRTModelH\x00R\rtensorrtModel\x1aX\n" +
@@ -2052,8 +1676,9 @@ const file_modelfile_v2_proto_rawDesc = "" +
 	"\n" +
 	"model_data\x18\x01 \x01(\v2\x1f.modelfile.v2.ModelFile.ContentB\b\xfaB\x05\x8a\x01\x02\x10\x01R\tmodelData\x12V\n" +
 	"\x11calibration_cache\x18\x02 \x01(\v2\x1f.modelfile.v2.ModelFile.ContentB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x10calibrationCache\x12b\n" +
-	"\x17calibration_flatbuffers\x18\x03 \x01(\v2\x1f.modelfile.v2.ModelFile.ContentB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x16calibrationFlatbuffersB\x10\n" +
-	"\tfile_type\x12\x03\xf8B\x01BIZ-github.com/DENKweit/denkproto-go/modelfile/v2\xaa\x02\x17DENK.Proto.Modelfile.V2b\x06proto3"
+	"\x17calibration_flatbuffers\x18\x03 \x01(\v2\x1f.modelfile.v2.ModelFile.ContentB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x16calibrationFlatbuffersB\x11\n" +
+	"\n" +
+	"model_type\x12\x03\xf8B\x01BIZ-github.com/DENKweit/denkproto-go/modelfile/v2\xaa\x02\x17DENK.Proto.Modelfile.V2b\x06proto3"
 
 var (
 	file_modelfile_v2_proto_rawDescOnce sync.Once
@@ -2068,82 +1693,71 @@ func file_modelfile_v2_proto_rawDescGZIP() []byte {
 }
 
 var file_modelfile_v2_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
-var file_modelfile_v2_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
+var file_modelfile_v2_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_modelfile_v2_proto_goTypes = []any{
-	(ModelFile_Content_CompressionMethod)(0),                           // 0: modelfile.v2.ModelFile.Content.CompressionMethod
-	(ModelFile_Content_EncryptionMethod)(0),                            // 1: modelfile.v2.ModelFile.Content.EncryptionMethod
-	(ModelFile_Output_OcrOutputFormat_Character_CharacterType)(0),      // 2: modelfile.v2.ModelFile.Output.OcrOutputFormat.Character.CharacterType
-	(ModelFile_FileInfo_NetworkType)(0),                                // 3: modelfile.v2.ModelFile.FileInfo.NetworkType
-	(ModelFile_FileInfo_Precision)(0),                                  // 4: modelfile.v2.ModelFile.FileInfo.Precision
-	(*ModelFile)(nil),                                                  // 5: modelfile.v2.ModelFile
-	(*ModelFile_Version)(nil),                                          // 6: modelfile.v2.ModelFile.Version
-	(*ModelFile_Content)(nil),                                          // 7: modelfile.v2.ModelFile.Content
-	(*ModelFile_ClassLabel)(nil),                                       // 8: modelfile.v2.ModelFile.ClassLabel
-	(*ModelFile_ImageSize)(nil),                                        // 9: modelfile.v2.ModelFile.ImageSize
-	(*ModelFile_RegionFromEdge)(nil),                                   // 10: modelfile.v2.ModelFile.RegionFromEdge
-	(*ModelFile_Input)(nil),                                            // 11: modelfile.v2.ModelFile.Input
-	(*ModelFile_Output)(nil),                                           // 12: modelfile.v2.ModelFile.Output
-	(*ModelFile_FileInfo)(nil),                                         // 13: modelfile.v2.ModelFile.FileInfo
-	(*ModelFile_FileContent)(nil),                                      // 14: modelfile.v2.ModelFile.FileContent
-	(*ModelFile_Content_KeySlot)(nil),                                  // 15: modelfile.v2.ModelFile.Content.KeySlot
-	nil,                                                                // 16: modelfile.v2.ModelFile.Content.KeySlotsEntry
-	(*ModelFile_Input_ImageInputFormat)(nil),                           // 17: modelfile.v2.ModelFile.Input.ImageInputFormat
-	(*ModelFile_Input_ImageInputFormat_ExactImageSizeRequirement)(nil), // 18: modelfile.v2.ModelFile.Input.ImageInputFormat.ExactImageSizeRequirement
-	(*ModelFile_Input_ImageInputFormat_DivisibleImageSizeRequirement)(nil), // 19: modelfile.v2.ModelFile.Input.ImageInputFormat.DivisibleImageSizeRequirement
-	(*ModelFile_Output_ScalarOutputFormat)(nil),                            // 20: modelfile.v2.ModelFile.Output.ScalarOutputFormat
-	(*ModelFile_Output_SegmentationMapsOutputFormat)(nil),                  // 21: modelfile.v2.ModelFile.Output.SegmentationMapsOutputFormat
-	(*ModelFile_Output_BoundingBoxesOutputFormat)(nil),                     // 22: modelfile.v2.ModelFile.Output.BoundingBoxesOutputFormat
-	(*ModelFile_Output_BoundingBoxSegmentationsOutputFormat)(nil),          // 23: modelfile.v2.ModelFile.Output.BoundingBoxSegmentationsOutputFormat
-	(*ModelFile_Output_OcrOutputFormat)(nil),                               // 24: modelfile.v2.ModelFile.Output.OcrOutputFormat
-	(*ModelFile_Output_OcrOutputFormat_OcrFormatRestrictionBlock)(nil),     // 25: modelfile.v2.ModelFile.Output.OcrOutputFormat.OcrFormatRestrictionBlock
-	(*ModelFile_Output_OcrOutputFormat_Character)(nil),                     // 26: modelfile.v2.ModelFile.Output.OcrOutputFormat.Character
-	(*ModelFile_FileContent_DefaultModel)(nil),                             // 27: modelfile.v2.ModelFile.FileContent.DefaultModel
-	(*ModelFile_FileContent_TensorRTModel)(nil),                            // 28: modelfile.v2.ModelFile.FileContent.TensorRTModel
+	(ModelFile_Content_CompressionMethod)(0),                        // 0: modelfile.v2.ModelFile.Content.CompressionMethod
+	(ModelFile_Content_EncryptionMethod)(0),                         // 1: modelfile.v2.ModelFile.Content.EncryptionMethod
+	(ModelFile_OutputDecodingInformation_DecodingType)(0),           // 2: modelfile.v2.ModelFile.OutputDecodingInformation.DecodingType
+	(ModelFile_FileInfo_NetworkType)(0),                             // 3: modelfile.v2.ModelFile.FileInfo.NetworkType
+	(ModelFile_FileInfo_Precision)(0),                               // 4: modelfile.v2.ModelFile.FileInfo.Precision
+	(*ModelFile)(nil),                                               // 5: modelfile.v2.ModelFile
+	(*ModelFile_Content)(nil),                                       // 6: modelfile.v2.ModelFile.Content
+	(*ModelFile_ClassLabel)(nil),                                    // 7: modelfile.v2.ModelFile.ClassLabel
+	(*ModelFile_ImageSize)(nil),                                     // 8: modelfile.v2.ModelFile.ImageSize
+	(*ModelFile_RegionFromEdge)(nil),                                // 9: modelfile.v2.ModelFile.RegionFromEdge
+	(*ModelFile_InputFormatInformation)(nil),                        // 10: modelfile.v2.ModelFile.InputFormatInformation
+	(*ModelFile_OutputDecodingInformation)(nil),                     // 11: modelfile.v2.ModelFile.OutputDecodingInformation
+	(*ModelFile_FileInfo)(nil),                                      // 12: modelfile.v2.ModelFile.FileInfo
+	(*ModelFile_FileContent)(nil),                                   // 13: modelfile.v2.ModelFile.FileContent
+	(*ModelFile_Content_KeySlot)(nil),                               // 14: modelfile.v2.ModelFile.Content.KeySlot
+	nil,                                                             // 15: modelfile.v2.ModelFile.Content.KeySlotsEntry
+	(*ModelFile_InputFormatInformation_Input)(nil),                  // 16: modelfile.v2.ModelFile.InputFormatInformation.Input
+	(*ModelFile_InputFormatInformation_Input_ImageInputFormat)(nil), // 17: modelfile.v2.ModelFile.InputFormatInformation.Input.ImageInputFormat
+	(*ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSizeRequirement)(nil),     // 18: modelfile.v2.ModelFile.InputFormatInformation.Input.ImageInputFormat.ExactImageSizeRequirement
+	(*ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSizeRequirement)(nil), // 19: modelfile.v2.ModelFile.InputFormatInformation.Input.ImageInputFormat.DivisibleImageSizeRequirement
+	(*ModelFile_OutputDecodingInformation_OcrDecodingInformation)(nil),                            // 20: modelfile.v2.ModelFile.OutputDecodingInformation.OcrDecodingInformation
+	(*ModelFile_OutputDecodingInformation_OcrDecodingInformation_FormatRestrictionBlock)(nil),     // 21: modelfile.v2.ModelFile.OutputDecodingInformation.OcrDecodingInformation.FormatRestrictionBlock
+	(*ModelFile_FileContent_DefaultModel)(nil),                                                    // 22: modelfile.v2.ModelFile.FileContent.DefaultModel
+	(*ModelFile_FileContent_TensorRTModel)(nil),                                                   // 23: modelfile.v2.ModelFile.FileContent.TensorRTModel
+	(*file_metadata.FileMetadata)(nil),                                                            // 24: file_metadata.FileMetadata
 }
 var file_modelfile_v2_proto_depIdxs = []int32{
-	6,  // 0: modelfile.v2.ModelFile.protocol_version:type_name -> modelfile.v2.ModelFile.Version
-	13, // 1: modelfile.v2.ModelFile.file_info:type_name -> modelfile.v2.ModelFile.FileInfo
-	14, // 2: modelfile.v2.ModelFile.file_content:type_name -> modelfile.v2.ModelFile.FileContent
-	8,  // 3: modelfile.v2.ModelFile.class_labels:type_name -> modelfile.v2.ModelFile.ClassLabel
-	11, // 4: modelfile.v2.ModelFile.inputs:type_name -> modelfile.v2.ModelFile.Input
-	12, // 5: modelfile.v2.ModelFile.outputs:type_name -> modelfile.v2.ModelFile.Output
+	12, // 0: modelfile.v2.ModelFile.file_info:type_name -> modelfile.v2.ModelFile.FileInfo
+	13, // 1: modelfile.v2.ModelFile.file_content:type_name -> modelfile.v2.ModelFile.FileContent
+	7,  // 2: modelfile.v2.ModelFile.class_labels:type_name -> modelfile.v2.ModelFile.ClassLabel
+	10, // 3: modelfile.v2.ModelFile.input_decoding_information:type_name -> modelfile.v2.ModelFile.InputFormatInformation
+	11, // 4: modelfile.v2.ModelFile.output_decoding_information:type_name -> modelfile.v2.ModelFile.OutputDecodingInformation
+	24, // 5: modelfile.v2.ModelFile.file_metadata:type_name -> file_metadata.FileMetadata
 	0,  // 6: modelfile.v2.ModelFile.Content.compression_method:type_name -> modelfile.v2.ModelFile.Content.CompressionMethod
 	1,  // 7: modelfile.v2.ModelFile.Content.encryption_method:type_name -> modelfile.v2.ModelFile.Content.EncryptionMethod
-	16, // 8: modelfile.v2.ModelFile.Content.key_slots:type_name -> modelfile.v2.ModelFile.Content.KeySlotsEntry
-	17, // 9: modelfile.v2.ModelFile.Input.image_format:type_name -> modelfile.v2.ModelFile.Input.ImageInputFormat
-	20, // 10: modelfile.v2.ModelFile.Output.scalar_format:type_name -> modelfile.v2.ModelFile.Output.ScalarOutputFormat
-	21, // 11: modelfile.v2.ModelFile.Output.segmentation_maps_format:type_name -> modelfile.v2.ModelFile.Output.SegmentationMapsOutputFormat
-	22, // 12: modelfile.v2.ModelFile.Output.bounding_boxes_format:type_name -> modelfile.v2.ModelFile.Output.BoundingBoxesOutputFormat
-	23, // 13: modelfile.v2.ModelFile.Output.bounding_box_segmentations_format:type_name -> modelfile.v2.ModelFile.Output.BoundingBoxSegmentationsOutputFormat
-	24, // 14: modelfile.v2.ModelFile.Output.ocr_format:type_name -> modelfile.v2.ModelFile.Output.OcrOutputFormat
-	3,  // 15: modelfile.v2.ModelFile.FileInfo.network_type:type_name -> modelfile.v2.ModelFile.FileInfo.NetworkType
-	6,  // 16: modelfile.v2.ModelFile.FileInfo.network_version:type_name -> modelfile.v2.ModelFile.Version
-	6,  // 17: modelfile.v2.ModelFile.FileInfo.runtime_version:type_name -> modelfile.v2.ModelFile.Version
-	4,  // 18: modelfile.v2.ModelFile.FileInfo.precision:type_name -> modelfile.v2.ModelFile.FileInfo.Precision
-	6,  // 19: modelfile.v2.ModelFile.FileInfo.minimum_libdenkflow_version:type_name -> modelfile.v2.ModelFile.Version
-	27, // 20: modelfile.v2.ModelFile.FileContent.default_model:type_name -> modelfile.v2.ModelFile.FileContent.DefaultModel
-	28, // 21: modelfile.v2.ModelFile.FileContent.tensorrt_model:type_name -> modelfile.v2.ModelFile.FileContent.TensorRTModel
-	1,  // 22: modelfile.v2.ModelFile.Content.KeySlot.wrapping_method:type_name -> modelfile.v2.ModelFile.Content.EncryptionMethod
-	15, // 23: modelfile.v2.ModelFile.Content.KeySlotsEntry.value:type_name -> modelfile.v2.ModelFile.Content.KeySlot
-	18, // 24: modelfile.v2.ModelFile.Input.ImageInputFormat.exact_image_size:type_name -> modelfile.v2.ModelFile.Input.ImageInputFormat.ExactImageSizeRequirement
-	19, // 25: modelfile.v2.ModelFile.Input.ImageInputFormat.divisible_image_size:type_name -> modelfile.v2.ModelFile.Input.ImageInputFormat.DivisibleImageSizeRequirement
-	10, // 26: modelfile.v2.ModelFile.Input.ImageInputFormat.region_of_interest:type_name -> modelfile.v2.ModelFile.RegionFromEdge
-	9,  // 27: modelfile.v2.ModelFile.Input.ImageInputFormat.ExactImageSizeRequirement.image_size:type_name -> modelfile.v2.ModelFile.ImageSize
-	9,  // 28: modelfile.v2.ModelFile.Input.ImageInputFormat.DivisibleImageSizeRequirement.image_size_divisors:type_name -> modelfile.v2.ModelFile.ImageSize
-	9,  // 29: modelfile.v2.ModelFile.Input.ImageInputFormat.DivisibleImageSizeRequirement.minimum_image_size:type_name -> modelfile.v2.ModelFile.ImageSize
-	9,  // 30: modelfile.v2.ModelFile.Input.ImageInputFormat.DivisibleImageSizeRequirement.suggested_image_size:type_name -> modelfile.v2.ModelFile.ImageSize
-	26, // 31: modelfile.v2.ModelFile.Output.OcrOutputFormat.characters:type_name -> modelfile.v2.ModelFile.Output.OcrOutputFormat.Character
-	25, // 32: modelfile.v2.ModelFile.Output.OcrOutputFormat.character_restrictions:type_name -> modelfile.v2.ModelFile.Output.OcrOutputFormat.OcrFormatRestrictionBlock
-	2,  // 33: modelfile.v2.ModelFile.Output.OcrOutputFormat.Character.character_type:type_name -> modelfile.v2.ModelFile.Output.OcrOutputFormat.Character.CharacterType
-	7,  // 34: modelfile.v2.ModelFile.FileContent.DefaultModel.model_data:type_name -> modelfile.v2.ModelFile.Content
-	7,  // 35: modelfile.v2.ModelFile.FileContent.TensorRTModel.model_data:type_name -> modelfile.v2.ModelFile.Content
-	7,  // 36: modelfile.v2.ModelFile.FileContent.TensorRTModel.calibration_cache:type_name -> modelfile.v2.ModelFile.Content
-	7,  // 37: modelfile.v2.ModelFile.FileContent.TensorRTModel.calibration_flatbuffers:type_name -> modelfile.v2.ModelFile.Content
-	38, // [38:38] is the sub-list for method output_type
-	38, // [38:38] is the sub-list for method input_type
-	38, // [38:38] is the sub-list for extension type_name
-	38, // [38:38] is the sub-list for extension extendee
-	0,  // [0:38] is the sub-list for field type_name
+	15, // 8: modelfile.v2.ModelFile.Content.key_slots:type_name -> modelfile.v2.ModelFile.Content.KeySlotsEntry
+	16, // 9: modelfile.v2.ModelFile.InputFormatInformation.inputs:type_name -> modelfile.v2.ModelFile.InputFormatInformation.Input
+	2,  // 10: modelfile.v2.ModelFile.OutputDecodingInformation.decoding_type:type_name -> modelfile.v2.ModelFile.OutputDecodingInformation.DecodingType
+	20, // 11: modelfile.v2.ModelFile.OutputDecodingInformation.ocr_decoding_information:type_name -> modelfile.v2.ModelFile.OutputDecodingInformation.OcrDecodingInformation
+	3,  // 12: modelfile.v2.ModelFile.FileInfo.network_type:type_name -> modelfile.v2.ModelFile.FileInfo.NetworkType
+	4,  // 13: modelfile.v2.ModelFile.FileInfo.precision:type_name -> modelfile.v2.ModelFile.FileInfo.Precision
+	22, // 14: modelfile.v2.ModelFile.FileContent.default_model:type_name -> modelfile.v2.ModelFile.FileContent.DefaultModel
+	23, // 15: modelfile.v2.ModelFile.FileContent.tensorrt_model:type_name -> modelfile.v2.ModelFile.FileContent.TensorRTModel
+	1,  // 16: modelfile.v2.ModelFile.Content.KeySlot.wrapping_method:type_name -> modelfile.v2.ModelFile.Content.EncryptionMethod
+	14, // 17: modelfile.v2.ModelFile.Content.KeySlotsEntry.value:type_name -> modelfile.v2.ModelFile.Content.KeySlot
+	17, // 18: modelfile.v2.ModelFile.InputFormatInformation.Input.image_format:type_name -> modelfile.v2.ModelFile.InputFormatInformation.Input.ImageInputFormat
+	18, // 19: modelfile.v2.ModelFile.InputFormatInformation.Input.ImageInputFormat.exact_image_size:type_name -> modelfile.v2.ModelFile.InputFormatInformation.Input.ImageInputFormat.ExactImageSizeRequirement
+	19, // 20: modelfile.v2.ModelFile.InputFormatInformation.Input.ImageInputFormat.divisible_image_size:type_name -> modelfile.v2.ModelFile.InputFormatInformation.Input.ImageInputFormat.DivisibleImageSizeRequirement
+	9,  // 21: modelfile.v2.ModelFile.InputFormatInformation.Input.ImageInputFormat.region_of_interest:type_name -> modelfile.v2.ModelFile.RegionFromEdge
+	8,  // 22: modelfile.v2.ModelFile.InputFormatInformation.Input.ImageInputFormat.ExactImageSizeRequirement.image_size:type_name -> modelfile.v2.ModelFile.ImageSize
+	8,  // 23: modelfile.v2.ModelFile.InputFormatInformation.Input.ImageInputFormat.DivisibleImageSizeRequirement.image_size_divisors:type_name -> modelfile.v2.ModelFile.ImageSize
+	8,  // 24: modelfile.v2.ModelFile.InputFormatInformation.Input.ImageInputFormat.DivisibleImageSizeRequirement.minimum_image_size:type_name -> modelfile.v2.ModelFile.ImageSize
+	8,  // 25: modelfile.v2.ModelFile.InputFormatInformation.Input.ImageInputFormat.DivisibleImageSizeRequirement.suggested_image_size:type_name -> modelfile.v2.ModelFile.ImageSize
+	21, // 26: modelfile.v2.ModelFile.OutputDecodingInformation.OcrDecodingInformation.format_restrictions:type_name -> modelfile.v2.ModelFile.OutputDecodingInformation.OcrDecodingInformation.FormatRestrictionBlock
+	6,  // 27: modelfile.v2.ModelFile.FileContent.DefaultModel.model_data:type_name -> modelfile.v2.ModelFile.Content
+	6,  // 28: modelfile.v2.ModelFile.FileContent.TensorRTModel.model_data:type_name -> modelfile.v2.ModelFile.Content
+	6,  // 29: modelfile.v2.ModelFile.FileContent.TensorRTModel.calibration_cache:type_name -> modelfile.v2.ModelFile.Content
+	6,  // 30: modelfile.v2.ModelFile.FileContent.TensorRTModel.calibration_flatbuffers:type_name -> modelfile.v2.ModelFile.Content
+	31, // [31:31] is the sub-list for method output_type
+	31, // [31:31] is the sub-list for method input_type
+	31, // [31:31] is the sub-list for extension type_name
+	31, // [31:31] is the sub-list for extension extendee
+	0,  // [0:31] is the sub-list for field type_name
 }
 
 func init() { file_modelfile_v2_proto_init() }
@@ -2151,32 +1765,25 @@ func file_modelfile_v2_proto_init() {
 	if File_modelfile_v2_proto != nil {
 		return
 	}
-	file_modelfile_v2_proto_msgTypes[6].OneofWrappers = []any{
-		(*ModelFile_Input_ImageFormat)(nil),
-	}
-	file_modelfile_v2_proto_msgTypes[7].OneofWrappers = []any{
-		(*ModelFile_Output_ScalarFormat)(nil),
-		(*ModelFile_Output_SegmentationMapsFormat)(nil),
-		(*ModelFile_Output_BoundingBoxesFormat)(nil),
-		(*ModelFile_Output_BoundingBoxSegmentationsFormat)(nil),
-		(*ModelFile_Output_OcrFormat)(nil),
-	}
-	file_modelfile_v2_proto_msgTypes[9].OneofWrappers = []any{
+	file_modelfile_v2_proto_msgTypes[6].OneofWrappers = []any{}
+	file_modelfile_v2_proto_msgTypes[8].OneofWrappers = []any{
 		(*ModelFile_FileContent_DefaultModel_)(nil),
 		(*ModelFile_FileContent_TensorrtModel)(nil),
 	}
-	file_modelfile_v2_proto_msgTypes[12].OneofWrappers = []any{
-		(*ModelFile_Input_ImageInputFormat_ExactImageSize)(nil),
-		(*ModelFile_Input_ImageInputFormat_DivisibleImageSize)(nil),
+	file_modelfile_v2_proto_msgTypes[11].OneofWrappers = []any{
+		(*ModelFile_InputFormatInformation_Input_ImageFormat)(nil),
 	}
-	file_modelfile_v2_proto_msgTypes[17].OneofWrappers = []any{}
+	file_modelfile_v2_proto_msgTypes[12].OneofWrappers = []any{
+		(*ModelFile_InputFormatInformation_Input_ImageInputFormat_ExactImageSize)(nil),
+		(*ModelFile_InputFormatInformation_Input_ImageInputFormat_DivisibleImageSize)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_modelfile_v2_proto_rawDesc), len(file_modelfile_v2_proto_rawDesc)),
 			NumEnums:      5,
-			NumMessages:   24,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -396,17 +396,6 @@ func (m *ConstTensorNode) validate(all bool) error {
 
 	var errors []error
 
-	if utf8.RuneCountInString(m.GetName()) < 1 {
-		err := ConstTensorNodeValidationError{
-			field:  "Name",
-			reason: "value length must be at least 1 runes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
 	if utf8.RuneCountInString(m.GetOutputPortName()) < 1 {
 		err := ConstTensorNodeValidationError{
 			field:  "OutputPortName",
@@ -673,17 +662,6 @@ func (m *ImageResizeNode) validate(all bool) error {
 
 	var errors []error
 
-	if utf8.RuneCountInString(m.GetName()) < 1 {
-		err := ImageResizeNodeValidationError{
-			field:  "Name",
-			reason: "value length must be at least 1 runes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
 	if utf8.RuneCountInString(m.GetInputSize()) < 1 {
 		err := ImageResizeNodeValidationError{
 			field:  "InputSize",
@@ -749,6 +727,8 @@ func (m *ImageResizeNode) validate(all bool) error {
 		}
 		errors = append(errors, err)
 	}
+
+	// no validation rules for ResizeMode
 
 	if m.SessionInfo != nil {
 
@@ -888,17 +868,6 @@ func (m *ImagePatchesNode) validate(all bool) error {
 	}
 
 	var errors []error
-
-	if utf8.RuneCountInString(m.GetName()) < 1 {
-		err := ImagePatchesNodeValidationError{
-			field:  "Name",
-			reason: "value length must be at least 1 runes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
 
 	if utf8.RuneCountInString(m.GetInputImage()) < 1 {
 		err := ImagePatchesNodeValidationError{
@@ -1147,17 +1116,6 @@ func (m *VirtualCameraNode) validate(all bool) error {
 
 	var errors []error
 
-	if utf8.RuneCountInString(m.GetName()) < 1 {
-		err := VirtualCameraNodeValidationError{
-			field:  "Name",
-			reason: "value length must be at least 1 runes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
-
 	if utf8.RuneCountInString(m.GetPath()) < 1 {
 		err := VirtualCameraNodeValidationError{
 			field:  "Path",
@@ -1294,8 +1252,6 @@ func (m *ImageClassificationNode) validate(all bool) error {
 	}
 
 	var errors []error
-
-	// no validation rules for Name
 
 	if utf8.RuneCountInString(m.GetInputImage()) < 1 {
 		err := ImageClassificationNodeValidationError{
@@ -1519,8 +1475,6 @@ func (m *ImageObjectDetectionNode) validate(all bool) error {
 	}
 
 	var errors []error
-
-	// no validation rules for Name
 
 	if utf8.RuneCountInString(m.GetInputImage()) < 1 {
 		err := ImageObjectDetectionNodeValidationError{
@@ -1747,8 +1701,6 @@ func (m *ImageOcrNode) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Name
-
 	if utf8.RuneCountInString(m.GetInputImage()) < 1 {
 		err := ImageOcrNodeValidationError{
 			field:  "InputImage",
@@ -1968,8 +1920,6 @@ func (m *ImageSegmentationNode) validate(all bool) error {
 	}
 
 	var errors []error
-
-	// no validation rules for Name
 
 	if utf8.RuneCountInString(m.GetInputImage()) < 1 {
 		err := ImageSegmentationNodeValidationError{
@@ -2193,8 +2143,6 @@ func (m *ImageInstanceSegmentationNode) validate(all bool) error {
 	}
 
 	var errors []error
-
-	// no validation rules for Name
 
 	if utf8.RuneCountInString(m.GetInputImage()) < 1 {
 		err := ImageInstanceSegmentationNodeValidationError{
@@ -2444,8 +2392,6 @@ func (m *ImageAnomalyDetectionNode) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Name
-
 	if utf8.RuneCountInString(m.GetInputImage()) < 1 {
 		err := ImageAnomalyDetectionNodeValidationError{
 			field:  "InputImage",
@@ -2692,17 +2638,6 @@ func (m *BoundingBoxFilterNode) validate(all bool) error {
 	}
 
 	var errors []error
-
-	if utf8.RuneCountInString(m.GetName()) < 1 {
-		err := BoundingBoxFilterNodeValidationError{
-			field:  "Name",
-			reason: "value length must be at least 1 runes",
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
 
 	if utf8.RuneCountInString(m.GetInputBoundingBoxes()) < 1 {
 		err := BoundingBoxFilterNodeValidationError{
@@ -2951,6 +2886,30 @@ func (m *Node) validate(all bool) error {
 	}
 
 	var errors []error
+
+	// no validation rules for IrVersion
+
+	if utf8.RuneCountInString(m.GetNodeTypeName()) < 1 {
+		err := NodeValidationError{
+			field:  "NodeTypeName",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if utf8.RuneCountInString(m.GetNodeName()) < 1 {
+		err := NodeValidationError{
+			field:  "NodeName",
+			reason: "value length must be at least 1 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
 
 	oneofNodeTypePresent := false
 	switch v := m.NodeType.(type) {
@@ -3562,8 +3521,6 @@ func (m *Graph) validate(all bool) error {
 
 	}
 
-	// no validation rules for CreatedAt
-
 	if err := m._validateUuid(m.GetLicenseId()); err != nil {
 		err = GraphValidationError{
 			field:  "LicenseId",
@@ -3574,6 +3531,35 @@ func (m *Graph) validate(all bool) error {
 			return err
 		}
 		errors = append(errors, err)
+	}
+
+	if all {
+		switch v := interface{}(m.GetFileMetadata()).(type) {
+		case interface{ ValidateAll() error }:
+			if err := v.ValidateAll(); err != nil {
+				errors = append(errors, GraphValidationError{
+					field:  "FileMetadata",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		case interface{ Validate() error }:
+			if err := v.Validate(); err != nil {
+				errors = append(errors, GraphValidationError{
+					field:  "FileMetadata",
+					reason: "embedded message failed validation",
+					cause:  err,
+				})
+			}
+		}
+	} else if v, ok := interface{}(m.GetFileMetadata()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return GraphValidationError{
+				field:  "FileMetadata",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
 	}
 
 	if len(errors) > 0 {
