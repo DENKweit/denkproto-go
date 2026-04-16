@@ -58,22 +58,22 @@
           ],
           "type": "string"
         },
+        "file_format_version": {
+          "type": "integer"
+        },
         "created_at": {
           "type": "integer",
           "description": "Unix timestamp when the recipe was created"
         },
         "denkproto_version": {
-          "$ref": "#/definitions/Version"
-        },
-        "minimum_libdenkflow_version": {
-          "$ref": "#/definitions/Version"
+          "type": "string"
         }
       },
       "required": [
         "file_type",
+        "file_format_version",
         "created_at",
-        "denkproto_version",
-        "minimum_libdenkflow_version"
+        "denkproto_version"
       ],
       "additionalProperties": false
     },
@@ -681,6 +681,7 @@
     },
     "Node": {
       "description": "Represents a node in the graph.",
+      "type": "object",
       "properties": {
         "ir_version": {
           "description": "The version of the internal representation.",
@@ -703,7 +704,8 @@
         "node_type_name",
         "node_name",
         "node"
-      ]
+      ],
+      "additionalProperties": false
     },
     "NodeBase": {
       "description": "Represents a node of a specific type in the graph.",

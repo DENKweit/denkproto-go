@@ -75,13 +75,13 @@ func (FileType) EnumDescriptor() ([]byte, []int) {
 }
 
 type FileMetadata struct {
-	state              protoimpl.MessageState `protogen:"open.v1"`
-	FileType           FileType               `protobuf:"varint,1,opt,name=file_type,json=fileType,proto3,enum=file_metadata.FileType" json:"file_type,omitempty"`
-	FileFormatVersion  uint32                 `protobuf:"varint,2,opt,name=file_format_version,json=fileFormatVersion,proto3" json:"file_format_version,omitempty"`
-	CreatedAt          int64                  `protobuf:"varint,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`                           // Unix timestamp in seconds
-	LibdenkflowVersion string                 `protobuf:"bytes,4,opt,name=libdenkflow_version,json=libdenkflowVersion,proto3" json:"libdenkflow_version,omitempty"` // Version in the form 0.0.0, 0.0.0-a0, 0.0.0-b0 or 0.0.0-rc0
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	FileType          FileType               `protobuf:"varint,1,opt,name=file_type,json=fileType,proto3,enum=file_metadata.FileType" json:"file_type,omitempty"`
+	FileFormatVersion uint32                 `protobuf:"varint,2,opt,name=file_format_version,json=fileFormatVersion,proto3" json:"file_format_version,omitempty"`
+	CreatedAt         int64                  `protobuf:"varint,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`                     // Unix timestamp in seconds
+	DenkprotoVersion  string                 `protobuf:"bytes,4,opt,name=denkproto_version,json=denkprotoVersion,proto3" json:"denkproto_version,omitempty"` // Version in the form 0.0.0, 0.0.0-a0, 0.0.0-b0 or 0.0.0-rc0
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *FileMetadata) Reset() {
@@ -135,9 +135,9 @@ func (x *FileMetadata) GetCreatedAt() int64 {
 	return 0
 }
 
-func (x *FileMetadata) GetLibdenkflowVersion() string {
+func (x *FileMetadata) GetDenkprotoVersion() string {
 	if x != nil {
-		return x.LibdenkflowVersion
+		return x.DenkprotoVersion
 	}
 	return ""
 }
@@ -190,13 +190,13 @@ var File_file_metadata_proto protoreflect.FileDescriptor
 
 const file_file_metadata_proto_rawDesc = "" +
 	"\n" +
-	"\x13file_metadata.proto\x12\rfile_metadata\x1a\x0evalidate.proto\"\xf1\x01\n" +
+	"\x13file_metadata.proto\x12\rfile_metadata\x1a\x0evalidate.proto\"\xed\x01\n" +
 	"\fFileMetadata\x124\n" +
 	"\tfile_type\x18\x01 \x01(\x0e2\x17.file_metadata.FileTypeR\bfileType\x12.\n" +
 	"\x13file_format_version\x18\x02 \x01(\rR\x11fileFormatVersion\x12\x1d\n" +
 	"\n" +
-	"created_at\x18\x03 \x01(\x03R\tcreatedAt\x12\\\n" +
-	"\x13libdenkflow_version\x18\x04 \x01(\tB+\xfaB(r&2$^\\d+\\.\\d+\\.\\d+(-a\\d+|-b\\d+|-rc\\d+)?$R\x12libdenkflowVersion\"Z\n" +
+	"created_at\x18\x03 \x01(\x03R\tcreatedAt\x12X\n" +
+	"\x11denkproto_version\x18\x04 \x01(\tB+\xfaB(r&2$^\\d+\\.\\d+\\.\\d+(-a\\d+|-b\\d+|-rc\\d+)?$R\x10denkprotoVersion\"Z\n" +
 	"\x15FileMetadataContainer\x12A\n" +
 	"\rfile_metadata\x18\x80\b \x01(\v2\x1b.file_metadata.FileMetadataR\ffileMetadata*?\n" +
 	"\bFileType\x12\x10\n" +

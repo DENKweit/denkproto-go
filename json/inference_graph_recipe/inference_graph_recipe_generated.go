@@ -674,20 +674,20 @@ func NewConstTensorUint64Data(data []int64) *ConstTensorUint64Data {
 // FileMetadata corresponds to the JSON schema definition 'FileMetadata'.
 // File metadata
 type FileMetadata struct {
-	CreatedAt                 int64   `json:"created_at"`
-	DenkprotoVersion          Version `json:"denkproto_version"`
-	FileType                  string  `json:"file_type"`
-	MinimumLibdenkflowVersion Version `json:"minimum_libdenkflow_version"`
+	CreatedAt         int64  `json:"created_at"`
+	DenkprotoVersion  string `json:"denkproto_version"`
+	FileFormatVersion int64  `json:"file_format_version"`
+	FileType          string `json:"file_type"`
 }
 
 // NewFileMetadata creates a new instance of FileMetadata with required fields.
 // Optional fields should be set using builder methods.
-func NewFileMetadata(filetype string, createdat int64, denkprotoversion Version, minimumlibdenkflowversion Version) *FileMetadata {
+func NewFileMetadata(filetype string, fileformatversion int64, createdat int64, denkprotoversion string) *FileMetadata {
 	f := &FileMetadata{
-		FileType:                  filetype,
-		CreatedAt:                 createdat,
-		DenkprotoVersion:          denkprotoversion,
-		MinimumLibdenkflowVersion: minimumlibdenkflowversion,
+		FileType:          filetype,
+		FileFormatVersion: fileformatversion,
+		CreatedAt:         createdat,
+		DenkprotoVersion:  denkprotoversion,
 	}
 	return f
 }
@@ -1051,6 +1051,68 @@ func NewModelSourceFromNetworkId(networkid string) *ModelSourceFromNetworkId {
 		SourceType: "network_id",
 	}
 	return m
+}
+
+// Node corresponds to the JSON schema definition 'Node'.
+// Represents a node in the graph.
+type Node struct {
+	IrVersion    int64    `json:"ir_version"`
+	Node         NodeBase `json:"node"`
+	NodeName     string   `json:"node_name"`
+	NodeTypeName string   `json:"node_type_name"`
+}
+
+// UnmarshalJSON implements custom unmarshaling for Node to handle interface fields.
+func (n *Node) UnmarshalJSON(data []byte) error {
+	// Define an intermediate type using json.RawMessage for interface fields
+	// and pointers for optional fields that might be interfaces
+	type Alias Node // Use Alias for non-interface fields
+
+	// Base struct for standard fields
+	var alias Alias
+	if err := json.Unmarshal(data, &alias); err != nil {
+		return fmt.Errorf("error unmarshaling standard fields for Node: %w", err)
+	}
+	*n = Node(alias) // Assign standard fields first
+
+	// Struct to capture interface fields as RawMessage
+	rawFields := struct {
+		Node json.RawMessage `json:"node"`
+	}{}
+
+	// Unmarshal RawMessages
+	if err := json.Unmarshal(data, &rawFields); err != nil {
+		return fmt.Errorf("error unmarshaling interface fields for Node: %w", err)
+	}
+
+	// Unmarshal the Node field (NodeBase interface)
+	if len(rawFields.Node) > 0 && string(rawFields.Node) != "null" {
+		var item NodeBase // This will hold the concrete type implementing the interface
+		// Use the field-specific unmarshaler which sets the interface variable correctly
+		if err := UnmarshalJSONNodeBaseForField(rawFields.Node, &item); err != nil { // Pass address of interface variable
+			return fmt.Errorf("error unmarshaling Node: %w", err)
+		}
+		n.Node = item // Assign the interface variable to the struct field
+	}
+
+	return nil
+}
+
+// NewNode creates a new instance of Node with required fields.
+// Optional fields should be set using builder methods.
+func NewNode(irversion int64, nodetypename string, nodename string, node NodeBase) *Node {
+	n := &Node{
+		IrVersion:    irversion,
+		NodeTypeName: nodetypename,
+		NodeName:     nodename,
+		Node:         node,
+	}
+	return n
+}
+
+// SetNode sets the Node field, which is an interface type (NodeBase).
+func (n *Node) SetNode(node NodeBase) {
+	n.Node = node
 }
 
 // ObjectDetectionNode corresponds to the JSON schema definition 'ObjectDetectionNode'.

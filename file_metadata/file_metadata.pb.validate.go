@@ -63,9 +63,9 @@ func (m *FileMetadata) validate(all bool) error {
 
 	// no validation rules for CreatedAt
 
-	if !_FileMetadata_LibdenkflowVersion_Pattern.MatchString(m.GetLibdenkflowVersion()) {
+	if !_FileMetadata_DenkprotoVersion_Pattern.MatchString(m.GetDenkprotoVersion()) {
 		err := FileMetadataValidationError{
-			field:  "LibdenkflowVersion",
+			field:  "DenkprotoVersion",
 			reason: "value does not match regex pattern \"^\\\\d+\\\\.\\\\d+\\\\.\\\\d+(-a\\\\d+|-b\\\\d+|-rc\\\\d+)?$\"",
 		}
 		if !all {
@@ -151,7 +151,7 @@ var _ interface {
 	ErrorName() string
 } = FileMetadataValidationError{}
 
-var _FileMetadata_LibdenkflowVersion_Pattern = regexp.MustCompile("^\\d+\\.\\d+\\.\\d+(-a\\d+|-b\\d+|-rc\\d+)?$")
+var _FileMetadata_DenkprotoVersion_Pattern = regexp.MustCompile("^\\d+\\.\\d+\\.\\d+(-a\\d+|-b\\d+|-rc\\d+)?$")
 
 // Validate checks the field values on FileMetadataContainer with the rules
 // defined in the proto definition for this message. If any rules are
