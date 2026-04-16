@@ -389,7 +389,6 @@ type BoundingBoxFilterNode struct {
 	InputBoundingBoxes  string          `json:"input_bounding_boxes"`
 	InputIouThreshold   ThresholdSource `json:"input_iou_threshold,omitempty"`   // Optional
 	InputScoreThreshold ThresholdSource `json:"input_score_threshold,omitempty"` // Optional
-	Name                string          `json:"name"`
 	NodeType            string          `json:"node_type"`
 	OutputPortName      string          `json:"output_port_name"`
 }
@@ -445,9 +444,8 @@ func (b *BoundingBoxFilterNode) UnmarshalJSON(data []byte) error {
 
 // NewBoundingBoxFilterNode creates a new instance of BoundingBoxFilterNode with required fields.
 // Optional fields should be set using builder methods.
-func NewBoundingBoxFilterNode(name string, inputboundingboxes string, outputportname string) *BoundingBoxFilterNode {
+func NewBoundingBoxFilterNode(inputboundingboxes string, outputportname string) *BoundingBoxFilterNode {
 	b := &BoundingBoxFilterNode{
-		Name:               name,
 		InputBoundingBoxes: inputboundingboxes,
 		OutputPortName:     outputportname,
 		NodeType:           "bounding_box_filter",
@@ -482,7 +480,6 @@ func (b *BoundingBoxFilterNode) WithInputScoreThreshold(value ThresholdSource) *
 type ClassificationNode struct {
 	InputImage     string          `json:"input_image"`
 	ModelSource    ModelSourceBase `json:"model_source"`
-	Name           string          `json:"name"`
 	NodeType       string          `json:"node_type"`
 	OutputPortName string          `json:"output_port_name"`
 }
@@ -528,9 +525,8 @@ func (c *ClassificationNode) UnmarshalJSON(data []byte) error {
 
 // NewClassificationNode creates a new instance of ClassificationNode with required fields.
 // Optional fields should be set using builder methods.
-func NewClassificationNode(name string, inputimage string, modelsource ModelSourceBase, outputportname string) *ClassificationNode {
+func NewClassificationNode(inputimage string, modelsource ModelSourceBase, outputportname string) *ClassificationNode {
 	c := &ClassificationNode{
-		Name:           name,
 		InputImage:     inputimage,
 		ModelSource:    modelsource,
 		OutputPortName: outputportname,
@@ -588,7 +584,6 @@ func NewConstTensorInt64Data(data []int64) *ConstTensorInt64Data {
 // Node representing a constant tensor. Base type for all nodes in the graph.
 type ConstTensorNode struct {
 	Data           ConstTensorDataBase `json:"data"`
-	Name           string              `json:"name"`
 	NodeType       string              `json:"node_type"`
 	OutputPortName string              `json:"output_port_name"`
 	Shape          []int64             `json:"shape"`
@@ -635,9 +630,8 @@ func (c *ConstTensorNode) UnmarshalJSON(data []byte) error {
 
 // NewConstTensorNode creates a new instance of ConstTensorNode with required fields.
 // Optional fields should be set using builder methods.
-func NewConstTensorNode(name string, shape []int64, data ConstTensorDataBase, outputportname string) *ConstTensorNode {
+func NewConstTensorNode(shape []int64, data ConstTensorDataBase, outputportname string) *ConstTensorNode {
 	c := &ConstTensorNode{
-		Name:           name,
 		Shape:          shape,
 		Data:           data,
 		OutputPortName: outputportname,
@@ -697,7 +691,6 @@ func NewFileMetadata(filetype string, fileformatversion int64, createdat int64, 
 type ImageAnomalyDetectionNode struct {
 	InputImage          string          `json:"input_image"`
 	ModelSource         ModelSourceBase `json:"model_source"`
-	Name                string          `json:"name"`
 	NodeType            string          `json:"node_type"`
 	OutputAnomalyScores string          `json:"output_anomaly_scores"`
 	OutputSegmentations string          `json:"output_segmentations"`
@@ -744,9 +737,8 @@ func (i *ImageAnomalyDetectionNode) UnmarshalJSON(data []byte) error {
 
 // NewImageAnomalyDetectionNode creates a new instance of ImageAnomalyDetectionNode with required fields.
 // Optional fields should be set using builder methods.
-func NewImageAnomalyDetectionNode(name string, inputimage string, modelsource ModelSourceBase, outputanomalyscores string, outputsegmentations string) *ImageAnomalyDetectionNode {
+func NewImageAnomalyDetectionNode(inputimage string, modelsource ModelSourceBase, outputanomalyscores string, outputsegmentations string) *ImageAnomalyDetectionNode {
 	i := &ImageAnomalyDetectionNode{
-		Name:                name,
 		InputImage:          inputimage,
 		ModelSource:         modelsource,
 		OutputAnomalyScores: outputanomalyscores,
@@ -766,7 +758,6 @@ func (i *ImageAnomalyDetectionNode) SetModelSource(modelsource ModelSourceBase) 
 type ImageInstanceSegmentationNode struct {
 	InputImage          string          `json:"input_image"`
 	ModelSource         ModelSourceBase `json:"model_source"`
-	Name                string          `json:"name"`
 	NodeType            string          `json:"node_type"`
 	OutputBoundingBoxes string          `json:"output_bounding_boxes"`
 	OutputSegmentations string          `json:"output_segmentations"`
@@ -813,9 +804,8 @@ func (i *ImageInstanceSegmentationNode) UnmarshalJSON(data []byte) error {
 
 // NewImageInstanceSegmentationNode creates a new instance of ImageInstanceSegmentationNode with required fields.
 // Optional fields should be set using builder methods.
-func NewImageInstanceSegmentationNode(name string, inputimage string, modelsource ModelSourceBase, outputboundingboxes string, outputsegmentations string) *ImageInstanceSegmentationNode {
+func NewImageInstanceSegmentationNode(inputimage string, modelsource ModelSourceBase, outputboundingboxes string, outputsegmentations string) *ImageInstanceSegmentationNode {
 	i := &ImageInstanceSegmentationNode{
-		Name:                name,
 		InputImage:          inputimage,
 		ModelSource:         modelsource,
 		OutputBoundingBoxes: outputboundingboxes,
@@ -836,7 +826,6 @@ type ImagePatchesNode struct {
 	InputBoundingBoxes string           `json:"input_bounding_boxes"`
 	InputImage         string           `json:"input_image"`
 	InputTargetSize    TargetSizeSource `json:"input_target_size"`
-	Name               string           `json:"name"`
 	NodeType           string           `json:"node_type"`
 	OutputPortName     string           `json:"output_port_name"`
 	ResizeMode         string           `json:"resize_mode"`
@@ -883,9 +872,8 @@ func (i *ImagePatchesNode) UnmarshalJSON(data []byte) error {
 
 // NewImagePatchesNode creates a new instance of ImagePatchesNode with required fields.
 // Optional fields should be set using builder methods.
-func NewImagePatchesNode(name string, inputimage string, inputboundingboxes string, inputtargetsize TargetSizeSource, outputportname string, resizemode string) *ImagePatchesNode {
+func NewImagePatchesNode(inputimage string, inputboundingboxes string, inputtargetsize TargetSizeSource, outputportname string, resizemode string) *ImagePatchesNode {
 	i := &ImagePatchesNode{
-		Name:               name,
 		InputImage:         inputimage,
 		InputBoundingBoxes: inputboundingboxes,
 		InputTargetSize:    inputtargetsize,
@@ -906,7 +894,6 @@ func (i *ImagePatchesNode) SetInputTargetSize(inputtargetsize TargetSizeSource) 
 type ImageResizeNode struct {
 	InputImage     string `json:"input_image"`
 	InputSize      string `json:"input_size"`
-	Name           string `json:"name"`
 	NodeType       string `json:"node_type"`
 	OutputPortName string `json:"output_port_name"`
 	ResizeMode     string `json:"resize_mode"`
@@ -917,9 +904,8 @@ func (i *ImageResizeNode) isNodeBase() {}
 
 // NewImageResizeNode creates a new instance of ImageResizeNode with required fields.
 // Optional fields should be set using builder methods.
-func NewImageResizeNode(name string, inputsize string, inputimage string, outputportname string, resizemode string) *ImageResizeNode {
+func NewImageResizeNode(inputsize string, inputimage string, outputportname string, resizemode string) *ImageResizeNode {
 	i := &ImageResizeNode{
-		Name:           name,
 		InputSize:      inputsize,
 		InputImage:     inputimage,
 		OutputPortName: outputportname,
@@ -934,7 +920,6 @@ func NewImageResizeNode(name string, inputsize string, inputimage string, output
 type ImageSegmentationNode struct {
 	InputImage     string          `json:"input_image"`
 	ModelSource    ModelSourceBase `json:"model_source"`
-	Name           string          `json:"name"`
 	NodeType       string          `json:"node_type"`
 	OutputPortName string          `json:"output_port_name"`
 }
@@ -980,9 +965,8 @@ func (i *ImageSegmentationNode) UnmarshalJSON(data []byte) error {
 
 // NewImageSegmentationNode creates a new instance of ImageSegmentationNode with required fields.
 // Optional fields should be set using builder methods.
-func NewImageSegmentationNode(name string, inputimage string, modelsource ModelSourceBase, outputportname string) *ImageSegmentationNode {
+func NewImageSegmentationNode(inputimage string, modelsource ModelSourceBase, outputportname string) *ImageSegmentationNode {
 	i := &ImageSegmentationNode{
-		Name:           name,
 		InputImage:     inputimage,
 		ModelSource:    modelsource,
 		OutputPortName: outputportname,
@@ -1120,7 +1104,6 @@ func (n *Node) SetNode(node NodeBase) {
 type ObjectDetectionNode struct {
 	InputImage         string          `json:"input_image"`
 	ModelSource        ModelSourceBase `json:"model_source"`
-	Name               string          `json:"name"`
 	NodeType           string          `json:"node_type"`
 	OutputPortName     string          `json:"output_port_name"`
 	ScaleBoundingBoxes *bool           `json:"scale_bounding_boxes,omitempty"` // Optional
@@ -1167,9 +1150,8 @@ func (o *ObjectDetectionNode) UnmarshalJSON(data []byte) error {
 
 // NewObjectDetectionNode creates a new instance of ObjectDetectionNode with required fields.
 // Optional fields should be set using builder methods.
-func NewObjectDetectionNode(name string, inputimage string, modelsource ModelSourceBase, outputportname string) *ObjectDetectionNode {
+func NewObjectDetectionNode(inputimage string, modelsource ModelSourceBase, outputportname string) *ObjectDetectionNode {
 	o := &ObjectDetectionNode{
-		Name:           name,
 		InputImage:     inputimage,
 		ModelSource:    modelsource,
 		OutputPortName: outputportname,
@@ -1195,7 +1177,6 @@ func (o *ObjectDetectionNode) WithScaleBoundingBoxes(value bool) *ObjectDetectio
 type OcrNode struct {
 	InputImage     string          `json:"input_image"`
 	ModelSource    ModelSourceBase `json:"model_source"`
-	Name           string          `json:"name"`
 	NodeType       string          `json:"node_type"`
 	OutputPortName string          `json:"output_port_name"`
 }
@@ -1241,9 +1222,8 @@ func (o *OcrNode) UnmarshalJSON(data []byte) error {
 
 // NewOcrNode creates a new instance of OcrNode with required fields.
 // Optional fields should be set using builder methods.
-func NewOcrNode(name string, inputimage string, modelsource ModelSourceBase, outputportname string) *OcrNode {
+func NewOcrNode(inputimage string, modelsource ModelSourceBase, outputportname string) *OcrNode {
 	o := &OcrNode{
-		Name:           name,
 		InputImage:     inputimage,
 		ModelSource:    modelsource,
 		OutputPortName: outputportname,
@@ -1355,7 +1335,6 @@ func NewVersion(major int64, minor int64, patch int64) *Version {
 // VirtualCameraNode corresponds to the JSON schema definition 'VirtualCameraNode'.
 // Node representing a virtual camera source. Base type for all nodes in the graph.
 type VirtualCameraNode struct {
-	Name           string `json:"name"`
 	NodeType       string `json:"node_type"`
 	OutputPortName string `json:"output_port_name"`
 	Path           string `json:"path"`
@@ -1366,9 +1345,8 @@ func (v *VirtualCameraNode) isNodeBase() {}
 
 // NewVirtualCameraNode creates a new instance of VirtualCameraNode with required fields.
 // Optional fields should be set using builder methods.
-func NewVirtualCameraNode(name string, path string, outputportname string) *VirtualCameraNode {
+func NewVirtualCameraNode(path string, outputportname string) *VirtualCameraNode {
 	v := &VirtualCameraNode{
-		Name:           name,
 		Path:           path,
 		OutputPortName: outputportname,
 		NodeType:       "virtual_camera",
